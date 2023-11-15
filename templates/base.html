@@ -1,9 +1,16 @@
 <!-- base template for the whole site -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="ReagenTree - Reagent Inventory System">
+        <meta name="author" content="Mian Chen">
+        <meta name="keywords"
+              content="ReagenTree, reagent, quality, inventory, management, system">
         <title>
+            ReagenTree -
             {% block title %}
             {% endblock title %}
         </title>
@@ -19,9 +26,63 @@
         <header>
             <!-- Header content goes here -->
             {% block header %}
+                <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            <img src="{% static 'images/ReagenTree_Logo_320x320.png' %}"
+                                 alt="ReagenTree Logo"
+                                 width="40"
+                                 height="40" />
+                        </a>
+                        <button class="navbar-toggler"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbarNav"
+                                aria-controls="navbarNav"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Contact</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="bi bi-qr-code"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="bi bi-search"></i></a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"
+                                       href="#"
+                                       id="userDropdown"
+                                       role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-expanded="false"><i class="bi bi-person-fill"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end"
+                                        aria-labelledby="userDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             {% endblock header %}
         </header>
-        <main>
+        <main style="padding-top: 80px;">
             <!-- Main content goes here -->
             {% block content %}
             {% endblock content %}
