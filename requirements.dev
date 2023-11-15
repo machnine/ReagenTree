@@ -1,5 +1,10 @@
 Django>=4.0,<5.0
+# crispy forms and bootstrap5 compatible templates
+django-crispy-forms
+crispy-bootstrap5
 
 # Development
+rich
 django-extensions
+djlint
 django-debug-toolbar
