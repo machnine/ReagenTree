@@ -1,13 +1,4 @@
-:root {
-  --bs-primary: #dc3545;
-  --bs-secondary: #6c757d;
-  --bs-info: #066574;
-  --bs-success: #28a745;
-  --bs-danger: #dc3545;
-  --bs-warning: #ffc107;
-}
-
 .navbar-nav .nav-link .bi,
 .dropdown-menu .dropdown-item .bi {
-  margin-right: 0.125rem;
+  margin-right: 0.1rem;
 }
