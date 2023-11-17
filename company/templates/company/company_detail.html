@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+  Company
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    Company Details
+    <h4>{{ company.name }}</h4>
+    {{ company.description }}
+  </div>
+{% endblock content %}

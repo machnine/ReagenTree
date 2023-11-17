@@ -8,7 +8,9 @@
   </div>
   <div class="modal-body">
     {% csrf_token %}
-    <p>Are you sure you want to delete <i class="text-danger fw-bold">{{ company.name }}</i>?</p>
+    <p>
+      Are you sure you want to delete <i class="text-danger fw-bold">{{ company.name }}</i>?
+    </p>
     <input type="hidden" name="company_id" value="{{ company.pk }}">
   </div>
   <div class="modal-footer">
