@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+  Company
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    Company List
+    <br>
+    <a href="{% url 'company_create' %}">Add Company</a>
+    <ul>
+      {% for company in companies %}
+        <li>
+          <p>
+            <span class="h4">{{ company.name }}</span>
+            <span><a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a> |
+              <a hx-get="{% url 'company_delete' company.pk %}"
+                 hx-trigger="click"
+                 hx-target="#deleteModal .modal-content"
+                 hx-swap="innerHTML"
+                 hx-postswap="_('deleteModal').classList.add('show')"
+                 data-bs-toggle="modal"
+                 data-bs-target="#deleteModal"><i class="bi bi-trash text-danger"></i></a></span>
+          </p>
+          <p>{{ company.description }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- Delete Modal -->
+  <div class="modal fade"
+       id="deleteModal"
+       tabindex="-1"
+       aria-labelledby="deleteModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- HTMX rendered content -->
+      </div>
+    </div>
+  </div>
+{% endblock content %}
