@@ -1,23 +1,22 @@
 {% extends "user/profile.html" %}
-
 {% block profile_form %}
-    <form>
-        <div class="mb-3">
-            <label for="firstName" class="form-label">First name</label>
-            <input type="text"
-                   class="form-control"
-                   id="firstName"
-                   value="{{ user.first_name }}"
-                   readonly>
-        </div>
-        <div class="mb-3">
-            <label for="lastName" class="form-label">Last name</label>
-            <input type="text"
-                   class="form-control"
-                   id="lastName"
-                   value="{{ user.last_name }}"
-                   readonly>
-        </div>
-        <a href="{% url 'user_edit' %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Edit Profile</a>
-    </form>
+  <form>
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First name</label>
+      <input type="text"
+             class="form-control"
+             id="firstName"
+             value="{{ user.first_name }}"
+             readonly>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last name</label>
+      <input type="text"
+             class="form-control"
+             id="lastName"
+             value="{{ user.last_name }}"
+             readonly>
+    </div>
+    <a href="{% url 'user_edit' %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Edit Profile</a>
+  </form>
 {% endblock profile_form %}
