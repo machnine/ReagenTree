@@ -14,6 +14,17 @@ class CustomUserCreationForm(UserCreationForm):
         label="Email", help_text="Please use a valid email address."
     )
 
+    password1 = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput,
+        help_text=_(
+            """Your password must contain at least 8 characters. <br>
+                Your password can’t be a commonly used password. <br>
+                Your password can’t be entirely numeric."""
+        ),
+    )
+
     class Meta(UserCreationForm.Meta):
         """Meta class"""
 

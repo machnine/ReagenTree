@@ -1,9 +1,16 @@
 """ User Authentification Views """
+from typing import Any
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db import models
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+
+# get the user model (it could be a custom one in this case)
+User = get_user_model()
 
 
 class UserRegistrationView(CreateView):
@@ -34,3 +41,28 @@ class UserLogoutView(LogoutView):
     """User Logout View"""
 
     next_page = reverse_lazy("login")
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    """User Profile View"""
+
+    model = User
+    template_name = "user/profile_view.html"
+    context_object_name = "user"
+
+    def get_object(self, queryset: models.QuerySet[Any] = None) -> models.Model:
+        """Get the user object instead of a user specified by URL"""
+        return self.request.user
+
+
+class UserProfileEdit(LoginRequiredMixin, UpdateView):
+    """User Profile Edit View"""
+
+    model = User
+    template_name = "user/profile_edit.html"
+    fields = ["first_name", "last_name"]
+    success_url = reverse_lazy("user_profile")
+
+    def get_object(self, queryset: models.QuerySet[Any] = None) -> models.Model:
+        """Get the user object instead of a user specified by URL"""
+        return self.request.user

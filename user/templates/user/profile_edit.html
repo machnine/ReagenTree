@@ -1,0 +1,9 @@
+{% extends "user/profile.html" %}
+{% load crispy_forms_tags %}
+{% block profile_form %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Save changes</button>
+    </form>
+{% endblock profile_form %}

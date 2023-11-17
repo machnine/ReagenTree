@@ -1,19 +1,24 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 {% block header %}
 {% endblock header %}
 {% block title %}
 {% endblock title %}
+{% block css %}
+    <style>
+  body { background-image: url('{% static "images/lab_background.jpg" %}'); background-size: cover; background-repeat: no-repeat; }
+    </style>
+{% endblock css %}
 {% block content %}
     <div class="d-flex justify-content-center">
         <div class="col-xl-3 col-lg-6 col-md-9 col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <img src="{% static 'images/ReagenTree_Logo_320x320.png' %}"
+                    <img src="{% static 'images/ReagenTree_Logo.png' %}"
                          width="40"
                          height="40"
                          alt="ReagenTree Logo"
-                         title="ReagenTree">
+                         title="ReagenTree" />
                     <h4 class="mb-0">ReagenTree</h4>
                 </div>
                 <div class="card-body">
@@ -21,10 +26,12 @@
                         {% csrf_token %}
                         {% block auth_form %}
                         {% endblock auth_form %}
-                        <button type="submit" class="btn btn-success">
-                            {% block auth_button %}
-                            {% endblock auth_button %}
-                        </button>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                {% block auth_button %}
+                                {% endblock auth_button %}
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
