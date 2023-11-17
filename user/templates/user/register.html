@@ -1,18 +1,18 @@
 {% extends "user/auth_base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-    User Registration
+  User Registration
 {% endblock title %}
 {% block auth_form %}
-    {{ form|crispy }}
+  {{ form|crispy }}
 {% endblock auth_form %}
 {% block auth_button %}
-    Register
+  Register
 {% endblock auth_button %}
 {% block auth_footer %}
-    <div class="text-center mt-3">
-        <p>
-            Already have an account? <a href="{% url 'login' %}">Login</a>
-        </p>
-    </div>
+  <div class="text-center mt-3">
+    <p>
+      Already have an account? <a href="{% url 'login' %}">Login</a>
+    </p>
+  </div>
 {% endblock auth_footer %}
