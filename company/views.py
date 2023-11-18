@@ -1,5 +1,7 @@
 """Views for the company app."""
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -7,8 +9,6 @@ from django.views.generic import (
     UpdateView,
     View,
 )
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 
 from .models import Company
 

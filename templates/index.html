@@ -5,6 +5,11 @@
 {% block content %}
   <h1>This is the home page</h1>
   <p>You are logged in as {{ user }}</p>
+  <h4>Links to all apps</h4>
+  <p>
+    <a href="{% url 'company_list' %}">Company</a> | 
+    <a href="{% url 'location_list' %}">Location</a> |    
+  </p>
   <div class="p-3 mb-2 bg-primary text-white">Primary</div>
   <div class="p-3 mb-2 bg-secondary text-white">Secondary</div>
   <div class="p-3 mb-2 bg-success text-white">Success</div>
