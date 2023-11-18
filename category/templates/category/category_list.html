@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}
+  Categories
+{% endblock title %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="panel">
+      <div class="panel-heading d-flex justify-content-between me-2">
+        <span class="h4">Categories</span>
+        <span><a href="{% url 'category_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New category</a></span>
+      </div>
+      <div class="panel-content">
+        <ul>
+          {% for category in categories %}
+            <li>
+              <p>
+                <span class="h4">{{ category.name }}</span>
+                <span><a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a> |
+                  <a hx-get="{% url 'category_delete' category.pk %}"
+                     hx-trigger="click"
+                     hx-target="#deleteModal .modal-content"
+                     hx-swap="innerHTML"
+                     data-bs-toggle="modal"
+                     data-bs-target="#deleteModal"><i class="bi bi-trash text-danger"></i></a></span>
+              </p>
+              <p>{{ location.description }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+  <div class="modal fade"
+       id="deleteModal"
+       tabindex="-1"
+       aria-labelledby="deleteModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- HTMX rendered content -->
+      </div>
+    </div>
+  </div>
+{% endblock content %}

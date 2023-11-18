@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "user",
     "company",
     "location",
+    "category",
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 LOGIN_URL = "login"
 
 # Session timeout
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True # True: session expires when browser is closed
-SESSION_SAVE_EVERY_REQUEST = True # True: session is saved on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # True: session expires when browser is closed
+SESSION_SAVE_EVERY_REQUEST = True  # True: session is saved on every request
 SESSION_COOKIE_AGE = 60 * 15  # 15 minutes after latst request (idle for 15 minutes)

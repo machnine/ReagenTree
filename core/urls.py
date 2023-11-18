@@ -8,6 +8,7 @@ from django.urls.conf import include
 from user import urls as user_urls
 from company import urls as company_urls
 from location import urls as location_urls
+from category import urls as category_urls
 
 from .views import index
 
@@ -17,4 +18,5 @@ urlpatterns = [
     path("", include(user_urls)),
     path("company/", include(company_urls)),
     path("location/", include(location_urls)),
+    path("category/", include(category_urls)),
 ]
