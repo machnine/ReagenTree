@@ -1,4 +1,5 @@
 """Category CRUD views."""
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
@@ -6,7 +7,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, V
 from .models import Category
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     """Category create view."""
 
     model = Category
@@ -15,7 +16,7 @@ class CategoryCreateView(CreateView):
     success_url = reverse_lazy("category_list")
 
 
-class CategoryDeleteView(View):
+class CategoryDeleteView(LoginRequiredMixin, View):
     """Category delete view."""
 
     def get(self, request, *args, **kwargs):
@@ -32,14 +33,14 @@ class CategoryDeleteView(View):
         return redirect("category_list")
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     """Category detail view."""
 
     model = Category
     template_name = "category/category_detail.html"
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     """Category list view."""
 
     model = Category
@@ -47,7 +48,7 @@ class CategoryListView(ListView):
     template_name = "category/category_list.html"
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     """Category update view."""
 
     model = Category

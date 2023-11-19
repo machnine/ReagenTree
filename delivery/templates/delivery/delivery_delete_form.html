@@ -1,0 +1,20 @@
+<form method="post" action="{% url 'delivery_delete' delivery.pk %}">
+  <div class="modal-header">
+    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    {% csrf_token %}
+    <p>
+      Are you sure you want to delete <i class="text-danger fw-bold">{{ delivery.name }}</i>?
+    </p>
+    <input type="hidden" name="delivery_id" value="{{ delivery.pk }}">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </div>
+</form>

@@ -22,7 +22,7 @@ class CompanyCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("company_list")
 
 
-class CompanyDeleteView(View):
+class CompanyDeleteView(LoginRequiredMixin, View):
     """View for deleting a Company."""
 
     def get(self, request, *args, **kwargs):

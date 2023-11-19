@@ -1,4 +1,5 @@
 """Location CRUD views."""
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
@@ -6,7 +7,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, V
 from .models import Location
 
 
-class LocationCreateView(CreateView):
+class LocationCreateView(LoginRequiredMixin, CreateView):
     """Location create view."""
 
     model = Location
@@ -15,7 +16,7 @@ class LocationCreateView(CreateView):
     success_url = reverse_lazy("location_list")
 
 
-class LocationDeleteView(View):
+class LocationDeleteView(LoginRequiredMixin, View):
     """Location delete view."""
 
     def get(self, request, *args, **kwargs):
@@ -32,14 +33,14 @@ class LocationDeleteView(View):
         return redirect("location_list")
 
 
-class LocationDetailView(DetailView):
+class LocationDetailView(LoginRequiredMixin, DetailView):
     """Location detail view."""
 
     model = Location
     template_name = "location/location_detail.html"
 
 
-class LocationListView(ListView):
+class LocationListView(LoginRequiredMixin, ListView):
     """Location list view."""
 
     model = Location
@@ -47,7 +48,7 @@ class LocationListView(ListView):
     template_name = "location/location_list.html"
 
 
-class LocationUpdateView(UpdateView):
+class LocationUpdateView(LoginRequiredMixin, UpdateView):
     """Location update view."""
 
     model = Location

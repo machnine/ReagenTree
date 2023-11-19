@@ -36,10 +36,12 @@ INSTALLED_APPS = [
     # core app
     "core",
     # local apps
-    "user",
-    "company",
-    "location",
     "category",
+    "company",
+    "delivery",
+    "item",
+    "location",
+    "user",
 ]
 
 MIDDLEWARE = [
