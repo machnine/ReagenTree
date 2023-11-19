@@ -12,7 +12,7 @@ class DeliveryForm(forms.ModelForm):
         """Meta"""
 
         model = Delivery
-        fields = ["delivery_date", "condition", "received_by", "notes"]
+        fields = ["delivery_date", "received_by", "notes"]
         widgets = {
             "delivery_date": forms.DateInput(attrs={"type": "date"}),
         }

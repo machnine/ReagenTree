@@ -59,6 +59,6 @@ class DeliveryUpdateView(LoginRequiredMixin, UpdateView):
     """View for updating a Delivery."""
 
     model = Delivery
-    fields = ["delivery_date", "condition", "received_by", "notes"]
+    fields = ["delivery_date", "received_by", "notes"]
     template_name = "delivery/delivery_update.html"
     success_url = reverse_lazy("delivery_list")
