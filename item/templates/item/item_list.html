@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 {% block title %}
-  Deliveries
+  Items
 {% endblock title %}
 {% block content %}
   <div class="container-fluid">
     <div class="panel">
       <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Deliveries</span>
-        <span><a href="{% url 'delivery_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New delivery</a></span>
+        <span class="h4">Items</span>
+        <span><a href="{% url 'item_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New item</a></span>
       </div>
       <div class="panel-content">
         <ul>
-          {% for delivery in deliveries %}
+          {% for item in items %}
             <li>
               <p>
-                <span class="h4">{{ delivery.delivery_date|date:'d/m/Y H:i:s' }}</span>
-                <span class="h5">{{ delivery.received_by.first_name }}</span>
-                <span><a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a> |
-                  <a hx-get="{% url 'delivery_delete' delivery.pk %}"
+                <span class="h4">{{ item.name }}</span>
+                <span class="h5"> ({{ item.product_id }})</span>
+                <span><a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a> |
+                  <a hx-get="{% url 'item_delete' item.pk %}"
                      hx-trigger="click"
                      hx-target="#deleteModal .modal-content"
                      hx-swap="innerHTML"

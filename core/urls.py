@@ -9,6 +9,8 @@ from user import urls as user_urls
 from category import urls as category_urls
 from company import urls as company_urls
 from delivery import urls as delivery_urls
+from item import urls_item as item_urls
+from item import urls_stock as stock_urls
 from location import urls as location_urls
 
 
@@ -21,5 +23,7 @@ urlpatterns = [
     path("category/", include(category_urls)),
     path("company/", include(company_urls)),
     path("delivery/", include(delivery_urls)),
+    path("item/", include(item_urls)),
     path("location/", include(location_urls)),
+    path("stock/", include(stock_urls)),
 ]

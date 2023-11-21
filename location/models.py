@@ -10,4 +10,4 @@ class Location(models.Model):
 
     def __str__(self):
         """Return string representation of model."""
-        return f"<Location: {self.name}>"
+        return f"{self.name}"

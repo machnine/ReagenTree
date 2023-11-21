@@ -1,3 +1,134 @@
-from django.shortcuts import render
+"""Item related views"""
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    ListView,
+    UpdateView,
+    View,
+)
+
+from .models import Item, StockItem
+from .forms import StockItemForm
+
+
+# Item search view
+@login_required
+def item_search(request):
+    """HTMX GET request for returning a list of search items"""
+    query = request.GET.get("item_query", "")
+    if query:
+        queries = [
+            Q(name__icontains=term) | Q(description__icontains=term)
+            for term in query.split()
+        ]
+        query = queries.pop()
+        for item in queries:
+            query &= item
+        items = Item.objects.filter(query)[:5]
+    else:
+        items = []
+    return render(request, "item/item_search_results.html", {"found_items": items})
+
+
+# Item CRUD views
+class ItemCreateView(LoginRequiredMixin, CreateView):
+    """Create view for Item model"""
+
+    model = Item
+    fields = [
+        "name",
+        "product_id",
+        "description",
+        "category",
+        "manufacturer",
+        "supplier",
+    ]
+    template_name = "item/item_create.html"
+    success_url = reverse_lazy("item_list")
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing a valid form."""
+        if "next" in self.request.POST:
+            return self.request.POST.get("next")
+        else:
+            return super().get_success_url()
+
+
+class ItemDetailView(LoginRequiredMixin, DetailView):
+    """Detail view for Item model"""
+
+    model = Item
+    context_object_name = "item"
+    template_name = "item/item_detail.html"
+
+
+class ItemUpdateView(LoginRequiredMixin, UpdateView):
+    """Update view for Item model"""
+
+    model = Item
+    fields = [
+        "name",
+        "product_id",
+        "description",
+        "category",
+        "manufacturer",
+        "supplier",
+    ]
+    template_name = "item/item_update.html"
+    success_url = reverse_lazy("item_list")
+
+
+class ItemDeleteView(LoginRequiredMixin, View):
+    """Delete view for Item model"""
+
+    def get(self, request, *args, **kwargs):
+        """HTMX GET request for returning a Item delete form."""
+        item = Item.objects.get(pk=kwargs["pk"])
+        return render(request, "item/item_delete_form.html", {"item": item})
+
+    def post(self, request, *args, **kwargs):
+        """HTMX POST request for deleting a Item."""
+        item = Item.objects.get(pk=kwargs["pk"])
+        item.delete()
+        return redirect("item_list")
+
+
+class ItemListView(LoginRequiredMixin, ListView):
+    """List view for Item model"""
+
+    model = Item
+    context_object_name = "items"
+    template_name = "item/item_list.html"
+
+
+### StockItem views
+
+
+class StockItemCreateView(LoginRequiredMixin, CreateView):
+    """Create view for StockItem model"""
+
+    model = StockItem
+    form_class = StockItemForm
+    template_name = "item/stockitem_create.html"
+    success_url = reverse_lazy("stock_list")
+
+    def form_valid(self, form):
+        item = form.cleaned_data.get("item")
+        print(item)
+        form.instance.item = Item.objects.get(pk=item.pk)
+        print(form.instance.item)
+        return super().form_valid(form)
+
+
+class StockItemListView(LoginRequiredMixin, ListView):
+    """List view for StockItem model"""
+
+    model = StockItem
+    context_object_name = "stockitems"
+    template_name = "item/stockitem_list.html"

@@ -1,0 +1,43 @@
+// Version: 1.0
+// This file contains functions used by the reagentree app.
+
+/**
+ * This function configures a listener for search results.
+ *
+ * @param {Object} config - Configuration object.
+ * @param {string} config.searchBoxId - The id of the search box, e.g. "search-box".
+ * @param {string} config.textInputId - The id of the hidden input box
+ * @param {string} config.resultsDivId - The id of the div containing the search results, e.g. "search-results".
+ * @param {string} config.resultClass - The class of the search result items, e.g. "search-result-item".
+ * @param {string} config.valueAttribute - The attribute of the search result items containing the value, e.g. "data-value".
+ */
+function TypeSearchResultListenerConfig({
+    searchBoxId,
+    textInputId,
+    resultsDivId,
+    resultClass,
+    valueAttribute
+}) {
+    // Add a click event listener to the document
+    document.addEventListener(
+        "click",
+        function (event) {
+            // If the clicked element contains the resultClass
+            if (event.target.classList.contains(resultClass)) {
+                // Get the search box element
+                var searchBox = document.getElementById(searchBoxId);
+                // Set the search box value to the text content of the clicked element
+                searchBox.value = event.target.textContent;
+
+                // Get the hidden input box element
+                var input = document.getElementById(textInputId);
+                // Set the input box value to the value attribute of the clicked element
+                input.value = event.target.getAttribute(valueAttribute);
+
+                // Clear the search results by setting the innerHTML of the results div to an empty string
+                document.getElementById(resultsDivId).innerHTML = "";
+            }
+        },
+        false
+    );
+}

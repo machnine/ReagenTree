@@ -22,6 +22,13 @@ class DeliveryCreateView(LoginRequiredMixin, CreateView):
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
 
+    def get_success_url(self):
+        """Return the URL to redirect to after processing a valid form."""
+        if 'next' in self.request.POST:
+            return self.request.POST.get('next')
+        else:
+            return super().get_success_url()
+
 
 class DeliveryDeleteView(LoginRequiredMixin, View):
     """View for deleting a Delivery."""

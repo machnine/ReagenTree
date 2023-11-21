@@ -46,3 +46,29 @@
 .badge-right {
   float: right;
 }
+
+.input-group-text-fw-sm {
+  width: 8rem;
+}
+
+.input-group-text-fw-md {
+  width: 10rem;
+}
+
+.input-group-text-fw-lg {
+  width: 12rem;
+}
+
+.type-search-input {
+  position: relative; /* Ensures the search results are positioned in relation to the search box */
+}
+
+.type-search-result {
+  left: 5%;
+  top: 100%; /* Positions the top of the div right below the search box */
+  width: 90%; /* Matches the width of the search box */
+  position: absolute;
+  z-index: 1000; /* Ensures the results overlay other content */
+  border-radius: 0.25rem; /* Optional rounded corners */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); /* Optional shadow for a floating effect */
+}

@@ -11,3 +11,7 @@ class Company(models.Model):
     def __str__(self) -> str:
         """Return name of company"""
         return f"<Company: {self.name}>"
+
+    class Meta:
+        verbose_name_plural = "Companies"
+        ordering = ["name"]
