@@ -8,6 +8,8 @@ from .models import StockItem, Delivery
 class StockItemForm(forms.ModelForm):
     """Custom input form for the StockItem model."""
 
+    quantity = forms.IntegerField(min_value=1, initial=1)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # only show deliveries from the last week
@@ -18,4 +20,11 @@ class StockItemForm(forms.ModelForm):
 
     class Meta:
         model = StockItem
-        fields = ["delivery", "item", "delivery_condition", "lot_number", "expiry_date", "location"]
+        fields = [
+            "delivery",
+            "item",
+            "delivery_condition",
+            "lot_number",
+            "expiry_date",
+            "location",
+        ]

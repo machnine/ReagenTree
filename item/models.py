@@ -99,6 +99,7 @@ class StockItem(models.Model):
         null=True,
         related_name="updated_stock",
     )
+    ordinal_number = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.item.name} - {self.lot_number}"

@@ -7,7 +7,7 @@
   <div class="container-fluid">
     <div class="panel">
       <div class="panel-heading">
-        <h3 class="panel-title">Commit item to stock</h3>
+        <h3 class="panel-title">Commit to stock</h3>
       </div>
       <div class="panel-content">
         <form method="post">
@@ -66,6 +66,16 @@
             </span>
           </div>
           {{ form.delivery.errors }}
+          <div class="input-group mb-3">
+            <span class="input-group-text input-group-text-fw-sm">Quantity</span>
+            <input type="number"
+                   name="quantity"
+                   id="id_quantity"
+                   min="1"
+                   value="1"
+                   class="form-control"
+                   placeholder="Quantity received...">
+          </div>
           <div class="input-group mb-3">
             <span class="input-group-text input-group-text-fw-sm">Condition</span>
             <select name="delivery_condition"

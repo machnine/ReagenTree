@@ -3,6 +3,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -131,11 +132,28 @@ class StockItemCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("stock_list")
 
     def form_valid(self, form):
+        # get the quantity
+        quantity = form.cleaned_data.get("quantity")
+        # get the item instance
         item = form.cleaned_data.get("item")
-        form.instance.item = Item.objects.get(pk=item.pk)
-        form.instance.created_by = self.request.user
-        form.instance.created = timezone.now()
-        return super().form_valid(form)
+        item = Item.objects.get(pk=item.pk)
+        # remove fields that are not part of the StockItem model or that are manually set
+        del form.cleaned_data["quantity"]
+        del form.cleaned_data["item"]
+
+        for n in range(quantity):
+            stock_item = StockItem(
+                item=item,
+                created_by=self.request.user,
+                created=timezone.now(),
+                ordinal_number=n + 1,
+                **form.cleaned_data,
+            )
+            stock_item.save()
+        # set the object attribute to the last stock item created
+        # to allow for the get_success_url method to work properly
+        self.object = stock_item
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class StockItemListView(LoginRequiredMixin, ListView):

@@ -12,3 +12,5 @@
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
 - User groups
 - Restrict which group of users can do which CRUD
+- Model search function
+- Full site search function
