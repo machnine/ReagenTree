@@ -24,8 +24,9 @@ class DeliveryCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         """Return the URL to redirect to after processing a valid form."""
-        if 'next' in self.request.POST:
-            return self.request.POST.get('next')
+
+        if next_url := self.request.POST.get("next"):
+            return next_url
         else:
             return super().get_success_url()
 

@@ -2,6 +2,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
 
 from .models import Category
@@ -14,6 +15,19 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     fields = ["name", "description"]
     template_name = "category/category_create.html"
     success_url = reverse_lazy("category_list")
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing a valid form."""
+
+        if next_url := self.request.POST.get("next"):
+            return next_url
+        else:
+            return super().get_success_url()
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.created = timezone.now()
+        return super().form_valid(form)
 
 
 class CategoryDeleteView(LoginRequiredMixin, View):
@@ -55,3 +69,8 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["name", "description"]
     template_name = "category/category_update.html"
     success_url = reverse_lazy("category_list")
+
+    def form_valid(self, form):
+        form.instance.last_updated_by = self.request.user
+        form.instance.last_updated = timezone.now()
+        return super().form_valid(form)

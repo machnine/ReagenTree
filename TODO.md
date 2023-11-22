@@ -1,1 +1,14 @@
 - COSHH review workflow?
+- Add created and updated audits to all models
+  - [X] Category
+  - [X] Company
+  - [X] Delivery
+  - [X] Item & StockItem
+  - [X] Location
+
+- Change the default BS5 colours
+- Document upload/download
+- Validation workflow (StockItem?)
+- Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
+- User groups
+- Restrict which group of users can do which CRUD

@@ -2,6 +2,7 @@
 from django import forms
 from django.utils import timezone
 
+from user.models import CustomUser
 from .models import Delivery
 
 
@@ -16,6 +17,13 @@ class DeliveryForm(forms.ModelForm):
         widgets = {
             "delivery_date": forms.DateInput(attrs={"type": "datetime-local"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        """Init."""
+        super().__init__(*args, **kwargs)
+        self.fields["received_by"].queryset = CustomUser.objects.exclude(
+            is_superuser=True
+        )
 
     def clean_delivery_date(self):
         """Clean delivery_date."""

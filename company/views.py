@@ -2,6 +2,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -20,6 +21,19 @@ class CompanyCreateView(LoginRequiredMixin, CreateView):
     fields = ["name", "description"]
     template_name = "company/company_create.html"
     success_url = reverse_lazy("company_list")
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing a valid form."""
+
+        if next_url := self.request.POST.get("next"):
+            return next_url
+        else:
+            return super().get_success_url()
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.created = timezone.now()
+        return super().form_valid(form)
 
 
 class CompanyDeleteView(LoginRequiredMixin, View):
@@ -59,3 +73,8 @@ class CompanyUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["name", "description"]
     template_name = "company/company_update.html"
     success_url = reverse_lazy("company_list")
+
+    def form_valid(self, form):
+        form.instance.last_updated_by = self.request.user
+        form.instance.last_updated = timezone.now()
+        return super().form_valid(form)

@@ -1,6 +1,8 @@
 """Item models"""
-from django.db import models
+
+from django.conf import settings
 from django.core.validators import MinValueValidator
+from django.db import models
 from django.utils import timezone
 
 from company.models import Company
@@ -31,6 +33,20 @@ class Item(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="created_items",
+    )
+    last_updated = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="updated_items",
     )
 
     def __str__(self):
@@ -68,6 +84,20 @@ class StockItem(models.Model):
         related_name="stock_items",
         blank=True,
         null=True,
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="created_stock",
+    )
+    last_updated = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="updated_stock",
     )
 
     def __str__(self):

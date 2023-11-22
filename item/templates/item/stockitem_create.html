@@ -81,7 +81,8 @@
               {% for location in form.location %}{{ location }}{% endfor %}
             </select>
             <span class="input-group-text">
-              <a href="{% url 'location_create' %}" class="btn btn-sm btn-light">
+              <a href="{% url 'location_create' %}?next={{ request.path }}"
+                 class="btn btn-sm btn-light">
                 <i class="bi bi-plus-circle"></i></a>
             </span>
           </div>
