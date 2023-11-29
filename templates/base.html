@@ -47,76 +47,8 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle"
-                     href="#"
-                     id="stockDropdown"
-                     role="button"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"><i class="bi bi-inboxes-fill text-success"></i> Stock</a>
-                  <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    <li>
-                      <a href="{% url 'stock_create' %}" class="dropdown-item"><i class="bi bi-inbox-fill text-success"></i> New Stock</a>
-                    </li>
-                    <li>
-                      <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes text-secondary"></i> Stock List</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle"
-                     href="#"
-                     id="itemDropdown"
-                     role="button"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"><i class="bi bi-box2-fill text-primary"></i> Item</a>
-                  <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    <li>
-                      <a href="{% url 'item_create' %}" class="dropdown-item"><i class="bi bi-box-seam text-primary"></i> New Item</a>
-                    </li>
-                    <li>
-                      <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-box2 text-warning"></i> Item List</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'company_list' %}"><i class="bi bi-building-fill text-secondary"></i> Company</a>
-                </li>
-              </ul>
-              <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="bi bi-qr-code text-primary"></i> Scan</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="bi bi-search text-secondary"></i> Search</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle"
-                     href="#"
-                     id="userDropdown"
-                     role="button"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"><i class="bi bi-person-fill text-success"></i> User</a>
-                  <ul class="dropdown-menu dropdown-menu-end"
-                      aria-labelledby="userDropdown">
-                    <li>
-                      <div class="text-center">{{ request.user.first_name }} {{ request.user.last_name }}</div>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                      <a href="{% url 'user_profile' %}" class="dropdown-item"><i class="bi bi-person-square text-info"></i> Profile</a>
-                    </li>
-                    <li>
-                      <a href="#" class="dropdown-item"><i class="bi bi-sliders text-success"></i> Settings</a>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                      <a href="{% url 'logout' %}" class="dropdown-item"><i class="bi bi-box-arrow-right text-danger"></i> Logout</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+              {% include "navbar_menu_start.html" %}
+              {% include "navbar_menu_end.html" %}
             </div>
           </div>
         </nav>

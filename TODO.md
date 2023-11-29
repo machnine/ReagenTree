@@ -14,3 +14,5 @@
 - Restrict which group of users can do which CRUD
 - Model search function
 - Full site search function
+- Item search to include manufacturer/supplier name? (Perhaps not necessary)
+- 
