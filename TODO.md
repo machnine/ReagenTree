@@ -6,7 +6,7 @@
   - [X] Item & StockItem
   - [X] Location
 
-- Change the default BS5 colours
+- [X] Change the default BS5 colours
 - Document upload/download
 - Validation workflow (StockItem?)
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
@@ -15,4 +15,4 @@
 - Model search function
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
-- 
+- Design nice UI for the list views
