@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db import models
-from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
@@ -35,6 +36,15 @@ class UserLoginView(LoginView):
     form_class = CustomAuthenticationForm
     template_name = "user/login.html"
     next_page = reverse_lazy("index")
+
+    def get(self, request, *args, **kwargs):
+        """
+        If the user is already logged in, redirect to the index page
+        """
+        if request.user.is_authenticated:
+            next_page = request.GET.get("next", reverse("index"))
+            return redirect(next_page)
+        return super().get(request, *args, **kwargs)
 
 
 class UserLogoutView(LogoutView):
