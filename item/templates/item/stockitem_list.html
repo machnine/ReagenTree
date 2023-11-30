@@ -33,7 +33,7 @@
           <div class="border-bottom col col-lg-2">
             <b>Location</b>
           </div>
-          <div class="border-bottom col col-lg-1">
+          <div class="border-bottom col col-lg-1 d-none d-lg-block">
             <b>Actions</b>
           </div>
         </div>
@@ -44,7 +44,7 @@
             <div class="border-bottom col col-lg-1">stock level</div>
             <div class="border-bottom col col-lg-1">{{ stock.lot_number }}</div>
             <div class="border-bottom col col-lg-1">{{ stock.expiry_date|date:'d/m/Y' }}</div>
-            <div class="border-bottom col col-lg-1">
+            <div class="border-bottom col col-lg-1 d-none d-lg-block">
               <a href="{% url 'delivery_detail' pk=stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
               {% delivery_condicon stock.delivery_condition %}
             </div>
@@ -54,7 +54,7 @@
                 <i class="bi bi-pencil-square"></i>
               </span>
               <span class="px-2">
-                <i class="bi bi-trash text-danger"></i>
+                <i class="bi bi-trash"></i>
               </span>
             </div>
           </div>

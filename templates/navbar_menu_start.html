@@ -5,7 +5,8 @@
        id="stockDropdown"
        role="button"
        data-bs-toggle="dropdown"
-       aria-expanded="false"><i class="bi bi-truck"></i> Delivery</a>
+       aria-expanded="false"
+       href="javascript:void(0);"><i class="bi bi-truck"></i> Delivery</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
         <a href="{% url 'delivery_create' %}" class="dropdown-item"><i class="bi bi-cart-plus-fill"></i> New Delivery</a>
@@ -21,7 +22,8 @@
        id="stockDropdown"
        role="button"
        data-bs-toggle="dropdown"
-       aria-expanded="false"><i class="bi bi-box-seam-fill"></i> Stock</a>
+       aria-expanded="false"
+       href="javascript:void(0);"><i class="bi bi-box-seam-fill"></i> Stock</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
         <a href="{% url 'stock_create' %}" class="dropdown-item"><i class="bi bi-clipboard2-plus"></i> New Stock</a>
@@ -30,14 +32,15 @@
         <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes"></i> Stocks</a>
       </li>
     </ul>
-  </li>  
+  </li>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle"
        href="#"
        id="stockDropdown"
        role="button"
        data-bs-toggle="dropdown"
-       aria-expanded="false"><i class="bi bi-database-gear"></i> Settings</a>
+       aria-expanded="false"
+       href="javascript:void(0);"><i class="bi bi-database-gear"></i> Settings</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
         <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-box2-fill"></i> Items</a>

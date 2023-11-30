@@ -1,6 +1,8 @@
 """Delivery models."""
+from datetime import timedelta
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 class Delivery(models.Model):
@@ -32,6 +34,16 @@ class Delivery(models.Model):
     def __str__(self):
         formatted_date = self.delivery_date.strftime("%d/%m/%Y %H:%M:%S")
         return f"Received at {formatted_date} by {self.received_by.first_name} [{self.notes}]"
+
+    @property
+    def total_items(self):
+        """Return the total number of items in the delivery."""
+        return self.stock_items.count()
+
+    @property
+    def within_one_week(self) -> bool:
+        """Return True if the delivery was received within the last week."""
+        return self.delivery_date > timezone.now() - timedelta(days=7)
 
     class Meta:
         ordering = ["-delivery_date"]

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (
@@ -14,6 +14,8 @@ from django.views.generic import (
     UpdateView,
     View,
 )
+
+from delivery.models import Delivery
 
 from .models import Item, StockItem
 from .forms import StockItemForm
@@ -154,6 +156,21 @@ class StockItemCreateView(LoginRequiredMixin, CreateView):
         # to allow for the get_success_url method to work properly
         self.object = stock_item
         return HttpResponseRedirect(self.get_success_url())
+
+    def get_initial(self):
+        initial = super().get_initial()
+        delivery_pk = self.request.GET.get("delivery")
+        if delivery_pk:
+            initial["delivery"] = get_object_or_404(Delivery, pk=delivery_pk)
+        return initial
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing a valid form."""
+
+        if next_url := self.request.POST.get("next"):
+            return next_url
+        else:
+            return super().get_success_url()
 
 
 class StockItemListView(LoginRequiredMixin, ListView):

@@ -5,7 +5,7 @@
   --rt-color-info: #058ba0;
   --rt-color-warning: #ffc107;
   --rt-color-danger: #dc3545;
-  --rt-color-light: #f8f9fa;
+  --rt-color-light: #f8f8f8;
   --rt-color-dark: #282d31;
   --rt-color-gray: #1d1f20;
 
@@ -16,11 +16,19 @@
   --rt-color-info-hover: #04788f; /* Darkened info color */
   --rt-color-warning-hover: #e6a006; /* Darkened warning color */
   --rt-color-danger-hover: #c2323f; /* Darkened danger color */
-  --rt-color-light-hover: #e0e1e3; /* Slightly darker light color */
+  --rt-color-light-hover: #e0e0e0; /* Slightly darker light color */
   --rt-color-dark-hover: #24292e; /* Darkened dark color */
   --rt-color-gray-hover: #1a1c1d; /* Darkened gray color */
 
   --rt-light-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  text-decoration: none;
+  color: var(--rt-color-info);
+}
+a:hover {
+  color: purple;
 }
 
 /* Text Colors */
