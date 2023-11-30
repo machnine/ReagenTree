@@ -1,9 +1,9 @@
 <ul class="navbar-nav ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="#"><i class="bi bi-qr-code text-primary"></i> Scan</a>
+    <a class="nav-link" href="#"><i class="bi bi-qr-code"></i> Scan</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#"><i class="bi bi-search text-secondary"></i> Search</a>
+    <a class="nav-link" href="#"><i class="bi bi-search"></i> Search</a>
   </li>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle"
@@ -11,22 +11,24 @@
        id="userDropdown"
        role="button"
        data-bs-toggle="dropdown"
-       aria-expanded="false"><i class="bi bi-person-fill text-success"></i> User</a>
+       aria-expanded="false"><i class="bi bi-person-fill"></i> User</a>
     <ul class="dropdown-menu dropdown-menu-end"
         aria-labelledby="userDropdown">
       <li>
-        <div class="text-center">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+        <div class="text-center">
+          <span title="{{ request.user.first_name }} {{ request.user.last_name }}"><b>{{ request.user.first_name }}</b></span>
+        </div>
       </li>
       <li class="dropdown-divider"></li>
       <li>
-        <a href="{% url 'user_profile' %}" class="dropdown-item"><i class="bi bi-person-square text-info"></i> Profile</a>
+        <a href="{% url 'user_profile' %}" class="dropdown-item"><i class="bi bi-person-square"></i> Profile</a>
       </li>
       <li>
-        <a href="#" class="dropdown-item"><i class="bi bi-sliders text-success"></i> Settings</a>
+        <a href="#" class="dropdown-item"><i class="bi bi-sliders"></i> Settings</a>
       </li>
       <li class="dropdown-divider"></li>
       <li>
-        <a href="{% url 'logout' %}" class="dropdown-item"><i class="bi bi-box-arrow-right text-danger"></i> Logout</a>
+        <a href="{% url 'logout' %}" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</a>
       </li>
     </ul>
   </li>

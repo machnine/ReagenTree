@@ -10,24 +10,52 @@
         <span><a href="{% url 'item_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New item</a></span>
       </div>
       <div class="panel-content">
-        <ul>
-          {% for item in items %}
-            <li>
-              <p>
-                <span class="h4">{{ item.name }}</span>
-                <span class="h5"> ({{ item.product_id }})</span>
-                <span><a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a> |
-                  <a hx-get="{% url 'item_delete' item.pk %}"
-                     hx-trigger="click"
-                     hx-target="#deleteModal .modal-content"
-                     hx-swap="innerHTML"
-                     data-bs-toggle="modal"
-                     data-bs-target="#deleteModal"><i class="bi bi-trash text-danger"></i></a></span>
-              </p>
-              <p>{{ location.description }}</p>
-            </li>
-          {% endfor %}
-        </ul>
+        <div class="row my-2 px-2">
+          <div class="border-bottom col col-lg-3">
+            <b>Name</b>
+          </div>
+          <div class="border-bottom col col-lg-1">
+            <b>Product ID</b>
+          </div>
+          <div class="border-bottom col col-lg-1">
+            <b>Category</b>
+          </div>
+          <div class="border-bottom col col-lg-1">
+            <b>Manufacturer</b>
+          </div>
+          <div class="border-bottom col col-lg-1">
+            <b>Supplier</b>
+          </div>
+          <div class="border-bottom col col-lg-4">
+            <b>Description</b>
+          </div>
+          <div class="border-bottom col col-lg-1">
+            <b>Actions</b>
+          </div>
+        </div>
+        {% for item in items %}
+          <div class="row my-2 px-2">
+            <div class="border-bottom col col-lg-3">{{ item.name }}</div>
+            <div class="border-bottom col col-lg-1">{{ item.product_id }}</div>
+            <div class="border-bottom col col-lg-1">{{ item.category }}</div>
+            <div class="border-bottom col col-lg-1"><a href="{% url 'company_detail' pk=item.manufacturer.pk %}">{{ item.manufacturer }}</a></div>
+            <div class="border-bottom col col-lg-1"><a href="{% url 'company_detail' pk=item.supplier.pk %}">{{ item.supplier }}</a></div>
+            <div class="border-bottom col col-lg-4">{{ item.description }}</div>
+            <div class="border-bottom col col-lg-1">
+              <span class="px-2">
+                <a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a>
+              </span>
+              <span class="px-2">
+                <a hx-get="{% url 'item_delete' item.pk %}"
+                   hx-trigger="click"
+                   hx-target="#deleteModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#deleteModal"><i class="bi bi-trash text-danger"></i></a>
+              </span>
+            </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>

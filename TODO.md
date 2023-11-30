@@ -16,3 +16,5 @@
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
 - Design nice UI for the list views
+- Stock take work flow - what is it and how to deal with it?
+- How to handle items (stock items) that are used up? delete? archive? or simply not showing

@@ -76,6 +76,9 @@
 .bg-dark {
   background-color: var(--rt-color-dark) !important;
 }
+.bg-gray {
+  background-color: var(--rt-color-gray) !important;
+}
 
 /* Button Colors */
 .btn-primary {
