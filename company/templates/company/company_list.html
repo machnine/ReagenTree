@@ -17,8 +17,11 @@
           <div class="border-bottom col col-lg-2">
             <b>Description</b>
           </div>
-          <div class="border-bottom col col-lg-7">
-            <b><span class="px-2 rounded bg-success">Supplied</span>/<span class="px-2 rounded bg-warning">Manufactured</span> Items</b>
+          <div class="border-bottom col col-lg-3">
+            <b>Manufactured Items</b>
+          </div>
+          <div class="border-bottom col col-lg-3">
+            <b>Supplied Items</b>
           </div>
           <div class="border-bottom col col-lg-1 d-none d-lg-block">
             <b>Actions</b>
@@ -30,10 +33,10 @@
             <div class="border-bottom col col-lg-2">{{ company.description }}</div>
             <div class="border-bottom col col-lg-7">
               {% for items in company.supplied_items.all %}
-                <span class="px-2 badge bg-success"><a href="{% url 'item_detail' items.pk %}">{{ items.name }}</a></span>
+                <span class="px-2 bg-light"><a href="{% url 'item_detail' items.pk %}">{{ items.name }}</a></span>
               {% endfor %}
               {% for items in company.manufactured_items.all %}
-                <span class="px-2 badge bg-warning"><a href="{% url 'item_detail' items.pk %}">{{ items.name }}</a></span>
+                <span class="px-2 bg-light"><a href="{% url 'item_detail' items.pk %}">{{ items.name }}</a></span>
               {% endfor %}
             </div>
             <div class="border-bottom col col-lg-1 d-none d-lg-block">
