@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'item_delete' item.pk %}">
+<form method="post" action="{% url 'stock_delete' stockitem.pk %}">
   <div class="modal-header">
     <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
     <button type="button"
@@ -9,9 +9,11 @@
   <div class="modal-body">
     {% csrf_token %}
     <p>
-      Delete <i class="text-danger fw-bold">{{ item.name }}</i>?
+      Delete <i class="text-danger fw-bold">
+      {{ stockitem.item.name }}</i> 
+      <small>({{ stockitem.delivery.delivery_date|date:"d.m.y" }} &#x2022; {{ stockitem.lot_number }} &#x2022; #{{ stockitem.ordinal_number }})</small>?
     </p>
-    <input type="hidden" name="item_id" value="{{ item.pk }}">
+    <input type="hidden" name="stock_id" value="{{ stockitem.pk }}">
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

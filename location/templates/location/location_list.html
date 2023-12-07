@@ -20,7 +20,7 @@
           <div class="row my-2 px-2">
             <div class="border-bottom col col-lg-3">{{ location.name }}</div>
             <div class="border-bottom col col-lg-3">{{ location.description }}</div>
-            <div class="border-bottom col col-lg-5">{{ location.stock_items.all }}</div>
+            <div class="border-bottom col col-lg-5">{{ location.stockitems.all }}</div>
             <div class="border-bottom col col-lg-1 d-none d-lg-block">
               <span class="px-2">
                 <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>

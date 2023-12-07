@@ -4,8 +4,14 @@
 {% endblock title %}
 {% block content %}
   <div class="container">
-    Item Detail
-    <h4>{{ stockitem.name }}</h4>
-    {{ stockitem.description }}
+    <div class="panel">
+      <div class="panel-heading d-flex justify-content-between me-2">
+        <span class="h4">Stock Item Detail</span>
+        <span><a href="{% url 'stock_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New stock</a></span>
+      </div>
+      <div class="panel-content">
+        {{ stockitem.item.name }}
+      </div>
+    </div>
   </div>
 {% endblock content %}

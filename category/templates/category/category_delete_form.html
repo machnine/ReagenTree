@@ -9,7 +9,7 @@
   <div class="modal-body">
     {% csrf_token %}
     <p>
-      Are you sure you want to delete <i class="text-danger fw-bold">{{ category.name }}</i>?
+      Delete <i class="text-danger fw-bold">{{ category.name }}</i>?
     </p>
     <input type="hidden" name="category_id" value="{{ category.pk }}">
   </div>

@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='stockitem',
             name='delivery',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='stock_items', to='delivery.delivery'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='stockitems', to='delivery.delivery'),
         ),
         migrations.AlterField(
             model_name='stockitem',
@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='stockitem',
             name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='stock_items', to='item.item'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='stockitems', to='item.item'),
         ),
         migrations.AlterField(
             model_name='stockitem',

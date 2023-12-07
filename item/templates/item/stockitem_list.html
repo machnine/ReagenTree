@@ -12,7 +12,7 @@
       </div>
       <div class="panel-content">
         <div class="row my-2 px-2">
-          <div class="border-bottom col col-lg-2">
+          <div class="border-bottom col col-lg-3">
             <b>Item</b>
           </div>
           <div class="border-bottom col col-lg-1">
@@ -39,8 +39,15 @@
         </div>
         {% for stock in stockitems %}
           <div class="row my-2 px-2">
-            <div class="border-bottom col col-lg-2">{{ stock.item.name }}</div>
-            <div class="border-bottom col col-lg-1">{{ stock.ordinal_number }}</div>
+            <div class="border-bottom col col-lg-3">
+              <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
+            </div>
+            <div class="border-bottom col col-lg-1">
+              <a href="{% url 'stock_detail' pk=stock.pk %}"
+                 title="#{{ stock.ordinal_number }} Received at {{ stock.delivery.delivery_date|date:'d/m/y h:i' }}">
+                <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
+              </a>
+            </div>
             <div class="border-bottom col col-lg-1">stock level</div>
             <div class="border-bottom col col-lg-1">{{ stock.lot_number }}</div>
             <div class="border-bottom col col-lg-1">{{ stock.expiry_date|date:'d/m/Y' }}</div>
@@ -48,13 +55,22 @@
               <a href="{% url 'delivery_detail' pk=stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
               {% delivery_condicon stock.delivery_condition %}
             </div>
-            <div class="border-bottom col col-lg-2">{{ stock.location.name }}</div>
+            <div class="border-bottom col col-lg-2">
+              <a href="{% url 'location_detail' pk=stock.location.pk %}"
+                 title="Location detail">{{ stock.location.name }}</a>
+            </div>
             <div class="border-bottom col col-lg-1">
               <span class="px-2">
                 <i class="bi bi-pencil-square"></i>
               </span>
               <span class="px-2">
-                <i class="bi bi-trash"></i>
+                <a hx-get="{% url 'stock_delete' stock.pk %}"
+                   hx-trigger="click"
+                   hx-target="#deleteModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#deleteModal"
+                   href="javascript:void(0);"><i class="bi bi-trash"></i></a>
               </span>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (
@@ -38,17 +38,17 @@ class StockItemCreateView(LoginRequiredMixin, CreateView):
         del form.cleaned_data["item"]
 
         for n in range(quantity):
-            stock_item = StockItem(
+            stockitem = StockItem(
                 item=item,
                 created_by=self.request.user,
                 created=timezone.now(),
                 ordinal_number=n + 1,
                 **form.cleaned_data,
             )
-            stock_item.save()
+            stockitem.save()
         # set the object attribute to the last stock item created
         # to allow for the get_success_url method to work properly
-        self.object = stock_item
+        self.object = stockitem
         return HttpResponseRedirect(self.get_success_url())
 
     def get_initial(self):
@@ -81,3 +81,20 @@ class StockItemDetailView(LoginRequiredMixin, DetailView):
     model = StockItem
     context_object_name = "stockitem"
     template_name = "item/stockitem_detail.html"
+
+
+class StockItemDeleteView(LoginRequiredMixin, View):
+    """Delete view for StockItem model"""
+
+    def get(self, request, *args, **kwargs):
+        """HTMX GET request for returning a StockItem delete form."""
+        stockitem = StockItem.objects.get(pk=kwargs["pk"])
+        return render(
+            request, "item/stockitem_delete_form.html", {"stockitem": stockitem}
+        )
+
+    def post(self, request, *args, **kwargs):
+        """HTMX POST request for deleting a StockItem."""
+        stockitem = StockItem.objects.get(pk=kwargs["pk"])
+        stockitem.delete()
+        return redirect("stock_list")

@@ -7,6 +7,7 @@
   - [X] Location
 
 - [X] Change the default BS5 colours
+- Update update views to return to referral URL
 - Document upload/download
 - Validation workflow (StockItem?)
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
@@ -18,3 +19,4 @@
 - Design nice UI for the list views
 - Stock take work flow - what is it and how to deal with it?
 - How to handle items (stock items) that are used up? delete? archive? or simply not showing
+- View for expired items - for disposal or relabelling for research only use

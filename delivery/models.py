@@ -38,7 +38,7 @@ class Delivery(models.Model):
     @property
     def total_items(self):
         """Return the total number of items in the delivery."""
-        return self.stock_items.count()
+        return self.stockitems.count()
 
     @property
     def within_one_week(self) -> bool:

@@ -9,7 +9,10 @@
   <div class="modal-body">
     {% csrf_token %}
     <p>
-      Are you sure you want to delete <i class="text-danger fw-bold">{{ delivery.name }}</i>?
+      Delete this delivery? <small class="text-muted">(received {{ delivery.delivery_date|date:"d/m/y h:i" }} by {{ delivery.received_by.first_name }})</small>
+    </p>
+    <p>
+      <i class="text-danger fw-bold">All associated stock items will be delete!</i>
     </p>
     <input type="hidden" name="delivery_id" value="{{ delivery.pk }}">
   </div>

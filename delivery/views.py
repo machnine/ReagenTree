@@ -54,7 +54,6 @@ class DeliveryDetailView(LoginRequiredMixin, DetailView):
     model = Delivery
     template_name = "delivery/delivery_detail.html"
 
-
 class DeliveryListView(LoginRequiredMixin, ListView):
     """View for displaying a list of Deliveries."""
 

@@ -67,9 +67,9 @@ class StockItem(models.Model):
         (3, "Requires Attention"),
     ]
 
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stock_items")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stockitems")
     delivery = models.ForeignKey(
-        Delivery, on_delete=models.CASCADE, related_name="stock_items", null=True
+        Delivery, on_delete=models.CASCADE, related_name="stockitems", null=True
     )
     delivery_condition = models.PositiveSmallIntegerField(
         choices=CONDITION_CHOICES, default=0
@@ -81,7 +81,7 @@ class StockItem(models.Model):
     location = models.ForeignKey(
         Location,
         on_delete=models.CASCADE,
-        related_name="stock_items",
+        related_name="stockitems",
         blank=True,
         null=True,
     )

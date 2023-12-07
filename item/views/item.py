@@ -73,6 +73,11 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "item"
     template_name = "item/item_detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["stockitems"] = self.object.stockitems.all()
+        return context
+
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
     """Update view for Item model"""
@@ -99,12 +104,12 @@ class ItemDeleteView(LoginRequiredMixin, View):
     """Delete view for Item model"""
 
     def get(self, request, *args, **kwargs):
-        """HTMX GET request for returning a Item delete form."""
+        """HTMX GET request for returning an Item delete form."""
         item = Item.objects.get(pk=kwargs["pk"])
         return render(request, "item/item_delete_form.html", {"item": item})
 
     def post(self, request, *args, **kwargs):
-        """HTMX POST request for deleting a Item."""
+        """HTMX POST request for deleting an Item."""
         item = Item.objects.get(pk=kwargs["pk"])
         item.delete()
         return redirect("item_list")

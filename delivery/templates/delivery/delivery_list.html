@@ -42,9 +42,9 @@
                    title="Add stock items">
                   <i class="bi bi-plus-circle-dotted text-success"></i></a>
               {% endif %}
-              {% for stockitem in delivery.stock_items.all %}
+              {% for stockitem in delivery.stockitems.all %}
                 <span class="px-1 small bg-light">
-                  <a href="{% url 'stock_detail' pk=stockitem.item.pk %}"
+                  <a href="{% url 'stock_detail' pk=stockitem.pk %}"
                      title="View stock item detail">{{ stockitem.item.name }}</a>
                 </span>
               {% endfor %}

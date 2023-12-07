@@ -1,15 +1,21 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-  Delivery
+  Item
 {% endblock title %}
 {% block content %}
   <div class="container">
-    Delivery Update
-    <form method="post">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <button type="submit">Update</button>
-    </form>
+    <div class="panel">
+      <div class="panel-heading">
+        <span class="h4">Item Detail</span>
+      </div>
+      <div class="panel-content">
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    </div>
   </div>
 {% endblock content %}
