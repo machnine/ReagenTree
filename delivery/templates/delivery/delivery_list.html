@@ -43,7 +43,10 @@
                   <i class="bi bi-plus-circle-dotted text-success"></i></a>
               {% endif %}
               {% for stockitem in delivery.stock_items.all %}
-                <span class="px-1 small bg-light">{{ stockitem.item.name }}</span>
+                <span class="px-1 small bg-light">
+                  <a href="{% url 'stock_detail' pk=stockitem.item.pk %}"
+                     title="View stock item detail">{{ stockitem.item.name }}</a>
+                </span>
               {% endfor %}
             </div>
             <div class="border-bottom col col-lg-1 d-none d-lg-block">

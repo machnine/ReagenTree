@@ -1,7 +1,7 @@
 """Item Urls"""
 from django.urls import path
 
-from .views import (
+from item.views import (
     ItemCreateView,
     ItemDeleteView,
     ItemDetailView,

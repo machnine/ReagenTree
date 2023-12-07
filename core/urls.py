@@ -9,8 +9,7 @@ from user import urls as user_urls
 from category import urls as category_urls
 from company import urls as company_urls
 from delivery import urls as delivery_urls
-from item import urls_item as item_urls
-from item import urls_stock as stock_urls
+from item.urls import item_urls, stock_urls
 from location import urls as location_urls
 
 
