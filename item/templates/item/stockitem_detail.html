@@ -1,17 +1,10 @@
-{% extends "base.html" %}
+{% extends "object_detail_base.html" %}
 {% block title %}
   Stock Item
 {% endblock title %}
-{% block content %}
-  <div class="container">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Stock Item Detail</span>
-        <span><a href="{% url 'stock_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New stock</a></span>
-      </div>
-      <div class="panel-content">
-        {{ stockitem.item.name }}
-      </div>
-    </div>
-  </div>
-{% endblock content %}
+{% block panel_title %}
+  Stock Item Detail
+{% endblock panel_title %}
+{% block panel_content %}
+  {{ stockitem.item.name }}
+{% endblock panel_content %}

@@ -20,7 +20,7 @@ class CompanyCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """View for creating a Company."""
 
     model = Company
-    fields = ["name", "description"]
+    fields = ["name", "description", "website"]
     template_name = "company/company_create.html"
     success_url = reverse_lazy("company_list")
 
@@ -58,13 +58,14 @@ class CompanyListView(LoginRequiredMixin, ListView):
     model = Company
     context_object_name = "companies"
     template_name = "company/company_list.html"
+    paginate_by = 16
 
 
 class CompanyUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """View for updating a Company."""
 
     model = Company
-    fields = ["name", "description"]
+    fields = ["name", "description", "website"]
     template_name = "company/company_update.html"
     success_url = reverse_lazy("company_list")
 

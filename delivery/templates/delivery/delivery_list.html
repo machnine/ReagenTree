@@ -7,64 +7,59 @@
     <div class="panel">
       <div class="panel-heading d-flex justify-content-between me-2">
         <span class="h4">Deliveries</span>
-        <span><a href="{% url 'delivery_create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New delivery</a></span>
+        <span><a href="{% url 'delivery_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New delivery</a></span>
       </div>
       <div class="panel-content">
-        <div class="row my-2 px-2">
-          <div class="border-bottom col col-lg-2">
-            <b>Delivery Date</b>
-          </div>
-          <div class="border-bottom col col-lg-1">
-            <b>Received</b>
-          </div>
-          <div class="border-bottom col col-lg-2">
-            <b>Notes</b>
-          </div>
-          <div class="border-bottom col col-lg-6">
-            <b>Items</b>
-          </div>
-          <div class="border-bottom col col-lg-1 d-none d-lg-block">
-            <b>Actions</b>
-          </div>
-        </div>
-        {% for delivery in deliveries %}
-          <div class="row my-2 px-2">
-            <div class="border-bottom col col-lg-2">
-              <a href="{% url 'delivery_detail' delivery.pk %}"
-                 title="Delivery details">{{ delivery.delivery_date|date:"d/m/Y H:i" }}</a>
-            </div>
-            <div class="border-bottom col col-lg-1">{{ delivery.received_by.first_name }}</div>
-            <div class="border-bottom col col-lg-2">{{ delivery.notes }}</div>
-            <div class="border-bottom col col-lg-6">
-              {% if delivery.within_one_week %}
-                <a class="btn btn-sm"
-                   href="{% url 'stock_create' %}?delivery={{ delivery.pk }}&next={{ request.path }}"
-                   title="Add stock items">
-                  <i class="bi bi-plus-circle-dotted text-success"></i></a>
-              {% endif %}
-              {% for stockitem in delivery.stockitems.all %}
-                <span class="px-1 small bg-light">
-                  <a href="{% url 'stock_detail' pk=stockitem.pk %}"
-                     title="View stock item detail">{{ stockitem.item.name }}</a>
-                </span>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Delivery Date</th>
+                <th scope="col">Received</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Items</th>
+                <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for delivery in deliveries %}
+                <tr>
+                  <td>
+                    <a href="{% url 'delivery_detail' delivery.pk %}"
+                       title="Delivery details">{{ delivery.delivery_date|date:"d/m/Y H:i" }}</a>
+                  </td>
+                  <td>{{ delivery.received_by.first_name }}</td>
+                  <td>{{ delivery.notes }}</td>
+                  <td>
+                    {% if delivery.within_one_week %}
+                      <a class="btn btn-sm"
+                         href="{% url 'stock_create' %}?delivery={{ delivery.pk }}&next={{ request.path }}"
+                         title="Add stock items">
+                        <i class="bi bi-plus-circle-dotted text-success"></i></a>
+                    {% endif %}
+                    {% for stockitem in delivery.stockitems.all %}
+                      <span class="px-1 small bg-light">
+                        <a href="{% url 'stock_detail' pk=stockitem.pk %}"
+                           title="View stock item detail">{{ stockitem.item.name }}</a>
+                      </span>
+                    {% endfor %}
+                  </td>
+                  <td class="d-none d-lg-table-cell">
+                    <a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a>
+                    <a hx-get="{% url 'delivery_delete' delivery.pk %}"
+                       hx-trigger="click"
+                       hx-target="#deleteModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#deleteModal"
+                       href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+                  </td>
+                </tr>
               {% endfor %}
-            </div>
-            <div class="border-bottom col col-lg-1 d-none d-lg-block">
-              <span class="px-2">
-                <a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a>
-              </span>
-              <span class="px-2">
-                <a hx-get="{% url 'delivery_delete' delivery.pk %}"
-                   hx-trigger="click"
-                   hx-target="#deleteModal .modal-content"
-                   hx-swap="innerHTML"
-                   data-bs-toggle="modal"
-                   data-bs-target="#deleteModal"
-                   href="javascript:void(0);"><i class="bi bi-trash"></i></a>
-              </span>
-            </div>
-          </div>
-        {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% include "pagination_simple.html" %}
       </div>
     </div>
   </div>

@@ -67,6 +67,7 @@ class StockItemListView(LoginRequiredMixin, ListView):
     model = StockItem
     context_object_name = "stockitems"
     template_name = "item/stockitem_list.html"
+    paginate_by = 16
 
 
 class StockItemDetailView(LoginRequiredMixin, DetailView):

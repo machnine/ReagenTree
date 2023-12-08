@@ -54,6 +54,7 @@ class LocationListView(LoginRequiredMixin, ListView):
     model = Location
     context_object_name = "locations"
     template_name = "location/location_list.html"
+    paginate_by = 10
 
 
 class LocationUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):

@@ -4,6 +4,7 @@ django-crispy-forms
 crispy-bootstrap5
 
 # Development
+faker
 rich
 django-extensions
 djlint

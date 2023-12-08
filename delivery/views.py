@@ -55,6 +55,7 @@ class DeliveryListView(LoginRequiredMixin, ListView):
     model = Delivery
     context_object_name = "deliveries"
     template_name = "delivery/delivery_list.html"
+    paginate_by = 10
 
 
 class DeliveryUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):

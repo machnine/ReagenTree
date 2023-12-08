@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "object_detail_base.html" %}
 {% block title %}
   Category
 {% endblock title %}
-{% block content %}
-  <div class="container">
-    Category Detail
-    <h4>{{ category.name }}</h4>
-    {{ category.description }}
-  </div>
-{% endblock content %}
+{% block panel_title %}
+  Category Detail
+{% endblock panel_title %}
+{% block panel_content %}
+  {{ category.name }}
+{% endblock panel_content %}

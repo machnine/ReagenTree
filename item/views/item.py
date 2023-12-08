@@ -115,3 +115,4 @@ class ItemListView(LoginRequiredMixin, ListView):
     model = Item
     context_object_name = "items"
     template_name = "item/item_list.html"
+    paginate_by = 16

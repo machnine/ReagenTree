@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    <div class="panel">
+      {% block panel_heading %}
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            {% block panel_title %}
+            {% endblock panel_title %}
+          </h3>
+        </div>
+      {% endblock panel_heading %}
+      <div class="panel-content">
+        {% block panel_content %}
+        {% endblock panel_content %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "object_detail_base.html" %}
 {% block title %}
   Company
 {% endblock title %}
-{% block content %}
-  <div class="container">
-    Company Details
-    <h4>{{ company.name }}</h4>
-    {{ company.description }}
-  </div>
-{% endblock content %}
+{% block panel_title %}
+  Company Detail
+{% endblock panel_title %}
+{% block panel_content %}
+  {{ company.name }}
+{% endblock panel_content %}

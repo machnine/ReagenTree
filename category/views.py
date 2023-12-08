@@ -54,6 +54,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     context_object_name = "categories"
     template_name = "category/category_list.html"
+    paginate_by = 5
 
 
 class CategoryUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):

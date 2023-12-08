@@ -1,78 +1,71 @@
-{% extends "base.html" %}
+{% extends "object_detail_base.html" %}
 {% block title %}
   Item Detail
 {% endblock title %}
-{% block content %}
-  <div class="container">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">{{ item.name }}</span>
-        <span><a href="{% url 'item_update' pk=item.pk %}" class="btn btn-success"><i class="bi bi-pencil-square"></i> Edit</a></span>
-      </div>
-      <div class="panel-content">
-        <div class="row">
-          <div class="col-md-6">
-            <p>
-              <strong>Name:</strong> {{ item.name }}
-            </p>
-            <p>
-              <strong>Category:</strong> {{ item.category }}
-            </p>
-            <p>
-              <strong>Manufacturer:</strong> {{ item.manufacturer }}
-            </p>
-            <p>
-              <strong>Supplier:</strong> {{ item.supplier }}
-            </p>
-            <p>
-              <strong>Created:</strong> {{ item.created }}
-            </p>
-            <p>
-              <strong>Updated:</strong> {{ item.last_updated }}
-            </p>
-          </div>
-          <div class="col-md-6">
-            <p>
-              <strong>Description:</strong> {{ item.description }}
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="panel-heading">
-            <h4>Available stocks</h4>
-          </div>
-          {% for stock in stockitems %}
-            <p>
-              <strong>Stock:</strong> {{ stock.delivery_condition }}
-              <br>
-              <strong>Location:</strong> {{ stock.location }}
-              <br>
-              <strong>Created:</strong> {{ stock.created }}
-              <br>
-              <strong>Updated:</strong> {{ stock.last_updated }}
-              <br>
-            </p>
-          {% endfor %}
-        </div>
-        <div class="row">
-          <div class="panel-heading">
-            <h4>SDS</h4>
-          </div>
-          {% for sds in sds_items %}
-            <p>
-              <strong>SDS:</strong> {{ sds.sds }}
-              <br>
-              <strong>Created:</strong> {{ sds.created }}
-              <br>
-              <strong>Updated:</strong> {{ sds.last_updated }}
-              <br>
-            </p>
-          {% endfor %}
-        </div>
-      </div>
+{% block panel_title %}
+  Item Detail
+{% endblock panel_title %}
+{% block panel_content %}
+  <div class="row">
+    <div class="col-md-6">
+      <p>
+        <strong>Name:</strong> {{ item.name }}
+      </p>
+      <p>
+        <strong>Category:</strong> {{ item.category }}
+      </p>
+      <p>
+        <strong>Manufacturer:</strong> {{ item.manufacturer }}
+      </p>
+      <p>
+        <strong>Supplier:</strong> {{ item.supplier }}
+      </p>
+      <p>
+        <strong>Created:</strong> {{ item.created }}
+      </p>
+      <p>
+        <strong>Updated:</strong> {{ item.last_updated }}
+      </p>
+    </div>
+    <div class="col-md-6">
+      <p>
+        <strong>Description:</strong> {{ item.description }}
+      </p>
     </div>
   </div>
-{% endblock content %}
+  <div class="row">
+    <div class="panel-heading">
+      <h4>Available stocks</h4>
+    </div>
+    {% for stock in stockitems %}
+      <p>
+        <strong>Stock:</strong> {{ stock.delivery_condition }}
+        <br>
+        <strong>Location:</strong> {{ stock.location }}
+        <br>
+        <strong>Created:</strong> {{ stock.created }}
+        <br>
+        <strong>Updated:</strong> {{ stock.last_updated }}
+        <br>
+      </p>
+    {% endfor %}
+  </div>
+  <div class="row">
+    <div class="panel-heading">
+      <h4>SDS</h4>
+    </div>
+    {% for sds in sds_items %}
+      <p>
+        <strong>SDS:</strong> {{ sds.sds }}
+        <br>
+        <strong>Created:</strong> {{ sds.created }}
+        <br>
+        <strong>Updated:</strong> {{ sds.last_updated }}
+        <br>
+      </p>
+    {% endfor %}
+  </div>
+{% endblock panel_content %}
 {% comment %} 
 TODO:
   SDS 

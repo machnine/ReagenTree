@@ -1,23 +1,19 @@
-{% extends "base.html" %}
+{% extends "object_detail_base.html" %}
 {% block title %}
   Delivery
 {% endblock title %}
-{% block content %}
-  <div class="container">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Delivery</span>
-        <span>Received by {{ delivery.received_by.first_name }} at  {{ delivery.delivery_date|date:"h:i" }} on {{ delivery.delivery_date|date:"d/m/Y" }}</span>
-        <span>
-          <a href="{% url 'delivery_update' pk=delivery.pk %}"
-             class="btn btn-success">
-            <i class="bi bi-pencil-square"></i> Edit
-          </a>
-        </span>
-      </div>
-      <div class="panel-content">
-        {% for stock in delivery.stockitems.all %}<p>{{ stock }}</p>{% endfor %}
-      </div>
-    </div>
+{% block panel_heading %}
+  <div class="panel-heading d-flex justify-content-between me-2">
+    <span class="h4">Delivery</span>
+    <span>Received by {{ delivery.received_by.first_name }} at  {{ delivery.delivery_date|date:"h:i" }} on {{ delivery.delivery_date|date:"d/m/Y" }}</span>
+    <span>
+      <a href="{% url 'delivery_update' pk=delivery.pk %}"
+         class="btn btn-success">
+        <i class="bi bi-pencil-square"></i> Edit
+      </a>
+    </span>
   </div>
-{% endblock content %}
+{% endblock panel_heading %}
+{% block panel_content %}
+  {% for stock in delivery.stockitems.all %}<p>{{ stock }}</p>{% endfor %}
+{% endblock panel_content %}
