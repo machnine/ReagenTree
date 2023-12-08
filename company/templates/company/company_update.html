@@ -1,15 +1,11 @@
-{% extends "base.html" %}
+{% extends "object_update_base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
   Company
 {% endblock title %}
-{% block content %}
-  <div class="container">
-    Company Update
-    <form method="post">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <button type="submit">Update</button>
-    </form>
-  </div>
-{% endblock content %}
+{% block panel_title %}
+  Company Update
+{% endblock panel_title %}
+{% block update_form %}
+  {{ form|crispy }}
+{% endblock update_form %}

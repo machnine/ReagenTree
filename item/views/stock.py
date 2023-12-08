@@ -13,13 +13,15 @@ from django.views.generic import (
     View,
 )
 
+from core.mixins import SuccessUrlMixin
+
 from delivery.models import Delivery
 
 from item.models import StockItem, Item
 from item.forms import StockItemForm
 
 
-class StockItemCreateView(LoginRequiredMixin, CreateView):
+class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create view for StockItem model"""
 
     model = StockItem
@@ -58,14 +60,6 @@ class StockItemCreateView(LoginRequiredMixin, CreateView):
             initial["delivery"] = get_object_or_404(Delivery, pk=delivery_pk)
         return initial
 
-    def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
-
-        if next_url := self.request.POST.get("next"):
-            return next_url
-        else:
-            return super().get_success_url()
-
 
 class StockItemListView(LoginRequiredMixin, ListView):
     """List view for StockItem model"""
@@ -98,3 +92,12 @@ class StockItemDeleteView(LoginRequiredMixin, View):
         stockitem = StockItem.objects.get(pk=kwargs["pk"])
         stockitem.delete()
         return redirect("stock_list")
+
+
+class StockItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
+    """Update view for StockItem model"""
+
+    model = StockItem
+    fields = ["item", "delivery_condition", "lot_number", "expiry_date", "location"]
+    template_name = "item/stockitem_update.html"
+    success_url = reverse_lazy("stock_list")

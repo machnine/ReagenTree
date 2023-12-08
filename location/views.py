@@ -5,24 +5,18 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
 
+from core.mixins import SuccessUrlMixin
+
 from .models import Location
 
 
-class LocationCreateView(LoginRequiredMixin, CreateView):
+class LocationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Location create view."""
 
     model = Location
     fields = ["name", "description"]
     template_name = "location/location_create.html"
     success_url = reverse_lazy("location_list")
-
-    def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
-
-        if next_url := self.request.POST.get("next"):
-            return next_url
-        else:
-            return super().get_success_url()
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -62,7 +56,7 @@ class LocationListView(LoginRequiredMixin, ListView):
     template_name = "location/location_list.html"
 
 
-class LocationUpdateView(LoginRequiredMixin, UpdateView):
+class LocationUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """Location update view."""
 
     model = Location

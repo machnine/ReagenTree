@@ -61,7 +61,7 @@
             </div>
             <div class="border-bottom col col-lg-1">
               <span class="px-2">
-                <i class="bi bi-pencil-square"></i>
+                <a href="{% url 'stock_update' stock.pk %}"><i class="bi bi-pencil-square"></i></a>
               </span>
               <span class="px-2">
                 <a hx-get="{% url 'stock_delete' stock.pk %}"

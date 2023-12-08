@@ -11,24 +11,18 @@ from django.views.generic import (
     View,
 )
 
+from core.mixins import SuccessUrlMixin
+
 from .models import Company
 
 
-class CompanyCreateView(LoginRequiredMixin, CreateView):
+class CompanyCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """View for creating a Company."""
 
     model = Company
     fields = ["name", "description"]
     template_name = "company/company_create.html"
     success_url = reverse_lazy("company_list")
-
-    def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
-
-        if next_url := self.request.POST.get("next"):
-            return next_url
-        else:
-            return super().get_success_url()
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -66,7 +60,7 @@ class CompanyListView(LoginRequiredMixin, ListView):
     template_name = "company/company_list.html"
 
 
-class CompanyUpdateView(LoginRequiredMixin, UpdateView):
+class CompanyUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """View for updating a Company."""
 
     model = Company

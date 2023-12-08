@@ -10,25 +10,19 @@ from django.views.generic import (
     View,
 )
 
+from core.mixins import SuccessUrlMixin
+
 from .models import Delivery
 from .forms import DeliveryForm
 
 
-class DeliveryCreateView(LoginRequiredMixin, CreateView):
+class DeliveryCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """View for creating a Delivery."""
 
     model = Delivery
     template_name = "delivery/delivery_create.html"
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
-
-    def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
-
-        if next_url := self.request.POST.get("next"):
-            return next_url
-        else:
-            return super().get_success_url()
 
 
 class DeliveryDeleteView(LoginRequiredMixin, View):
@@ -54,6 +48,7 @@ class DeliveryDetailView(LoginRequiredMixin, DetailView):
     model = Delivery
     template_name = "delivery/delivery_detail.html"
 
+
 class DeliveryListView(LoginRequiredMixin, ListView):
     """View for displaying a list of Deliveries."""
 
@@ -62,7 +57,7 @@ class DeliveryListView(LoginRequiredMixin, ListView):
     template_name = "delivery/delivery_list.html"
 
 
-class DeliveryUpdateView(LoginRequiredMixin, UpdateView):
+class DeliveryUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """View for updating a Delivery."""
 
     model = Delivery

@@ -14,6 +14,7 @@ from django.views.generic import (
     View,
 )
 
+from core.mixins import SuccessUrlMixin
 from item.models import Item
 
 
@@ -37,7 +38,7 @@ def item_search(request):
 
 
 # Item CRUD views
-class ItemCreateView(LoginRequiredMixin, CreateView):
+class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create view for Item model"""
 
     model = Item
@@ -51,14 +52,6 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
     ]
     template_name = "item/item_create.html"
     success_url = reverse_lazy("item_list")
-
-    def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
-
-        if next_url := self.request.POST.get("next"):
-            return next_url
-        else:
-            return super().get_success_url()
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -79,7 +72,7 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ItemUpdateView(LoginRequiredMixin, UpdateView):
+class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """Update view for Item model"""
 
     model = Item
@@ -95,6 +88,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("item_list")
 
     def form_valid(self, form):
+        # set the last_updated_by and last_updated fields
         form.instance.last_updated_by = self.request.user
         form.instance.last_updated = timezone.now()
         return super().form_valid(form)

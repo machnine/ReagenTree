@@ -12,7 +12,7 @@
       <div class="panel-content">
         <div class="row my-2 px-2">
           <div class="border-bottom col col-lg-2">
-            <b>Categories</b>
+            <b>Company Name</b>
           </div>
           <div class="border-bottom col col-lg-2">
             <b>Description</b>
@@ -20,7 +20,7 @@
           <div class="border-bottom col col-lg-3">
             <b>Manufactured Items</b>
           </div>
-          <div class="border-bottom col col-lg-3">
+          <div class="border-bottom col col-lg-4">
             <b>Supplied Items</b>
           </div>
           <div class="border-bottom col col-lg-1 d-none d-lg-block">
@@ -31,10 +31,12 @@
           <div class="row my-2 px-2">
             <div class="border-bottom col col-lg-2">{{ company.name }}</div>
             <div class="border-bottom col col-lg-2">{{ company.description }}</div>
-            <div class="border-bottom col col-lg-7">
+            <div class="border-bottom col col-lg-3">
               {% for items in company.supplied_items.all %}
                 <span class="px-2 bg-light"><a href="{% url 'item_detail' items.pk %}">{{ items.name }}</a></span>
               {% endfor %}
+            </div>
+            <div class="border-bottom col col-lg-4">
               {% for items in company.manufactured_items.all %}
                 <span class="px-2 bg-light"><a href="{% url 'item_detail' items.pk %}">{{ items.name }}</a></span>
               {% endfor %}
