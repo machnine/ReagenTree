@@ -51,24 +51,12 @@
     {% endfor %}
   </div>
   <div class="row">
-    <div class="panel-heading">
-      <h4>SDS</h4>
+    <!-- Example in an item_detail.html template -->
+    <div class="btn-group">
+      <a href="{% url 'item_attachment_upload' item.id %}"
+         class="btn btn-sm btn-success"><i class="bi bi-upload"></i> Upload Documents</a>
     </div>
-    {% for sds in sds_items %}
-      <p>
-        <strong>SDS:</strong> {{ sds.sds }}
-        <br>
-        <strong>Created:</strong> {{ sds.created }}
-        <br>
-        <strong>Updated:</strong> {{ sds.last_updated }}
-        <br>
-      </p>
-    {% endfor %}
+    <h3>Attachments</h3>
+    {% for file in attachments %}<p>{{ file.filename }}</p>{% endfor %}
   </div>
 {% endblock panel_content %}
-{% comment %} 
-TODO:
-  SDS 
-  Image
-  Available Stocks
-{% endcomment %}

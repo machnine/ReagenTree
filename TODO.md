@@ -1,11 +1,10 @@
-- COSHH review workflow?
-- Add created and updated audits to all models
+- [X] Add created and updated audits to all models
   - [X] Category
   - [X] Company
   - [X] Delivery
   - [X] Item & StockItem
   - [X] Location
-
+- [X] List view pagination
 - [X] Change the default BS5 colours
 - Update update views to return to referral URL
 - Document upload/download
@@ -20,3 +19,10 @@
 - Stock take work flow - what is it and how to deal with it?
 - How to handle items (stock items) that are used up? delete? archive? or simply not showing
 - View for expired items - for disposal or relabelling for research only use
+- COSHH review workflow?
+- Delivery notes?
+- Item model
+  - [] image
+  - [] attachments
+  - [] available stocks
+  

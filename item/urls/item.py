@@ -8,6 +8,7 @@ from item.views import (
     ItemListView,
     ItemUpdateView,
     item_search,
+    ItemAttachmentUploadView,
 )
 
 urlpatterns = [
@@ -17,4 +18,9 @@ urlpatterns = [
     path("", ItemListView.as_view(), name="item_list"),
     path("<int:pk>/update/", ItemUpdateView.as_view(), name="item_update"),
     path("search/", item_search, name="item_search"),
+    path(
+        "<int:pk>/attachment/upload/",
+        ItemAttachmentUploadView.as_view(),
+        name="item_attachment_upload",
+    ),
 ]

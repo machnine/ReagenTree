@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # core app
     "core",
     # local apps
+    "attachment",
     "category",
     "company",
     "delivery",
@@ -144,3 +145,7 @@ LOGIN_URL = "login"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # True: session expires when browser is closed
 SESSION_SAVE_EVERY_REQUEST = True  # True: session is saved on every request
 SESSION_COOKIE_AGE = 60 * 15  # 15 minutes after latst request (idle for 15 minutes)
+
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

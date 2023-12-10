@@ -1,0 +1,36 @@
+"""Attachment forms."""
+from pathlib import Path
+
+from django import forms
+from .models import Attachment
+
+ALLOWED_FILE_TYPES = [".jpg", ".jpeg", ".png", ".bmp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".txt", ".xml"]
+
+
+class AttachmentForm(forms.ModelForm):
+    """Form for uploading an attachment"""
+
+    class Meta:
+        model = Attachment
+        fields = ("file", "name", "description")
+
+    def clean_file(self):
+        """Check that the file extension is allowed"""
+        file = self.cleaned_data.get("file")
+        file_type = Path(file.name).suffix.lower()
+        if file_type not in ALLOWED_FILE_TYPES:
+            raise forms.ValidationError(f"Unsupported file extension {file_type}")
+        return file
+
+    def clean(self):
+        cleaned_data = super().clean()
+        file = cleaned_data.get("file")
+        name = cleaned_data.get("name")
+
+        # If no name is provided, use the file's name without the extension
+        if file and not name:
+            name = Path(file.name).stem
+            cleaned_data["name"] = name
+
+        return cleaned_data
+

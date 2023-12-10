@@ -1,8 +1,11 @@
 """This module contains the forms for the item app."""
 from django import forms
 from django.utils import timezone
+from delivery.models import Delivery
 
-from .models import StockItem, Delivery
+from attachment.forms import AttachmentForm
+
+from .models import StockItem, ItemAttachment
 
 
 class StockItemForm(forms.ModelForm):
@@ -28,3 +31,11 @@ class StockItemForm(forms.ModelForm):
             "expiry_date",
             "location",
         ]
+
+
+class ItemAttachmentForm(AttachmentForm):
+    """Custom input form for the ItemAttachment model."""
+
+    class Meta(AttachmentForm.Meta):
+        model = ItemAttachment
+        fields = ("file", "name", "description")

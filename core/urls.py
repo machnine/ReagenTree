@@ -1,16 +1,18 @@
 """
 URL configuration for the whole project.
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
-from django.urls.conf import include
+from django.urls import path, include
 
-from user import urls as user_urls
+
 from category import urls as category_urls
 from company import urls as company_urls
 from delivery import urls as delivery_urls
 from item.urls import item_urls, stock_urls
 from location import urls as location_urls
+from user import urls as user_urls
 
 
 from .views import index
@@ -26,3 +28,7 @@ urlpatterns = [
     path("location/", include(location_urls)),
     path("stock/", include(stock_urls)),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

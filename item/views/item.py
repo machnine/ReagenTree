@@ -14,8 +14,10 @@ from django.views.generic import (
     View,
 )
 
+from attachment.views import AttachmentUploadView
 from core.mixins import SuccessUrlMixin
-from item.models import Item
+from item.models import Item, ItemAttachment
+from item.forms import ItemAttachmentForm
 
 
 # Item search view
@@ -69,6 +71,7 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["stockitems"] = self.object.stockitems.all()
+        context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
         return context
 
 
@@ -116,3 +119,12 @@ class ItemListView(LoginRequiredMixin, ListView):
     context_object_name = "items"
     template_name = "item/item_list.html"
     paginate_by = 16
+
+
+class ItemAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
+    """Upload view for ItemAttachment model"""
+
+    owner_model = Item
+    form_class = ItemAttachmentForm
+    template_name = "item/item_attachment_upload.html"
+    success_url_name = "item_detail"
