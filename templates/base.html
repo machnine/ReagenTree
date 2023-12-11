@@ -55,6 +55,23 @@
       {% endblock header %}
     </header>
     <main id="main-content">
+      <!-- Alerts goes here -->
+      {% block alerts %}
+        <div class="container-fluid">
+          {% if messages %}
+            {% for message in messages %}
+              <div role="alert"
+                   class="alert alert-dismissible fade show alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}info auto-dismiss {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success auto-dismiss {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}warning {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% endif %}">
+                {{ message }}
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endblock alerts %}
       <!-- Main content goes here -->
       {% block content %}
       {% endblock content %}
@@ -64,10 +81,15 @@
       {% block footer %}
       {% endblock footer %}
     </footer>
+    {% block offcanvas %}
+    {% endblock offcanvas %}
+    {% block modals %}
+    {% endblock modals %}
     <!-- Add your JavaScript files here -->
     <script src="{% static 'js/bootstrap-5.3.2-bundle.min.js' %}"></script>
     <script src="{% static 'js/htmx-1.9.8.min.js' %}"></script>
     <script src="{% static 'js/reagentree-1.0.js' %}"></script>
+    <script>AlertsAutoDismissal("auto-dismiss", 3000);</script>
     {% block js %}
     {% endblock js %}
   </body>

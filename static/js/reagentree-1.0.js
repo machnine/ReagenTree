@@ -12,32 +12,59 @@
  * @param {string} config.valueAttribute - The attribute of the search result items containing the value, e.g. "data-value".
  */
 function TypeSearchResultListenerConfig({
-    searchBoxId,
-    textInputId,
-    resultsDivId,
-    resultClass,
-    valueAttribute
+  searchBoxId,
+  textInputId,
+  resultsDivId,
+  resultClass,
+  valueAttribute,
 }) {
-    // Add a click event listener to the document
-    document.addEventListener(
-        "click",
-        function (event) {
-            // If the clicked element contains the resultClass
-            if (event.target.classList.contains(resultClass)) {
-                // Get the search box element
-                var searchBox = document.getElementById(searchBoxId);
-                // Set the search box value to the text content of the clicked element
-                searchBox.value = event.target.textContent;
+  // Add a click event listener to the document
+  document.addEventListener(
+    "click",
+    function (event) {
+      // If the clicked element contains the resultClass
+      if (event.target.classList.contains(resultClass)) {
+        // Get the search box element
+        var searchBox = document.getElementById(searchBoxId);
+        // Set the search box value to the text content of the clicked element
+        searchBox.value = event.target.textContent;
 
-                // Get the hidden input box element
-                var input = document.getElementById(textInputId);
-                // Set the input box value to the value attribute of the clicked element
-                input.value = event.target.getAttribute(valueAttribute);
+        // Get the hidden input box element
+        var input = document.getElementById(textInputId);
+        // Set the input box value to the value attribute of the clicked element
+        input.value = event.target.getAttribute(valueAttribute);
 
-                // Clear the search results by setting the innerHTML of the results div to an empty string
-                document.getElementById(resultsDivId).innerHTML = "";
-            }
-        },
-        false
-    );
+        // Clear the search results by setting the innerHTML of the results div to an empty string
+        document.getElementById(resultsDivId).innerHTML = "";
+      }
+    },
+    false
+  );
+}
+
+/**
+ * This function set a timer to close and remove alerts from DOM
+ * @param {string} autoCloseClass - The class of the alert to be closed
+ * @param {number} timeInterval - The time interval in milliseconds
+ *
+ */
+function AlertsAutoDismissal(autoCloseClass, timeInterval) {
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all alerts that should disappear automatically
+    const autoCloseAlerts = document.querySelectorAll("." + autoCloseClass);
+
+    // Set a timeout for each alert
+    autoCloseAlerts.forEach(function (alert) {
+      setTimeout(function () {
+        // Close the alert
+        if (alert.classList.contains("show")) {
+          alert.classList.remove("show");
+        }
+        // Optionally, remove the alert from the DOM after it's hidden
+        alert.addEventListener("transitionend", function () {
+          alert.remove();
+        });
+      }, timeInterval); // milliseconds
+    });
+  });
 }

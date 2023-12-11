@@ -1,9 +1,9 @@
 """Item views"""
-
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (
@@ -14,10 +14,11 @@ from django.views.generic import (
     View,
 )
 
-from attachment.views import AttachmentUploadView
+from attachment.views import AttachmentUploadView, AttachmentDeleteHtmxView
 from core.mixins import SuccessUrlMixin
-from item.models import Item, ItemAttachment, StockItem
+from item.models import Item, ItemAttachment
 from item.forms import ItemAttachmentForm
+from item.mixins import ItemDetailContextMixin
 
 
 # Item search view
@@ -61,7 +62,7 @@ class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         return super().form_valid(form)
 
 
-class ItemDetailView(LoginRequiredMixin, DetailView):
+class ItemDetailView(LoginRequiredMixin, ItemDetailContextMixin, DetailView):
     """Detail view for Item model"""
 
     model = Item
@@ -70,9 +71,8 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # TODO filter available stocks
-        context["stockitems"] = StockItem.objects.filter(item=self.object)
-        context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
+        # Add the context from the mixin
+        context.update(self.get_item_detail_context(self.object))
         return context
 
 
@@ -122,10 +122,43 @@ class ItemListView(LoginRequiredMixin, ListView):
     paginate_by = 16
 
 
-class ItemAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
+# Item attachment CRUD views
+class ItemAttachmentUploadView(
+    LoginRequiredMixin, ItemDetailContextMixin, AttachmentUploadView
+):
     """Upload view for ItemAttachment model"""
 
     owner_model = Item
     form_class = ItemAttachmentForm
-    template_name = "item/item_attachment_upload.html"
+    success_url_name = "item_detail"
+    template_name = "item/item_detail.html"
+
+    def post(self, request, pk):
+        """override the post method because this is not a independent view"""
+        obj = self.get_owner_object(pk=pk)
+        form = self.form_class(request.POST, request.FILES)
+        # if form is valid save the attachment and redirect to success url
+        if form.is_valid():
+            attachment = form.save(commit=False)
+            attachment.content_object = obj
+            attachment.save()
+            messages.success(
+                request, f"Attachment {attachment.filename} upload successful!"
+            )
+        # if form is invalid, add the error messages to the messages framework and redirect to success url
+        # the messages framework will display the errors in the template
+        else:
+            for error in form.non_field_errors():
+                messages.error(request, error)
+            for field in form:
+                for error in field.errors:
+                    messages.error(request, f"Upload failed: {field.label}: {error}")
+        return redirect(reverse_lazy(self.success_url_name, kwargs={"pk": pk}))
+
+
+class ItemAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteHtmxView):
+    """Delete view for ItemAttachment model"""
+
+    model = ItemAttachment
+    template_name = "item/item_detail_attachment_delete_form.html"
     success_url_name = "item_detail"

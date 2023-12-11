@@ -1,0 +1,43 @@
+<div class="offcanvas offcanvas-end"
+     tabindex="-1"
+     id="offcanvasUpload"
+     aria-labelledby="offcanvasLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasLabel">Upload an attachment</h5>
+    <button type="button"
+            class="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form method="post"
+          enctype="multipart/form-data"
+          action="{% url 'item_attachment_upload' object.pk %}">
+      {% csrf_token %}
+      <div class="input-group mb-3">
+        <input class="form-control {% if form.file.errors %}is-invalid{% endif %}"
+               type="file"
+               name="file"
+               required=""
+               id="id_file">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">Name</span>
+        <input class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+               type="text"
+               name="name"
+               maxlength="125"
+               id="id_name">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">Description</span>
+        <textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                  name="description"
+                  id="id_description"></textarea>
+      </div>
+      <div class="text-end pt-2">
+        <button class="btn btn-success" type="submit">Upload</button>
+      </div>
+    </form>
+  </div>
+</div>

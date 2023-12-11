@@ -9,6 +9,7 @@ from item.views import (
     ItemUpdateView,
     item_search,
     ItemAttachmentUploadView,
+    ItemAttachmentDeleteView,
 )
 
 urlpatterns = [
@@ -22,5 +23,10 @@ urlpatterns = [
         "<int:pk>/attachment/upload/",
         ItemAttachmentUploadView.as_view(),
         name="item_attachment_upload",
+    ),
+    path(
+        "attachment/<int:pk>/delete/",
+        ItemAttachmentDeleteView.as_view(),
+        name="item_attachment_delete",
     ),
 ]
