@@ -8,7 +8,7 @@
 - [X] Change the default BS5 colours
 - Update update views to return to referral URL
 - Document upload/download
-- Validation workflow (StockItem?)
+- Validation workflow (StockItem)
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
 - User groups
 - Restrict which group of users can do which CRUD
@@ -24,5 +24,6 @@
 - Item model
   - [] image
   - [] attachments
+    - []C []R []U []D
   - [] available stocks
   

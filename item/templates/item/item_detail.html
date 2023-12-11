@@ -1,62 +1,169 @@
 {% extends "object_detail_base.html" %}
+{% load static %}
 {% block title %}
   Item Detail
 {% endblock title %}
 {% block panel_title %}
-  Item Detail
+  {{ item.name }}
 {% endblock panel_title %}
 {% block panel_content %}
-  <div class="row">
-    <div class="col-md-6">
-      <p>
-        <strong>Name:</strong> {{ item.name }}
-      </p>
-      <p>
-        <strong>Category:</strong> {{ item.category }}
-      </p>
-      <p>
-        <strong>Manufacturer:</strong> {{ item.manufacturer }}
-      </p>
-      <p>
-        <strong>Supplier:</strong> {{ item.supplier }}
-      </p>
-      <p>
-        <strong>Created:</strong> {{ item.created }}
-      </p>
-      <p>
-        <strong>Updated:</strong> {{ item.last_updated }}
-      </p>
+  <div class="row p-3">
+    {# image #}
+    <div class="col-lg-3 text-center">
+      <img src="{% static item.image|default:'images/item/item_no_photo.png' %}"
+           width="200"
+           height="150"
+           alt="{% if item.image %}{{ item.name }} photo{% else %}no photo{% endif %}">
     </div>
-    <div class="col-md-6">
-      <p>
-        <strong>Description:</strong> {{ item.description }}
-      </p>
+    {# details #}
+    <div class="col-lg-9">
+      <div class="panel" style="min-height: 150px;">
+        <div class="panel-heading d-flex justify-content-between">
+          <span class="h5">{{ item.name }}</span>
+          <a href="{% url 'item_update' item.pk %}?next={{ request.path }}"
+             class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i> Edit</a>
+        </div>
+        <div class="panel-content">
+          <table class="table table-sm table-borderless">
+            <tbody>
+              <tr>
+                <td width="15%" class="text-muted">Product ID:</td>
+                <td width="35%">{{ item.product_id }}</td>
+                <td width="15%" class="text-muted">Category:</td>
+                <td width="35%">
+                  <a href="{% url 'category_detail' item.category.pk %}"
+                     title="{{ item.category }}">{{ item.category }}</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted">Manufacturer:</td>
+                <td>
+                  <a href="{% url 'company_detail' item.manufacturer.pk %}"
+                     title="{{ item.manufacturer }}">{{ item.manufacturer }}</a>
+                </td>
+                <td class="text-muted">Supplier:</td>
+                <td>
+                  <a href="{% url 'company_detail' item.supplier.pk %}"
+                     title="{{ item.supplier }}">{{ item.supplier }}</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted">Description:</td>
+                <td colspan="3">{{ item.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="panel-heading">
-      <h4>Available stocks</h4>
+  {# attachments #}
+  <div class="row px-3">
+    <div class="col">
+      <div class="panel">
+        <div class="panel-heading d-flex justify-content-between">
+          <span class="h5">Attachments</span>
+          <a href="javascript:void(0)"
+             hx-get="{% url 'item_attachment_upload' item.pk %}"
+             hx-trigger="click"
+             hx-target="#uploadModal"
+             hx-swap="outerHTML"
+             hx-after-swap="setTimeout(function() { new bootstrap.Modal(document.getElementById('uploadModal')).show(); }, 100)"
+             class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
+        </div>
+        <div class="panel-content">
+          <table class="table table-sm table-hover">
+            <thead class="text-small">
+              <tr>
+                <th class="text-muted d-none d-lg-block">Uploaded</th>
+                <th class="text-muted">Name</th>
+                <th class="text-muted">File Name</th>
+                <th class="text-muted d-none d-lg-block">Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for file in attachments %}
+                <tr>
+                  <td class="d-none d-lg-block">
+                    <small title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</small>
+                  </td>
+                  <td>{{ file.name }}</td>
+                  <td>
+                    {% if file.filetype %}
+                      <i class="bi bi-filetype-{{ file.filetype }}"></i>
+                    {% else %}
+                      <i class="bi bi-file-earmark"></i>
+                    {% endif %}
+                    <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+                  </td>
+                  <td class="d-none d-lg-block">
+                    <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+                  </td>
+                  <td>
+                    <a href="#"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#"><i class="bi bi-trash"></i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    {% for stock in stockitems %}
-      <p>
-        <strong>Stock:</strong> {{ stock.delivery_condition }}
-        <br>
-        <strong>Location:</strong> {{ stock.location }}
-        <br>
-        <strong>Created:</strong> {{ stock.created }}
-        <br>
-        <strong>Updated:</strong> {{ stock.last_updated }}
-        <br>
-      </p>
-    {% endfor %}
   </div>
-  <div class="row">
-    <!-- Example in an item_detail.html template -->
-    <div class="btn-group">
-      <a href="{% url 'item_attachment_upload' item.id %}"
-         class="btn btn-sm btn-success"><i class="bi bi-upload"></i> Upload Documents</a>
+  {# stocks #}
+  <div class="row p-3">
+    <div class="col">
+      <div class="panel">
+        <div class="panel-heading d-flex justify-content-between">
+          <span class="h5">Available Stocks</span>
+        </div>
+        <div class="panel-content">
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th>Received</th>
+                <th>Lot Number</th>
+                <th>Box Number</th>
+                <th>Expiry Date</th>
+                <th>Location</th>
+                <th>Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for stock in stockitems %}
+                <tr>
+                  <td>
+                    <a href="{% url 'delivery_detail' stock.delivery.pk %}"
+                       title="delivery details">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
+                  </td>
+                  <td>{{ stock.lot_number }}</td>
+                  <td>
+                    <a href="{% url 'stock_detail' stock.pk %}" title="stock details"><span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span></a>
+                  </td>
+                  <td>{{ stock.expiry_date }}</td>
+                  <td>
+                    <a href="{% url 'location_detail' stock.location.pk %}"
+                       title="location details">{{ stock.location }}</a>
+                  </td>
+                  <td>level</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <h3>Attachments</h3>
-    {% for file in attachments %}<p>{{ file.filename }}</p>{% endfor %}
+  </div>
+  {# update time #}
+  <div class="row px-3">
+    <div class="pt-0 text-end align-bottom fw-light fst-italic">
+      <small>Updated: {{ item.last_updated|date:'d/m/Y h:i' }}</small>
+    </div>
   </div>
 {% endblock panel_content %}
+{# upload attachment modal #}
+{% block modals %}
+  <div id="uploadModal" class="modal fade"></div>
+{% endblock modals %}

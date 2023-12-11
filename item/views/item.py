@@ -16,7 +16,7 @@ from django.views.generic import (
 
 from attachment.views import AttachmentUploadView
 from core.mixins import SuccessUrlMixin
-from item.models import Item, ItemAttachment
+from item.models import Item, ItemAttachment, StockItem
 from item.forms import ItemAttachmentForm
 
 
@@ -70,7 +70,8 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["stockitems"] = self.object.stockitems.all()
+        # TODO filter available stocks
+        context["stockitems"] = StockItem.objects.filter(item=self.object)
         context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
         return context
 

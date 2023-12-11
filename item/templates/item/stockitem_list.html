@@ -32,7 +32,7 @@
                     <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
                   </td>
                   <td>
-                    <a href="{% url 'stock_detail' pk=stock.pk %}"
+                    <a href="{% url 'stock_detail' stock.pk %}"
                        title="#{{ stock.ordinal_number }} Received at {{ stock.delivery.delivery_date|date:'d/m/y h:i' }}">
                       <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
                     </a>
@@ -41,11 +41,11 @@
                   <td>{{ stock.lot_number }}</td>
                   <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
                   <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'delivery_detail' pk=stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
+                    <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
                     {% delivery_condicon stock.delivery_condition %}
                   </td>
                   <td>
-                    <a href="{% url 'location_detail' pk=stock.location.pk %}"
+                    <a href="{% url 'location_detail' stock.location.pk %}"
                        title="Location detail">{{ stock.location.name }}</a>
                   </td>
                   <td class="d-none d-lg-table-cell">
