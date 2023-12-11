@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (
@@ -59,7 +59,11 @@ class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.created = timezone.now()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Item {form.instance.name} created successfully."
+        )
+        return response
 
 
 class ItemDetailView(LoginRequiredMixin, ItemDetailContextMixin, DetailView):
@@ -95,7 +99,11 @@ class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
         # set the last_updated_by and last_updated fields
         form.instance.last_updated_by = self.request.user
         form.instance.last_updated = timezone.now()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Item {form.instance.name} updated successfully."
+        )
+        return response
 
 
 class ItemDeleteView(LoginRequiredMixin, View):
@@ -110,6 +118,7 @@ class ItemDeleteView(LoginRequiredMixin, View):
         """HTMX POST request for deleting an Item."""
         item = Item.objects.get(pk=kwargs["pk"])
         item.delete()
+        messages.success(request, f"Item {item.name} deleted successfully.")
         return redirect("item_list")
 
 

@@ -1,4 +1,5 @@
 """Delivery views."""
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -24,6 +25,11 @@ class DeliveryCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Delivery successfully created.")
+        return response
+
 
 class DeliveryDeleteView(LoginRequiredMixin, View):
     """View for deleting a Delivery."""
@@ -39,6 +45,7 @@ class DeliveryDeleteView(LoginRequiredMixin, View):
         """HTMX POST request for deleting a Delivery."""
         delivery = Delivery.objects.get(pk=kwargs["pk"])
         delivery.delete()
+        messages.success(request, "Delivery deleted successfully.")
         return redirect("delivery_list")
 
 
@@ -65,3 +72,8 @@ class DeliveryUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     fields = ["delivery_date", "received_by", "notes"]
     template_name = "delivery/delivery_update.html"
     success_url = reverse_lazy("delivery_list")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Delivery successfully updated.")
+        return response

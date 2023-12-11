@@ -1,5 +1,5 @@
 """Stock Item views"""
-
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -48,6 +48,9 @@ class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                 **form.cleaned_data,
             )
             stockitem.save()
+        messages.success(
+            self.request, f"{quantity} stock item(s) successfully created."
+        )
         # set the object attribute to the last stock item created
         # to allow for the get_success_url method to work properly
         self.object = stockitem
@@ -92,6 +95,7 @@ class StockItemDeleteView(LoginRequiredMixin, View):
         """HTMX POST request for deleting a StockItem."""
         stockitem = StockItem.objects.get(pk=kwargs["pk"])
         stockitem.delete()
+        messages.success(request, "Stock Item deleted successfully.")
         return redirect("stock_list")
 
 
@@ -102,3 +106,8 @@ class StockItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     fields = ["item", "delivery_condition", "lot_number", "expiry_date", "location"]
     template_name = "item/stockitem_update.html"
     success_url = reverse_lazy("stock_list")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Stock Item successfully updated.")
+        return response

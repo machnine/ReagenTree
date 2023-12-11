@@ -1,4 +1,5 @@
 """Views for the company app."""
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -27,7 +28,11 @@ class CompanyCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.created = timezone.now()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Company { form.instance.name } created successfully."
+        )
+        return response
 
 
 class CompanyDeleteView(LoginRequiredMixin, View):
@@ -42,6 +47,7 @@ class CompanyDeleteView(LoginRequiredMixin, View):
         """HTMX POST request for deleting a Company."""
         company = Company.objects.get(pk=kwargs["pk"])
         company.delete()
+        messages.success(request, f"Company { company.name } deleted successfully.")
         return redirect("company_list")
 
 
@@ -72,4 +78,8 @@ class CompanyUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     def form_valid(self, form):
         form.instance.last_updated_by = self.request.user
         form.instance.last_updated = timezone.now()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Company { form.instance.name } updated successfully."
+        )
+        return response
