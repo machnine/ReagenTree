@@ -9,7 +9,7 @@
   <div class="modal-body">
     {% csrf_token %}
     <p>
-      Delete this delivery? <small class="text-muted">(received {{ delivery.delivery_date|date:"d/m/y h:i" }} by {{ delivery.received_by.first_name }})</small>
+      Delete this delivery? <small class="text-muted">(received {{ delivery.delivery_date|date:"d/m/y H:i" }} by {{ delivery.received_by.first_name }})</small>
     </p>
     <p>
       <i class="text-danger">All associated stock items will be deleted!</i>

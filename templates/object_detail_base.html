@@ -4,14 +4,16 @@
 {% block content %}
   <div class="container">
     <div class="panel">
-      {% block panel_heading %}
-        <div class="panel-heading">
-          <h3 class="panel-title">
+      <div class="panel-heading d-flex justify-content-between">
+        {% block panel_heading %}
+          <h4 class="panel-title">
             {% block panel_title %}
             {% endblock panel_title %}
-          </h3>
-        </div>
-      {% endblock panel_heading %}
+          </h4>
+          {% block panel_actions %}
+          {% endblock panel_actions %}
+        {% endblock panel_heading %}
+      </div>
       <div class="panel-content">
         {% block panel_content %}
         {% endblock panel_content %}

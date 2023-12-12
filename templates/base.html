@@ -53,8 +53,8 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-              {% include "navbar_menu_start.html" %}
-              {% include "navbar_menu_end.html" %}
+              {% include "partials/navbar_menu_start.html" %}
+              {% include "partials/navbar_menu_end.html" %}
             </div>
           </div>
         </nav>
@@ -95,7 +95,7 @@
     <script src="{% static 'js/bootstrap-5.3.2-bundle.min.js' %}"></script>
     <script src="{% static 'js/htmx-1.9.8.min.js' %}"></script>
     <script src="{% static 'js/reagentree-1.0.js' %}"></script>
-    <script>AlertsAutoDismissal("auto-dismiss", 3000);</script>
+    <script>AlertsAutoDismissal("auto-dismiss", 1000);</script>
     {% block js %}
     {% endblock js %}
   </body>

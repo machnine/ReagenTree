@@ -1,6 +1,7 @@
 """Category CRUD views."""
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -22,6 +23,8 @@ class CategoryCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.created = timezone.now()
+        if not form.instance.description:
+            form.instance.description = form.instance.name
         response = super().form_valid(form)
         messages.success(
             self.request, f"Category { form.instance.name } created successfully."
@@ -52,6 +55,18 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
 
     model = Category
     template_name = "category/category_detail.html"
+    paginate_by = 16
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get items for pagination
+        items = self.object.items.all()        
+        # paginate items
+        paginator = Paginator(items, self.paginate_by)
+        page_number = self.request.GET.get("page")        
+        page_obj = paginator.get_page(page_number)        
+        context["page_obj"] = page_obj
+        return context
 
 
 class CategoryListView(LoginRequiredMixin, ListView):

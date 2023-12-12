@@ -6,6 +6,14 @@
 {% block panel_title %}
   {{ item.name }}
 {% endblock panel_title %}
+{% block panel_actions %}
+  <span class="p-1">
+    <a href="{% url 'item_update' item.pk %}?next={{ request.path }}"
+       title="Update sitem"
+       class="btn btn-sm btn-success">
+      <i class="bi bi-pencil-square"></i> Edit</a>
+  </span>
+{% endblock panel_actions %}
 {% block panel_content %}
   <div class="row p-3">
     {# image #}
@@ -17,12 +25,7 @@
     </div>
     {# details #}
     <div class="col-lg-9">
-      <div class="panel" style="min-height: 150px;">
-        <div class="panel-heading d-flex justify-content-between">
-          <span class="h5">{{ item.name }}</span>
-          <a href="{% url 'item_update' item.pk %}?next={{ request.path }}"
-             class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i> Edit</a>
-        </div>
+      <div class="panel" style="min-height: 150px; border: 0;">
         <div class="panel-content">
           <table class="table table-sm table-borderless">
             <tbody>
@@ -170,11 +173,9 @@
     </div>
   </div>
   {# update time #}
-  <div class="row px-3">
-    <div class="pt-0 text-end align-bottom fw-light fst-italic">
-      <small>Updated: {{ item.last_updated|date:'d/m/Y h:i' }}</small>
-    </div>
-  </div>
+  {% with obj=item %}
+    {% include "partials/object_last_updated.html" %}
+  {% endwith %}
 {% endblock panel_content %}
 {# upload attachment modal #}
 {% block modals %}

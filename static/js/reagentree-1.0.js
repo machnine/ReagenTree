@@ -50,21 +50,16 @@ function TypeSearchResultListenerConfig({
  */
 function AlertsAutoDismissal(autoCloseClass, timeInterval) {
   document.addEventListener("DOMContentLoaded", function () {
-    // Select all alerts that should disappear automatically
     const autoCloseAlerts = document.querySelectorAll("." + autoCloseClass);
 
-    // Set a timeout for each alert
     autoCloseAlerts.forEach(function (alert) {
       setTimeout(function () {
-        // Close the alert
-        if (alert.classList.contains("show")) {
-          alert.classList.remove("show");
-        }
-        // Optionally, remove the alert from the DOM after it's hidden
+        alert.classList.add("hide");
+
         alert.addEventListener("transitionend", function () {
-          alert.remove();
+          alert.remove(); // Remove after the transition ends
         });
-      }, timeInterval); // milliseconds
+      }, timeInterval);
     });
   });
 }

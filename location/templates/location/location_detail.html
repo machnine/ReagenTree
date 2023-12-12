@@ -5,6 +5,14 @@
 {% block panel_title %}
   {{ location.name }}
 {% endblock panel_title %}
+{% block panel_actions %}
+  <span class="p-1">
+    <a href="{% url 'location_update' location.pk %}?next={{ request.path }}"
+       title="Update location"
+       class="btn btn-sm btn-success">
+      <i class="bi bi-pencil-square"></i> Edit</a>
+  </span>
+{% endblock panel_actions %}
 {% block panel_content %}
   {{ location.name }}
 {% endblock panel_content %}

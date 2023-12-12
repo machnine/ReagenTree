@@ -5,6 +5,14 @@
 {% block panel_title %}
   Stock Item Detail
 {% endblock panel_title %}
+{% block panel_actions %}
+  <span class="p-1">
+    <a href="{% url 'stock_update' stockitem.pk %}?next={{ request.path }}"
+       title="Update stockitem"
+       class="btn btn-sm btn-success">
+      <i class="bi bi-pencil-square"></i> Edit</a>
+  </span>
+{% endblock panel_actions %}
 {% block panel_content %}
   {{ stockitem.item.name }}
 {% endblock panel_content %}

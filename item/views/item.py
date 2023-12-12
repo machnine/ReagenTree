@@ -20,9 +20,8 @@ from attachment.views import (
     AttachmentUpdateView,
 )
 from core.mixins import SuccessUrlMixin
-from item.models import Item, ItemAttachment
+from item.models import Item, ItemAttachment, StockItem
 from item.forms import ItemAttachmentCreateForm, ItemAttachmentUpdateForm
-from item.mixins import ItemDetailContextMixin
 
 
 # Item search view
@@ -70,7 +69,7 @@ class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         return response
 
 
-class ItemDetailView(LoginRequiredMixin, ItemDetailContextMixin, DetailView):
+class ItemDetailView(LoginRequiredMixin, DetailView):
     """Detail view for Item model"""
 
     model = Item
@@ -79,8 +78,8 @@ class ItemDetailView(LoginRequiredMixin, ItemDetailContextMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add the context from the mixin
-        context.update(self.get_item_detail_context(self.object))
+        context["stockitems"] = StockItem.objects.filter(item=self.object)
+        context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
         return context
 
 

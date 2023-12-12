@@ -5,6 +5,14 @@
 {% block panel_title %}
   Company Detail
 {% endblock panel_title %}
+{% block panel_actions %}
+  <span class="p-1">
+    <a href="{% url 'company_update' company.pk %}?next={{ request.path }}"
+       title="Update company"
+       class="btn btn-sm btn-success">
+      <i class="bi bi-pencil-square"></i> Edit</a>
+  </span>
+{% endblock panel_actions %}
 {% block panel_content %}
   {{ company.name }}
 {% endblock panel_content %}
