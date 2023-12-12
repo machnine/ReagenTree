@@ -14,5 +14,61 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  {{ location.name }}
+  <div class="row p-3">
+    <div class="col">
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <th width="15%">Name</th>
+            <td width="25%">{{ location.name }}</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td colspan=2>{{ location.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel mx-3">
+    <div class="panel-heading">
+      <span class="h5"><i class="bi bi-boxes"></i> All stocks in this location</span>
+    </div>
+    <div class="panel-content">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Received</th>
+            <th>Item</th>
+            <th>Lot Number</th>
+            <th>Box ID</th>
+            <th>Expiry Date</th>
+            <th>Stock Level</th>
+          </tr>
+        </thead>
+        {% for stock in page_obj %}
+          <tr>
+            <td>
+              <a href="{% url 'delivery_detail' stock.delivery.pk %}"
+                 title="delivery details">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
+            </td>
+            <td>
+              <a href="{% url 'stock_detail' stock.pk %}">{{ stock.item.name }}</a>
+            </td>
+            <td>{{ stock.lot_number }}</td>
+            <td>
+              <a href="{% url 'stock_detail' stock.pk %}" title="stock details"><span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span></a>
+            </td>
+            <td>{{ stock.expiry_date }}</td>
+            <td>level</td>
+          </tr>
+        {% endfor %}
+      </table>
+      {% include "partials/pagination_simple.html" %}
+    </div>
+  </div>
+  {% with obj=location %}
+    {% include "partials/object_last_updated.html" %}
+  {% endwith %}
 {% endblock panel_content %}

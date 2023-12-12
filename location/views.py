@@ -1,6 +1,7 @@
 """Location CRUD views."""
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -52,6 +53,18 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
 
     model = Location
     template_name = "location/location_detail.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get items for pagination
+        stockitems = self.object.stockitems.all()
+        # paginate items
+        paginator = Paginator(stockitems, self.paginate_by)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        return context
 
 
 class LocationListView(LoginRequiredMixin, ListView):

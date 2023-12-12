@@ -149,6 +149,7 @@
             </thead>
             <tbody>
               {% for stock in stockitems %}
+                {# TODO: paginate page_obj #}
                 <tr>
                   <td>
                     <a href="{% url 'delivery_detail' stock.delivery.pk %}"

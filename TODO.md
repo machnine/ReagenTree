@@ -4,9 +4,37 @@
   - [X] Delivery
   - [X] Item & StockItem
   - [X] Location
+- [] Detail views
+  - [X] Category
+    - [] Company
+    - [] Delivery
+    - [X] Item
+    - [] StockItem
+    - [X] Location
+  - [] Update views
+    - [] Category
+    - [] Company
+    - [] Delivery
+    - [] Item
+    - [] StockItem
+    - [] Location
+  - [X] Delete views (App model delete views are all displayed in List views, no need for ?next=)
+    - [X] Category
+    - [X] Company
+    - [X] Delivery
+    - [X] Item
+    - [X] StockItem
+    - [X] Location
+  - [] List views
+    - [] Category
+    - [X] Company
+    - [] Delivery
+    - [X] Item
+    - [X] StockItem
+    - [] Location
 - [X] List view pagination
-- [X] Change the default BS5 colours
-- Update update views to return to referral URL
+- [o] Change the default BS5 colours
+- [X] Update update views to return to referral URL
 - Validation workflow (StockItem)
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
 - User groups
