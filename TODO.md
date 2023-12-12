@@ -6,7 +6,7 @@
   - [X] Location
 - [] Detail views
   - [X] Category
-    - [] Company
+    - [X] Company
     - [] Delivery
     - [X] Item
     - [] StockItem

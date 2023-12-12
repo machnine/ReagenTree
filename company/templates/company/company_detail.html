@@ -1,9 +1,9 @@
 {% extends "object_detail_base.html" %}
 {% block title %}
-  Company
+  Company - {{ company.name }}
 {% endblock title %}
 {% block panel_title %}
-  Company Detail
+  {{ company.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -14,5 +14,65 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  {{ company.name }}
+  <div class="row p-3">
+    <div class="col">
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <td width="15%" class="text-muted">Name:</td>
+            <td width="85%">{{ company.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Description:</td>
+            <td>{{ company.description }}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Website:</td>
+            <td>
+              <i class="bi bi-link"></i> <a href="{{ company.website }}" title="company website">{{ company.website }}</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-muted">Phone:</td>
+            <td>
+              <i class="bi bi-phone"></i> {{ company.phone }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {# manufactured_items #}
+  {% if company.manufactured_items.count > 0 %}
+    <div class="panel mx-3 my-4">
+      <div class="panel-heading">
+        <span class="h5"><i class="bi bi-boxes"></i> Items Manufactured</span>
+      </div>
+      <div class="panel-content py-4">
+        {% for item in company.manufactured_items.all %}
+          <span class="ps-2 pe-4">
+            <i class="bi bi-box-seam"></i> <a href="{% url 'item_detail' item.pk %}" title="View item">{{ item.name }}</a>
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  {# supplied_items #}
+  {% if company.supplied_items.count > 0 %}
+    <div class="panel mx-3 my-4">
+      <div class="panel-heading">
+        <span class="h5"><i class="bi bi-boxes"></i> Items Supplied</span>
+      </div>
+      <div class="panel-content py-4">
+        {% for item in company.supplied_items.all %}
+          <span class="ps-2 pe-4">
+            <i class="bi bi-box-seam"></i> <a href="{% url 'item_detail' item.pk %}" title="View item">{{ item.name }}</a>
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  {% with obj=company %}
+    {% include "partials/object_last_updated.html" %}
+  {% endwith %}
 {% endblock panel_content %}

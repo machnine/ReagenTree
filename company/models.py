@@ -23,6 +23,7 @@ class Company(models.Model):
         related_name="updated_companies",
     )
     website = models.URLField(max_length=200, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
 
     def __str__(self) -> str:
         """Return name of company"""
