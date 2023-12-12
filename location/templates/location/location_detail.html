@@ -1,9 +1,9 @@
 {% extends "object_detail_base.html" %}
 {% block title %}
-  Location
+  Location - {{ location.name }}
 {% endblock title %}
 {% block panel_title %}
-  Location Detail
+  {{ location.name }}
 {% endblock panel_title %}
 {% block panel_content %}
   {{ location.name }}

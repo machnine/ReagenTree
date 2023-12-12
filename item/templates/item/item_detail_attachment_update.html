@@ -1,9 +1,8 @@
 <form method="post"
-      enctype="multipart/form-data"
-      action="{% url 'item_attachment_upload' object.id %}">
+      action="{% url 'item_attachment_update' attachment.id %}">
   {% csrf_token %}
   <div class="modal-header">
-    <h5 class="modal-title">Upload a Document</h5>
+    <h5 class="modal-title">Edit Document</h5>
     <button type="button"
             class="btn-close"
             data-bs-dismiss="modal"
@@ -11,19 +10,24 @@
   </div>
   <div class="modal-body">
     <div class="input-group mb-3">
-      <input class="form-control" type="file" name="file" required="" id="id_file">
+      <span class="input-group-text">File Name</span>
+      <div class="form-control">{{ attachment.filename }}</div>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">Name</span>
-      <input class="form-control"
+      <input class="form-control {% if form.name.errors %}is-invalid{% endif %}"
              type="text"
              name="name"
              maxlength="125"
-             id="id_name">
+             id="id_name"
+             value="{{ attachment.name }}">
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">Description</span>
-      <textarea class="form-control" name="description" id="id_description"></textarea>
+      <textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                name="description"
+                id="id_description"
+                value="{{ attachment.description }}"></textarea>
     </div>
     <div class="text-end pt-2">
       <button class="btn btn-success" type="submit">Save</button>

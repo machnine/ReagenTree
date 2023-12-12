@@ -10,10 +10,16 @@
     <meta name="keywords"
           content="ReagenTree, reagent, quality, inventory, management, system" />
     <title>
-      ReagenTree -
+      ReagenTree |
       {% block title %}
       {% endblock title %}
     </title>
+    <link rel="icon"
+          href="{% static 'images/favicon.ico' %}"
+          type="image/x-icon">
+    <link rel="shortcut icon"
+          href="{% static 'images/favicon.ico' %}"
+          type="image/x-icon">
     <!-- Add your CSS files here -->
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.2.min.css' %}" />
     <link rel="stylesheet"
@@ -61,7 +67,7 @@
           {% if messages %}
             {% for message in messages %}
               <div role="alert"
-                   class="alert alert-dismissible fade show alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}info auto-dismiss {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success auto-dismiss {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}warning {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% endif %}">
+                   class="alert alert-dismissible fade show alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}info auto-dismiss{% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success auto-dismiss{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}warning{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% endif %}">
                 {{ message }}
                 <button type="button"
                         class="btn-close"

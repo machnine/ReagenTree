@@ -1,5 +1,5 @@
 """ User Authentification Views """
-from typing import Any
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -43,8 +43,21 @@ class UserLoginView(LoginView):
         """
         if request.user.is_authenticated:
             next_page = request.GET.get("next", reverse("index"))
+            messages.warning(request, "You are already logged in")
             return redirect(next_page)
         return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        """
+        Called if the form is valid and a success message
+        """
+        username = form.cleaned_data.get("username")
+        user = User.objects.get(username=username)
+        display_name = user.first_name or user.username
+        messages.success(
+            self.request, f"You have successfully logged in as {display_name}"
+        )
+        return super().form_valid(form)
 
 
 class UserLogoutView(LogoutView):
@@ -60,7 +73,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     template_name = "user/profile_view.html"
     context_object_name = "user"
 
-    def get_object(self, queryset: models.QuerySet[Any] = None) -> models.Model:
+    def get_object(self, queryset=None) -> models.Model:
         """Get the user object instead of a user specified by URL"""
         return self.request.user
 
@@ -73,6 +86,6 @@ class UserProfileEdit(LoginRequiredMixin, UpdateView):
     fields = ["first_name", "last_name"]
     success_url = reverse_lazy("user_profile")
 
-    def get_object(self, queryset: models.QuerySet[Any] = None) -> models.Model:
+    def get_object(self, queryset=None) -> models.Model:
         """Get the user object instead of a user specified by URL"""
         return self.request.user

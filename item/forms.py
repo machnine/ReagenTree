@@ -33,9 +33,17 @@ class StockItemForm(forms.ModelForm):
         ]
 
 
-class ItemAttachmentForm(AttachmentForm):
+class ItemAttachmentCreateForm(AttachmentForm):
     """Custom input form for the ItemAttachment model."""
 
     class Meta(AttachmentForm.Meta):
         model = ItemAttachment
         fields = ("file", "name", "description")
+
+
+class ItemAttachmentUpdateForm(AttachmentForm):
+    """Custom update form for the ItemAttachment model."""
+
+    class Meta(AttachmentForm.Meta):
+        model = ItemAttachment
+        exclude = ("file",)

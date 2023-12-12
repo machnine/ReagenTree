@@ -14,10 +14,14 @@ from django.views.generic import (
     View,
 )
 
-from attachment.views import AttachmentUploadView, AttachmentDeleteHtmxView
+from attachment.views import (
+    AttachmentUploadView,
+    AttachmentDeleteView,
+    AttachmentUpdateView,
+)
 from core.mixins import SuccessUrlMixin
 from item.models import Item, ItemAttachment
-from item.forms import ItemAttachmentForm
+from item.forms import ItemAttachmentCreateForm, ItemAttachmentUpdateForm
 from item.mixins import ItemDetailContextMixin
 
 
@@ -131,43 +135,31 @@ class ItemListView(LoginRequiredMixin, ListView):
     paginate_by = 16
 
 
+#
 # Item attachment CRUD views
-class ItemAttachmentUploadView(
-    LoginRequiredMixin, ItemDetailContextMixin, AttachmentUploadView
-):
+#
+class ItemAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
     """Upload view for ItemAttachment model"""
 
     owner_model = Item
-    form_class = ItemAttachmentForm
+    form_class = ItemAttachmentCreateForm
     success_url_name = "item_detail"
-    template_name = "item/item_detail.html"
-
-    def post(self, request, pk):
-        """override the post method because this is not a independent view"""
-        obj = self.get_owner_object(pk=pk)
-        form = self.form_class(request.POST, request.FILES)
-        # if form is valid save the attachment and redirect to success url
-        if form.is_valid():
-            attachment = form.save(commit=False)
-            attachment.content_object = obj
-            attachment.save()
-            messages.success(
-                request, f"Attachment {attachment.filename} upload successful!"
-            )
-        # if form is invalid, add the error messages to the messages framework and redirect to success url
-        # the messages framework will display the errors in the template
-        else:
-            for error in form.non_field_errors():
-                messages.error(request, error)
-            for field in form:
-                for error in field.errors:
-                    messages.error(request, f"Upload failed: {field.label}: {error}")
-        return redirect(reverse_lazy(self.success_url_name, kwargs={"pk": pk}))
+    template_name = "item/item_detail_attachment_upload.html"
 
 
-class ItemAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteHtmxView):
+class ItemAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteView):
     """Delete view for ItemAttachment model"""
 
     model = ItemAttachment
-    template_name = "item/item_detail_attachment_delete_form.html"
+    template_name = "item/item_detail_attachment_delete.html"
+    success_url_name = "item_detail"
+
+
+class ItemAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
+    """Update view for ItemAttachment model"""
+
+    owner_model = Item
+    model = ItemAttachment
+    form_class = ItemAttachmentUpdateForm
+    template_name = "item/item_detail_attachment_update.html"
     success_url_name = "item_detail"

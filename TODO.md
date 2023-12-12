@@ -7,7 +7,6 @@
 - [X] List view pagination
 - [X] Change the default BS5 colours
 - Update update views to return to referral URL
-- Document upload/download
 - Validation workflow (StockItem)
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
 - User groups
@@ -15,15 +14,15 @@
 - Model search function
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
-- Design nice UI for the list views
+- [X] Design nice UI for the list views
 - Stock take work flow - what is it and how to deal with it?
 - How to handle items (stock items) that are used up? delete? archive? or simply not showing
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
-- Delivery notes?
+- Delivery model
+  - delivery notes upload?
 - Item model
   - [] image
-  - [] attachments
-    - []C []R []U []D
+  - [X] attachments [X]C [X]R [X]U [X]D
   - [] available stocks
   

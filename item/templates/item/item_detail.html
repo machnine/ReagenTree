@@ -62,9 +62,14 @@
     <div class="col">
       <div class="panel">
         <div class="panel-heading d-flex justify-content-between">
-          <span class="h5">Attachments</span>
-          <a data-bs-toggle="offcanvas"
-             href="#offcanvasUpload"
+          <span class="h5"><i class="bi bi-files"></i> Documents</span>
+          <a hx-get="{% url 'item_attachment_upload' item.pk %}"
+             hx-trigger="click"
+             hx-target="#crudModal .modal-content"
+             hx-swap="innerHTML"
+             data-bs-toggle="modal"
+             data-bs-target="#crudModal"
+             href="javascript:void(0);"
              class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
         </div>
         <div class="panel-content">
@@ -97,13 +102,19 @@
                     <span class="small">{{ file.description|default:"&nbsp;" }}</span>
                   </td>
                   <td>
-                    <a href="#"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'item_attachment_delete' file.id %}"
+                    <a hx-get="{% url 'item_attachment_update' file.id %}"
                        hx-trigger="click"
-                       hx-target="#deleteModal .modal-content"
+                       hx-target="#crudModal .modal-content"
                        hx-swap="innerHTML"
                        data-bs-toggle="modal"
-                       data-bs-target="#deleteModal"
+                       data-bs-target="#crudModal"
+                       href="javascript:void(0);"><i class="bi bi-pencil-square"></i></a>
+                    <a hx-get="{% url 'item_attachment_delete' file.id %}"
+                       hx-trigger="click"
+                       hx-target="#crudModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#crudModal"
                        href="javascript:void(0);"><i class="bi bi-trash"></i></a>
                   </td>
                 </tr>
@@ -119,7 +130,7 @@
     <div class="col">
       <div class="panel">
         <div class="panel-heading d-flex justify-content-between">
-          <span class="h5">Available Stocks</span>
+          <span class="h5"><i class="bi bi-boxes"></i> Available Stocks</span>
         </div>
         <div class="panel-content">
           <table class="table table-sm table-hover">
@@ -166,15 +177,12 @@
   </div>
 {% endblock panel_content %}
 {# upload attachment modal #}
-{% block offcanvas %}
-  {% include "item/item_detail_attachment_upload.html" %}
-{% endblock offcanvas %}
 {% block modals %}
   <!-- Delete Modal -->
   <div class="modal fade"
-       id="deleteModal"
+       id="crudModal"
        tabindex="-1"
-       aria-labelledby="deleteModalLabel"
+       aria-labelledby="crudModalLabel"
        aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
