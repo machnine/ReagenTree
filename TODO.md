@@ -35,7 +35,6 @@
 - [X] List view pagination
 - [o] Change the default BS5 colours
 - [X] Update update views to return to referral URL
-- Validation workflow (StockItem)
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
 - User groups
 - Restrict which group of users can do which CRUD
@@ -43,8 +42,11 @@
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
 - [X] Design nice UI for the list views
-- Stock take work flow - what is it and how to deal with it?
-- How to handle items (stock items) that are used up? delete? archive? or simply not showing
+- Stock Item 
+    - validation workflow
+    - Stock take work flow - what is it and how to deal with it?
+    - Set a stock level threshold for warning
+    - Stock level How to handle items (stock items) that are used up? delete? archive? or simply not showing
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
 - Delivery model

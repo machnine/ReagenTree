@@ -1,37 +1,23 @@
 {% extends "base.html" %}
+{% block css %}
+  <style>
+  .panel-frontpage {
+    min-height: 280px;
+  }
+  </style>
+{% endblock css %}
 {% block title %}
   Home
 {% endblock title %}
 {% block content %}
   <div class="container-fluid">
-    <div class="panel">
-      <div class="panel-heading">
-        <div class="d-flex justify-content-between align-items-center pe-2">
-          <h1>This is the home page</h1>
-          <p>You are logged in as {{ user }}</p>
-        </div>
-      </div>
-      <div class="panel-content">
-        <h4>Links to all apps</h4>
-        <p>
-          <a href="{% url 'company_list' %}">Company</a> |
-          <a href="{% url 'location_list' %}">Location</a> |
-          <a href="{% url 'category_list' %}">Category</a> |
-          <a href="{% url 'delivery_list' %}">Delivery</a> |
-          <a href="{% url 'item_list' %}">Item</a> |
-          <a href="{% url 'stock_list' %}">Stock</a> |
-        </p>
-        <div class="row">
-          <div class="col-1 p-3 mb-2 bg-primary text-white">Primary</div>
-          <div class="col-1 p-3 mb-2 bg-secondary text-white">Secondary</div>
-          <div class="col-1 p-3 mb-2 bg-success text-white">Success</div>
-          <div class="col-1 p-3 mb-2 bg-danger text-white">Danger</div>
-          <div class="col-1 p-3 mb-2 bg-warning text-dark">Warning</div>
-          <div class="col-1 p-3 mb-2 bg-info text-dark">Info</div>
-          <div class="col-1 p-3 mb-2 bg-light text-dark">Light</div>
-          <div class="col-1 p-3 mb-2 bg-dark text-white">Dark</div>
-        </div>
-      </div>
+    <div class="row">
+      <div class="col">{% include "homepage/notifications.html" %}</div>
+      <div class="col">{% include "homepage/stock_levels.html" %}</div>
+    </div>
+    <div class="row">
+      <div class="col">{% include "homepage/statistics.html" %}</div>
+      <div class="col">{% include "homepage/deliveries.html" %}</div>
     </div>
   </div>
 {% endblock content %}

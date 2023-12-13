@@ -6,13 +6,13 @@
        role="button"
        data-bs-toggle="dropdown"
        aria-expanded="false"
-       href="javascript:void(0);"><i class="bi bi-truck"></i> Delivery</a>
+       href="javascript:void(0);"><i class="bi bi-cart-fill" style="color: var(--bs-green);"></i> Delivery</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
-        <a href="{% url 'delivery_create' %}" class="dropdown-item"><i class="bi bi-cart-plus-fill"></i> New Delivery</a>
+        <a href="{% url 'delivery_create' %}" class="dropdown-item"><i class="bi bi-cart-plus-fill" style="color: var(--bs-success);"></i> New Delivery</a>
       </li>
       <li>
-        <a href="{% url 'delivery_list' %}" class="dropdown-item"><i class="bi bi-boxes"></i> Deliveries</a>
+        <a href="{% url 'delivery_list' %}" class="dropdown-item"><i class="bi bi-boxes" style="color: var(--bs-orange);"></i> All Deliveries</a>
       </li>
     </ul>
   </li>
@@ -23,13 +23,13 @@
        role="button"
        data-bs-toggle="dropdown"
        aria-expanded="false"
-       href="javascript:void(0);"><i class="bi bi-box-seam-fill"></i> Stock</a>
+       href="javascript:void(0);"><i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Stock</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
-        <a href="{% url 'stock_create' %}" class="dropdown-item"><i class="bi bi-clipboard2-plus"></i> New Stock</a>
+        <a href="{% url 'stock_create' %}" class="dropdown-item"><i class="bi bi-clipboard2-plus" style="color: var(--bs-success);"></i> New Stock</a>
       </li>
       <li>
-        <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes"></i> Stocks</a>
+        <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes" style="color: var(--bs-orange);"></i> All Stocks</a>
       </li>
     </ul>
   </li>
@@ -40,19 +40,19 @@
        role="button"
        data-bs-toggle="dropdown"
        aria-expanded="false"
-       href="javascript:void(0);"><i class="bi bi-database-gear"></i> Settings</a>
+       href="javascript:void(0);"><i class="bi bi-gear-fill" style="color: var(--bs-purple);"></i> Settings</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
-        <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-box2-fill"></i> Items</a>
+        <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-box2-fill" style="color: var(--bs-blue);"></i> Items</a>
       </li>
       <li>
-        <a href="{% url 'company_list' %}" class="dropdown-item"><i class="bi bi-buildings"></i> Companies</a>
+        <a href="{% url 'company_list' %}" class="dropdown-item"><i class="bi bi-buildings" style="color: var(--bs-gray);"></i> Companies</a>
       </li>
       <li>
-        <a href="{% url 'category_list' %}" class="dropdown-item"><i class="bi bi-tags-fill"></i> Categories</a>
+        <a href="{% url 'category_list' %}" class="dropdown-item"><i class="bi bi-tags-fill" style="color: var(--bs-yellow);"></i> Categories</a>
       </li>
       <li>
-        <a href="{% url 'location_list' %}" class="dropdown-item"><i class="bi bi-crosshair"></i> Locations</a>
+        <a href="{% url 'location_list' %}" class="dropdown-item"><i class="bi bi-crosshair" style="color: var(--bs-red);"></i> Locations</a>
       </li>
     </ul>
   </li>
