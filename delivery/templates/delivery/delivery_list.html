@@ -1,78 +1,61 @@
-{% extends "base.html" %}
+{% extends "object_list_base.html" %}
 {% block title %}
   Deliveries
 {% endblock title %}
-{% block content %}
-  <div class="container-fluid">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Deliveries</span>
-        <span><a href="{% url 'delivery_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New delivery</a></span>
-      </div>
-      <div class="panel-content">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Delivery Date</th>
-                <th scope="col">Received</th>
-                <th scope="col">Notes</th>
-                <th scope="col">Items</th>
-                <th scope="col" class="d-none d-lg-table-cell">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for delivery in deliveries %}
-                <tr>
-                  <td>
-                    <a href="{% url 'delivery_detail' delivery.pk %}"
-                       title="Delivery details">{{ delivery.delivery_date|date:"d/m/Y H:i" }}</a>
-                  </td>
-                  <td>{{ delivery.received_by.first_name }}</td>
-                  <td>{{ delivery.notes }}</td>
-                  <td>
-                    {% if delivery.within_one_week %}
-                      <a class="btn btn-sm"
-                         href="{% url 'stock_create' %}?delivery={{ delivery.pk }}&next={{ request.path }}"
-                         title="Add stock items">
-                        <i class="bi bi-plus-circle-dotted text-success"></i></a>
-                    {% endif %}
-                    {% for stockitem in delivery.stockitems.all %}
-                      <span class="px-1 small bg-light">
-                        <a href="{% url 'stock_detail' pk=stockitem.pk %}"
-                           title="View stock item detail">{{ stockitem.item.name }}</a>
-                      </span>
-                    {% endfor %}
-                  </td>
-                  <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'delivery_delete' delivery.pk %}"
-                       hx-trigger="click"
-                       hx-target="#deleteModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#deleteModal"
-                       href="javascript:void(0);"><i class="bi bi-trash"></i></a>
-                  </td>
-                </tr>
+{% block panel_title %}
+  All Deliveries
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'delivery_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New delivery</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Delivery Date</th>
+          <th scope="col">Received</th>
+          <th scope="col">Notes</th>
+          <th scope="col">Items</th>
+          <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for delivery in deliveries %}
+          <tr>
+            <td>
+              <a href="{% url 'delivery_detail' delivery.pk %}"
+                 title="Delivery details">{{ delivery.delivery_date|date:"d/m/Y H:i" }}</a>
+            </td>
+            <td>{{ delivery.received_by.first_name }}</td>
+            <td>{{ delivery.notes }}</td>
+            <td>
+              {% if delivery.within_one_week %}
+                <a class="btn btn-sm"
+                   href="{% url 'stock_create' %}?delivery={{ delivery.pk }}&next={{ request.path }}"
+                   title="Add stock items">
+                  <i class="bi bi-plus-circle-dotted text-success"></i></a>
+              {% endif %}
+              {% for stockitem in delivery.stockitems.all %}
+                <span class="px-1 small bg-light">
+                  <a href="{% url 'stock_detail' pk=stockitem.pk %}"
+                     title="View stock item detail">{{ stockitem.item.name }}</a>
+                </span>
               {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        {% include "partials/pagination_simple.html" %}
-      </div>
-    </div>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <a hx-get="{% url 'delivery_delete' delivery.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-  <!-- Delete Modal -->
-  <div class="modal fade"
-       id="deleteModal"
-       tabindex="-1"
-       aria-labelledby="deleteModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- HTMX rendered content -->
-      </div>
-    </div>
-  </div>
-{% endblock content %}
+{% endblock panel_content %}

@@ -2,7 +2,7 @@
 {% block title %}
 {% endblock title %}
 {% block content %}
-  <div class="container">
+  <div class="container-fluid">
     <div class="panel">
       <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
         {% block panel_heading %}
@@ -17,9 +17,21 @@
       <div class="panel-content">
         {% block panel_content %}
         {% endblock panel_content %}
+        {% include "partials/pagination_simple.html" %}
       </div>
     </div>
   </div>
   {% block modals %}
+    <div class="modal fade"
+         id="crudModal"
+         tabindex="-1"
+         aria-labelledby="crudModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- HTMX rendered content -->
+        </div>
+      </div>
+    </div>
   {% endblock modals %}
 {% endblock content %}

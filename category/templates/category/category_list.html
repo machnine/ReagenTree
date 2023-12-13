@@ -1,60 +1,46 @@
-{% extends "base.html" %}
+{% extends "object_list_base.html" %}
 {% block title %}
   Categories
 {% endblock title %}
-{% block content %}
-  <div class="container-fluid">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Categories</span>
-        <span><a href="{% url 'category_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New category</a></span>
-      </div>
-      <div class="panel-content">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Categories</th>
-                <th scope="col">Description</th>
-                <th scope="col">Items</th>
-                <th scope="col" class="d-none d-lg-table-cell">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for category in categories %}
-                <tr>
-                  <td><a href="{% url 'category_detail' category.pk %} " title="category details">{{ category.name }}</a></td>
-                  <td>{{ category.description }}</td>
-                  <td>{{ category.items.all }}</td>
-                  <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'category_delete' category.pk %}"
-                       hx-trigger="click"
-                       hx-target="#deleteModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#deleteModal"
-                       href="javascript:void(0);"><i class="bi bi-trash"></i></a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        {% include "partials/pagination_simple.html" %}
-      </div>
-    </div>
+{% block panel_title %}
+  Categories
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'category_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New category</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Categories</th>
+          <th scope="col">Description</th>
+          <th scope="col">Items</th>
+          <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+          <tr>
+            <td>
+              <a href="{% url 'category_detail' category.pk %} "
+                 title="category details">{{ category.name }}</a>
+            </td>
+            <td>{{ category.description }}</td>
+            <td>{{ category.items.all }}</td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <a hx-get="{% url 'category_delete' category.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-  <!-- Delete Modal -->
-  <div class="modal fade"
-       id="deleteModal"
-       tabindex="-1"
-       aria-labelledby="deleteModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- HTMX rendered content -->
-      </div>
-    </div>
-  </div>
-{% endblock content %}
+{% endblock panel_content %}

@@ -1,70 +1,53 @@
-{% extends "base.html" %}
+{% extends "object_list_base.html" %}
 {% block title %}
-  Company
+  Companies
 {% endblock title %}
-{% block content %}
-  <div class="container-fluid">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Companies</span>
-        <span><a href="{% url 'company_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New company</a></span>
-      </div>
-      <div class="panel-content">
-        <div class="table-responsive pt-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Company</th>
-                <th scope="col" class="d-none d-lg-table-cell">Description</th>
-                <th scope="col" class="text-center d-none d-lg-table-cell">Made</th>
-                <th scope="col" class="text-center d-none d-lg-table-cell">Supplied</th>
-                <th scope="col" class="text-center d-lg-table-cell">Phone</th>
-                <th scope="col">Website</th>
-                <th scope="col" class="d-none d-lg-table-cell">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for company in companies %}
-                <tr>
-                  <td>
-                    <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
-                  </td>
-                  <td class="d-none d-lg-table-cell">{{ company.description|truncatechars:50 }}</td>
-                  <td class="text-center d-none d-lg-table-cell">{{ company.manufactured_items.count }}</td>
-                  <td class="text-center d-none d-lg-table-cell">{{ company.supplied_items.count }}</td>
-                  <td class="text-center d-lg-table-cell">{{ company.phone }}</td>
-                  <td>
-                    <a href="{{ company.website }}" title="Visit {{ company.website }}">{{ company.website }}</a>
-                  </td>
-                  <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'company_delete' company.pk %}"
-                       hx-trigger="click"
-                       hx-target="#deleteModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#deleteModal"
-                       href="javascript:void(0);"><i class="bi bi-trash"></i></a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% include "partials/pagination_simple.html" %}
-    </div>
+{% block panel_title %}
+  Companies
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'company_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New company</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive pt-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Company</th>
+          <th scope="col" class="d-none d-lg-table-cell">Description</th>
+          <th scope="col" class="text-center d-none d-lg-table-cell">Made</th>
+          <th scope="col" class="text-center d-none d-lg-table-cell">Supplied</th>
+          <th scope="col" class="text-center d-lg-table-cell">Phone</th>
+          <th scope="col">Website</th>
+          <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for company in companies %}
+          <tr>
+            <td>
+              <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
+            </td>
+            <td class="d-none d-lg-table-cell">{{ company.description|truncatechars:50 }}</td>
+            <td class="text-center d-none d-lg-table-cell">{{ company.manufactured_items.count }}</td>
+            <td class="text-center d-none d-lg-table-cell">{{ company.supplied_items.count }}</td>
+            <td class="text-center d-lg-table-cell">{{ company.phone }}</td>
+            <td>
+              <a href="{{ company.website }}" title="Visit {{ company.website }}">{{ company.website }}</a>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <a hx-get="{% url 'company_delete' company.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-  <!-- Delete Modal -->
-  <div class="modal fade"
-       id="deleteModal"
-       tabindex="-1"
-       aria-labelledby="deleteModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- HTMX rendered content -->
-      </div>
-    </div>
-  </div>
-{% endblock content %}
+{% endblock panel_content %}

@@ -1,82 +1,65 @@
-{% extends "base.html" %}
+{% extends "object_list_base.html" %}
 {% load stock_tags %}
 {% block title %}
   Stock Items
 {% endblock title %}
-{% block content %}
-  <div class="container-fluid">
-    <div class="panel">
-      <div class="panel-heading d-flex justify-content-between me-2">
-        <span class="h4">Stock Items</span>
-        <span><a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a></span>
-      </div>
-      <div class="panel-content">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Box ID</th>
-                <th scope="col">Level</th>
-                <th scope="col">Lot Number</th>
-                <th scope="col">Expiry Date</th>
-                <th scope="col" class="d-none d-lg-table-cell">Delivery</th>
-                <th scope="col">Location</th>
-                <th scope="col" class="d-none d-lg-table-cell">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for stock in stockitems %}
-                <tr>
-                  <td>
-                    <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
-                  </td>
-                  <td>
-                    <a href="{% url 'stock_detail' stock.pk %}"
-                       title="#{{ stock.ordinal_number }} Received at {{ stock.delivery.delivery_date|date:'d/m/y H:i' }}">
-                      <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
-                    </a>
-                  </td>
-                  <td>stock level</td>
-                  <td>{{ stock.lot_number }}</td>
-                  <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
-                  <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
-                    {% delivery_condicon stock.delivery_condition %}
-                  </td>
-                  <td>
-                    <a href="{% url 'location_detail' stock.location.pk %}"
-                       title="Location detail">{{ stock.location.name }}</a>
-                  </td>
-                  <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'stock_update' stock.pk %}"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'stock_delete' stock.pk %}"
-                       hx-trigger="click"
-                       hx-target="#deleteModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#deleteModal"
-                       href="javascript:void(0);"><i class="bi bi-trash"></i></a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        {% include "partials/pagination_simple.html" %}
-      </div>
-    </div>
+{% block panel_title %}
+  All Stock Items
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Box ID</th>
+          <th scope="col">Level</th>
+          <th scope="col">Lot Number</th>
+          <th scope="col">Expiry Date</th>
+          <th scope="col" class="d-none d-lg-table-cell">Delivery</th>
+          <th scope="col">Location</th>
+          <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in stockitems %}
+          <tr>
+            <td>
+              <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
+            </td>
+            <td>
+              <a href="{% url 'stock_detail' stock.pk %}"
+                 title="#{{ stock.ordinal_number }} Received at {{ stock.delivery.delivery_date|date:'d/m/y H:i' }}">
+                <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
+              </a>
+            </td>
+            <td>stock level</td>
+            <td>{{ stock.lot_number }}</td>
+            <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
+              {% delivery_condicon stock.delivery_condition %}
+            </td>
+            <td>
+              <a href="{% url 'location_detail' stock.location.pk %}"
+                 title="Location detail">{{ stock.location.name }}</a>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{% url 'stock_update' stock.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <a hx-get="{% url 'stock_delete' stock.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-  <!-- Delete Modal -->
-  <div class="modal fade"
-       id="deleteModal"
-       tabindex="-1"
-       aria-labelledby="deleteModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- HTMX rendered content -->
-      </div>
-    </div>
-  </div>
-{% endblock content %}
+{% endblock panel_content %}
