@@ -39,7 +39,7 @@
                     </a>
                   </div>
                 {% endfor %}
-                <div class="col small">
+                <div class="col-12 small">
                   {% if location.stockitems.count > 10 %}
                     <a href="{% url 'location_detail' location.pk %}">More ...</a>
                   {% endif %}
