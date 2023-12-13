@@ -4,8 +4,45 @@
   Company
 {% endblock title %}
 {% block panel_title %}
-  Company Update
+  Update Company: {{ object.name }}
 {% endblock panel_title %}
 {% block update_form %}
-  {{ form|crispy }}
+  <div class="px-3 pt-3">
+    <div id="div_id_name" class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-md">Name*</span>
+      <input type="text"
+             name="name"
+             maxlength="100"
+             class="textinput form-control"
+             value="{{ object.name }}"
+             required
+             id="id_name">
+    </div>
+    <div id="div_id_name" class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-md">Website</span>
+      <input type="url"
+             name="website"
+             maxlength="200"
+             value="{{ object.website }}"
+             class="urlinput form-control"
+             id="id_website">
+    </div>
+    <div id="div_id_name" class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-md">Phone</span>
+      <input type="text"
+             name="phone"
+             maxlength="20"
+             value="{{ object.phone }}"
+             class="textinput form-control"
+             id="id_phone">
+    </div>
+    <div id="div_id_name" class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-md">Description</span>
+      <textarea name="description"
+                cols="40"
+                rows="3"
+                class="textarea form-control"
+                id="id_description">{{ object.description }}</textarea>
+    </div>
+  </div>
 {% endblock update_form %}
