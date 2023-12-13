@@ -1,11 +1,35 @@
 {% extends "object_create_base.html" %}
-{% load crispy_forms_tags %}
 {% block title %}
-  Location
+  Location Create
 {% endblock title %}
 {% block panel_title %}
-  Location Create
+  Create a New Storage Location
 {% endblock panel_title %}
 {% block create_form %}
-  {{ form|crispy }}
+  <div class="px-3 pt-3">
+    <div id="div_id_name" class="input-group mb-3">
+      <span class="input-group-text">Location Name*</span>
+      <input type="text"
+             name="name"
+             maxlength="100"
+             class="textinput form-control"
+             autocomplete="off"
+             required
+             id="id_name">
+    </div>
+    <div id="div_id_room" class="input-group mb-3">
+      <span class="input-group-text">Room Name</span>
+      <input type="text"
+             name="room"
+             maxlength="100"
+             autocomplete="off"
+             class="textinput form-control"
+             id="id_room">
+    </div>
+    <div id="div_id_description" class="input-group mb-3">
+      <span class="input-group-text">Description</span>
+      <textarea name="description" cols="40" rows="3" class="textarea form-control" id="id_description">
+</textarea>
+    </div>
+  </div>
 {% endblock create_form %}

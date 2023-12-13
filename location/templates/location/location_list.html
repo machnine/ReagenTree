@@ -13,21 +13,40 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Location Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Stock Items</th>
-          <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+          <th width="20%">Name</th>
+          <th width="15%" class="d-none d-lg-table-cell">Room</th>
+          <th width="20%" class="d-none d-lg-table-cell">Description</th>
+          <th class="d-none d-lg-table-cell">Stock Items</th>
+          <th width="5%">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for location in locations %}
-          <tr>
-            <td>
+          <tr style="height:120px;">
+            <td class="align-middle">
               <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
             </td>
-            <td>{{ location.description }}</td>
-            <td>{{ location.stockitems.all }}</td>
+            <td class="d-none d-lg-table-cell align-middle">{{ location.room }}</td>
+            <td class="d-none d-lg-table-cell small">{{ location.description|truncatechars:150 }}</td>
             <td class="d-none d-lg-table-cell">
+              <div class="row ps-2 small">
+                {% for stock in location.stockitems.all|slice:10 %}
+                  <div class="col-6">
+                    <a href="{% url 'stock_detail' stock.pk %}"
+                       class="pe-2"
+                       title="{{ stock.delivery.delivery_date|date:'d/m/Y' }}| {{ stock.lot_number }}| box {{ stock.ordinal_number }}">
+                      <i class="bi bi-box-seam"></i> {{ stock.item.name }}
+                    </a>
+                  </div>
+                {% endfor %}
+                <div class="col small">
+                  {% if location.stockitems.count > 10 %}
+                    <a href="{% url 'location_detail' location.pk %}">More ...</a>
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+            <td class="align-middle">
               <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'location_delete' location.pk %}"
                  hx-trigger="click"

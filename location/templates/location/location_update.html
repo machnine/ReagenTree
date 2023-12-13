@@ -1,11 +1,37 @@
 {% extends "object_update_base.html" %}
-{% load crispy_forms_tags %}
 {% block title %}
-  Location
+  Location Update
 {% endblock title %}
 {% block panel_title %}
-  Location Update
+  Update the Location: {{ location.name }}
 {% endblock panel_title %}
 {% block update_form %}
-  {{ form|crispy }}
+  <div class="px-3 pt-3">
+    <div id="div_id_name" class="input-group mb-3">
+      <span class="input-group-text">Location Name*</span>
+      <input type="text"
+             name="name"
+             maxlength="100"
+             class="textinput form-control"
+             autocomplete="off"
+             value="{{ location.name }}"
+             required
+             id="id_name">
+    </div>
+    <div id="div_id_room" class="input-group mb-3">
+      <span class="input-group-text">Room Name</span>
+      <input type="text"
+             name="room"
+             maxlength="100"
+             autocomplete="off"
+             value="{{ location.room }}"
+             class="textinput form-control"
+             id="id_room">
+    </div>
+    <div id="div_id_description" class="input-group mb-3">
+      <span class="input-group-text">Description</span>
+      <textarea name="description" cols="40" rows="3" class="textarea form-control" id="id_description">{{ location.description }}
+</textarea>
+    </div>
+  </div>
 {% endblock update_form %}

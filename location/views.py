@@ -11,12 +11,14 @@ from core.mixins import SuccessUrlMixin
 
 from .models import Location
 
+form_fields = ["name", "room", "description"]
+
 
 class LocationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Location create view."""
 
     model = Location
-    fields = ["name", "description"]
+    fields = form_fields
     template_name = "location/location_create.html"
     success_url = reverse_lazy("location_list")
 
@@ -73,14 +75,14 @@ class LocationListView(LoginRequiredMixin, ListView):
     model = Location
     context_object_name = "locations"
     template_name = "location/location_list.html"
-    paginate_by = 10
+    paginate_by = 5
 
 
 class LocationUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """Location update view."""
 
     model = Location
-    fields = ["name", "description"]
+    fields = form_fields
     template_name = "location/location_update.html"
     success_url = reverse_lazy("location_list")
 

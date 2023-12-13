@@ -6,7 +6,8 @@ from django.db import models
 class Location(models.Model):
     """Item storage location model."""
 
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=100, unique=True)
+    room = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
