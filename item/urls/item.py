@@ -2,12 +2,12 @@
 from django.urls import path
 
 from item.views import (
+    item_search,
     ItemCreateView,
     ItemDeleteView,
     ItemDetailView,
     ItemListView,
     ItemUpdateView,
-    item_search,
     ItemAttachmentUploadView,
     ItemAttachmentDeleteView,
     ItemAttachmentUpdateView,

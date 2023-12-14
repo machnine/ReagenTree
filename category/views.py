@@ -1,7 +1,9 @@
 """Category CRUD views."""
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -10,6 +12,29 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, V
 from core.mixins import SuccessUrlMixin
 
 from .models import Category
+
+
+# Category search view
+@login_required
+def category_search(request):
+    """HTMX GET request for returning a list of search categories"""
+    query = request.GET.get("category_query", "")
+    if query:
+        queries = [
+            Q(name__icontains=term) | Q(description__icontains=term)
+            for term in query.split()
+        ]
+        query = queries.pop()
+        for category in queries:
+            query &= category
+        categories = Category.objects.filter(query)[:5]
+    else:
+        categories = []
+    return render(
+        request,
+        "category/category_search_results.html",
+        {"found_categories": categories},
+    )
 
 
 class CategoryCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
@@ -60,11 +85,11 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # get items for pagination
-        items = self.object.items.all()        
+        items = self.object.items.all()
         # paginate items
         paginator = Paginator(items, self.paginate_by)
-        page_number = self.request.GET.get("page")        
-        page_obj = paginator.get_page(page_number)        
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
         context["page_obj"] = page_obj
         return context
 

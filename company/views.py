@@ -1,6 +1,8 @@
 """Views for the company app."""
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -15,6 +17,36 @@ from django.views.generic import (
 from core.mixins import SuccessUrlMixin
 
 from .models import Company
+
+
+# company search view
+@login_required
+def company_search(request):
+    """HTMX GET request for returning a list of search companies"""
+    query = ""
+    company_type = ""
+    if "manufacturer_query" in request.GET:
+        query = request.GET.get("manufacturer_query", "")
+        company_type = "manufacturer"
+    elif "supplier_query" in request.GET:
+        query = request.GET.get("supplier_query", "")
+        company_type = "supplier"
+    if query:
+        queries = [
+            Q(name__icontains=term) | Q(description__icontains=term)
+            for term in query.split()
+        ]
+        query = queries.pop()
+        for company in queries:
+            query &= company
+        companies = Company.objects.filter(query)[:5]
+    else:
+        companies = []
+    return render(
+        request,
+        "company/company_search_results.html",
+        {"found_companies": companies, "company_type": company_type},
+    )
 
 
 class CompanyCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):

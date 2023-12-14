@@ -20,8 +20,19 @@ from attachment.views import (
     AttachmentUpdateView,
 )
 from core.mixins import SuccessUrlMixin
+from category.models import Category
+from company.models import Company
 from item.models import Item, ItemAttachment, StockItem
 from item.forms import ItemAttachmentCreateForm, ItemAttachmentUpdateForm
+
+form_fields = [
+    "name",
+    "product_id",
+    "description",
+    "category",
+    "manufacturer",
+    "supplier",
+]
 
 
 # Item search view
@@ -48,14 +59,7 @@ class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create view for Item model"""
 
     model = Item
-    fields = [
-        "name",
-        "product_id",
-        "description",
-        "category",
-        "manufacturer",
-        "supplier",
-    ]
+    fields = form_fields
     template_name = "item/item_create.html"
     success_url = reverse_lazy("item_list")
 
@@ -67,6 +71,21 @@ class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
             self.request, f"Item {form.instance.name} created successfully."
         )
         return response
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        # retain the selected category, manufacturer, and supplier
+        # in the form if the form is invalid for better UX
+        if "category" in form.cleaned_data:
+            category = Category.objects.get(pk=form.cleaned_data["category"].id)
+            context["category_name"] = category.name
+        if "manufacturer" in form.cleaned_data:
+            manufacturer = Company.objects.get(pk=form.cleaned_data["manufacturer"].id)
+            context["manufacturer_name"] = manufacturer.name
+        if "supplier" in form.cleaned_data:
+            supplier = Company.objects.get(pk=form.cleaned_data["supplier"].id)
+            context["supplier_name"] = supplier.name
+        return self.render_to_response(context)
 
 
 class ItemDetailView(LoginRequiredMixin, DetailView):
@@ -87,14 +106,7 @@ class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """Update view for Item model"""
 
     model = Item
-    fields = [
-        "name",
-        "product_id",
-        "description",
-        "category",
-        "manufacturer",
-        "supplier",
-    ]
+    fields = form_fields
     template_name = "item/item_update.html"
     success_url = reverse_lazy("item_list")
 
