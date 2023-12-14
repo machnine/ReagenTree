@@ -1,11 +1,170 @@
 {% extends "object_update_base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-  Item
+  Item Update
 {% endblock title %}
 {% block panel_title %}
-  Item Update
+  Update Item: {{ object.name }}
 {% endblock panel_title %}
 {% block update_form %}
-  {{ form|crispy }}
+  <div class="px-3 pt-3">
+    {{ form.non_field_errors }}
+    <div id="div_id_name" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Name*</span>
+      <input type="text"
+             name="name"
+             maxlength="255"
+             autocomplete="off"
+             class="textinput form-control"
+             value="{{ form.name.value|default_if_none:'' }}"
+             required
+             id="id_name">
+    </div>
+    {{ form.name.errors }}
+    <div id="div_id_product_id" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Product ID*</span>
+      <input type="text"
+             name="product_id"
+             maxlength="100"
+             autocomplete="off"
+             class="textinput form-control"
+             required
+             id="id_product_id"
+             value="{{ form.product_id.value|default_if_none:'' }}">
+    </div>
+    {{ form.product_id.errors }}
+    {# category type search input #}
+    <div id="category-input" class="type-search-input">
+      <div id="div_id_category" class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-sm">Category</span>
+        <input type="text"
+               name="category_query"
+               id="category_search_box"
+               class="form-control"
+               autocomplete="off"
+               value="{{ category_name|default:'' }}"
+               placeholder="Start typing to search for a category..."
+               hx-trigger="keyup changed delay:500ms"
+               hx-get="{% url 'category_search' %}"
+               hx-target="#categorySearchResults">
+        <span class="input-group-text">
+          <a href="{% url 'category_create' %}?next={{ request.path }}"
+             class="btn btn-sm btn-light"
+             title="Add a new category">
+            <i class="bi bi-plus-circle text-success"></i>
+          </a>
+        </span>
+      </div>
+      <div id="categorySearchResults" class="list-group type-search-result"></div>
+      <input type="text"
+             name="category"
+             id="id_category"
+             hidden
+             value="{{ form.category.value }}">
+    </div>
+    {{ form.category.errors }}
+    {# manufacturer type search input #}
+    <div id="manufacturer-input" class="type-search-input">
+      <div id="div_id_manufacturer" class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-sm">Manufacturer</span>
+        <input type="text"
+               name="manufacturer_query"
+               id="manufacturer_search_box"
+               class="form-control"
+               autocomplete="off"
+               value="{{ manufacturer_name|default:'' }}"
+               placeholder="Start typing to search for a manufacturer..."
+               hx-trigger="keyup changed delay:500ms"
+               hx-get="{% url 'company_search' %}"
+               hx-target="#manufacturerSearchResults">
+        <span class="input-group-text">
+          <a href="{% url 'company_create' %}?next={{ request.path }}"
+             class="btn btn-sm btn-light"
+             title="Add a new company">
+            <i class="bi bi-plus-circle text-success"></i>
+          </a>
+        </span>
+      </div>
+      <div id="manufacturerSearchResults" class="list-group type-search-result"></div>
+      <input type="text"
+             name="manufacturer"
+             id="id_manufacturer"
+             value="{{ form.manufacturer.value|default_if_none:'' }}"
+             hidden>
+    </div>
+    {{ form.manufacturer.errors }}
+    {# supplier type search input #}
+    <div id="supplier-input" class="type-search-input">
+      <div id="div_id_supplier" class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-sm">Supplier</span>
+        <input type="text"
+               name="supplier_query"
+               id="supplier_search_box"
+               class="form-control"
+               autocomplete="off"
+               value="{{ supplier_name|default:'' }}"
+               placeholder="Start typing to search for a supplier..."
+               hx-trigger="keyup changed delay:500ms"
+               hx-get="{% url 'company_search' %}"
+               hx-target="#supplierSearchResults">
+        <span class="input-group-text">
+          <a href="{% url 'company_create' %}?next={{ request.path }}"
+             class="btn btn-sm btn-light"
+             title="Add a new company">
+            <i class="bi bi-plus-circle text-success"></i>
+          </a>
+        </span>
+      </div>
+      <div id="supplierSearchResults" class="list-group type-search-result"></div>
+      <input type="text"
+             name="supplier"
+             id="id_supplier"
+             value="{{ form.supplier.value|default_if_none:'' }}"
+             hidden>
+    </div>
+    {{ form.supplier.errors }}
+    {# description #}
+    <div id="div_id_description" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Description</span>
+      <textarea name="description"
+                cols="40"
+                rows="3"
+                class="textarea form-control"
+                id="id_description">{{ form.description.value|default_if_none:"" }} </textarea>
+    </div>
+    {{ form.description.errors }}
+  </div>
 {% endblock update_form %}
+{% block js %}
+  <script>
+    // Array of configurations for each search box
+    const searchConfigurations = [
+    {
+        searchBoxId: "category_search_box",
+        textInputId: "id_category",
+        resultsDivId: "categorySearchResults",
+        resultClass: "category-search-result-category",
+        valueAttribute: "category-pk"
+    },
+    {
+        searchBoxId: "manufacturer_search_box",
+        textInputId: "id_manufacturer",
+        resultsDivId: "manufacturerSearchResults",
+        resultClass: "company-search-result-manufacturer",
+        valueAttribute: "company-pk"
+    },
+    {
+        searchBoxId: "supplier_search_box",
+        textInputId: "id_supplier",
+        resultsDivId: "supplierSearchResults",
+        resultClass: "company-search-result-supplier",
+        valueAttribute: "company-pk"
+    }
+    ];
+
+    // Initialize each search box listener
+    searchConfigurations.forEach(function (config) {
+      TypeSearchResultListenerConfig(config);
+    });
+  </script>
+{% endblock js %}

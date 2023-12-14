@@ -137,29 +137,34 @@
 {% endblock create_form %}
 {% block js %}
   <script>
-    //set up the search result listener for the search box
-    TypeSearchResultListenerConfig({
-      searchBoxId: "category_search_box",
-      textInputId: "id_category",
-      resultsDivId: "categorySearchResults",
-      resultClass: "category-search-result-category",
-      valueAttribute: "category-pk"
-    });
+    // Array of configurations for each search box
+    const searchConfigurations = [
+    {
+        searchBoxId: "category_search_box",
+        textInputId: "id_category",
+        resultsDivId: "categorySearchResults",
+        resultClass: "category-search-result-category",
+        valueAttribute: "category-pk"
+    },
+    {
+        searchBoxId: "manufacturer_search_box",
+        textInputId: "id_manufacturer",
+        resultsDivId: "manufacturerSearchResults",
+        resultClass: "company-search-result-manufacturer",
+        valueAttribute: "company-pk"
+    },
+    {
+        searchBoxId: "supplier_search_box",
+        textInputId: "id_supplier",
+        resultsDivId: "supplierSearchResults",
+        resultClass: "company-search-result-supplier",
+        valueAttribute: "company-pk"
+    }
+    ];
 
-    TypeSearchResultListenerConfig({
-      searchBoxId: "manufacturer_search_box",
-      textInputId: "id_manufacturer",
-      resultsDivId: "manufacturerSearchResults",
-      resultClass: "company-search-result-manufacturer",
-      valueAttribute: "company-pk"
-    });
-
-    TypeSearchResultListenerConfig({
-      searchBoxId: "supplier_search_box",
-      textInputId: "id_supplier",
-      resultsDivId: "supplierSearchResults",
-      resultClass: "company-search-result-supplier",
-      valueAttribute: "company-pk"
+    // Initialize each search box listener
+    searchConfigurations.forEach(function (config) {
+      TypeSearchResultListenerConfig(config);
     });
   </script>
 {% endblock js %}

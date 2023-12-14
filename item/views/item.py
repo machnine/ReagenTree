@@ -110,6 +110,19 @@ class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     template_name = "item/item_update.html"
     success_url = reverse_lazy("item_list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        item = self.object  # The item being updated
+
+        if item.category:
+            context["category_name"] = item.category.name
+        if item.manufacturer:
+            context["manufacturer_name"] = item.manufacturer.name
+        if item.supplier:
+            context["supplier_name"] = item.supplier.name
+
+        return context
+
     def form_valid(self, form):
         # set the last_updated_by and last_updated fields
         form.instance.last_updated_by = self.request.user
@@ -119,6 +132,10 @@ class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
             self.request, f"Item {form.instance.name} updated successfully."
         )
         return response
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
 
 
 class ItemDeleteView(LoginRequiredMixin, View):
