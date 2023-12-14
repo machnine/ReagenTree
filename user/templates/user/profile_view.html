@@ -1,20 +1,33 @@
-{% extends "user/profile.html" %}
-{% block profile_form %}
-  <div class="mb-3 input-group">
-    <span class="input-group-text">First Name:</span>
-    <input type="text"
-           class="form-control"
-           id="firstName"
-           value="{{ user.first_name }}"
-           readonly>
+{% extends "user/profile_base.html" %}
+{% block title %}
+  User Profile
+{% endblock title %}
+{% block panel_title %}
+  User Profile
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'user_update' %}?next={{ request.path }}"
+     title="Update User Profile"
+     class="btn btn-sm btn-success">
+    <i class="bi bi-pencil-square"></i> Edit</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="pt-3 px-3">
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-sm">First Name:</span>
+      <input type="text"
+             class="form-control bg-white"
+             id="firstName"
+             value="{{ user.first_name }}"
+             disabled>
+    </div>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-sm">Last Name:</span>
+      <input type="text"
+             class="form-control bg-white"
+             id="lastName"
+             value="{{ user.last_name }}"
+             disabled>
+    </div>
   </div>
-  <div class="mb-3 input-group">
-    <span class="input-group-text">Last Name:</span>
-    <input type="text"
-           class="form-control"
-           id="lastName"
-           value="{{ user.last_name }}"
-           readonly>
-  </div>
-  <a href="{% url 'user_edit' %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
-{% endblock profile_form %}
+{% endblock panel_content %}

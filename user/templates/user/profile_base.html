@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}
+  User profile
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    <div class="panel">
+      <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
+        {% block panel_heading %}
+          <h4 class="panel-title">
+            <i class="bi bi-person-square" style="color: var(--bs-green);"></i>
+            {% block panel_title %}
+            {% endblock panel_title %}
+          </h4>
+          {% block panel_actions %}
+          {% endblock panel_actions %}
+        {% endblock panel_heading %}
+      </div>
+      <div class="panel-content">
+        {% block panel_content %}
+        {% endblock panel_content %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}
