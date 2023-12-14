@@ -4,94 +4,116 @@
   Stock Item
 {% endblock title %}
 {% block panel_title %}
-  Commit to stock
+  Commit Items to Stock
 {% endblock panel_title %}
 {% block create_form %}
-  <div id="item-input" class="type-search-input">
+  <div class="px-3 pt-3">
+    <div id="item-input" class="type-search-input">
+      <div class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-sm">Item(s)</span>
+        <input type="text"
+               name="item_query"
+               id="item_search_box"
+               class="form-control"
+               autocomplete="off"
+               placeholder="Start typing to enter an item..."
+               hx-trigger="keyup changed delay:500ms"
+               hx-get="{% url 'item_search' %}"
+               hx-target="#itemSearchResults">
+        <span class="input-group-text">
+          <a href="{% url 'item_create' %}?next={{ request.path }}"
+             class="btn btn-sm btn-light"
+             title="Add a new item">
+            <i class="bi bi-plus-circle text-success"></i>
+          </a>
+        </span>
+      </div>
+      {{ form.item.errors }}
+      <div id="itemSearchResults" class="list-group type-search-result"></div>
+      <input type="text" name="item" id="id_item" hidden>
+    </div>
     <div class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Item Received</span>
+      <span class="input-group-text input-group-text-fw-sm">Lot Number</span>
       <input type="text"
-             name="item_query"
-             id="item_search_box"
+             name="lot_number"
+             id="id_lot_number"
              class="form-control"
              autocomplete="off"
-             placeholder="Start typing to enter an item..."
-             hx-trigger="keyup changed delay:500ms"
-             hx-get="{% url 'item_search' %}"
-             hx-target="#itemSearchResults">
+             placeholder="Lot number or batch number...">
+    </div>
+    {{ form.lot_number.errors }}
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Expiry Date</span>
+      <input type="date"
+             name="expiry_date"
+             id="id_expiry_date"
+             class="form-control"
+             placeholder="Expiry Date">
+    </div>
+    {{ form.expiry_date.errors }}
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Delivery
+        <a href="javascript:void(0);"
+           data-bs-toggle="tooltip"
+           data-bs-placement="top"
+           title="Only delivery received within the last week can be seen here."><i class="bi bi-info-circle ps-1"></i></a>
+      </span>
+      <select name="delivery" id="id_delivery" class="form-select">
+        {% for delivery in form.delivery %}{{ delivery }}{% endfor %}
+      </select>
       <span class="input-group-text">
-        <a href="{% url 'item_create' %}?next={{ request.path }}"
-           class="btn btn-sm btn-light" title="Add a new item">
-          <i class="bi bi-plus-circle text-success"></i>
-        </a>
+        <a href="{% url 'delivery_create' %}?next={{ request.path }}"
+           class="btn btn-sm btn-light">
+          <i class="bi bi-plus-circle text-success"></i></a>
       </span>
     </div>
-    {{ form.item.errors }}
-    <div id="itemSearchResults" class="list-group type-search-result"></div>
-    <input type="text" name="item" id="id_item" hidden>
+    {{ form.delivery.errors }}
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Quantity</span>
+      <input type="number"
+             name="quantity"
+             id="id_quantity"
+             min="1"
+             value="1"
+             class="form-control"
+             placeholder="Quantity received...">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Condition</span>
+      <select name="delivery_condition"
+              id="id_delivery_condition"
+              class="form-select">
+        {% for condition in form.delivery_condition %}{{ condition }}{% endfor %}
+      </select>
+    </div>
+    {{ form.delivery_condition.errors }}
+    <div id="location-input" class="type-search-input">
+      <div class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-sm">Location</span>
+        <input type="text"
+               name="location_query"
+               id="location_search_box"
+               class="form-control"
+               autocomplete="off"
+               placeholder="Start typing to enter a location..."
+               hx-trigger="keyup changed delay:500ms"
+               hx-get="{% url 'location_search' %}"
+               hx-target="#locationSearchResults">
+        <span class="input-group-text">
+          <a href="{% url 'location_create' %}?next={{ request.path }}"
+             class="btn btn-sm btn-light">
+            <i class="bi bi-plus-circle text-success"></i></a>
+        </span>
+        <input type="text"
+               name="location"
+               id="id_location"
+               value="{{ form.location.value|default_if_none:'' }}"
+               hidden>
+        <div id="locationSearchResults" class="list-group type-search-result"></div>
+      </div>
+    </div>
+    {{ form.location.errors }}
   </div>
-  <div class="input-group mb-3">
-    <span class="input-group-text input-group-text-fw-sm">Lot Number</span>
-    <input type="text"
-           name="lot_number"
-           id="id_lot_number"
-           class="form-control"
-           autocomplete="off"
-           placeholder="Lot number or batch number...">
-  </div>
-  {{ form.lot_number.errors }}
-  <div class="input-group mb-3">
-    <span class="input-group-text input-group-text-fw-sm">Expiry Date</span>
-    <input type="date"
-           name="expiry_date"
-           id="id_expiry_date"
-           class="form-control"
-           placeholder="Expiry Date">
-  </div>
-  {{ form.expiry_date.errors }}
-  <div class="input-group mb-3">
-    <span class="input-group-text input-group-text-fw-sm">Delivery</span>
-    <select name="delivery" id="id_delivery" class="form-select">
-      {% for delivery in form.delivery %}{{ delivery }}{% endfor %}
-    </select>
-    <span class="input-group-text">
-      <a href="{% url 'delivery_create' %}?next={{ request.path }}"
-         class="btn btn-sm btn-light">
-        <i class="bi bi-plus-circle text-success"></i></a>
-    </span>
-  </div>
-  {{ form.delivery.errors }}
-  <div class="input-group mb-3">
-    <span class="input-group-text input-group-text-fw-sm">Quantity</span>
-    <input type="number"
-           name="quantity"
-           id="id_quantity"
-           min="1"
-           value="1"
-           class="form-control"
-           placeholder="Quantity received...">
-  </div>
-  <div class="input-group mb-3">
-    <span class="input-group-text input-group-text-fw-sm">Condition</span>
-    <select name="delivery_condition"
-            id="id_delivery_condition"
-            class="form-select">
-      {% for condition in form.delivery_condition %}{{ condition }}{% endfor %}
-    </select>
-  </div>
-  {{ form.delivery_condition.errors }}
-  <div class="input-group mb-3">
-    <span class="input-group-text input-group-text-fw-sm">Location</span>
-    <select name="location" id="id_location" class="form-select">
-      {% for location in form.location %}{{ location }}{% endfor %}
-    </select>
-    <span class="input-group-text">
-      <a href="{% url 'location_create' %}?next={{ request.path }}"
-         class="btn btn-sm btn-light">
-        <i class="bi bi-plus-circle text-success"></i></a>
-    </span>
-  </div>
-  {{ form.location.errors }}
 {% endblock create_form %}
 {% block js %}
   <script>
@@ -102,6 +124,13 @@
       resultsDivId: "itemSearchResults",
       resultClass: "item-search-result-item",
       valueAttribute: "item-pk"
+    });
+    TypeSearchResultListenerConfig({
+      searchBoxId: "location_search_box",
+      textInputId: "id_location",
+      resultsDivId: "locationSearchResults",
+      resultClass: "location-search-result-location",
+      valueAttribute: "location-pk"
     });
   </script>
 {% endblock js %}

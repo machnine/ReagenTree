@@ -130,7 +130,7 @@
                 cols="40"
                 rows="3"
                 class="textarea form-control"
-                id="id_description">{{ form.description.value|default_if_none:"" }} </textarea>
+                id="id_description">{{ form.description.value|default_if_none:'' }} </textarea>
     </div>
     {{ form.description.errors }}
   </div>

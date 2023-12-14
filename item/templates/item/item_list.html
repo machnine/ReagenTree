@@ -43,7 +43,7 @@
                 <a href="{% url 'company_detail' item.supplier.pk %}">{{ item.supplier }}</a>
               {% endif %}
             </td>
-            <td>{{ item.description }}</td>
+            <td class="small">{{ item.description|truncatechars:150 }}</td>
             <td class="d-none d-lg-table-cell">
               <a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'item_delete' item.pk %}"

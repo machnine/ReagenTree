@@ -1,11 +1,25 @@
 {% extends "user/profile.html" %}
-{% load crispy_forms_tags %}
 {% block profile_form %}
   <form method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First name</label>
+      <input type="text"
+             name="first_name"
+             class="form-control"
+             id="firstName"
+             value="{{ user.first_name }}">
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last name</label>
+      <input type="text"
+             name="last_name"
+             class="form-control"
+             id="lastName"
+             value="{{ user.last_name }}">
+    </div>
     <button type="submit" class="btn btn-success">
-      <i class="bi bi-floppy"></i> Save changes
+      <i class="bi bi-floppy"></i> Save
     </button>
   </form>
 {% endblock profile_form %}

@@ -15,8 +15,7 @@
         <tr>
           <th width="20%">Company</th>
           <th width="25%" class="d-none d-lg-table-cell">Description</th>
-          <th class="text-center d-none d-lg-table-cell">Made</th>
-          <th class="text-center d-none d-lg-table-cell">Supplied</th>
+          <th class="text-center d-none d-lg-table-cell">Made/Supplied</th>
           <th class="text-center d-lg-table-cell">Phone</th>
           <th>Website</th>
           <th width="5%" class=" d-lg-table-cell">Actions</th>
@@ -28,9 +27,17 @@
             <td>
               <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
             </td>
-            <td class="d-none d-lg-table-cell">{{ company.description|truncatechars:50 }}</td>
-            <td class="text-center d-none d-lg-table-cell">{{ company.manufactured_items.count|default:"" }}</td>
-            <td class="text-center d-none d-lg-table-cell">{{ company.supplied_items.count|default:"" }}</td>
+            <td class="d-none d-lg-table-cell small">{{ company.description|truncatechars:50 }}</td>
+            <td class="text-center d-none d-lg-table-cell">
+              <div class="row">
+                <div class="col-6 text-end">
+                  <span class="badge rounded-pill" style="background-color: var(--bs-yellow)">{{ company.manufactured_items.count|default:"" }}</span>
+                </div>
+                <div class="col-6 text-start">
+                  <span class="badge rounded-pill" style="background-color: var(--bs-blue);">{{ company.supplied_items.count|default:"" }}</span>
+                </div>
+              </div>
+            </td>
             <td class="text-center d-lg-table-cell">{{ company.phone }}</td>
             <td>
               <a href="{{ company.website }}" title="Visit {{ company.website }}">{{ company.website }}</a>

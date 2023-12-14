@@ -2,6 +2,16 @@
 // This file contains functions used by the reagentree app.
 
 /**
+ * Initialize the Bootstrap tooltip.
+ */
+document.addEventListener("DOMContentLoaded", function(){
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+});
+
+/**
  * This function configures a listener for search results.
  *
  * @param {Object} config - Configuration object.

@@ -1,47 +1,20 @@
-- [X] Add created and updated audits to all models
-  - [X] Category
-  - [X] Company
-  - [X] Delivery
-  - [X] Item & StockItem
-  - [X] Location
+- [] Create View
+  - [] Delivery
+  - [] StockItem
 - [] Detail views
-  - [X] Category
-    - [X] Company
-    - [] Delivery
-    - [X] Item
-    - [] StockItem
-    - [X] Location
-  - [] Update views
-    - [] Category
-    - [] Company
-    - [] Delivery
-    - [] Item
-    - [] StockItem
-    - [] Location
-  - [X] Delete views (App model delete views are all displayed in List views, no need for ?next=)
-    - [X] Category
-    - [X] Company
-    - [X] Delivery
-    - [X] Item
-    - [X] StockItem
-    - [X] Location
-  - [] List views
-    - [] Category
-    - [X] Company
-    - [] Delivery
-    - [X] Item
-    - [X] StockItem
-    - [] Location
-- [X] List view pagination
-- [o] Change the default BS5 colours
-- [X] Update update views to return to referral URL
+  - [] Delivery
+  - [] StockItem
+- [] Update views
+  - [] Delivery
+  - [] StockItem
+- [] List views
+  - [] Delivery
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
 - User groups
 - Restrict which group of users can do which CRUD
 - Model search function
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
-- [X] Design nice UI for the list views
 - Stock Item 
     - validation workflow
     - Stock take work flow - what is it and how to deal with it?
@@ -53,6 +26,7 @@
   - delivery notes upload?
 - Item model
   - [] image
-  - [X] attachments [X]C [X]R [X]U [X]D
   - [] available stocks
+- List view sorting
+- List view search
   
