@@ -8,10 +8,24 @@ from attachment.forms import AttachmentForm
 from .models import StockItem, ItemAttachment
 
 
-class StockItemForm(forms.ModelForm):
+stockitem_form_fields = [
+    "delivery",
+    "item",
+    "delivery_condition",
+    "lot_number",
+    "expiry_date",
+    "location",
+]
+
+
+class StockItemCreateForm(forms.ModelForm):
     """Custom input form for the StockItem model."""
 
     quantity = forms.IntegerField(min_value=1, initial=1)
+
+    class Meta:
+        model = StockItem
+        fields = stockitem_form_fields
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,16 +35,25 @@ class StockItemForm(forms.ModelForm):
             delivery_date__gte=within_one_week
         )
 
+
+class StockItemUpdateForm(forms.ModelForm):
+    """Custom update form for the StockItem model."""
+
     class Meta:
         model = StockItem
-        fields = [
-            "delivery",
-            "item",
-            "delivery_condition",
-            "lot_number",
-            "expiry_date",
-            "location",
-        ]
+        fields = stockitem_form_fields
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        current_delivery = self.instance.delivery
+        start_date = current_delivery.delivery_date - timezone.timedelta(days=3)
+        end_date = min(
+            current_delivery.delivery_date + timezone.timedelta(days=3), timezone.now()
+        )
+
+        self.fields["delivery"].queryset = Delivery.objects.filter(
+            delivery_date__range=[start_date, end_date]
+        )
 
 
 class ItemAttachmentCreateForm(AttachmentForm):

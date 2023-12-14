@@ -40,7 +40,7 @@
             <td>{{ stock.lot_number }}</td>
             <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="d-none d-lg-table-cell">
-              <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
+              <a href="{% url 'delivery_detail' stock.delivery.pk %}" title="{{ stock.delivery }}">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
               {% delivery_condicon stock.delivery_condition %}
             </td>
             <td>

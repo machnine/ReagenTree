@@ -1,0 +1,2 @@
+[tool.djlint]
+ignore = ["H019", "H021"]

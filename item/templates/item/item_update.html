@@ -8,7 +8,7 @@
 {% endblock panel_title %}
 {% block update_form %}
   <div class="px-3 pt-3">
-    {{ form.non_field_errors }}
+    <span class="text-danger">{{ form.non_field_errors }}</span>
     <div id="div_id_name" class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Name*</span>
       <input type="text"
@@ -20,7 +20,7 @@
              required
              id="id_name">
     </div>
-    {{ form.name.errors }}
+    <span class="text-danger">{{ form.name.errors }}</span>
     <div id="div_id_product_id" class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Product ID*</span>
       <input type="text"
@@ -32,7 +32,7 @@
              id="id_product_id"
              value="{{ form.product_id.value|default_if_none:'' }}">
     </div>
-    {{ form.product_id.errors }}
+    <span class="text-danger">{{ form.product_id.errors }}</span>
     {# category type search input #}
     <div id="category-input" class="type-search-input">
       <div id="div_id_category" class="input-group mb-3">
@@ -62,7 +62,7 @@
              hidden
              value="{{ form.category.value }}">
     </div>
-    {{ form.category.errors }}
+    <span class="text-danger">{{ form.category.errors }}</span>
     {# manufacturer type search input #}
     <div id="manufacturer-input" class="type-search-input">
       <div id="div_id_manufacturer" class="input-group mb-3">
@@ -92,7 +92,7 @@
              value="{{ form.manufacturer.value|default_if_none:'' }}"
              hidden>
     </div>
-    {{ form.manufacturer.errors }}
+    <span class="text-danger">{{ form.manufacturer.errors }}</span>
     {# supplier type search input #}
     <div id="supplier-input" class="type-search-input">
       <div id="div_id_supplier" class="input-group mb-3">
@@ -122,7 +122,7 @@
              value="{{ form.supplier.value|default_if_none:'' }}"
              hidden>
     </div>
-    {{ form.supplier.errors }}
+    <span class="text-danger">{{ form.supplier.errors }}</span>
     {# description #}
     <div id="div_id_description" class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Description</span>
@@ -132,7 +132,7 @@
                 class="textarea form-control"
                 id="id_description">{{ form.description.value|default_if_none:"" }} </textarea>
     </div>
-    {{ form.description.errors }}
+    <span class="text-danger">{{ form.description.errors }}</span>
   </div>
 {% endblock update_form %}
 {% block js %}
