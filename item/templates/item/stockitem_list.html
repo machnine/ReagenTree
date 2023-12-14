@@ -4,7 +4,7 @@
   Stock Items
 {% endblock title %}
 {% block panel_title %}
-  All Stock Items
+<i class="bi bi-boxes" style="color: var(--bs-orange);"></i> All Stock Items
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a>
@@ -27,7 +27,7 @@
       <tbody>
         {% for stock in stockitems %}
           <tr>
-            <td>
+            <td class="align-middle">
               <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
             </td>
             <td>

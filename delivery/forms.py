@@ -6,6 +6,13 @@ from user.models import CustomUser
 from .models import Delivery
 
 
+delivery_fields = [
+    "delivery_date",
+    "received_by",
+    "notes",
+]
+
+
 class DeliveryForm(forms.ModelForm):
     """DeliveryForm."""
 
@@ -13,7 +20,7 @@ class DeliveryForm(forms.ModelForm):
         """Meta"""
 
         model = Delivery
-        fields = ["delivery_date", "received_by", "notes"]
+        fields = delivery_fields
         widgets = {
             "delivery_date": forms.DateInput(attrs={"type": "datetime-local"}),
         }

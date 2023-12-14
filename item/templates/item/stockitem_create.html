@@ -4,7 +4,7 @@
   Stock Items
 {% endblock title %}
 {% block panel_title %}
-  Commit Items to Stock
+<i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Commit to Stock
 {% endblock panel_title %}
 {% block create_form %}
   <div class="px-3 pt-3">
@@ -62,7 +62,9 @@
         <a href="javascript:void(0);"
            data-bs-toggle="tooltip"
            data-bs-placement="top"
-           title="Only delivery received within the last week can be seen here."><i class="bi bi-info-circle ps-1"></i></a>
+           title="Only delivery received within the last week can be seen here.">
+          <sup><i class="bi bi-info-circle ps-1"></i></sup>
+        </a>
       </span>
       <select name="delivery" id="id_delivery" class="form-select">
         {% for delivery in form.delivery %}{{ delivery }}{% endfor %}

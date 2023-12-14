@@ -3,7 +3,7 @@
   Items
 {% endblock title %}
 {% block panel_title %}
-  All Items
+  <i class="bi bi-box2-fill" style="color: var(--bs-blue);"></i> All Items
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'item_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New item</a>
@@ -25,7 +25,7 @@
       <tbody>
         {% for item in items %}
           <tr>
-            <td>
+            <td class="align-middle">
               <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
             </td>
             <td>{{ item.product_id }}</td>

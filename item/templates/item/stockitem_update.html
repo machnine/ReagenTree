@@ -4,7 +4,7 @@
   Stock Items
 {% endblock title %}
 {% block panel_title %}
-  Update Stock Items
+<i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Update Stock Items
 {% endblock panel_title %}
 {% block update_form %}
   <div class="px-3 pt-3">
@@ -67,7 +67,9 @@
         <a href="javascript:void(0);"
            data-bs-toggle="tooltip"
            data-bs-placement="top"
-           title="Only +/- 3 days are allowed!"><i class="bi bi-info-circle ps-1"></i></a>
+           title="Only +/- 3 days are allowed!">
+          <sup><i class="bi bi-info-circle ps-1"></i></sup>
+        </a>
       </span>
       <select name="delivery" id="id_delivery" class="form-select">
         {% for delivery in form.fields.delivery.queryset %}

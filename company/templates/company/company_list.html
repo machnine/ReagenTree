@@ -3,7 +3,7 @@
   Companies
 {% endblock title %}
 {% block panel_title %}
-  Companies
+<i class="bi bi-buildings" style="color: var(--bs-gray);"></i>  Companies
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'company_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New company</a>
@@ -24,7 +24,7 @@
       <tbody>
         {% for company in companies %}
           <tr>
-            <td>
+            <td class="align-middle">
               <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
             </td>
             <td class="d-none d-lg-table-cell small">{{ company.description|truncatechars:50 }}</td>

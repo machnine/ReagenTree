@@ -1,11 +1,38 @@
 {% extends "object_create_base.html" %}
-{% load crispy_forms_tags %}
 {% block title %}
-  Delivery
+  Delivery Create
 {% endblock title %}
 {% block panel_title %}
-  Delivery Create
+  <i class="bi bi-cart-fill" style="color: var(--bs-green);"></i> New Delivery
 {% endblock panel_title %}
 {% block create_form %}
-  {{ form|crispy }}
+  <div class="pt-3 px-3">
+    <div id="div_id_delivery_date" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Delivery Date*:</span>
+      <input type="datetime-local"
+             name="delivery_date"
+             value="{{ form.delivery_date.value|default_if_none:'' }}"
+             class="dateinput form-control"
+             required
+             id="id_delivery_date">
+    </div>
+    <div id="div_id_received_by" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Received By*:</span>
+      <select name="received_by"
+              class="select form-select"
+              value="{{ form.received_by.value|default_if_none:'' }}"
+              required
+              id="id_received_by">
+        {% for user in form.fields.received_by.queryset %}
+          <option value="{{ user.pk }}"
+                  {% if user.pk == form.received_by.value %}selected{% endif %}>{{ user }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div id="div_id_notes"  class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Notes:</span>
+      <textarea name="notes" cols="40" rows="3" class="textarea form-control" id="id_notes">{{ form.notes.value|default_if_none:'' }}
+</textarea>
+    </div>
+  </div>
 {% endblock create_form %}

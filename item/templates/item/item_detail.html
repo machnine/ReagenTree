@@ -4,7 +4,7 @@
   Item Detail
 {% endblock title %}
 {% block panel_title %}
-  {{ item.name }}
+  <i class="bi bi-box2-fill" style="color: var(--bs-blue);"></i> {{ item.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -96,7 +96,8 @@
                     <td>{{ file.name }}</td>
                     <td>
                       {% if file.filetype %}
-                        <i class="bi bi-filetype-{{ file.filetype }}" style="color: var(--bs-green);"></i>
+                        <i class="bi bi-filetype-{{ file.filetype }}"
+                           style="color: var(--bs-green)"></i>
                       {% else %}
                         <i class="bi bi-file-earmark" style="color: var(--bs-green);"></i>
                       {% endif %}

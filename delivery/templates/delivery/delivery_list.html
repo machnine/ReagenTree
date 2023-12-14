@@ -3,7 +3,7 @@
   Deliveries
 {% endblock title %}
 {% block panel_title %}
-  All Deliveries
+<i class="bi bi-boxes" style="color: var(--bs-green);"></i> All Deliveries
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'delivery_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New delivery</a>
@@ -13,37 +13,41 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Delivery Date</th>
-          <th scope="col">Received</th>
-          <th scope="col">Notes</th>
-          <th scope="col">Items</th>
-          <th scope="col" class="d-none d-lg-table-cell">Actions</th>
+          <th width="10%" class="d-lg-table-cell">Delivery Date</th>
+          <th width="10%" class="d-lg-table-cell">Received By</th>
+          <th width="25%" class="d-lg-table-cell">Notes</th>
+          <th width="50%" class="d-none d-lg-table-cell">Items</th>
+          <th width="5%" class="d-lg-table-cell">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for delivery in deliveries %}
           <tr>
-            <td>
+            <td class="d-lg-table-cell align-middle">
               <a href="{% url 'delivery_detail' delivery.pk %}"
                  title="Delivery details">{{ delivery.delivery_date|date:"d/m/Y H:i" }}</a>
             </td>
-            <td>{{ delivery.received_by.first_name }}</td>
-            <td>{{ delivery.notes }}</td>
-            <td>
-              {% if delivery.within_one_week %}
+            <td class="d-lg-table-cell">{{ delivery.received_by.first_name }}</td>
+            <td class="d-lg-table-cell small">{{ delivery.notes }}</td>
+            <td class="d-none d-lg-table-cell small">
+              {% comment %} {% if delivery.within_one_week %}
                 <a class="btn btn-sm"
                    href="{% url 'stock_create' %}?delivery={{ delivery.pk }}&next={{ request.path }}"
                    title="Add stock items">
                   <i class="bi bi-plus-circle-dotted text-success"></i></a>
-              {% endif %}
-              {% for stockitem in delivery.stockitems.all %}
-                <span class="px-1 small bg-light">
-                  <a href="{% url 'stock_detail' pk=stockitem.pk %}"
-                     title="View stock item detail">{{ stockitem.item.name }}</a>
-                </span>
+              {% endif %} {% endcomment %}
+              <div class="row ps-2">
+              {% for stockitem in delivery.stockitems.all|slice:10 %}
+              <div class="col-4">
+                <i class="bi bi-box-seam"></i> {{ stockitem.item.name }}
+              </div>
               {% endfor %}
+              <div class="col-12">
+                {% if delivery.stockitems.count > 10 %}more ...{% endif %}
+              </div>
+              </div>
             </td>
-            <td class="d-none d-lg-table-cell">
+            <td class="d-lg-table-cell">
               <a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'delivery_delete' delivery.pk %}"
                  hx-trigger="click"

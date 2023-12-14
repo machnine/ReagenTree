@@ -1,15 +1,18 @@
-- [] Create View
-  - [] Delivery
+
 - [] Detail views
   - [] Delivery
+    - different cards or panels for different groups of stock items
   - [] StockItem
-- [] Update views
-  - [] Delivery
+    - list all same batch of stockitems in one view
 - [] List views
   - [] Delivery
+    - show one stockitem and a badge with number of items
 - Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
-- User groups
-- Restrict which group of users can do which CRUD
+- User
+  - User groups
+  - Restrict which group of users can do which CRUD
+  - User full_name, initials
+  - Change username to username instead of email?
 - Model search function
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
@@ -27,4 +30,5 @@
   - [] available stocks
 - List view sorting
 - List view search
+- 
   
