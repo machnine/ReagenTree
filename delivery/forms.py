@@ -7,9 +7,9 @@ from .models import Delivery
 
 
 delivery_fields = [
+    "notes",
     "delivery_date",
     "received_by",
-    "notes",
 ]
 
 

@@ -1,15 +1,14 @@
 """Category CRUD views."""
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from core.mixins import SuccessUrlMixin
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
+from core.views.generic import ObjectDeleteHTMXView
 
 from .models import Category
 
@@ -37,42 +36,38 @@ def category_search(request):
     )
 
 
-class CategoryCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
+class CategoryCreateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
+):
     """Category create view."""
 
     model = Category
+    is_created = True
     fields = ["name", "description"]
     template_name = "category/category_create.html"
     success_url = reverse_lazy("category_list")
-
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        form.instance.created = timezone.now()
-        if not form.instance.description:
-            form.instance.description = form.instance.name
-        response = super().form_valid(form)
-        messages.success(
-            self.request, f"Category { form.instance.name } created successfully."
-        )
-        return response
+    form_valid_message = "Category successfully created."
 
 
-class CategoryDeleteView(LoginRequiredMixin, View):
+class CategoryUpdateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
+):
+    """Category update view."""
+
+    model = Category
+    is_updated = True
+    fields = ["name", "description"]
+    success_url = reverse_lazy("category_list")
+    template_name = "category/category_update.html"
+    form_valid_message = "Category successfully updated."
+
+
+class CategoryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Category delete view."""
 
-    def get(self, request, *args, **kwargs):
-        """HTMX GET request for returning a Category delete form."""
-        category = Category.objects.get(pk=kwargs["pk"])
-        return render(
-            request, "category/category_delete_form.html", {"category": category}
-        )
-
-    def post(self, request, *args, **kwargs):
-        """Handle POST request."""
-        category = Category.objects.get(pk=kwargs["pk"])
-        category.delete()
-        messages.success(request, f"Category { category.name } deleted successfully.")
-        return redirect("category_list")
+    model = Category
+    template_name = "category/category_delete_form.html"
+    success_url = reverse_lazy("category_list")
 
 
 class CategoryDetailView(LoginRequiredMixin, DetailView):
@@ -101,21 +96,3 @@ class CategoryListView(LoginRequiredMixin, ListView):
     context_object_name = "categories"
     template_name = "category/category_list.html"
     paginate_by = 5
-
-
-class CategoryUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
-    """Category update view."""
-
-    model = Category
-    fields = ["name", "description"]
-    template_name = "category/category_update.html"
-    success_url = reverse_lazy("category_list")
-
-    def form_valid(self, form):
-        form.instance.last_updated_by = self.request.user
-        form.instance.last_updated = timezone.now()
-        response = super().form_valid(form)
-        messages.success(
-            self.request, f"Category { form.instance.name } updated successfully."
-        )
-        return response

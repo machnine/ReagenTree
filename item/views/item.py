@@ -1,38 +1,22 @@
 """Item views"""
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    UpdateView,
-    View,
-)
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from attachment.views import (
     AttachmentUploadView,
     AttachmentDeleteView,
     AttachmentUpdateView,
 )
-from core.mixins import SuccessUrlMixin
+from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from core.views.generic import ObjectDeleteHTMXView
 from category.models import Category
 from company.models import Company
 from item.models import Item, ItemAttachment, StockItem
-from item.forms import ItemAttachmentCreateForm, ItemAttachmentUpdateForm
-
-form_fields = [
-    "name",
-    "product_id",
-    "description",
-    "category",
-    "manufacturer",
-    "supplier",
-]
+from item.forms import ItemForm, ItemAttachmentCreateForm, ItemAttachmentUpdateForm
 
 
 # Item search view
@@ -55,60 +39,56 @@ def item_search(request):
 
 
 # Item CRUD views
-class ItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
+class ItemCreateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
+):
     """Create view for Item model"""
 
     model = Item
-    fields = form_fields
+    is_created = True
+    form_class = ItemForm
     template_name = "item/item_create.html"
     success_url = reverse_lazy("item_list")
+    form_valid_message = "Item successfully created."
 
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        form.instance.created = timezone.now()
-        response = super().form_valid(form)
-        messages.success(
-            self.request, f"Item {form.instance.name} created successfully."
-        )
-        return response
+    def get_field_obj_name(self, field_value, obj_model):
+        """Return the name of the field object."""
+        if field_value:
+            obj = (
+                field_value
+                if hasattr(field_value, "id")
+                else obj_model.objects.get(pk=field_value)
+            )
+            return obj.name
 
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
         # retain the selected category, manufacturer, and supplier
         # in the form if the form is invalid for better UX
-        if "category" in form.cleaned_data:
-            category = Category.objects.get(pk=form.cleaned_data["category"].id)
-            context["category_name"] = category.name
-        if "manufacturer" in form.cleaned_data:
-            manufacturer = Company.objects.get(pk=form.cleaned_data["manufacturer"].id)
-            context["manufacturer_name"] = manufacturer.name
-        if "supplier" in form.cleaned_data:
-            supplier = Company.objects.get(pk=form.cleaned_data["supplier"].id)
-            context["supplier_name"] = supplier.name
+
+        context["category_name"] = self.get_field_obj_name(
+            form.cleaned_data.get("category"), Category
+        )
+        context["manufacturer_name"] = self.get_field_obj_name(
+            form.cleaned_data.get("manufacturer"), Company
+        )
+        context["supplier_name"] = self.get_field_obj_name(
+            form.cleaned_data.get("supplier"), Company
+        )
         return self.render_to_response(context)
 
 
-class ItemDetailView(LoginRequiredMixin, DetailView):
-    """Detail view for Item model"""
-
-    model = Item
-    context_object_name = "item"
-    template_name = "item/item_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["stockitems"] = StockItem.objects.filter(item=self.object)
-        context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
-        return context
-
-
-class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
+class ItemUpdateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
+):
     """Update view for Item model"""
 
     model = Item
-    fields = form_fields
+    is_updated = True
+    form_class = ItemForm
     template_name = "item/item_update.html"
     success_url = reverse_lazy("item_list")
+    form_valid_message = "Item successfully updated."
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,35 +103,31 @@ class ItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
 
         return context
 
-    def form_valid(self, form):
-        # set the last_updated_by and last_updated fields
-        form.instance.last_updated_by = self.request.user
-        form.instance.last_updated = timezone.now()
-        response = super().form_valid(form)
-        messages.success(
-            self.request, f"Item {form.instance.name} updated successfully."
-        )
-        return response
-
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
 
 
-class ItemDeleteView(LoginRequiredMixin, View):
+class ItemDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Delete view for Item model"""
 
-    def get(self, request, *args, **kwargs):
-        """HTMX GET request for returning an Item delete form."""
-        item = Item.objects.get(pk=kwargs["pk"])
-        return render(request, "item/item_delete_form.html", {"item": item})
+    model = Item
+    template_name = "item/item_delete_form.html"
+    success_url = reverse_lazy("item_list")
 
-    def post(self, request, *args, **kwargs):
-        """HTMX POST request for deleting an Item."""
-        item = Item.objects.get(pk=kwargs["pk"])
-        item.delete()
-        messages.success(request, f"Item {item.name} deleted successfully.")
-        return redirect("item_list")
+
+class ItemDetailView(LoginRequiredMixin, DetailView):
+    """Detail view for Item model"""
+
+    model = Item
+    context_object_name = "item"
+    template_name = "item/item_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["stockitems"] = StockItem.objects.filter(item=self.object)
+        context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
+        return context
 
 
 class ItemListView(LoginRequiredMixin, ListView):

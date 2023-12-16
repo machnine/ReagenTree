@@ -1,7 +1,6 @@
 """Item models"""
 
 from django.conf import settings
-from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
@@ -29,9 +28,7 @@ class StockItem(models.Model):
         choices=CONDITION_CHOICES, default=0
     )
     lot_number = models.CharField(max_length=50)
-    expiry_date = models.DateField(
-        validators=[MinValueValidator(timezone.now().date())]
-    )
+    expiry_date = models.DateField()
     location = models.ForeignKey(
         Location,
         on_delete=models.CASCADE,

@@ -1,19 +1,17 @@
 """Location CRUD views."""
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from core.mixins import SuccessUrlMixin
+from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from core.views.generic import ObjectDeleteHTMXView
 
 from .models import Location
-
-form_fields = ["name", "room", "description"]
+from .forms import LocationForm
 
 
 # Location search view
@@ -36,40 +34,38 @@ def location_search(request):
     )
 
 
-class LocationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
+class LocationCreateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
+):
     """Location create view."""
 
     model = Location
-    fields = form_fields
+    is_created = True
+    form_class = LocationForm
     template_name = "location/location_create.html"
     success_url = reverse_lazy("location_list")
-
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        form.instance.created = timezone.now()
-        response = super().form_valid(form)
-        messages.success(
-            self.request, f"Location { form.instance.name } created successfully."
-        )
-        return response
+    form_valid_message = "Location successfully created."
 
 
-class LocationDeleteView(LoginRequiredMixin, View):
+class LocationUpdateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
+):
+    """Location update view."""
+
+    model = Location
+    is_updated = True
+    form_class = LocationForm
+    template_name = "location/location_update.html"
+    success_url = reverse_lazy("location_list")
+    form_valid_message = "Location successfully updated."
+
+
+class LocationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Location delete view."""
 
-    def get(self, request, *args, **kwargs):
-        """HTMX GET request for returning a Location delete form."""
-        location = Location.objects.get(pk=kwargs["pk"])
-        return render(
-            request, "location/location_delete_form.html", {"location": location}
-        )
-
-    def post(self, request, *args, **kwargs):
-        """Handle POST request."""
-        location = Location.objects.get(pk=kwargs["pk"])
-        location.delete()
-        messages.success(request, f"Location { location.name } deleted successfully.")
-        return redirect("location_list")
+    model = Location
+    template_name = "location/location_delete.html"
+    success_url = reverse_lazy("location_list")
 
 
 class LocationDetailView(LoginRequiredMixin, DetailView):
@@ -98,21 +94,3 @@ class LocationListView(LoginRequiredMixin, ListView):
     context_object_name = "locations"
     template_name = "location/location_list.html"
     paginate_by = 5
-
-
-class LocationUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
-    """Location update view."""
-
-    model = Location
-    fields = form_fields
-    template_name = "location/location_update.html"
-    success_url = reverse_lazy("location_list")
-
-    def form_valid(self, form):
-        form.instance.last_updated_by = self.request.user
-        form.instance.last_updated = timezone.now()
-        response = super().form_valid(form)
-        messages.success(
-            self.request, f"Location { form.instance.name } updated successfully."
-        )
-        return response

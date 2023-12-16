@@ -47,4 +47,5 @@ class Delivery(models.Model):
 
     class Meta:
         ordering = ["-delivery_date"]
+        verbose_name = "delivery"
         verbose_name_plural = "deliveries"

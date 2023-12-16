@@ -3,18 +3,13 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    UpdateView,
-    View,
-)
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.mixins import SuccessUrlMixin
+from core.views.generic import ObjectDeleteHTMXView
 
 from delivery.models import Delivery
 from location.models import Location
@@ -80,46 +75,6 @@ class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         return self.render_to_response(context)
 
 
-class StockItemListView(LoginRequiredMixin, ListView):
-    """List view for StockItem model"""
-
-    model = StockItem
-    context_object_name = "stockitems"
-    template_name = "item/stockitem_list.html"
-    paginate_by = 16
-    ordering = "-created"
-
-
-class StockItemDetailView(LoginRequiredMixin, DetailView):
-    """Detail view for StockItem model"""
-
-    model = StockItem
-    context_object_name = "stockitem"
-    template_name = "item/stockitem_detail.html"
-
-
-class StockItemDeleteView(LoginRequiredMixin, View):
-    """Delete view for StockItem model"""
-
-    def get_stockitem(self, pk):
-        return get_object_or_404(StockItem, pk=pk)
-
-    def get(self, request, *args, **kwargs):
-        """HTMX GET request for returning a StockItem delete form."""
-        stockitem = self.get_stockitem(kwargs["pk"])
-        return render(
-            request, "item/stockitem_delete_form.html", {"stockitem": stockitem}
-        )
-
-    def post(self, request, *args, **kwargs):
-        """HTMX POST request for deleting a StockItem."""
-        with transaction.atomic():
-            stockitem = self.get_stockitem(kwargs["pk"])
-            stockitem.delete()
-            messages.success(request, "Stock Item deleted successfully.")
-        return redirect("stock_list")
-
-
 class StockItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     """Update view for StockItem model"""
 
@@ -146,3 +101,29 @@ class StockItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
+
+
+class StockItemListView(LoginRequiredMixin, ListView):
+    """List view for StockItem model"""
+
+    model = StockItem
+    context_object_name = "stockitems"
+    template_name = "item/stockitem_list.html"
+    paginate_by = 16
+    ordering = "-created"
+
+
+class StockItemDetailView(LoginRequiredMixin, DetailView):
+    """Detail view for StockItem model"""
+
+    model = StockItem
+    context_object_name = "stockitem"
+    template_name = "item/stockitem_detail.html"
+
+
+class StockItemDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
+    """Delete view for StockItem model"""
+
+    model = StockItem
+    template_name = "item/stockitem_delete_form.html"
+    success_url = reverse_lazy("stock_list")
