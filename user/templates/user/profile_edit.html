@@ -10,36 +10,20 @@
     <form method="post">
       {% csrf_token %}
       <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-sm">First Name:</span>
-        <input type="text"
-               name="first_name"
-               class="form-control"
-               id="firstName"
-               value="{{ user.first_name }}">
+        <span class="input-group-text input-group-text-fw-sm">{{ form.first_name.label_tag }}</span>
+        {{ form.first_name }}
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-sm">Last Name:</span>
-        <input type="text"
-               name="last_name"
-               class="form-control"
-               id="lastName"
-               value="{{ user.last_name }}">
+        <span class="input-group-text input-group-text-fw-sm">{{ form.last_name.label_tag }}</span>
+        {{ form.last_name }}
       </div>
       <div class="mb-3 input-group">
-        <span class="input-group-text input-group-text-sm">Email:</span>
-        <input type="text"
-               name="email"
-               class="form-control bg-white"
-               id="email"
-               value="{{ user.email }}">
+        <span class="input-group-text input-group-text-fw-sm">{{ form.email.label_tag }}</span>
+        {{ form.email }}
       </div>
       <div class="mb-3 input-group">
-        <span class="input-group-text input-group-text-sm">Initials:</span>
-        <input type="text"
-               name="initials"
-               class="form-control bg-white"
-               id="initials"
-               value="{{ user.initials }}">
+        <span class="input-group-text input-group-text-fw-sm">{{ form.initials.label_tag }}</span>
+        {{ form.initials }}
       </div>
       <div class="text-end">
         <button type="submit" class="btn btn-sm btn-success">

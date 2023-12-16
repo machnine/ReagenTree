@@ -9,7 +9,7 @@ class CustomUserCreationForm(UserCreationForm):
     """Custom user creation form"""
 
     def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Setting up custom widgets for all fields
         self.fields["username"].widget = forms.TextInput(
@@ -128,7 +128,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         fields = ("username", "password")
 
     def __init__(self, *args, **kwargs):
-        super(CustomAuthenticationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Setting up custom widgets for all fields
         self.fields["username"].widget = forms.TextInput(
@@ -147,3 +147,24 @@ class UserProfileForm(forms.ModelForm):
 
         model = CustomUser
         fields = ("first_name", "last_name", "email", "initials")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].widget = forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "First Name. ≤30 characters.",
+            }
+        )
+        self.fields["last_name"].widget = forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Last Name. ≤30 characters."}
+        )
+        self.fields["email"].widget = forms.EmailInput(
+            attrs={"class": "form-control", "placeholder": "Your OUH e-Mail."}
+        )
+        self.fields["initials"].widget = forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Your initials. ≤3 characters",
+            }
+        )

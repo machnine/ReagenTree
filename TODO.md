@@ -11,8 +11,6 @@
 - User
   - User groups
   - Restrict which group of users can do which CRUD
-  - User full_name, initials
-  - Change username to username instead of email?
 - Model search function
 - Full site search function
 - Item search to include manufacturer/supplier name? (Perhaps not necessary)
