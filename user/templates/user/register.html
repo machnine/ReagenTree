@@ -1,10 +1,26 @@
 {% extends "user/auth_base.html" %}
-{% load crispy_forms_tags %}
 {% block title %}
   User Registration
 {% endblock title %}
+{% block auth_size %}
+  col-xl-4 col-lg-8 col-md-12
+{% endblock auth_size %}
 {% block auth_form %}
-  {{ form|crispy }}
+  {% for field in form %}
+    <div class="input-group mb-3" id="div_id_{{ field.name }}">
+      <span class="input-group-text input-group-text-fw-md">
+        {% if field.name == "password1" %}
+          Password:
+        {% elif field.name == "password2" %}
+          Confirm Password:
+        {% else %}
+          {{ field.label_tag }}
+        {% endif %}
+      </span>
+      {{ field }}
+    </div>
+    {% if field.errors %}<span class="text-danger">{{ field.errors }}</span>{% endif %}
+  {% endfor %}
 {% endblock auth_form %}
 {% block auth_button %}
   Register

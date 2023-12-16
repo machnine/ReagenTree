@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
 
 # get the user model (it could be a custom one in this case)
 User = get_user_model()
@@ -52,7 +52,7 @@ class UserLoginView(LoginView):
         Called if the form is valid and a success message
         """
         username = form.cleaned_data.get("username")
-        user = User.objects.get(username=username)
+        user = get_user_model().objects.get(username=username)
         display_name = user.first_name or user.username
         messages.success(
             self.request, f"You have successfully logged in as {display_name}"
@@ -69,7 +69,7 @@ class UserLogoutView(LogoutView):
 class UserProfileView(LoginRequiredMixin, DetailView):
     """User Profile View"""
 
-    model = User
+    model = get_user_model()
     template_name = "user/profile_view.html"
     context_object_name = "user"
 
@@ -81,9 +81,9 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 class UserProfileEdit(LoginRequiredMixin, UpdateView):
     """User Profile Edit View"""
 
-    model = User
+    model = get_user_model()
     template_name = "user/profile_edit.html"
-    fields = ["first_name", "last_name"]
+    form_class = UserProfileForm
     success_url = reverse_lazy("user_profile")
 
     def get_object(self, queryset=None) -> models.Model:

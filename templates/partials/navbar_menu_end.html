@@ -17,7 +17,7 @@
         aria-labelledby="userDropdown">
       <li>
         <div class="text-center">
-          <span title="{{ request.user.first_name }} {{ request.user.last_name }}"><b>{{ request.user.first_name }}</b></span>
+          <span title="{{ request.user.get_full_name }}"><b>{{ request.user.get_full_name }}</b></span>
         </div>
       </li>
       <li class="dropdown-divider"></li>

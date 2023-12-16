@@ -11,7 +11,7 @@
 {% endblock css %}
 {% block content %}
   <div class="d-flex justify-content-center">
-    <div class="col-xl-3 col-lg-6 col-md-9 col-12">
+    <div class="{% block auth_size %}{% endblock auth_size %}">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <img src="{% static 'images/ReagenTree_Logo.png' %}"
@@ -21,7 +21,7 @@
                title="ReagenTree" />
           <h4 class="mb-0">ReagenTree</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body my-5 mx-3">
           <form method="post">
             {% csrf_token %}
             {% block auth_form %}

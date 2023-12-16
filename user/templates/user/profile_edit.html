@@ -25,6 +25,22 @@
                id="lastName"
                value="{{ user.last_name }}">
       </div>
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-sm">Email:</span>
+        <input type="text"
+               name="email"
+               class="form-control bg-white"
+               id="email"
+               value="{{ user.email }}">
+      </div>
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-sm">Initials:</span>
+        <input type="text"
+               name="initials"
+               class="form-control bg-white"
+               id="initials"
+               value="{{ user.initials }}">
+      </div>
       <div class="text-end">
         <button type="submit" class="btn btn-sm btn-success">
           <i class="bi bi-floppy"></i> Save
