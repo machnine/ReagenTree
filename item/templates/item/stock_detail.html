@@ -1,18 +1,18 @@
 {% extends "object_detail_base.html" %}
 {% block title %}
-  Stock Item
+  Stock
 {% endblock title %}
 {% block panel_title %}
 <i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Stock Item Detail
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
-    <a href="{% url 'stock_update' stockitem.pk %}?next={{ request.path }}"
-       title="Update stockitem"
+    <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
+       title="Update stock"
        class="btn btn-sm btn-success">
       <i class="bi bi-pencil-square"></i> Edit</a>
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  {{ stockitem.item.name }}
+  {{ stock.item.name }}
 {% endblock panel_content %}

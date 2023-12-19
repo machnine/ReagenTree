@@ -1,4 +1,4 @@
-"""Template tags for StockItem"""
+"""Template tags for Stock"""
 from django import template
 from django.utils.safestring import mark_safe
 

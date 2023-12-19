@@ -1,7 +1,7 @@
 {% extends "object_list_base.html" %}
 {% load stock_tags %}
 {% block title %}
-  Stock Items
+  Stock
 {% endblock title %}
 {% block panel_title %}
   <i class="bi bi-boxes" style="color: var(--bs-orange);"></i> All Stock Items
@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for stock in stockitems %}
+        {% for stock in stocks %}
           <tr>
             <td class="align-middle">
               <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>

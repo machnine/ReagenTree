@@ -3,10 +3,10 @@ from django import forms
 from django.utils import timezone
 
 from delivery.models import Delivery
-from item.models import StockItem
+from item.models import Stock
 
 
-stockitem_form_fields = [
+stock_form_fields = [
     "delivery",
     "item",
     "delivery_condition",
@@ -16,14 +16,14 @@ stockitem_form_fields = [
 ]
 
 
-class StockItemCreateForm(forms.ModelForm):
-    """Custom input form for the StockItem model."""
+class StockCreateForm(forms.ModelForm):
+    """Custom input form for the Stock model."""
 
     quantity = forms.IntegerField(min_value=1, initial=1)
 
     class Meta:
-        model = StockItem
-        fields = stockitem_form_fields
+        model = Stock
+        fields = stock_form_fields
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -41,12 +41,12 @@ class StockItemCreateForm(forms.ModelForm):
         return expiry_date
 
 
-class StockItemUpdateForm(forms.ModelForm):
-    """Custom update form for the StockItem model."""
+class StockUpdateForm(forms.ModelForm):
+    """Custom update form for the Stock model."""
 
     class Meta:
-        model = StockItem
-        fields = stockitem_form_fields
+        model = Stock
+        fields = stock_form_fields
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

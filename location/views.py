@@ -78,9 +78,9 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # get items for pagination
-        stockitems = self.object.stockitems.all()
+        stocks = self.object.stocks.all()
         # paginate items
-        paginator = Paginator(stockitems, self.paginate_by)
+        paginator = Paginator(stocks, self.paginate_by)
         page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         context["page_obj"] = page_obj

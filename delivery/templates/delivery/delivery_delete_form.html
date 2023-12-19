@@ -12,7 +12,7 @@
       Delete this delivery? <small class="text-muted">(received {{ object.delivery_date|date:"d/m/y H:i" }} by {{ object.received_by.first_name }})</small>
     </p>
     <p>
-      <i class="text-danger">All associated stock items will be deleted!</i>
+      <i class="text-danger">All associated stocks will be deleted!</i>
     </p>
     <input type="hidden" name="delivery_id" value="{{ object.pk }}">
   </div>

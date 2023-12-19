@@ -30,7 +30,7 @@
             <td class="d-none d-lg-table-cell small">{{ location.description|truncatechars:150 }}</td>
             <td class="d-none d-lg-table-cell">
               <div class="row ps-2 small">
-                {% for stock in location.stockitems.all|slice:10 %}
+                {% for stock in location.stocks.all|slice:10 %}
                   <div class="col-6">
                     <i class="bi bi-box-seam"></i>
                     <a href="{% url 'stock_detail' stock.pk %}"
@@ -41,7 +41,7 @@
                   </div>
                 {% endfor %}
                 <div class="col-12 small">
-                  {% if location.stockitems.count > 10 %}
+                  {% if location.stocks.count > 10 %}
                     <a href="{% url 'location_detail' location.pk %}">More ...</a>
                   {% endif %}
                 </div>

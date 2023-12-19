@@ -9,8 +9,8 @@ from location.models import Location
 from .item import Item
 
 
-class StockItem(models.Model):
-    """StockItem model for the stock items"""
+class Stock(models.Model):
+    """Stock model for the stocks"""
 
     CONDITION_CHOICES = [
         (0, "Unknown"),
@@ -19,14 +19,14 @@ class StockItem(models.Model):
         (3, "Requires Attention"),
     ]
 
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stockitems")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stocks")
     remaining_tests = models.PositiveSmallIntegerField(null=True, blank=True)
     remaining_volume = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     remaining_volume_unit = models.CharField(max_length=2, null=True)
     remaining_weight = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     remaining_weight_unit = models.CharField(max_length=2, null=True)
     delivery = models.ForeignKey(
-        Delivery, on_delete=models.CASCADE, related_name="stockitems", null=True
+        Delivery, on_delete=models.CASCADE, related_name="stocks", null=True
     )
     delivery_condition = models.PositiveSmallIntegerField(
         choices=CONDITION_CHOICES, default=0
@@ -36,7 +36,7 @@ class StockItem(models.Model):
     location = models.ForeignKey(
         Location,
         on_delete=models.CASCADE,
-        related_name="stockitems",
+        related_name="stocks",
         blank=True,
         null=True,
     )

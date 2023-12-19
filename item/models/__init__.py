@@ -1,3 +1,3 @@
 from .item import Item, ItemAttachment
-from .stockitem import StockItem
+from .stock import Stock
 from .usage import Usage

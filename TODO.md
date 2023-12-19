@@ -1,13 +1,13 @@
 
 - [] Detail views
   - [] Delivery
-    - different cards or panels for different groups of stock items
-  - [] StockItem
-    - list all same batch of stockitems in one view
+    - different cards or panels for different groups of stocks
+  - [] Stock
+    - list all same batch of stocks in one view
 - [] List views
   - [] Delivery
-    - show one stockitem and a badge with number of items
-- Something to better id a delivery when it appears in the dropdown (StockItemCreate?)
+    - show one stock and a badge with number of items
+- Something to better id a delivery when it appears in the dropdown (StockCreate?)
 - User
   - User groups
   - Restrict which group of users can do which CRUD
@@ -18,7 +18,7 @@
     - validation workflow
     - Stock take work flow - what is it and how to deal with it?
     - Set a stock level threshold for warning
-    - Stock level How to handle items (stock items) that are used up? delete? archive? or simply not showing
+    - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
 - Delivery model

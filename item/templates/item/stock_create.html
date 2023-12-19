@@ -1,12 +1,12 @@
-{% extends "object_update_base.html" %}
+{% extends "object_create_base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-  Stock Items
+  Stock
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Update Stock Items
+<i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Commit to Stock
 {% endblock panel_title %}
-{% block update_form %}
+{% block create_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# item search input #}
@@ -18,7 +18,6 @@
                id="item_search_box"
                class="form-control"
                autocomplete="off"
-               value="{{ item_name|default_if_none:'' }}"
                placeholder="Start typing to enter an item..."
                hx-trigger="keyup changed delay:500ms"
                hx-get="{% url 'item_search' %}"
@@ -34,11 +33,7 @@
       </div>
       <span class="text-danger">{{ form.item.errors }}</span>
       <div id="itemSearchResults" class="list-group type-search-result"></div>
-      <input type="text"
-             name="item"
-             id="id_item"
-             hidden
-             value="{{ form.item.value }}">
+      <input type="text" name="item" id="id_item" hidden>
     </div>
     {# item search input end #}
     <div class="input-group mb-3">
@@ -57,8 +52,8 @@
       <input type="date"
              name="expiry_date"
              id="id_expiry_date"
+             value="{{ form.expiry_date.value|default_if_none:'' }}"
              class="form-control"
-             value="{{ form.expiry_date.value|date:'Y-m-d' }}"
              placeholder="Expiry Date">
     </div>
     <span class="text-danger">{{ form.expiry_date.errors }}</span>
@@ -67,15 +62,12 @@
         <a href="javascript:void(0);"
            data-bs-toggle="tooltip"
            data-bs-placement="top"
-           title="Only +/- 3 days are allowed!">
+           title="Only delivery received within the last week can be seen here.">
           <sup><i class="bi bi-info-circle ps-1"></i></sup>
         </a>
       </span>
       <select name="delivery" id="id_delivery" class="form-select">
-        {% for delivery in form.fields.delivery.queryset %}
-          <option value="{{ delivery.pk }}"
-                  {% if delivery.pk == form.delivery.value %}selected{% endif %}>{{ delivery }}</option>
-        {% endfor %}
+        {% for delivery in form.delivery %}{{ delivery }}{% endfor %}
       </select>
       <span class="input-group-text">
         <a href="{% url 'delivery_create' %}?next={{ request.path }}"
@@ -101,12 +93,7 @@
       <select name="delivery_condition"
               id="id_delivery_condition"
               class="form-select">
-        {% for condition_id, condition_name in form.fields.delivery_condition.choices %}
-          <option value="{{ condition_id }}"
-                  {% if condition_id == form.delivery_condition.value %}selected{% endif %}>
-            {{ condition_name }}
-          </option>
-        {% endfor %}
+        {% for condition in form.delivery_condition %}{{ condition }}{% endfor %}
       </select>
     </div>
     <span class="text-danger">{{ form.delivery_condition.errors }}</span>
@@ -119,7 +106,6 @@
                id="location_search_box"
                class="form-control"
                autocomplete="off"
-               value="{{ location_name|default_if_none:'' }}"
                placeholder="Start typing to enter a location..."
                hx-trigger="keyup changed delay:500ms"
                hx-get="{% url 'location_search' %}"
@@ -142,28 +128,28 @@
              hidden>
     </div>
   </div>
-{% endblock update_form %}
+{% endblock create_form %}
 {% block js %}
   <script>
-  //set up the search result listener for the item search box
-  const searchConfigurations = [{
-    searchBoxId: "item_search_box",
-    textInputId: "id_item",
-    resultsDivId: "itemSearchResults",
-    resultClass: "item-search-result-item",
-    valueAttribute: "item-pk"
-  },
-  {
-    searchBoxId: "location_search_box",
-    textInputId: "id_location",
-    resultsDivId: "locationSearchResults",
-    resultClass: "location-search-result-location",
-    valueAttribute: "location-pk"
-  }];
+    //set up the search result listener for the item search box
+    const searchConfigurations = [{
+      searchBoxId: "item_search_box",
+      textInputId: "id_item",
+      resultsDivId: "itemSearchResults",
+      resultClass: "item-search-result-item",
+      valueAttribute: "item-pk"
+    },
+    {
+      searchBoxId: "location_search_box",
+      textInputId: "id_location",
+      resultsDivId: "locationSearchResults",
+      resultClass: "location-search-result-location",
+      valueAttribute: "location-pk"
+    }];
 
-  // Initialize each search box listener
-  searchConfigurations.forEach(
-    config => TypeSearchResultListenerConfig(config)
-  );
+    // Initialize each search box listener
+    searchConfigurations.forEach(
+      config => TypeSearchResultListenerConfig(config)
+    );
   </script>
 {% endblock js %}

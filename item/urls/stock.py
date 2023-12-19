@@ -1,18 +1,18 @@
-"""StockItem Urls"""
+"""Stock Urls"""
 from django.urls import path
 
 from item.views import (
-    StockItemCreateView,
-    StockItemListView,
-    StockItemDetailView,
-    StockItemDeleteView,
-    StockItemUpdateView,
+    StockCreateView,
+    StockListView,
+    StockDetailView,
+    StockDeleteView,
+    StockUpdateView,
 )
 
 urlpatterns = [
-    path("", StockItemListView.as_view(), name="stock_list"),
-    path("create/", StockItemCreateView.as_view(), name="stock_create"),
-    path("<int:pk>/delete/", StockItemDeleteView.as_view(), name="stock_delete"),
-    path("<int:pk>/", StockItemDetailView.as_view(), name="stock_detail"),
-    path("<int:pk>/update/", StockItemUpdateView.as_view(), name="stock_update"),
+    path("", StockListView.as_view(), name="stock_list"),
+    path("create/", StockCreateView.as_view(), name="stock_create"),
+    path("<int:pk>/delete/", StockDeleteView.as_view(), name="stock_delete"),
+    path("<int:pk>/", StockDetailView.as_view(), name="stock_detail"),
+    path("<int:pk>/update/", StockUpdateView.as_view(), name="stock_update"),
 ]

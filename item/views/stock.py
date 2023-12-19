@@ -13,16 +13,16 @@ from core.views.generic import ObjectDeleteHTMXView
 
 from delivery.models import Delivery
 from location.models import Location
-from item.models import StockItem, Item
-from item.forms import StockItemCreateForm, StockItemUpdateForm
+from item.models import Stock, Item
+from item.forms import StockCreateForm, StockUpdateForm
 
 
-class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
-    """Create view for StockItem model"""
+class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
+    """Create view for Stock model"""
 
-    model = StockItem
-    form_class = StockItemCreateForm
-    template_name = "item/stockitem_create.html"
+    model = Stock
+    form_class = StockCreateForm
+    template_name = "item/stock_create.html"
     success_url = reverse_lazy("stock_list")
 
     def form_valid(self, form):
@@ -31,9 +31,9 @@ class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         # get the item instance
         item = get_object_or_404(Item, id=form.cleaned_data.get("item").id)
         with transaction.atomic():
-            stockitems = []
+            stocks = []
             for n in range(quantity):
-                stockitem = StockItem(
+                stock = Stock(
                     item=item,
                     created_by=self.request.user,
                     created=timezone.now(),
@@ -44,15 +44,15 @@ class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                         if key not in ["quantity", "item"]
                     },
                 )
-                stockitems.append(stockitem)
-            StockItem.objects.bulk_create(stockitems)
+                stocks.append(stock)
+            Stock.objects.bulk_create(stocks)
 
         messages.success(
-            self.request, f"{quantity} stock item(s) successfully created."
+            self.request, f"{quantity} stock(s) successfully created."
         )
-        # set the object attribute to the last stock item created
+        # set the object attribute to the last stock created
         # to allow for the get_success_url method to work properly
-        self.object = stockitems[-1]
+        self.object = stocks[-1]
         return HttpResponseRedirect(self.get_success_url())
 
     def get_initial(self):
@@ -75,22 +75,22 @@ class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         return self.render_to_response(context)
 
 
-class StockItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
-    """Update view for StockItem model"""
+class StockUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
+    """Update view for Stock model"""
 
-    model = StockItem
-    form_class = StockItemUpdateForm
-    template_name = "item/stockitem_update.html"
+    model = Stock
+    form_class = StockUpdateForm
+    template_name = "item/stock_update.html"
     success_url = reverse_lazy("stock_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        stockitem = self.object  # The stock item being updated
+        stock = self.object  # The stock being updated
 
-        if stockitem.item:
-            context["item_name"] = stockitem.item.name
-        if stockitem.location:
-            context["location_name"] = stockitem.location.name
+        if stock.item:
+            context["item_name"] = stock.item.name
+        if stock.location:
+            context["location_name"] = stock.location.name
         return context
 
     def form_valid(self, form):
@@ -103,27 +103,27 @@ class StockItemUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
         return self.render_to_response(context)
 
 
-class StockItemListView(LoginRequiredMixin, ListView):
-    """List view for StockItem model"""
+class StockListView(LoginRequiredMixin, ListView):
+    """List view for Stock model"""
 
-    model = StockItem
-    context_object_name = "stockitems"
-    template_name = "item/stockitem_list.html"
+    model = Stock
+    context_object_name = "stocks"
+    template_name = "item/stock_list.html"
     paginate_by = 16
     ordering = "-created"
 
 
-class StockItemDetailView(LoginRequiredMixin, DetailView):
-    """Detail view for StockItem model"""
+class StockDetailView(LoginRequiredMixin, DetailView):
+    """Detail view for Stock model"""
 
-    model = StockItem
-    context_object_name = "stockitem"
-    template_name = "item/stockitem_detail.html"
+    model = Stock
+    context_object_name = "stock"
+    template_name = "item/stock_detail.html"
 
 
-class StockItemDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
-    """Delete view for StockItem model"""
+class StockDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
+    """Delete view for Stock model"""
 
-    model = StockItem
-    template_name = "item/stockitem_delete_form.html"
+    model = Stock
+    template_name = "item/stock_delete_form.html"
     success_url = reverse_lazy("stock_list")

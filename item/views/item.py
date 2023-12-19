@@ -15,7 +15,7 @@ from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
 from category.models import Category
 from company.models import Company
-from item.models import Item, ItemAttachment, StockItem
+from item.models import Item, ItemAttachment, Stock
 from item.forms import ItemForm, ItemAttachmentCreateForm, ItemAttachmentUpdateForm
 
 
@@ -125,7 +125,7 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["stockitems"] = StockItem.objects.filter(item=self.object)
+        context["stocks"] = Stock.objects.filter(item=self.object)
         context["attachments"] = ItemAttachment.objects.filter(object_id=self.object.id)
         return context
 
