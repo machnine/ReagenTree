@@ -29,7 +29,7 @@ class StockItemCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         # get the quantity
         quantity = form.cleaned_data.get("quantity")
         # get the item instance
-        item = get_object_or_404(Item, form.cleaned_data.get("item").id)
+        item = get_object_or_404(Item, id=form.cleaned_data.get("item").id)
         with transaction.atomic():
             stockitems = []
             for n in range(quantity):

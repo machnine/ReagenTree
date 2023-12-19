@@ -1,6 +1,7 @@
 """Item models"""
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from attachment.models import Attachment
@@ -11,11 +12,23 @@ from category.models import Category
 class Item(models.Model):
     """Item model the basis for all items"""
 
+    VOLUME_UNITS = [("l", "l"), ("ml", "ml"), ("μl", "μl")]
+    WEIGHT_UNITS = [("kg", "kg"), ("g", "g"), ("mg", "mg"), ("μg", "μg")]
+
     name = models.CharField(max_length=255)
     product_id = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="items"
+    )
+    tests = models.PositiveSmallIntegerField(null=True, blank=True)
+    volume = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    volume_unit = models.CharField(
+        max_length=2, choices=VOLUME_UNITS, null=True, blank=True
+    )
+    weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    weight_unit = models.CharField(
+        max_length=2, choices=WEIGHT_UNITS, null=True, blank=True
     )
     manufacturer = models.ForeignKey(
         Company,
@@ -45,6 +58,23 @@ class Item(models.Model):
         null=True,
         related_name="updated_items",
     )
+
+    def clean(self):
+        metrics = [self.tests, self.volume, self.weight]
+        if sum(value is not None for value in metrics) > 1:
+            raise ValidationError(
+                "Only one of 'tests', 'volume', or 'weight' can be set."
+            )
+
+    def get_applicable_metric(self):
+        """Return the metrics that are applicable to the item"""
+        if self.tests:
+            return "tests", self.tests, ""
+        if self.volume:
+            return "volume", self.volume, self.volume_unit
+        if self.weight:
+            return "weight", self.weight, self.weight_unit
+        return None, None, None
 
     def __str__(self):
         return f"{self.name}"

@@ -4,7 +4,7 @@
   Stock Items
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-boxes" style="color: var(--bs-orange);"></i> All Stock Items
+  <i class="bi bi-boxes" style="color: var(--bs-orange);"></i> All Stock Items
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a>
@@ -31,7 +31,8 @@
               <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
             </td>
             <td>
-              <a href="{% url 'stock_detail' stock.pk %}" data-bs-toggle="tooltip"
+              <a href="{% url 'stock_detail' stock.pk %}"
+                 data-bs-toggle="tooltip"
                  title="#{{ stock.ordinal_number }} Received at {{ stock.delivery.delivery_date|date:'d/m/y H:i' }}">
                 <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
               </a>
@@ -40,7 +41,9 @@
             <td>{{ stock.lot_number }}</td>
             <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="d-none d-lg-table-cell">
-              <a href="{% url 'delivery_detail' stock.delivery.pk %}" title="{{ stock.delivery }}" data-bs-toggle="tooltip">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
+              <a href="{% url 'delivery_detail' stock.delivery.pk %}"
+                 title="{{ stock.delivery }}"
+                 data-bs-toggle="tooltip">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
               {% delivery_condicon stock.delivery_condition %}
             </td>
             <td>
@@ -48,7 +51,7 @@
                  title="Location detail">{{ stock.location.name }}</a>
             </td>
             <td class="d-none d-lg-table-cell">
-              <a href="{% url 'stock_update' stock.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'stock_update' pk=stock.pk %}"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'stock_delete' stock.pk %}"
                  hx-trigger="click"
                  hx-target="#crudModal .modal-content"

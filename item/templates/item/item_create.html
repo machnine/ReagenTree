@@ -11,34 +11,53 @@
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# name #}
     <div id="div_id_name" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Name*</span>
-      <input type="text"
-             name="name"
-             maxlength="255"
-             autocomplete="off"
-             class="textinput form-control"
-             value="{{ form.name.value|default_if_none:'' }}"
-             required
-             id="id_name">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.name.label_tag }}*</span>
+      {{ form.name }}
     </div>
     <span class="text-danger">{{ form.name.errors }}</span>
     {# product id #}
     <div id="div_id_product_id" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Product ID*</span>
-      <input type="text"
-             name="product_id"
-             maxlength="100"
-             autocomplete="off"
-             class="textinput form-control"
-             required
-             id="id_product_id"
-             value="{{ form.product_id.value|default_if_none:'' }}">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.product_id.label_tag }}*</span>
+      {{ form.product_id }}
     </div>
     <span class="text-danger">{{ form.product_id.errors }}</span>
+    {# usage metrics #}
+    <div id="div_id_tests" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.tests.label_tag }}</span>
+      {{ form.tests }}
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <div id="div_id_volume" class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.volume.label_tag }}</span>
+          {{ form.volume }}
+        </div>
+      </div>
+      <div class="col-3">
+        <div id="div_id_volume_unit" class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.volume_unit.label_tag }}</span>
+          {{ form.volume_unit }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <div id="div_id_weight" class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.weight.label_tag }}</span>
+          {{ form.weight }}
+        </div>
+      </div>
+      <div class="col-3">
+        <div id="div_id_weight_unit" class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.weight_unit.label_tag }}</span>
+          {{ form.weight_unit }}
+        </div>
+      </div>
+    </div>
     {# category type search input #}
     <div id="category-input" class="type-search-input">
       <div id="div_id_category" class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">Category</span>
+        <span class="input-group-text input-group-text-fw-sm">{{ form.category.label_tag }}</span>
         <input type="text"
                name="category_query"
                id="category_search_box"
@@ -68,7 +87,7 @@
     {# manufacturer type search input #}
     <div id="manufacturer-input" class="type-search-input">
       <div id="div_id_manufacturer" class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">Manufacturer</span>
+        <span class="input-group-text input-group-text-fw-sm">{{ form.manufacturer.label_tag }}</span>
         <input type="text"
                name="manufacturer_query"
                id="manufacturer_search_box"
@@ -98,7 +117,7 @@
     {# supplier type search input #}
     <div id="supplier-input" class="type-search-input">
       <div id="div_id_supplier" class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">Supplier</span>
+        <span class="input-group-text input-group-text-fw-sm">{{ form.supplier.label_tag }}</span>
         <input type="text"
                name="supplier_query"
                id="supplier_search_box"
@@ -127,12 +146,8 @@
     <span class="text-danger">{{ form.supplier.errors }}</span>
     {# description #}
     <div id="div_id_description" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Description</span>
-      <textarea name="description"
-                cols="40"
-                rows="3"
-                class="textarea form-control"
-                id="id_description">{{ form.description.value|default_if_none:'' }} </textarea>
+      <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
+      {{ form.description }}
     </div>
     <span class="text-danger">{{ form.description.errors }}</span>
   </div>

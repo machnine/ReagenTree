@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'delivery_delete' delivery.pk %}">
+<form method="post" action="{% url 'delivery_delete' object.pk %}">
   <div class="modal-header">
     <h5 class="modal-title" id="crudModalLabel">Confirm Deletion</h5>
     <button type="button"
@@ -9,12 +9,12 @@
   <div class="modal-body">
     {% csrf_token %}
     <p>
-      Delete this delivery? <small class="text-muted">(received {{ delivery.delivery_date|date:"d/m/y H:i" }} by {{ delivery.received_by.first_name }})</small>
+      Delete this delivery? <small class="text-muted">(received {{ object.delivery_date|date:"d/m/y H:i" }} by {{ object.received_by.first_name }})</small>
     </p>
     <p>
       <i class="text-danger">All associated stock items will be deleted!</i>
     </p>
-    <input type="hidden" name="delivery_id" value="{{ delivery.pk }}">
+    <input type="hidden" name="delivery_id" value="{{ object.pk }}">
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

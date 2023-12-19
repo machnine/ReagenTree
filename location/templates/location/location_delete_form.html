@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'location_delete' location.pk %}">
+<form method="post" action="{% url 'location_delete' object.pk %}">
   <div class="modal-header">
     <h5 class="modal-title" id="crudModalLabel">Confirm Deletion</h5>
     <button type="button"
@@ -9,9 +9,9 @@
   <div class="modal-body">
     {% csrf_token %}
     <p>
-      Delete <i class="text-danger fw-bold">{{ location.name }}</i>?
+      Delete <i class="text-danger fw-bold">{{ object.name }}</i>?
     </p>
-    <input type="hidden" name="location_id" value="{{ location.pk }}">
+    <input type="hidden" name="location_id" value="{{ object.pk }}">
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

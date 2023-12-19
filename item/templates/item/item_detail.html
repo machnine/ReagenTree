@@ -38,6 +38,17 @@
                      title="{{ item.category }}">{{ item.category }}</a>
                 </td>
               </tr>
+              <tr> {# only show the applicable metric #}
+                {% with item.get_applicable_metric as metric %}
+                  {% if metric.0 %}
+                    <td class="text-muted">{{ metric.0|capfirst }}:</td>
+                    <td>{{ metric.1 }} {{ metric.2 }}</td>
+                  {% else %}
+                    <td class="text-muted">Volume:</td>
+                    <td></td>
+                  {% endif %}
+                {% endwith %}
+              </tr>
               <tr>
                 <td class="text-muted">Manufacturer:</td>
                 <td>

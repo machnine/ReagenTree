@@ -2,47 +2,9 @@
 from django import forms
 from django.utils import timezone
 
-
-from attachment.forms import AttachmentForm
 from delivery.models import Delivery
+from item.models import StockItem
 
-from .models import Item, StockItem, ItemAttachment
-
-
-# Item forms
-class ItemForm(forms.ModelForm):
-    """Custom input form for the Item model."""
-
-    class Meta:
-        model = Item
-        fields = [
-            "name",
-            "product_id",
-            "description",
-            "category",
-            "manufacturer",
-            "supplier",
-        ]
-
-
-# Item Attachment forms
-class ItemAttachmentCreateForm(AttachmentForm):
-    """Custom input form for the ItemAttachment model."""
-
-    class Meta(AttachmentForm.Meta):
-        model = ItemAttachment
-        fields = ("file", "name", "description")
-
-
-class ItemAttachmentUpdateForm(AttachmentForm):
-    """Custom update form for the ItemAttachment model."""
-
-    class Meta(AttachmentForm.Meta):
-        model = ItemAttachment
-        exclude = ("file",)
-
-
-# StockItem forms
 
 stockitem_form_fields = [
     "delivery",

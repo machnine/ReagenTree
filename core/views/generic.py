@@ -18,16 +18,12 @@ class ObjectDeleteHTMXView(View):
     def get(self, request, *args, **kwargs):
         """HTMX GET request for returning an object delete form."""
         obj = self.get_object(kwargs["pk"])
-        return render(
-            request, self.template_name, {self.model._meta.verbose_name.lower(): obj}
-        )
+        return render(request, self.template_name, {"object": obj})
 
     def post(self, request, *args, **kwargs):
         """HTMX POST request for deleting an object."""
         with transaction.atomic():
             obj = self.get_object(kwargs["pk"])
             obj.delete()
-            messages.success(
-                request, f"{self.model._meta.verbose_name} deleted successfully."
-            )
+            messages.success(request, f"{obj} deleted successfully.")
         return redirect(self.success_url)
