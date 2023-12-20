@@ -23,3 +23,10 @@ def delivery_condicon(condition):
         ),
     }
     return icons.get(condition, icons[0])
+
+
+@register.filter
+def add_class(field, css):
+    """Add a class to a form field"""
+    field.field.widget.attrs.update({"class": css})
+    return field

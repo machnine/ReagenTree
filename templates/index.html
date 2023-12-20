@@ -20,4 +20,7 @@
       <div class="col">{% include "homepage/deliveries.html" %}</div>
     </div>
   </div>
+  <div class="container-fluid">
+    <a href="{% url 'usage_create' pk=1 %}" class="btn btn-primary">Create Usage</a>
+  </div>
 {% endblock content %}

@@ -1,10 +1,9 @@
 {% extends "object_create_base.html" %}
-{% load crispy_forms_tags %}
 {% block title %}
   Stock
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Commit to Stock
+  <i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Commit to Stock
 {% endblock panel_title %}
 {% block create_form %}
   <div class="px-3 pt-3">
@@ -12,12 +11,13 @@
     {# item search input #}
     <div id="item-input" class="type-search-input">
       <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">Item(s)</span>
+        <span class="input-group-text input-group-text-fw-sm">Item</span>
         <input type="text"
                name="item_query"
                id="item_search_box"
                class="form-control"
                autocomplete="off"
+               value="{{ item_name|default_if_none:'' }}"
                placeholder="Start typing to enter an item..."
                hx-trigger="keyup changed delay:500ms"
                hx-get="{% url 'item_search' %}"
@@ -33,14 +33,17 @@
       </div>
       <span class="text-danger">{{ form.item.errors }}</span>
       <div id="itemSearchResults" class="list-group type-search-result"></div>
-      <input type="text" name="item" id="id_item" hidden>
+      <input type="text"
+             name="item"
+             id="id_item"
+             value="{{ form.item.value|default_if_none:'' }}"
+             hidden>
     </div>
     {# item search input end #}
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Lot Number</span>
       <input type="text"
              name="lot_number"
-             id="id_lot_number"
              class="form-control"
              value="{{ form.lot_number.value|default_if_none:'' }}"
              autocomplete="off"
@@ -51,7 +54,6 @@
       <span class="input-group-text input-group-text-fw-sm">Expiry Date</span>
       <input type="date"
              name="expiry_date"
-             id="id_expiry_date"
              value="{{ form.expiry_date.value|default_if_none:'' }}"
              class="form-control"
              placeholder="Expiry Date">
@@ -66,7 +68,7 @@
           <sup><i class="bi bi-info-circle ps-1"></i></sup>
         </a>
       </span>
-      <select name="delivery" id="id_delivery" class="form-select">
+      <select name="delivery" class="form-select">
         {% for delivery in form.delivery %}{{ delivery }}{% endfor %}
       </select>
       <span class="input-group-text">
@@ -90,9 +92,7 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Condition</span>
-      <select name="delivery_condition"
-              id="id_delivery_condition"
-              class="form-select">
+      <select name="delivery_condition" class="form-select">
         {% for condition in form.delivery_condition %}{{ condition }}{% endfor %}
       </select>
     </div>
@@ -106,6 +106,7 @@
                id="location_search_box"
                class="form-control"
                autocomplete="off"
+               value="{{ location_name|default_if_none:'' }}"
                placeholder="Start typing to enter a location..."
                hx-trigger="keyup changed delay:500ms"
                hx-get="{% url 'location_search' %}"

@@ -21,9 +21,9 @@ class Stock(models.Model):
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stocks")
     remaining_tests = models.PositiveSmallIntegerField(null=True, blank=True)
-    remaining_volume = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    remaining_volume = models.DecimalField(max_digits=10, decimal_places=0, null=True)
     remaining_volume_unit = models.CharField(max_length=2, null=True)
-    remaining_weight = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    remaining_weight = models.DecimalField(max_digits=10, decimal_places=0, null=True)
     remaining_weight_unit = models.CharField(max_length=2, null=True)
     delivery = models.ForeignKey(
         Delivery, on_delete=models.CASCADE, related_name="stocks", null=True
@@ -61,9 +61,9 @@ class Stock(models.Model):
             # This code only happens if the objects is
             # not in the database yet. Otherwise it would
             # have pk
-            self.remaining_tests = self.item.tests
-            self.remaining_volume = self.item.volume
-            self.remaining_weight = self.item.weight
+            self.remaining_tests = self.item.tests or 0
+            self.remaining_volume = self.item.volume or 0
+            self.remaining_weight = self.item.weight or 0
             self.remaining_volume_unit = self.item.volume_unit
             self.remaining_weight_unit = self.item.weight_unit
         super().save(*args, **kwargs)

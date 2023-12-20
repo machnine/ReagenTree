@@ -132,10 +132,10 @@ class CustomAuthenticationForm(AuthenticationForm):
 
         # Setting up custom widgets for all fields
         self.fields["username"].widget = forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Your User Name."}
+            attrs={"class": "form-control"}
         )
         self.fields["password"].widget = forms.PasswordInput(
-            attrs={"class": "form-control", "placeholder": "Your Password."}
+            attrs={"class": "form-control"}
         )
 
 

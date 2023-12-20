@@ -64,7 +64,7 @@ class LocationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Location delete view."""
 
     model = Location
-    template_name = "location/location_delete.html"
+    template_name = "location/location_delete_form.html"
     success_url = reverse_lazy("location_list")
 
 

@@ -40,6 +40,14 @@ class StockCreateForm(forms.ModelForm):
             raise forms.ValidationError("Expiry date cannot be in the past.")
         return expiry_date
 
+    def clean_location(self):
+        """Validate that the location is not empty."""
+        location = self.cleaned_data.get("location")
+        print(location)
+        if not location:
+            raise forms.ValidationError("Location is required.")
+        return location
+
 
 class StockUpdateForm(forms.ModelForm):
     """Custom update form for the Stock model."""

@@ -38,6 +38,11 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                     created_by=self.request.user,
                     created=timezone.now(),
                     ordinal_number=n + 1,
+                    remaining_tests=item.tests,
+                    remaining_volume=item.volume,
+                    remaining_weight=item.weight,
+                    remaining_volume_unit=item.volume_unit,
+                    remaining_weight_unit=item.weight_unit,
                     **{
                         key: value
                         for key, value in form.cleaned_data.items()
@@ -47,9 +52,7 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                 stocks.append(stock)
             Stock.objects.bulk_create(stocks)
 
-        messages.success(
-            self.request, f"{quantity} stock(s) successfully created."
-        )
+        messages.success(self.request, f"{quantity} stock(s) successfully created.")
         # set the object attribute to the last stock created
         # to allow for the get_success_url method to work properly
         self.object = stocks[-1]
@@ -67,7 +70,7 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         # retain the selected item, location
         # in the form if the form is invalid for better UX
         if "item" in form.cleaned_data:
-            item = get_object_or_404(Item, form.cleaned_data["item"].id)
+            item = get_object_or_404(Item, pk=form.cleaned_data["item"].id)
             context["item_name"] = item.name
         if "location" in form.cleaned_data:
             location = get_object_or_404(Location, pk=form.cleaned_data["location"].id)
