@@ -1,3 +1,3 @@
-from .item import ItemForm, ItemAttachmentCreateForm, ItemAttachmentUpdateForm
-from .stock import StockCreateForm, StockUpdateForm
-from .usage import UsageForm
+from .item import *
+from .stock import *
+from .usage import *

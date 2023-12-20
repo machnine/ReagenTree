@@ -1,2 +1,2 @@
-from .homepage import index
-from .generic import ObjectDeleteHTMXView
+from .homepage import *
+from .generic import *
