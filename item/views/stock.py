@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from core.mixins import SuccessUrlMixin
+from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
 
 from delivery.models import Delivery
@@ -78,13 +78,17 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         return self.render_to_response(context)
 
 
-class StockUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
+class StockUpdateView(
+    LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView
+):
     """Update view for Stock model"""
 
     model = Stock
+    is_updated = True
     form_class = StockUpdateForm
     template_name = "item/stock_update.html"
     success_url = reverse_lazy("stock_list")
+    form_valid_message = "Stock successfully updated."
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,11 +99,6 @@ class StockUpdateView(LoginRequiredMixin, SuccessUrlMixin, UpdateView):
         if stock.location:
             context["location_name"] = stock.location.name
         return context
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, "Stock Item successfully updated.")
-        return response
 
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
@@ -128,5 +127,5 @@ class StockDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Delete view for Stock model"""
 
     model = Stock
-    template_name = "item/stock_delete_form.html"
+    action_url = "stock_delete"
     success_url = reverse_lazy("stock_list")

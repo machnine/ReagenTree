@@ -112,7 +112,7 @@ class ItemDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Delete view for Item model"""
 
     model = Item
-    template_name = "item/item_delete_form.html"
+    action_url = "item_delete"
     success_url = reverse_lazy("item_list")
 
 

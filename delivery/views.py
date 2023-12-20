@@ -27,7 +27,7 @@ class DeliveryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """View for deleting a Delivery."""
 
     model = Delivery
-    template_name = "delivery/delivery_delete.html"
+    action_url = "delivery_delete"
     success_url = reverse_lazy("delivery_list")
 
 

@@ -66,7 +66,7 @@ class CategoryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Category delete view."""
 
     model = Category
-    template_name = "category/category_delete_form.html"
+    action_url = "category_delete"
     success_url = reverse_lazy("category_list")
 
 

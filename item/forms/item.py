@@ -11,7 +11,7 @@ class ItemForm(forms.ModelForm):
 
     class Meta:
         model = Item
-        fields = [
+        fields = (
             "name",
             "product_id",
             "description",
@@ -23,7 +23,7 @@ class ItemForm(forms.ModelForm):
             "volume_unit",
             "weight",
             "weight_unit",
-        ]
+        )
 
     def __init__(self, *args, **kwargs):
         """Initialize the form."""

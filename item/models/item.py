@@ -66,15 +66,21 @@ class Item(models.Model):
                 "Only one of 'tests', 'volume', or 'weight' can be set."
             )
 
-    def get_applicable_metric(self):
+    @property
+    def quantity(self) -> dict:
+        return self.get_applicable_metric()
+
+    def get_applicable_metric(self) -> dict:
         """Return the metrics that are applicable to the item"""
-        if self.tests:
-            return "tests", self.tests, ""
-        if self.volume:
-            return "volume", self.volume, self.volume_unit
-        if self.weight:
-            return "weight", self.weight, self.weight_unit
-        return None, None, None
+        metric = [
+            {"name": "tests", "value": self.tests, "unit": ""},
+            {"name": "volume", "value": self.volume, "unit": self.volume_unit},
+            {"name": "weight", "value": self.weight, "unit": self.weight_unit},
+        ]
+        for m in metric:
+            if m["value"] is not None:
+                return m
+        return {"name": "No Metric", "value": "", "unit": ""}
 
     def __str__(self):
         return f"{self.name}"

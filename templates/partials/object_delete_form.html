@@ -1,0 +1,22 @@
+<form method="post" action="{{ action_url }}">
+    <div class="modal-header">
+      <h5 class="modal-title" id="crudModalLabel">Confirm Deletion</h5>
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      {% csrf_token %}
+      <p>
+        Delete <i class="text-danger fw-bold">{{ object }}</i>?
+      </p>
+      <input type="hidden" name="item_id" value="{{ object.pk }}">
+      <input type="hidden" name="next" value="{{ request.GET.next }}">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+  </form>
+  

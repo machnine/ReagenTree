@@ -9,4 +9,4 @@ class UsageForm(forms.ModelForm):
 
     class Meta:
         model = Usage
-        fields = ["used_tests", "used_weight", "used_volume"]
+        fields = ("used_tests", "used_weight", "used_volume")

@@ -74,7 +74,7 @@ class CompanyDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """View for deleting a Company."""
 
     model = Company
-    template_name = "company/company_delete_form.html"
+    action_url = "company_delete"
     success_url = reverse_lazy("company_list")
 
 

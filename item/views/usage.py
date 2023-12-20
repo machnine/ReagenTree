@@ -3,11 +3,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 from django.shortcuts import get_object_or_404
 
+from core.mixins import SuccessUrlMixin
+
 from item.models import Stock, Usage
 from item.forms import UsageForm
 
 
-class UsageCreateView(LoginRequiredMixin, CreateView):
+class UsageCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create a new usage record."""
 
     model = Usage

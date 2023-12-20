@@ -21,9 +21,9 @@ class Stock(models.Model):
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stocks")
     remaining_tests = models.PositiveSmallIntegerField(null=True, blank=True)
-    remaining_volume = models.DecimalField(max_digits=10, decimal_places=0, null=True)
+    remaining_volume = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     remaining_volume_unit = models.CharField(max_length=2, null=True)
-    remaining_weight = models.DecimalField(max_digits=10, decimal_places=0, null=True)
+    remaining_weight = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     remaining_weight_unit = models.CharField(max_length=2, null=True)
     delivery = models.ForeignKey(
         Delivery, on_delete=models.CASCADE, related_name="stocks", null=True
@@ -68,8 +68,33 @@ class Stock(models.Model):
             self.remaining_weight_unit = self.item.weight_unit
         super().save(*args, **kwargs)
 
+    @property
+    def quantity(self) -> dict:
+        return self.get_applicable_metric()
+
+    def get_applicable_metric(self) -> dict:
+        """Return the applicable metrics for the stock"""
+        metrics = [
+            {"name": "tests", "value": self.remaining_tests, "unit": ""},
+            {
+                "name": "volume",
+                "value": self.remaining_volume,
+                "unit": self.remaining_volume_unit,
+            },
+            {
+                "name": "weight",
+                "value": self.remaining_weight,
+                "unit": self.remaining_weight_unit,
+            },
+        ]
+
+        for m in metrics:
+            if m["value"]:
+                return m
+        return {"name": "No Metric", "value": "", "unit": ""}
+
     def __str__(self):
-        return f"{self.item.name} • {self.lot_number} • {self.ordinal_number}"
+        return f"[{self.ordinal_number}]{self.item.name} • {self.lot_number}"
 
     class Meta:
         verbose_name = "Stock"
