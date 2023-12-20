@@ -44,7 +44,7 @@ class LocationCreateView(
     form_class = LocationForm
     template_name = "location/location_create.html"
     success_url = reverse_lazy("location_list")
-    form_valid_message = "Location successfully created."
+
 
 
 class LocationUpdateView(
@@ -57,8 +57,7 @@ class LocationUpdateView(
     form_class = LocationForm
     template_name = "location/location_update.html"
     success_url = reverse_lazy("location_list")
-    form_valid_message = "Location successfully updated."
-
+  
 
 class LocationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Location delete view."""

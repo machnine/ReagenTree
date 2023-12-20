@@ -1,8 +1,6 @@
 """Stock Item views"""
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -17,10 +15,13 @@ from item.models import Stock, Item
 from item.forms import StockCreateForm, StockUpdateForm
 
 
-class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
+class StockCreateView(
+    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
+):
     """Create view for Stock model"""
 
     model = Stock
+    is_created = True
     form_class = StockCreateForm
     template_name = "item/stock_create.html"
     success_url = reverse_lazy("stock_list")
@@ -52,11 +53,11 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                 stocks.append(stock)
             Stock.objects.bulk_create(stocks)
 
-        messages.success(self.request, f"{quantity} stock(s) successfully created.")
         # set the object attribute to the last stock created
         # to allow for the get_success_url method to work properly
         self.object = stocks[-1]
-        return HttpResponseRedirect(self.get_success_url())
+        # call the form_valid method of FormValidMessageMixin (re: MRO)
+        return super().form_valid(form)
 
     def get_initial(self):
         initial = super().get_initial()
@@ -88,7 +89,6 @@ class StockUpdateView(
     form_class = StockUpdateForm
     template_name = "item/stock_update.html"
     success_url = reverse_lazy("stock_list")
-    form_valid_message = "Stock successfully updated."
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

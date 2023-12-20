@@ -1,5 +1,6 @@
 """ Mixins """
 from django.contrib import messages
+from django.utils.safestring import mark_safe
 
 
 class SuccessUrlMixin:
@@ -17,18 +18,20 @@ class SuccessUrlMixin:
 class FormValidMessageMixin:
     """Form Valid Message Mixin"""
 
-    form_valid_message = ""
     # create or update flag
     is_created = False
     is_updated = False
 
     def form_valid(self, form):
         """If the form is valid, redirect to the supplied URL."""
+        action = "created" if self.is_created else "updated"
         if self.is_created:
             form.instance.created_by = self.request.user
         if self.is_updated:
             form.instance.last_updated_by = self.request.user
         response = super().form_valid(form)
-        if self.form_valid_message:
-            messages.success(self.request, self.form_valid_message)
+        action_success = mark_safe(
+            f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully."
+        )
+        messages.success(self.request, action_success)
         return response

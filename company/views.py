@@ -54,8 +54,6 @@ class CompanyCreateView(
     fields = company_fields
     template_name = "company/company_create.html"
     success_url = reverse_lazy("company_list")
-    form_valid_message = "Company successfully created."
-
 
 class CompanyUpdateView(
     LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
@@ -67,7 +65,6 @@ class CompanyUpdateView(
     fields = company_fields
     template_name = "company/company_update.html"
     success_url = reverse_lazy("company_list")
-    form_valid_message = "Company successfully updated."
 
 
 class CompanyDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):

@@ -46,8 +46,6 @@ class CategoryCreateView(
     fields = ["name", "description"]
     template_name = "category/category_create.html"
     success_url = reverse_lazy("category_list")
-    form_valid_message = "Category successfully created."
-
 
 class CategoryUpdateView(
     LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
@@ -59,7 +57,6 @@ class CategoryUpdateView(
     fields = ["name", "description"]
     success_url = reverse_lazy("category_list")
     template_name = "category/category_update.html"
-    form_valid_message = "Category successfully updated."
 
 
 class CategoryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):

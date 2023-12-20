@@ -49,7 +49,7 @@ class ItemCreateView(
     form_class = ItemForm
     template_name = "item/item_create.html"
     success_url = reverse_lazy("item_list")
-    form_valid_message = "Item successfully created."
+   
 
     def get_field_obj_name(self, field_value, obj_model):
         """Return the name of the field object."""
@@ -88,7 +88,7 @@ class ItemUpdateView(
     form_class = ItemForm
     template_name = "item/item_update.html"
     success_url = reverse_lazy("item_list")
-    form_valid_message = "Item successfully updated."
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

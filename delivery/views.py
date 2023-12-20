@@ -20,7 +20,7 @@ class DeliveryCreateView(
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
     template_name = "delivery/delivery_create.html"
-    form_valid_message = "Delivery successfully created."
+   
 
 
 class DeliveryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
@@ -57,4 +57,4 @@ class DeliveryUpdateView(
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
     template_name = "delivery/delivery_update.html"
-    form_valid_message = "Delivery successfully updated."
+
