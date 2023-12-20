@@ -16,7 +16,7 @@
         <tr>
           <th>Item</th>
           <th>Box ID</th>
-          <th>Level</th>
+          <th>Quantity</th>
           <th>Lot Number</th>
           <th>Expiry Date</th>
           <th class="d-none d-lg-table-cell">Delivery</th>
@@ -37,7 +37,7 @@
                 <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
               </a>
             </td>
-            <td>stock level</td>
+            <td>{{ stock.quantity.value }}{{ stock.quantity.unit }}</td>
             <td>{{ stock.lot_number }}</td>
             <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="d-none d-lg-table-cell">

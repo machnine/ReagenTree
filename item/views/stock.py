@@ -1,9 +1,13 @@
 """Stock Item views"""
+
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.mixins import SuccessUrlMixin, FormValidMessageMixin
@@ -15,9 +19,7 @@ from item.models import Stock, Item
 from item.forms import StockCreateForm, StockUpdateForm
 
 
-class StockCreateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
-):
+class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create view for Stock model"""
 
     model = Stock
@@ -53,11 +55,14 @@ class StockCreateView(
                 stocks.append(stock)
             Stock.objects.bulk_create(stocks)
 
+        action_success = mark_safe(
+            f"{self.model.__name__}: {quantity}x <i><b>{form.instance}</b></i> created successfully."
+        )
+        messages.success(self.request, action_success)
         # set the object attribute to the last stock created
         # to allow for the get_success_url method to work properly
         self.object = stocks[-1]
-        # call the form_valid method of FormValidMessageMixin (re: MRO)
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_initial(self):
         initial = super().get_initial()
@@ -112,7 +117,7 @@ class StockListView(LoginRequiredMixin, ListView):
     context_object_name = "stocks"
     template_name = "item/stock_list.html"
     paginate_by = 16
-    ordering = "-created"
+    ordering = ["-created", "-ordinal_number"]
 
 
 class StockDetailView(LoginRequiredMixin, DetailView):

@@ -1,7 +1,10 @@
 """Item models"""
+from datetime import timedelta
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+
 
 from delivery.models import Delivery
 from location.models import Location
@@ -40,7 +43,7 @@ class Stock(models.Model):
         blank=True,
         null=True,
     )
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField()
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -59,13 +62,19 @@ class Stock(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             # This code only happens if the objects is
-            # not in the database yet. Otherwise it would
-            # have pk
+            # not in the database yet. Otherwise it would have a pk
+
+            # copy metrics from item to stock
             self.remaining_tests = self.item.tests or 0
             self.remaining_volume = self.item.volume or 0
             self.remaining_weight = self.item.weight or 0
             self.remaining_volume_unit = self.item.volume_unit
             self.remaining_weight_unit = self.item.weight_unit
+
+            # set the same created timestamp for stocks created in bulk
+            # remove the microseconds from the timestamp
+            dt = timezone.now()
+            self.created = dt - timedelta(microseconds=dt.microsecond)
         super().save(*args, **kwargs)
 
     @property

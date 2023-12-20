@@ -1,12 +1,12 @@
 
 - [] Detail views
   - [] Delivery
-    - different cards or panels for different groups of stocks
+    - different cards or panels for different groups of stocks OR use different colour badges for different boxes
   - [] Stock
     - list all same batch of stocks in one view
 - [] List views
   - [] Delivery
-    - show one stock and a badge with number of items
+    - show one stock and a badge with number of items OR use different colour badges for different boxes
 - Something to better id a delivery when it appears in the dropdown (StockCreate?)
 - User
   - User groups
