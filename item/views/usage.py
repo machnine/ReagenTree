@@ -15,7 +15,7 @@ class UsageCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
 
     model = Usage
     form_class = UsageForm
-    template_name = "item/usage_create.html"
+    template_name = "usage/usage_create.html"
     success_url = reverse_lazy("stock_list")
 
     def dispatch(self, request, *args, **kwargs):

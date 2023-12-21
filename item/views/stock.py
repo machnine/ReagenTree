@@ -25,7 +25,7 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     model = Stock
     is_created = True
     form_class = StockCreateForm
-    template_name = "item/stock_create.html"
+    template_name = "stock/stock_create.html"
     success_url = reverse_lazy("stock_list")
 
     def form_valid(self, form):
@@ -89,7 +89,7 @@ class StockUpdateView(
     model = Stock
     is_updated = True
     form_class = StockUpdateForm
-    template_name = "item/stock_update.html"
+    template_name = "stock/stock_update.html"
     success_url = reverse_lazy("stock_list")
 
     def get_context_data(self, **kwargs):
@@ -112,7 +112,7 @@ class StockListView(LoginRequiredMixin, ListView):
 
     model = Stock
     context_object_name = "stocks"
-    template_name = "item/stock_list.html"
+    template_name = "stock/stock_list.html"
     paginate_by = 16
     ordering = ["-created", "-ordinal_number"]
 
@@ -122,7 +122,7 @@ class StockDetailView(LoginRequiredMixin, DetailView):
 
     model = Stock
     context_object_name = "stock"
-    template_name = "item/stock_detail.html"
+    template_name = "stock/stock_detail.html"
 
 
 class StockDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
