@@ -39,8 +39,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="text-muted">{{ item.quantity.name|capfirst }}:</td>
-                <td>{{ item.quantity.value }}{{ item.quantity.unit }}</td>
+                <td class="text-muted">Quantity:</td>
+                <td>{{ item.quantity|default:"" }} {{ item.quantity_unit|default:"" }}</td>
+                <td class="text-muted">CAS Number:</td>
+                <td>
+                  {% if item.cas_number %}
+                    <i class="bi bi-link-45deg"></i>
+                    <a href="https://commonchemistry.cas.org/detail?cas_rn={{ item.cas_number }}"
+                       target="blank"
+                       title="More chemical details">{{ item.cas_number }}</a>
+                  {% else %}
+                    &nbsp;
+                  {% endif %}
+                </td>
               </tr>
               <tr>
                 <td class="text-muted">Manufacturer:</td>
@@ -172,7 +183,7 @@
                     <a href="{% url 'location_detail' stock.location.pk %}"
                        title="location details">{{ stock.location }}</a>
                   </td>
-                  <td>{{ stock.quantity.value }}{{ stock.quantity.unit }}</td>
+                  <td>{{ stock.remaining_quantity|default:"" }} {{ stock.remaining_quantity_unit|default:"" }}</td>
                   <td>
                     <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
                        title="Update {{ stock.name }}"><i class="bi bi-pencil-square"></i></a>

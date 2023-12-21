@@ -37,7 +37,7 @@
                 <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
               </a>
             </td>
-            <td>{{ stock.quantity.value }}{{ stock.quantity.unit }}</td>
+            <td>{{ stock.remaining_quantity }} {{ stock.remaining_quantity_unit }}</td>
             <td>{{ stock.lot_number }}</td>
             <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="d-none d-lg-table-cell">

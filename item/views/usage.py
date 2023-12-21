@@ -1,5 +1,6 @@
 """Stock usage views"""
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.shortcuts import get_object_or_404
 
@@ -15,7 +16,7 @@ class UsageCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     model = Usage
     form_class = UsageForm
     template_name = "item/usage_create.html"
-    success_url = "/"
+    success_url = reverse_lazy("stock_list")
 
     def dispatch(self, request, *args, **kwargs):
         self.stock = get_object_or_404(Stock, pk=kwargs["pk"])

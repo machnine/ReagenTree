@@ -1,7 +1,6 @@
 """Item models"""
 
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from attachment.models import Attachment
@@ -12,24 +11,17 @@ from category.models import Category
 class Item(models.Model):
     """Item model the basis for all items"""
 
-    VOLUME_UNITS = [("l", "l"), ("ml", "ml"), ("μl", "μl")]
-    WEIGHT_UNITS = [("kg", "kg"), ("g", "g"), ("mg", "mg"), ("μg", "μg")]
-
     name = models.CharField(max_length=255)
+    cas_number = models.CharField(max_length=20, blank=True, null=True)
     product_id = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="items"
     )
-    tests = models.PositiveSmallIntegerField(null=True, blank=True)
-    volume = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    volume_unit = models.CharField(
-        max_length=2, choices=VOLUME_UNITS, null=True, blank=True
+    quantity = models.DecimalField(
+        max_digits=10, decimal_places=1, null=True, blank=True
     )
-    weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    weight_unit = models.CharField(
-        max_length=2, choices=WEIGHT_UNITS, null=True, blank=True
-    )
+    quantity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
     manufacturer = models.ForeignKey(
         Company,
         related_name="manufactured_items",
@@ -59,31 +51,8 @@ class Item(models.Model):
         related_name="updated_items",
     )
 
-    def clean(self):
-        metrics = [self.tests, self.volume, self.weight]
-        if sum(value is not None for value in metrics) > 1:
-            raise ValidationError(
-                "Only one of 'tests', 'volume', or 'weight' can be set."
-            )
-
-    @property
-    def quantity(self) -> dict:
-        return self.get_applicable_metric()
-
-    def get_applicable_metric(self) -> dict:
-        """Return the metrics that are applicable to the item"""
-        metric = [
-            {"name": "tests", "value": self.tests, "unit": ""},
-            {"name": "volume", "value": self.volume, "unit": self.volume_unit},
-            {"name": "weight", "value": self.weight, "unit": self.weight_unit},
-        ]
-        for m in metric:
-            if m["value"] is not None:
-                return m
-        return {"name": "No Metric", "value": "", "unit": ""}
-
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} [{self.product_id}]"
 
     class Meta:
         ordering = ["name"]

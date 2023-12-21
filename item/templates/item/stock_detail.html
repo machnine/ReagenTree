@@ -3,7 +3,7 @@
   Stock
 {% endblock title %}
 {% block panel_title %}
-  <i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> Stock Item Detail
+  <i class="bi bi-box-seam-fill" style="color: var(--bs-orange);"></i> {{ stock }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -14,9 +14,8 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  {{ stock.item.name }}
-  {{ stock.quantity.name|capfirst }}:
-  {{ stock.quantity.value }}{{ stock.quantity.unit }}
+  Quantity:
+  {{ stock.remaining_quantity }} {{ stock.remaining_quantity_unit }}
   <div class="container-fluid">
     <a href="{% url 'usage_create' stock.pk %}?next={{ request.path }}"
        class="btn btn-primary">Create Usage</a>

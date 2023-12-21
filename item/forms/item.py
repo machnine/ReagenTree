@@ -14,26 +14,27 @@ class ItemForm(forms.ModelForm):
         fields = (
             "name",
             "product_id",
+            "cas_number",
             "description",
             "category",
             "manufacturer",
             "supplier",
-            "tests",
-            "volume",
-            "volume_unit",
-            "weight",
-            "weight_unit",
+            "quantity",
+            "quantity_unit",
         )
 
     def __init__(self, *args, **kwargs):
         """Initialize the form."""
         super().__init__(*args, **kwargs)
-        for field in ["name", "product_id", "tests", "volume", "weight", "description"]:
+        for field in [
+            "name",
+            "product_id",
+            "quantity",
+            "description",
+            "cas_number",
+        ]:
             self.fields[field].widget.attrs.update({"class": "form-control"})
-
-        for field in ["volume_unit", "weight_unit"]:
-            self.fields[field].widget.attrs.update({"class": "form-select"})
-
+        self.fields["quantity_unit"].widget.attrs.update({"class": "form-select"})
         self.fields["description"].widget.attrs.update({"rows": 3})
 
 

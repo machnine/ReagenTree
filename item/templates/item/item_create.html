@@ -20,37 +20,24 @@
       <span class="input-group-text input-group-text-fw-sm">{{ form.product_id.label_tag }}*</span>
       {{ form.product_id }}
     </div>
+    {# cas number #}
+    <div id="div_id_cas_number" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.cas_number.label_tag }}</span>
+      {{ form.cas_number }}
+    </div>
     <span class="text-danger">{{ form.product_id.errors }}</span>
-    {# usage metrics #}
-    <div id="div_id_tests" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">{{ form.tests.label_tag }}</span>
-      {{ form.tests }}
-    </div>
-    <div class="row">
-      <div class="col-9">
-        <div id="div_id_volume" class="input-group mb-3">
-          <span class="input-group-text input-group-text-fw-sm">{{ form.volume.label_tag }}</span>
-          {{ form.volume }}
-        </div>
-      </div>
-      <div class="col-3">
-        <div id="div_id_volume_unit" class="input-group mb-3">
-          <span class="input-group-text input-group-text-fw-sm">{{ form.volume_unit.label_tag }}</span>
-          {{ form.volume_unit }}
-        </div>
-      </div>
-    </div>
+    {# quantity #}
     <div class="row">
       <div class="col-9">
         <div id="div_id_weight" class="input-group mb-3">
-          <span class="input-group-text input-group-text-fw-sm">{{ form.weight.label_tag }}</span>
-          {{ form.weight }}
+          <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
+          {{ form.quantity }}
         </div>
       </div>
       <div class="col-3">
-        <div id="div_id_weight_unit" class="input-group mb-3">
-          <span class="input-group-text input-group-text-fw-sm">{{ form.weight_unit.label_tag }}</span>
-          {{ form.weight_unit }}
+        <div id="div_id_quantity_unit" class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.quantity_unit.label_tag }}</span>
+          {{ form.quantity_unit }}
         </div>
       </div>
     </div>

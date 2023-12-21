@@ -41,11 +41,8 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                     created_by=self.request.user,
                     created=timezone.now(),
                     ordinal_number=n + 1,
-                    remaining_tests=item.tests,
-                    remaining_volume=item.volume,
-                    remaining_weight=item.weight,
-                    remaining_volume_unit=item.volume_unit,
-                    remaining_weight_unit=item.weight_unit,
+                    remaining_quantity=item.quantity,
+                    remaining_quantity_unit=item.quantity_unit,
                     **{
                         key: value
                         for key, value in form.cleaned_data.items()

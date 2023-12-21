@@ -43,7 +43,6 @@ class StockCreateForm(forms.ModelForm):
     def clean_location(self):
         """Validate that the location is not empty."""
         location = self.cleaned_data.get("location")
-        print(location)
         if not location:
             raise forms.ValidationError("Location is required.")
         return location

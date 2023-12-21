@@ -23,11 +23,8 @@ class Stock(models.Model):
     ]
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stocks")
-    remaining_tests = models.PositiveSmallIntegerField(null=True, blank=True)
-    remaining_volume = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    remaining_volume_unit = models.CharField(max_length=2, null=True)
-    remaining_weight = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    remaining_weight_unit = models.CharField(max_length=2, null=True)
+    remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
+    remaining_quantity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
     delivery = models.ForeignKey(
         Delivery, on_delete=models.CASCADE, related_name="stocks", null=True
     )
@@ -63,44 +60,12 @@ class Stock(models.Model):
         if not self.pk:
             # This code only happens if the objects is
             # not in the database yet. Otherwise it would have a pk
-
-            # copy metrics from item to stock
-            self.remaining_tests = self.item.tests or 0
-            self.remaining_volume = self.item.volume or 0
-            self.remaining_weight = self.item.weight or 0
-            self.remaining_volume_unit = self.item.volume_unit
-            self.remaining_weight_unit = self.item.weight_unit
-
+            self.remaining_quantity = self.item.quantity or 0
             # set the same created timestamp for stocks created in bulk
             # remove the microseconds from the timestamp
             dt = timezone.now()
             self.created = dt - timedelta(microseconds=dt.microsecond)
         super().save(*args, **kwargs)
-
-    @property
-    def quantity(self) -> dict:
-        return self.get_applicable_metric()
-
-    def get_applicable_metric(self) -> dict:
-        """Return the applicable metrics for the stock"""
-        metrics = [
-            {"name": "tests", "value": self.remaining_tests, "unit": ""},
-            {
-                "name": "volume",
-                "value": self.remaining_volume,
-                "unit": self.remaining_volume_unit,
-            },
-            {
-                "name": "weight",
-                "value": self.remaining_weight,
-                "unit": self.remaining_weight_unit,
-            },
-        ]
-
-        for m in metrics:
-            if m["value"]:
-                return m
-        return {"name": "No Metric", "value": "", "unit": ""}
 
     def __str__(self):
         return f"[{self.ordinal_number}]{self.item.name} • {self.lot_number}"

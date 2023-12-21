@@ -25,8 +25,7 @@
   - delivery notes upload?
 - Item model
   - [] image
-  - [] available stocks
+  - How to deal with in-house reagents? Are they an Item or a Stock? Use a different Model?
 - List view sorting
 - List view search
-- 
   
