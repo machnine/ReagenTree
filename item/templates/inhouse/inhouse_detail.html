@@ -1,0 +1,15 @@
+{% extends "object_detail_base.html" %}
+{% block panel_title %}
+<i class="bi bi-heptagon-fill inhouse-text-color"></i> {{ object.name }}
+{% endblock panel_title %}
+{% block panel_actions %}
+<span class="p-1">
+  <a href="{% url 'inhouse_update' object.pk %}?next={{ request.path }}"
+     title="Update inhouse"
+     class="btn btn-sm btn-success">
+    <i class="bi bi-pencil-square"></i> Edit</a>
+</span>
+{% endblock panel_actions %}
+{% block panel_content %}
+{{ object }}
+{% endblock panel_content %}

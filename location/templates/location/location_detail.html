@@ -3,7 +3,7 @@
   Location - {{ location.name }}
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-geo-alt-fill" style="color: var(--bs-red);"></i> {{ location.name }}
+<i class="bi bi-geo-alt-fill location-text-color"></i> {{ location.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -36,7 +36,7 @@
   </div>
   <div class="panel mx-3">
     <div class="panel-heading">
-      <span class="h5"><i class="bi bi-box-seam-fill"  style="color: var(--bs-orange);"></i> All stocks in this location</span>
+      <span class="h5"><i class="bi bi-box-seam-fill stock-text-color"></i> All stocks in this location</span>
     </div>
     <div class="panel-content">
       <table class="table table-sm">

@@ -3,7 +3,7 @@
   Category - {{ category.name }}
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-bookmarks-fill" style="color: var(--bs-yellow);"></i> {{ category.name }}
+<i class="bi bi-bookmarks-fill category-text-color"></i> {{ category.name }}
 {% endblock panel_title %}
 {{ category.name }}
 {% block panel_actions %}
@@ -33,7 +33,7 @@
   </div>
   <div class="panel mx-3">
     <div class="panel-heading">
-      <span class="h5"><i class="bi bi-box2-fill" style="color: var(--bs-blue);"></i> All items in this category</span>
+      <span class="h5"><i class="bi bi-box2-fill item-text-color"></i> All items in this category</span>
     </div>
     <div class="panel-content">
       <table class="table table-sm">

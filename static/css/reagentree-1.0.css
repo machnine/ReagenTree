@@ -1,6 +1,18 @@
 :root {
   --rt-light-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  --rt-category: #ffc400;
+  --rt-company: #007bff;
+  --rt-delivery: #28a745;
+  --rt-item: #045f6b;
+  --rt-stock: #ff7c00;
+  --rt-inhouse: #8b2be2;
+  --rt-location: #66dcc5;
+  --rt-setting: #a3a3a3;
+  --rt-search: #17a2b8;
+  --rt-user: #4e4083;
+  --rt-fushsia: #915c83;
 }
+
 a {
   text-decoration: none;
 }
@@ -99,4 +111,38 @@ a:hover {
 
 .alert.auto-dismiss .btn-close {
   display: none; /* Hide the close button */
+}
+
+.category-text-color {
+  color: var(--rt-category);
+}
+.company-text-color {
+  color: var(--rt-company);
+}
+.delivery-text-color {
+  color: var(--rt-delivery);
+}
+.item-text-color {
+  color: var(--rt-item);
+}
+.stock-text-color {
+  color: var(--rt-stock);
+}
+.inhouse-text-color {
+  color: var(--rt-inhouse);
+}
+.location-text-color {
+  color: var(--rt-location);
+}
+.setting-text-color {
+  color: var(--rt-setting);
+}
+.scan-text-color {
+  color: var(--bs-secondary);
+}
+.search-text-color {
+  color: var(--rt-search);
+}
+.user-text-color {
+  color: var(--rt-user);
 }

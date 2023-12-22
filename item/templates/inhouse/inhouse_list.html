@@ -1,0 +1,37 @@
+{% extends "object_list_base.html" %}
+{% block title %}
+In-house Reagents
+{% endblock title %}
+{% block panel_title %}
+<i class="bi bi-heptagon-fill inhouse-text-color"></i> In-house Reagents
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'inhouse_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New Reagent</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Components</th>
+          <th class="d-none d-lg-table-cell">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reagent in inhouse_reagents %}
+          <tr>
+            <td>
+              <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
+            </td>
+            <td>{{ reagent.components.all }}</td>
+            <td>
+              <a href="{% url 'inhouse_update' reagent.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <i class="bi bi-trash"></i>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock panel_content %}
