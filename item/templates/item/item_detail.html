@@ -87,7 +87,7 @@
              hx-swap="innerHTML"
              data-bs-toggle="modal"
              data-bs-target="#crudModal"
-             href="javascript:void(0);"
+             href="javascript:"
              class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
         </div>
         <div class="panel-content">
@@ -127,14 +127,14 @@
                          hx-swap="innerHTML"
                          data-bs-toggle="modal"
                          data-bs-target="#crudModal"
-                         href="javascript:void(0);"><i class="bi bi-pencil-square"></i></a>
+                         href="javascript:"><i class="bi bi-pencil-square"></i></a>
                       <a hx-get="{% url 'item_attachment_delete' file.id %}"
                          hx-trigger="click"
                          hx-target="#crudModal .modal-content"
                          hx-swap="innerHTML"
                          data-bs-toggle="modal"
                          data-bs-target="#crudModal"
-                         href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+                         href="javascript:"><i class="bi bi-trash"></i></a>
                     </td>
                   </tr>
                 {% endfor %}
@@ -192,7 +192,7 @@
                        hx-swap="innerHTML"
                        data-bs-toggle="modal"
                        data-bs-target="#crudModal"
-                       href="javascript:void(0);"><i class="bi bi-trash"></i></a>
+                       href="javascript:"><i class="bi bi-trash"></i></a>
                   </td>
                 </tr>
               {% endfor %}
