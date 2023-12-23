@@ -1,16 +1,17 @@
 :root {
   --rt-light-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   --rt-category: #ffc400;
-  --rt-company: #007bff;
-  --rt-delivery: #28a745;
-  --rt-item: #045f6b;
-  --rt-stock: #ff7c00;
-  --rt-inhouse: #8b2be2;
+  --rt-company: #0078d4;
+  --rt-delivery: #361fb8;
+  --rt-item: #1ba756;
+  --rt-stock: #ff7c44;
+  --rt-inhouse: #005669;
   --rt-location: #66dcc5;
-  --rt-setting: #a3a3a3;
+  --rt-setting: #464742;
   --rt-search: #17a2b8;
   --rt-user: #4e4083;
   --rt-fushsia: #915c83;
+  --rt-green20: #498205;
 }
 
 a {

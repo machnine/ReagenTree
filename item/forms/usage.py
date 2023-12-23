@@ -12,4 +12,4 @@ class UsageForm(forms.ModelForm):
 
     class Meta:
         model = Usage
-        fields = ("used_quantity",)
+        fields = ("used_quantity", "used_unit")
