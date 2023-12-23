@@ -18,17 +18,13 @@ class SuccessUrlMixin:
 class FormValidMessageMixin:
     """Form Valid Message Mixin"""
 
-    # create or update flag
-    is_created = False
-    is_updated = False
-
     def form_valid(self, form):
         """If the form is valid, redirect to the supplied URL."""
-        action = "created" if self.is_created else "updated"
-        if self.is_created:
+        action = "updated"
+        if not bool(form.instance.pk):
+            action = "created"
             form.instance.created_by = self.request.user
-        if self.is_updated:
-            form.instance.last_updated_by = self.request.user
+        form.instance.last_updated_by = self.request.user
         response = super().form_valid(form)
         action_success = mark_safe(
             f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully."

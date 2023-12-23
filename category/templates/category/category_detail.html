@@ -3,7 +3,7 @@
   Category - {{ category.name }}
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-bookmarks-fill category-text-color"></i> {{ category.name }}
+  <i class="bi bi-bookmarks-fill category-text-color"></i> {{ category.name }}
 {% endblock panel_title %}
 {{ category.name }}
 {% block panel_actions %}
@@ -21,7 +21,7 @@
         <tbody>
           <tr>
             <td width="15%" class="text-muted">Name:</td>
-            <td width="85%">{{ category.name }}</td>            
+            <td width="85%">{{ category.name }}</td>
           </tr>
           <tr>
             <td class="text-muted">Description:</td>
@@ -67,7 +67,5 @@
       {% include "partials/pagination_simple.html" %}
     </div>
   </div>
-  {% with obj=category %}
-    {% include "partials/object_last_updated.html" %}
-  {% endwith %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

@@ -1,15 +1,22 @@
 {% extends "object_detail_base.html" %}
 {% block panel_title %}
-<i class="bi bi-box inhouse-text-color"></i> {{ object.name }}
+  <i class="bi bi-box inhouse-text-color"></i> {{ object.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
-<span class="p-1">
-  <a href="{% url 'inhouse_update' object.pk %}?next={{ request.path }}"
-     title="Update inhouse"
-     class="btn btn-sm btn-success">
-    <i class="bi bi-pencil-square"></i> Edit</a>
-</span>
+  <span class="p-1">
+    <a href="{% url 'inhouse_update' object.pk %}?next={{ request.path }}"
+       title="Update inhouse"
+       class="btn btn-sm btn-success">
+      <i class="bi bi-pencil-square"></i> Edit</a>
+  </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-{{ object }}
+  <p>{{ object.product_id }}</p>
+  <p>made by {{ object.created_by }} [{{ object.created }}]</p>
+  {% for comp in reagent_components.all %}
+    <p>
+      [{{ comp.stock.ordinal_number }}] {{ comp.stock.item.name }}- {{ comp.stock.lot_number }} - {{ comp.quantity }}{{ comp.quantity_unit }}
+    </p>
+  {% endfor %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

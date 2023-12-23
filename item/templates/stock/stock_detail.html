@@ -21,7 +21,5 @@
        class="btn btn-primary">Create Usage</a>
   </div>
   {# update time #}
-  {% with obj=stock %}
-    {% include "partials/object_last_updated.html" %}
-  {% endwith %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

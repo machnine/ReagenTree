@@ -24,8 +24,8 @@
 - Delivery model
   - delivery notes upload?
 - Item model
-  - [] image
-  - How to deal with in-house reagents? Are they an Item or a Stock? Use a different Model?
+  - [] image  
 - List view sorting
 - List view search
-  
+- handle usage unit conversion. e.g. 1Kg but 1g is used...
+- update the usage of stock item when making inhouse reagent

@@ -3,7 +3,7 @@
   Delivery
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-cart-fill delivery-text-color"></i> Delivery Detail
+  <i class="bi bi-cart-fill delivery-text-color"></i> Delivery Detail
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -15,4 +15,5 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   {% for stock in delivery.stocks.all %}<p>{{ stock }}</p>{% endfor %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

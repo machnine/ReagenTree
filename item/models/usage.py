@@ -17,6 +17,7 @@ class Usage(models.Model):
     # Method to update Stock after usage
     def save(self, *args, **kwargs):
         """Update stock after usage"""
+        #TODO: handle unit convertion
         if self.used_quantity <= self.stock.remaining_quantity:
             self.stock.remaining_quantity -= self.used_quantity
 

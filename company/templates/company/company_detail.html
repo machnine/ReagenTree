@@ -3,7 +3,7 @@
   Company - {{ company.name }}
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-buildings company-text-color"></i> {{ company.name }}
+  <i class="bi bi-buildings company-text-color"></i> {{ company.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -46,7 +46,7 @@
   {% if company.manufactured_items.count > 0 %}
     <div class="panel mx-3 my-4">
       <div class="panel-heading">
-        <span class="h5"> Items Manufactured</span>
+        <span class="h5">Items Manufactured</span>
       </div>
       <div class="panel-content py-4">
         {% for item in company.manufactured_items.all %}
@@ -61,7 +61,7 @@
   {% if company.supplied_items.count > 0 %}
     <div class="panel mx-3 my-4">
       <div class="panel-heading">
-        <span class="h5"> Items Supplied</span>
+        <span class="h5">Items Supplied</span>
       </div>
       <div class="panel-content py-4">
         {% for item in company.supplied_items.all %}
@@ -72,7 +72,5 @@
       </div>
     </div>
   {% endif %}
-  {% with obj=company %}
-    {% include "partials/object_last_updated.html" %}
-  {% endwith %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

@@ -3,7 +3,7 @@
   Location - {{ location.name }}
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-geo-alt-fill location-text-color"></i> {{ location.name }}
+  <i class="bi bi-geo-alt-fill location-text-color"></i> {{ location.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -71,7 +71,5 @@
       {% include "partials/pagination_simple.html" %}
     </div>
   </div>
-  {% with obj=location %}
-    {% include "partials/object_last_updated.html" %}
-  {% endwith %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

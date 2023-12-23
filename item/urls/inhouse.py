@@ -5,6 +5,7 @@ from item.views import (
     InhouseReagentDetailView,
     InhouseReagentCreateView,
     InhouseReagentUpdateView,
+    InhouseReagentDeleteView,
 )
 
 urlpatterns = [
@@ -12,4 +13,5 @@ urlpatterns = [
     path("<int:pk>/", InhouseReagentDetailView.as_view(), name="inhouse_detail"),
     path("create/", InhouseReagentCreateView.as_view(), name="inhouse_create"),
     path("<int:pk>/update/", InhouseReagentUpdateView.as_view(), name="inhouse_update"),
+    path("<int:pk>/delete/", InhouseReagentDeleteView.as_view(), name="inhouse_delete"),
 ]

@@ -1,9 +1,9 @@
 {% extends "object_list_base.html" %}
 {% block title %}
-In-house Reagents
+  In-house Reagents
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-box inhouse-text-color"></i> In-house Reagents
+  <i class="bi bi-box inhouse-text-color"></i> In-house Reagents
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'inhouse_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New Reagent</a>
@@ -14,7 +14,8 @@ In-house Reagents
       <thead>
         <tr>
           <th>Item</th>
-          <th>Components</th>
+          <th>Product ID</th>
+          <th width="40%">Components</th>
           <th class="d-none d-lg-table-cell">Actions</th>
         </tr>
       </thead>
@@ -24,10 +25,22 @@ In-house Reagents
             <td>
               <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
             </td>
-            <td>{{ reagent.components.all }}</td>
+            <td>{{ reagent.product_id }}</td>
+            <td>
+              {% for comp in reagent.components.all %}
+                {{ comp.item.name }}
+                {% if not forloop.last %},{% endif %}
+              {% endfor %}
+            </td>
             <td>
               <a href="{% url 'inhouse_update' reagent.pk %}"><i class="bi bi-pencil-square"></i></a>
-              <i class="bi bi-trash"></i>
+              <a hx-get="{% url 'inhouse_delete' reagent.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 href="javascript:void(0);"><i class="bi bi-trash"></i></a>
             </td>
           </tr>
         {% endfor %}

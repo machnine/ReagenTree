@@ -2,8 +2,7 @@
 from django.conf import settings
 from django.db import models
 
-
-from item.models import Item
+from item.models import Stock
 
 
 class InhouseReagent(models.Model):
@@ -11,8 +10,9 @@ class InhouseReagent(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    product_id = models.CharField(max_length=100)
     components = models.ManyToManyField(
-        Item, through="ReagentComponent", related_name="inhouse_reagents"
+        Stock, through="ReagentComponent", related_name="inhouse_reagents"
     )
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
@@ -38,6 +38,11 @@ class ReagentComponent(models.Model):
     """Inhouse reagent component model"""
 
     reagent = models.ForeignKey(InhouseReagent, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=1)
-    qunatity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
+    quantity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
+
+
+    def __str__(self):
+        """Return string representation of the object"""
+        return f"{self.stock} ({self.quantity} {self.quantity_unit})"

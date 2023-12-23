@@ -18,7 +18,7 @@
             {% block create_form %}
             {% endblock create_form %}
             <div class="text-end pe-3">
-              <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Save</button>
+              <button type="submit" class="btn btn-success" onclick="return confirmationDialog('Save the entry?');"><i class="bi bi-floppy"></i> Save</button>
             </div>
           </form>
         {% endblock panel_content %}

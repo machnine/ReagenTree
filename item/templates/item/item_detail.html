@@ -203,9 +203,7 @@
     </div>
   </div>
   {# update time #}
-  {% with obj=item %}
-    {% include "partials/object_last_updated.html" %}
-  {% endwith %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}
 {# upload attachment modal #}
 {% block modals %}
