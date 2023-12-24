@@ -4,8 +4,6 @@ from django.conf import settings
 from django.db import models
 
 from attachment.models import Attachment
-from company.models import Company
-from category.models import Category
 
 
 class Item(models.Model):
@@ -16,21 +14,25 @@ class Item(models.Model):
     product_id = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="items"
+        "category.Category",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="items",
     )
     quantity = models.DecimalField(
         max_digits=10, decimal_places=1, null=True, blank=True
     )
     quantity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
     manufacturer = models.ForeignKey(
-        Company,
+        "company.Company",
         related_name="manufactured_items",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
     supplier = models.ForeignKey(
-        Company,
+        "company.Company",
         related_name="supplied_items",
         on_delete=models.SET_NULL,
         null=True,

@@ -1,8 +1,8 @@
 """Usage Urls"""
 from django.urls import path
 
-from item.views import UsageCreateView
+from item.views import UsageUpdateHtmxView
 
 urlpatterns = [
-    path("stock/<int:pk>/", UsageCreateView.as_view(), name="usage_create"),
+    path("<int:pk>/update/", UsageUpdateHtmxView.as_view(), name="usage_update")
 ]

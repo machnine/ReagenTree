@@ -2,14 +2,22 @@
 // This file contains functions used by the reagentree app.
 
 /**
- * Initialize the Bootstrap tooltip.
+ * DOMContentLoaded event listener
  */
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize the Bootstrap tooltip.
   var tooltipTriggerList = [].slice.call(
     document.querySelectorAll('[data-bs-toggle="tooltip"]')
   );
+
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  // Add a listener to trigger after HTMX swap
+  document.body.addEventListener("htmx:afterSwap", (event) => {
+    // remove fade out hide elements
+    applyHideAfterAnimation();
   });
 });
 
@@ -81,4 +89,18 @@ function AlertsAutoDismissal(autoCloseClass, timeInterval) {
  */
 function confirmationDialog(question) {
   return confirm(question);
+}
+
+/**
+ * This function adds a listener to all .fade-out-hide elements to hide them after the fade out animation ends.
+ */
+function applyHideAfterAnimation() {
+  document.querySelectorAll(".hide-after-animation").forEach((element) => {
+    if (!element.classList.contains("fade-out-processed")) {
+      element.classList.add("fade-out-processed"); // Mark the element as processed
+      element.addEventListener("animationend", function () {
+        this.style.display = "none";
+      });
+    }
+  });
 }

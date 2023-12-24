@@ -42,7 +42,7 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                     created=timezone.now(),
                     ordinal_number=n + 1,
                     remaining_quantity=item.quantity,
-                    remaining_quantity_unit=item.quantity_unit,
+                    remaining_unit=item.quantity_unit,
                     **{
                         key: value
                         for key, value in form.cleaned_data.items()

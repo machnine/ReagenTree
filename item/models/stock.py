@@ -6,12 +6,6 @@ from django.db import models
 from django.utils import timezone
 
 
-from delivery.models import Delivery
-from location.models import Location
-
-from .item import Item
-
-
 class Stock(models.Model):
     """Stock model for the stocks"""
 
@@ -22,11 +16,13 @@ class Stock(models.Model):
         (3, "Requires Attention"),
     ]
 
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="stocks")
+    item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="stocks")
     remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
-    remaining_quantity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
+    remaining_unit = models.ForeignKey(
+        "Unit", on_delete=models.SET_NULL, null=True
+    )
     delivery = models.ForeignKey(
-        Delivery, on_delete=models.CASCADE, related_name="stocks", null=True
+        "delivery.Delivery", on_delete=models.CASCADE, related_name="stocks", null=True
     )
     delivery_condition = models.PositiveSmallIntegerField(
         choices=CONDITION_CHOICES, default=0
@@ -34,7 +30,7 @@ class Stock(models.Model):
     lot_number = models.CharField(max_length=50)
     expiry_date = models.DateField()
     location = models.ForeignKey(
-        Location,
+        "location.Location",
         on_delete=models.CASCADE,
         related_name="stocks",
         blank=True,

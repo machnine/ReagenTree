@@ -182,7 +182,7 @@
                     <a href="{% url 'location_detail' stock.location.pk %}"
                        title="location details">{{ stock.location }}</a>
                   </td>
-                  <td>{{ stock.remaining_quantity|default:"" }} {{ stock.remaining_quantity_unit|default:"" }}</td>
+                  <td>{{ stock.remaining_quantity|default:"" }} {{ stock.remaining_unit|default:"" }}</td>
                   <td>
                     <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
                        title="Update {{ stock.name }}"><i class="bi bi-pencil-square"></i></a>

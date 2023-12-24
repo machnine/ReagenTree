@@ -11,16 +11,16 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   <div class="table-responsive">
-    <table class="table">
+    <table class="table table-sm">
       <thead>
         <tr>
           <th>Item</th>
           <th>Box ID</th>
-          <th>Quantity</th>
+          <th class="text-center px-lg-4">Quantity</th>
           <th>Lot Number</th>
-          <th>Expiry Date</th>
+          <th class="d-none d-lg-table-cell">Expiry Date</th>
           <th class="d-none d-lg-table-cell">Delivery</th>
-          <th>Location</th>
+          <th class="d-none d-lg-table-cell">Location</th>
           <th class="d-none d-lg-table-cell">Actions</th>
         </tr>
       </thead>
@@ -37,16 +37,16 @@
                 <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
               </a>
             </td>
-            <td>{{ stock.remaining_quantity }} {{ stock.remaining_quantity_unit }}</td>
+            <td class="text-end overflow-wrap-hidden max-width-75px">{% include "usage/usage_htmx_updated.html" %}</td>
             <td>{{ stock.lot_number }}</td>
-            <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
+            <td class="d-none d-lg-table-cell">{{ stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="d-none d-lg-table-cell">
               <a href="{% url 'delivery_detail' stock.delivery.pk %}"
                  title="{{ stock.delivery }}"
                  data-bs-toggle="tooltip">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
               {% delivery_condicon stock.delivery_condition %}
             </td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               <a href="{% url 'location_detail' stock.location.pk %}"
                  title="Location detail">{{ stock.location.name }}</a>
             </td>

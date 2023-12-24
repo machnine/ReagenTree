@@ -148,3 +148,90 @@ a:hover {
 .user-text-color {
   color: var(--rt-user);
 }
+
+/* width control */
+
+.max-width-25pc {
+  max-width: 25% !important;
+}
+
+.max-width-50pc {
+  max-width: 50% !important;
+}
+
+.max-width-75pc {
+  max-width: 75% !important;
+}
+
+.max-width-100pc {
+  max-width: 100% !important;
+}
+
+.max-width-50px {
+  max-width: 50px !important;
+}
+
+.max-width-75px {
+  max-width: 75px !important;
+}
+
+.max-width-100px {
+  max-width: 100px !important;
+}
+
+.max-width-150px {
+  max-width: 150px !important;
+}
+
+.overflow-wrap-hidden {
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.overflow-wrap-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* td input control */
+.form-control-sm-fh {
+  height: calc(1.25rem + 2px);
+  font-size: 1rem;
+  padding: 0.1rem;
+  border-radius: 0.2rem;
+  border: 1px solid #ced4da;
+  text-align: right;
+}
+
+/* Fade-in class */
+.fade-in {
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Fade-out class */
+.fade-out {
+  animation: fadeOutAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOutAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

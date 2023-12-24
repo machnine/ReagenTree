@@ -15,11 +15,7 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   Quantity:
-  {{ stock.remaining_quantity }} {{ stock.remaining_quantity_unit }}
-  <div class="container-fluid">
-    <a href="{% url 'usage_create' stock.pk %}?next={{ request.path }}"
-       class="btn btn-primary">Create Usage</a>
-  </div>
+  {{ stock.remaining_quantity }} {{ stock.remaining_unit }}
   {# update time #}
   {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}
