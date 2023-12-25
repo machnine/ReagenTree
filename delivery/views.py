@@ -27,10 +27,15 @@ class DeliveryCreateView(
     """View for creating a Delivery."""
 
     model = Delivery
-    is_created = True
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
     template_name = "delivery/delivery_create.html"
+
+    def form_valid(self, form):
+        """Set the received_by and call the FormValidMessageMixin's form_valid."""
+        if not form.instance.pk:
+            form.instance.received_by = self.request.user
+        return super(DeliveryCreateView, self).form_valid(form)
 
 
 class DeliveryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
@@ -75,7 +80,6 @@ class DeliveryUpdateView(
     """View for updating a Delivery."""
 
     model = Delivery
-    is_updated = True
     form_class = DeliveryForm
     success_url = reverse_lazy("delivery_list")
     template_name = "delivery/delivery_update.html"

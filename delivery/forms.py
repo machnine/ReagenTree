@@ -1,36 +1,23 @@
 """delivery forms."""
 from django import forms
-from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from attachment.forms import AttachmentForm
 from .models import Delivery, DeliveryAttachment
 
 
-delivery_fields = [
-    "notes",
-    "delivery_date",
-    "received_by",
-]
-
-
 class DeliveryForm(forms.ModelForm):
     """DeliveryForm."""
 
     class Meta:
-        """Meta"""
-
         model = Delivery
-        fields = delivery_fields
+        fields = ["notes", "delivery_date"]
         widgets = {
-            "delivery_date": forms.DateInput(attrs={"type": "datetime-local"}),
+            "delivery_date": forms.DateTimeInput(
+                attrs={"type": "datetime-local", "class": "form-control"}
+            ),
+            "notes": forms.TextInput(attrs={"class": "form-control"}),
         }
-
-    def __init__(self, *args, **kwargs):
-        """Init."""
-        super().__init__(*args, **kwargs)
-        User = get_user_model()
-        self.fields["received_by"].queryset = User.objects.exclude(is_superuser=True)
 
     def clean_delivery_date(self):
         """Clean delivery_date."""

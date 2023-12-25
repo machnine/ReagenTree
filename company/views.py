@@ -50,7 +50,6 @@ class CompanyCreateView(
     """View for creating a Company."""
 
     model = Company
-    is_created = True
     fields = company_fields
     template_name = "company/company_create.html"
     success_url = reverse_lazy("company_list")
@@ -61,7 +60,6 @@ class CompanyUpdateView(
     """View for updating a Company."""
 
     model = Company
-    is_updated = True
     fields = company_fields
     template_name = "company/company_update.html"
     success_url = reverse_lazy("company_list")

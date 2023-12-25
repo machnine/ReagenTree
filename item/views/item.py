@@ -48,7 +48,6 @@ class ItemCreateView(
     """Create view for Item model"""
 
     model = Item
-    is_created = True
     form_class = ItemForm
     template_name = "item/item_create.html"
     success_url = reverse_lazy("item_list")
@@ -86,7 +85,6 @@ class ItemUpdateView(
     """Update view for Item model"""
 
     model = Item
-    is_updated = True
     form_class = ItemForm
     template_name = "item/item_update.html"
     success_url = reverse_lazy("item_list")

@@ -42,7 +42,6 @@ class CategoryCreateView(
     """Category create view."""
 
     model = Category
-    is_created = True
     fields = ["name", "description"]
     template_name = "category/category_create.html"
     success_url = reverse_lazy("category_list")
@@ -53,7 +52,6 @@ class CategoryUpdateView(
     """Category update view."""
 
     model = Category
-    is_updated = True
     fields = ["name", "description"]
     success_url = reverse_lazy("category_list")
     template_name = "category/category_update.html"

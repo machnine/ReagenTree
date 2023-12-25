@@ -24,7 +24,6 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create view for Stock model"""
 
     model = Stock
-    is_created = True
     form_class = StockCreateForm
     template_name = "stock/stock_create.html"
     success_url = reverse_lazy("stock_list")
@@ -88,7 +87,6 @@ class StockUpdateView(
     """Update view for Stock model"""
 
     model = Stock
-    is_updated = True
     form_class = StockUpdateForm
     template_name = "stock/stock_update.html"
     success_url = reverse_lazy("stock_list")

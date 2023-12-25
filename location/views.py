@@ -40,7 +40,6 @@ class LocationCreateView(
     """Location create view."""
 
     model = Location
-    is_created = True
     form_class = LocationForm
     template_name = "location/location_create.html"
     success_url = reverse_lazy("location_list")
@@ -53,7 +52,6 @@ class LocationUpdateView(
     """Location update view."""
 
     model = Location
-    is_updated = True
     form_class = LocationForm
     template_name = "location/location_update.html"
     success_url = reverse_lazy("location_list")
