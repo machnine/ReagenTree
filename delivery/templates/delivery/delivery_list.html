@@ -29,10 +29,13 @@
             </td>
             <td class="d-lg-table-cell">{{ delivery.received_by.first_name }}</td>
             <td class="d-lg-table-cell small">{{ delivery.notes }}</td>
-            <td class="d-none d-lg-table-cell small">
-              {% for stock in delivery.stocks.all %}
-                {{ stock }}
-                {% if not forloop.last %},{% endif %}
+            <td class="d-none d-lg-table-cell">
+              {% for stock in delivery.stocks_aggregated %}
+                <a href="{% url 'item_detail' stock.item__id %}">{{ stock.item__name }}</a>
+                {% if stock.count > 1 %}
+                  <span class="text-muted small">x</span>
+                  <span class="stock-text-color fw-bold">{{ stock.count }}</span>
+                {% endif %}{% if not forloop.last %},{% endif %}
               {% endfor %}
             </td>
             <td class="d-lg-table-cell">

@@ -21,28 +21,18 @@
       </thead>
       <tbody>
         {% for category in categories %}
-          <tr style="height: 120px;">
+          <tr>
             <td class="align-middle">
               <a href="{% url 'category_detail' category.pk %} "
                  title="category details">{{ category.name }}</a>
             </td>
             <td class="small d-none d-lg-table-cell">{{ category.description|truncatechars:120 }}</td>
             <td class="d-none d-lg-table-cell">
-              <div class="row ps-2 small">
-                {% for item in category.items.all|slice:10 %}
-                  <div class="col-4">
-                    <i class="bi bi-box2"></i>
-                    <a href="{% url 'item_detail' item.pk %}"
-                       class="pe-2"
-                       title="item details">{{ item.name }}</a>
-                  </div>
-                {% endfor %}
-                <div class="col-12 small">
-                  {% if category.items.count > 10 %}
-                    <a href="{% url 'category_detail' category.pk %}">More ...</a>
-                  {% endif %}
-                </div>
-              </div>
+              {% for item in category.items.all|slice:20 %}
+                <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
+                {% if not forloop.last %},{% endif %}
+              {% endfor %}
+              {% if category.items.count > 20 %}...{% endif %}
             </td>
             <td class="d-lg-table-cell align-middle">
               <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>

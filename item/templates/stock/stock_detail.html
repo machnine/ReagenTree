@@ -14,7 +14,7 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <p>Remaining quantity:  {{ stock.remaining_quantity }} {{ stock.remaining_unit }}</p>
+  <p>Remaining quantity:  {{ stock.remaining_quantity_display}}</p>
   <p>In-use date: {{ in_use_date|date:"d/m/Y"|default:"not yet in-use" }}</p>
   {# update time #}
   {% include "partials/object_last_updated.html" %}

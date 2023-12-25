@@ -3,7 +3,7 @@
   Locations
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-geo-alt-fill location-text-color"></i> Storage Locations
+  <i class="bi bi-geo-alt-fill location-text-color"></i> Storage Locations
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'location_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New location</a>
@@ -22,30 +22,21 @@
       </thead>
       <tbody>
         {% for location in locations %}
-          <tr style="height:120px;">
+          <tr>
             <td class="align-middle">
               <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
             </td>
             <td class="d-none d-lg-table-cell align-middle">{{ location.room }}</td>
             <td class="d-none d-lg-table-cell small">{{ location.description|truncatechars:150 }}</td>
             <td class="d-none d-lg-table-cell">
-              <div class="row ps-2 small">
-                {% for stock in location.stocks.all|slice:10 %}
-                  <div class="col-6">
-                    <i class="bi bi-box-seam"></i>
-                    <a href="{% url 'stock_detail' stock.pk %}"
-                       class="pe-2"
-                       title="{{ stock.delivery.delivery_date|date:'d/m/Y' }}| {{ stock.lot_number }}| box {{ stock.ordinal_number }}">
-                      {{ stock.item.name }}
-                    </a>
-                  </div>
-                {% endfor %}
-                <div class="col-12 small">
-                  {% if location.stocks.count > 10 %}
-                    <a href="{% url 'location_detail' location.pk %}">More ...</a>
-                  {% endif %}
-                </div>
-              </div>
+              {% for stock in location.stocks_aggregated %}
+                <a href="{% url 'item_detail' stock.item__id %}">{{ stock.item__name }}</a>
+                {% if stock.count > 1 %}
+                  <span class="text-muted small">x</span>
+                  <span class="stock-text-color fw-bold">{{ stock.count }}</span>
+                {% endif %}
+                {% if not forloop.last %},{% endif %}
+              {% endfor %}
             </td>
             <td class="align-middle">
               <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>

@@ -2,7 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -45,7 +45,6 @@ class LocationCreateView(
     success_url = reverse_lazy("location_list")
 
 
-
 class LocationUpdateView(
     LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
 ):
@@ -55,7 +54,7 @@ class LocationUpdateView(
     form_class = LocationForm
     template_name = "location/location_update.html"
     success_url = reverse_lazy("location_list")
-  
+
 
 class LocationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Location delete view."""
@@ -91,3 +90,12 @@ class LocationListView(LoginRequiredMixin, ListView):
     context_object_name = "locations"
     template_name = "location/location_list.html"
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        for location in queryset:
+            # Annotate each delivery with aggregated stock data
+            location.stocks_aggregated = location.stocks.values(
+                "item__id", "item__name"
+            ).annotate(count=Count("item"))
+        return queryset

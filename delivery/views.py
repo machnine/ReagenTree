@@ -1,6 +1,7 @@
 """Delivery views."""
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -72,6 +73,15 @@ class DeliveryListView(LoginRequiredMixin, ListView):
     context_object_name = "deliveries"
     template_name = "delivery/delivery_list.html"
     paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        for delivery in queryset:
+            # Annotate each delivery with aggregated stock data
+            delivery.stocks_aggregated = delivery.stocks.values("item__id", "item__name").annotate(
+                count=Count("item")
+            )
+        return queryset
 
 
 class DeliveryUpdateView(

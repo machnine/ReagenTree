@@ -64,7 +64,7 @@
               <a href="{% url 'stock_detail' stock.pk %}" title="stock details"><span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span></a>
             </td>
             <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
-            <td>level</td>
+            <td>{{ stock.remaining_quantity_display }}</td>
           </tr>
         {% endfor %}
       </table>

@@ -61,6 +61,16 @@ class Stock(models.Model):
             self.created = dt - timedelta(microseconds=dt.microsecond)
         super().save(*args, **kwargs)
 
+    @property
+    def remaining_quantity_display(self):
+        """Return the remaining quantity with the unit"""
+        if self.remaining_quantity:
+            quantity = self.remaining_quantity.normalize()
+            if quantity == quantity.to_integral():
+                quantity = int(quantity)
+            return f"{quantity} {self.remaining_unit}"
+        return f"{self.remaining_quantity} {self.remaining_unit}"
+
     def __str__(self):
         return f"[{self.ordinal_number}]{self.item.name} • {self.lot_number}"
 

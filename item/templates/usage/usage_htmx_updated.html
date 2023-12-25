@@ -3,7 +3,7 @@
     <a hx-get="{% url 'usage_update' stock.pk %}"
        hx-trigger="dblclick"
        hx-swap="outerHTML"
-       href="javascript:">{{ stock.remaining_quantity|floatformat }} {{ stock.remaining_unit }}</a>
+       href="javascript:">{{ stock.remaining_quantity_display }}</a>
   </div>
   <div class="col-4 text-center">
     <span class="hide-after-animation fade-out text-success fw-bold">-{{ form.used_quantity.value }}</span>
