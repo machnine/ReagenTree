@@ -40,7 +40,7 @@
               </tr>
               <tr>
                 <td class="text-muted">Quantity:</td>
-                <td>{{ item.quantity|default:"" }} {{ item.quantity_unit|default:"" }}</td>
+                <td>{{ item.quantity|default:""|floatformat }} {{ item.quantity_unit|default:"" }}</td>
                 <td class="text-muted">CAS Number:</td>
                 <td>
                   {% if item.cas_number %}
@@ -80,7 +80,7 @@
     <div class="col">
       <div class="panel">
         <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
-          <span class="h5"><i class="bi bi-folder-fill text-warning"></i> Documents</span>
+          <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
           <a hx-get="{% url 'item_attachment_upload' item.pk %}"
              hx-trigger="click"
              hx-target="#crudModal .modal-content"
@@ -150,7 +150,7 @@
     <div class="col">
       <div class="panel">
         <div class="panel-heading d-flex justify-content-between">
-          <span class="h5"><i class="bi bi-box-seam-fill stock-text-color"></i> Available Stocks</span>
+          <span class="fw-bold"><i class="bi bi-box-seam-fill stock-text-color"></i> Available Stocks</span>
         </div>
         <div class="panel-content">
           <table class="table table-sm table-hover">
@@ -182,7 +182,7 @@
                     <a href="{% url 'location_detail' stock.location.pk %}"
                        title="location details">{{ stock.location }}</a>
                   </td>
-                  <td>{{ stock.remaining_quantity|default:"" }} {{ stock.remaining_unit|default:"" }}</td>
+                  <td>{{ stock.remaining_quantity|floatformat|default:"" }} {{ stock.remaining_unit|default:"" }}</td>
                   <td>
                     <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
                        title="Update {{ stock.name }}"><i class="bi bi-pencil-square"></i></a>
@@ -207,7 +207,6 @@
 {% endblock panel_content %}
 {# upload attachment modal #}
 {% block modals %}
-  <!-- Delete Modal -->
   <div class="modal fade"
        id="crudModal"
        tabindex="-1"

@@ -1,7 +1,5 @@
 
 - [] Detail views
-  - [] Delivery
-    - different cards or panels for different groups of stocks OR use different colour badges for different boxes
   - [] Stock
     - list all same batch of stocks in one view
 - [] List views
@@ -13,20 +11,15 @@
   - Restrict which group of users can do which CRUD
 - Model search function
 - Full site search function
-- Item search to include manufacturer/supplier name? (Perhaps not necessary)
 - Stock Item 
     - validation workflow
     - Stock take work flow - what is it and how to deal with it?
     - Set a stock level threshold for warning
-    - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing
-    - In use date (automatically set when first used)
+    - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
-- Delivery model
-  - delivery notes upload?
 - Item model
   - [] image  
 - List view sorting
 - List view search
-- handle usage unit conversion. e.g. 1Kg but 1g is used...
 - update the usage of stock item when making inhouse reagent

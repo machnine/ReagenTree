@@ -64,6 +64,13 @@ class Item(models.Model):
 class ItemAttachment(Attachment):
     """Attachments associated with an item"""
 
+    uploaded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="item_attachments",
+        null=True,
+    )
+
     class Meta:
         verbose_name = "item attachment"
         verbose_name_plural = "item attachments"

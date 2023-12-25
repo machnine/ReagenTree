@@ -1,5 +1,6 @@
 """Stock Item views"""
 
+from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -123,6 +124,14 @@ class StockDetailView(LoginRequiredMixin, DetailView):
     model = Stock
     context_object_name = "stock"
     template_name = "stock/stock_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object.usages.all():
+            context["in_use_date"] = (
+                self.object.usages.order_by("used_date").first().used_date
+            )
+        return context
 
 
 class StockDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):

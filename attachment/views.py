@@ -4,7 +4,7 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import View
 
 
@@ -15,11 +15,17 @@ class AttachmentUploadView(View):
     form_class = None
     template_name = None
     success_url_name = None
+    upload_url_name = None
 
     def get(self, request, pk):
         obj = get_object_or_404(self.owner_model, pk=pk)
         form = self.form_class()
-        return render(request, self.template_name, {"form": form, "object": obj})
+        upload_url = reverse_lazy(self.upload_url_name, kwargs={"pk": obj.pk})
+        return render(
+            request,
+            self.template_name,
+            {"form": form, "object": obj, "upload_url": upload_url},
+        )
 
     def post(self, request, pk):
         obj = get_object_or_404(self.owner_model, pk=pk)

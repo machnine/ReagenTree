@@ -3,7 +3,7 @@
   Deliveries
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-boxes delivery-text-color"></i> All Deliveries
+  <i class="bi bi-boxes delivery-text-color"></i> All Deliveries
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'delivery_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New delivery</a>
@@ -30,22 +30,10 @@
             <td class="d-lg-table-cell">{{ delivery.received_by.first_name }}</td>
             <td class="d-lg-table-cell small">{{ delivery.notes }}</td>
             <td class="d-none d-lg-table-cell small">
-              {% comment %} {% if delivery.within_one_week %}
-                <a class="btn btn-sm"
-                   href="{% url 'stock_create' %}?delivery={{ delivery.pk }}&next={{ request.path }}"
-                   title="Add stocks">
-                  <i class="bi bi-plus-circle-dotted text-success"></i></a>
-              {% endif %} {% endcomment %}
-              <div class="row ps-2">
-              {% for stock in delivery.stocks.all|slice:10 %}
-              <div class="col-4">
-                <i class="bi bi-box-seam"></i> {{ stock.item.name }}
-              </div>
+              {% for stock in delivery.stocks.all %}
+                {{ stock }}
+                {% if not forloop.last %},{% endif %}
               {% endfor %}
-              <div class="col-12">
-                {% if delivery.stocks.count > 10 %}more ...{% endif %}
-              </div>
-              </div>
             </td>
             <td class="d-lg-table-cell">
               <a href="{% url 'delivery_update' delivery.pk %}"><i class="bi bi-pencil-square"></i></a>

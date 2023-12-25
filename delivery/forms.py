@@ -1,9 +1,10 @@
 """delivery forms."""
 from django import forms
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from user.models import CustomUser
-from .models import Delivery
+from attachment.forms import AttachmentForm
+from .models import Delivery, DeliveryAttachment
 
 
 delivery_fields = [
@@ -28,9 +29,8 @@ class DeliveryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Init."""
         super().__init__(*args, **kwargs)
-        self.fields["received_by"].queryset = CustomUser.objects.exclude(
-            is_superuser=True
-        )
+        User = get_user_model()
+        self.fields["received_by"].queryset = User.objects.exclude(is_superuser=True)
 
     def clean_delivery_date(self):
         """Clean delivery_date."""
@@ -38,3 +38,20 @@ class DeliveryForm(forms.ModelForm):
         if delivery_date and delivery_date > timezone.now():
             raise forms.ValidationError("Delivery date cannot be in the future.")
         return delivery_date
+
+
+# Delivery Attachment forms
+class DeliveryAttachmentCreateForm(AttachmentForm):
+    """Custom input form for the DeliveryAttachment model."""
+
+    class Meta(AttachmentForm.Meta):
+        model = DeliveryAttachment
+        fields = ("file", "name", "description")
+
+
+class DeliveryAttachmentUpdateForm(AttachmentForm):
+    """Custom update form for the DeliveryAttachment model."""
+
+    class Meta(AttachmentForm.Meta):
+        model = DeliveryAttachment
+        exclude = ("file",)

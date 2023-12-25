@@ -1,4 +1,5 @@
 """ Usage views """
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
 from django.shortcuts import get_object_or_404, render
 
@@ -6,7 +7,7 @@ from item.forms import UsageForm
 from item.models import Stock
 
 
-class UsageUpdateHtmxView(View):
+class UsageUpdateHtmxView(LoginRequiredMixin, View):
     """View to update usage for stock using HTMX."""
 
     form_class = UsageForm

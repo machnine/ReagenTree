@@ -1,0 +1,48 @@
+<table class="table table-sm table-hover">
+  <thead class="text-small">
+    <tr>
+      <th class="text-muted d-none d-lg-block">Uploaded</th>
+      <th class="text-muted">Name</th>
+      <th class="text-muted">File Name</th>
+      <th class="text-muted d-none d-lg-block">Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file in attachments %}
+      <tr>
+        <td class="d-none d-lg-block">
+          <small title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</small>
+        </td>
+        <td>{{ file.name }}</td>
+        <td>
+          {% if file.filetype %}
+            <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
+          {% else %}
+            <i class="bi bi-file-earmark text-warning"></i>
+          {% endif %}
+          <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+        </td>
+        <td class="d-none d-lg-block">
+          <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+        </td>
+        <td>
+          <a hx-get="{{ attachment_update_url }}"
+             hx-trigger="click"
+             hx-target="#crudModal .modal-content"
+             hx-swap="innerHTML"
+             data-bs-toggle="modal"
+             data-bs-target="#crudModal"
+             href="javascript:"><i class="bi bi-pencil-square"></i></a>
+          <a hx-get="{{ attachment_delete_url }}"
+             hx-trigger="click"
+             hx-target="#crudModal .modal-content"
+             hx-swap="innerHTML"
+             data-bs-toggle="modal"
+             data-bs-target="#crudModal"
+             href="javascript:"><i class="bi bi-trash"></i></a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

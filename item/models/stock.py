@@ -18,9 +18,7 @@ class Stock(models.Model):
 
     item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="stocks")
     remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
-    remaining_unit = models.ForeignKey(
-        "Unit", on_delete=models.SET_NULL, null=True
-    )
+    remaining_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
     delivery = models.ForeignKey(
         "delivery.Delivery", on_delete=models.CASCADE, related_name="stocks", null=True
     )

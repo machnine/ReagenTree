@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+from attachment.models import Attachment
+
 
 class Delivery(models.Model):
     """Delivery model"""
@@ -49,3 +51,18 @@ class Delivery(models.Model):
         ordering = ["-delivery_date"]
         verbose_name = "delivery"
         verbose_name_plural = "deliveries"
+
+
+class DeliveryAttachment(Attachment):
+    """Attachments associated with a delivery"""
+
+    uploaded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="delivery_attachments",
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = "delivery attachment"
+        verbose_name_plural = "delivery attachments"

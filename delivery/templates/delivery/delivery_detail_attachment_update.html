@@ -1,0 +1,36 @@
+<form method="post"
+      action="{% url 'delivery_attachment_update' attachment.id %}">
+  {% csrf_token %}
+  <div class="modal-header">
+    <h5 class="modal-title">Edit Document</h5>
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="input-group mb-3">
+      <span class="input-group-text">File Name</span>
+      <div class="form-control">{{ attachment.filename }}</div>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">Name</span>
+      <input class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+             type="text"
+             name="name"
+             maxlength="125"
+             id="id_name"
+             value="{{ attachment.name }}">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">Description</span>
+      <textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                name="description"
+                id="id_description"
+                value="{{ attachment.description }}"></textarea>
+    </div>
+    <div class="text-end pt-2">
+      <button class="btn btn-success" type="submit">Save</button>
+    </div>
+  </div>
+</form>

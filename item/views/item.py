@@ -26,7 +26,10 @@ def item_search(request):
     query = request.GET.get("item_query", "")
     if query:
         queries = [
-            Q(name__icontains=term) | Q(description__icontains=term)
+            Q(name__icontains=term)
+            | Q(description__icontains=term)
+            | Q(manufacturer__name__icontains=term)
+            | Q(supplier__name__icontains=term)
             for term in query.split()
         ]
         query = queries.pop()
@@ -49,7 +52,6 @@ class ItemCreateView(
     form_class = ItemForm
     template_name = "item/item_create.html"
     success_url = reverse_lazy("item_list")
-   
 
     def get_field_obj_name(self, field_value, obj_model):
         """Return the name of the field object."""
@@ -88,7 +90,6 @@ class ItemUpdateView(
     form_class = ItemForm
     template_name = "item/item_update.html"
     success_url = reverse_lazy("item_list")
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,7 +149,8 @@ class ItemAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
     owner_model = Item
     form_class = ItemAttachmentCreateForm
     success_url_name = "item_detail"
-    template_name = "item/item_detail_attachment_upload.html"
+    template_name = "attachment/attachment_upload_form.html"
+    upload_url_name = "item_attachment_upload"
 
 
 class ItemAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteView):
@@ -162,7 +164,6 @@ class ItemAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteView):
 class ItemAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
     """Update view for ItemAttachment model"""
 
-    owner_model = Item
     model = ItemAttachment
     form_class = ItemAttachmentUpdateForm
     template_name = "item/item_detail_attachment_update.html"
