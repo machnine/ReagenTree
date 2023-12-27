@@ -10,7 +10,7 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   <div class="table-responsive">
-    <table class="table">
+    <table class="table table-sm table-hover">
       <thead>
         <tr>
           <th width="10%" class="d-lg-table-cell">Delivery Date</th>
@@ -23,11 +23,11 @@
       <tbody>
         {% for delivery in deliveries %}
           <tr>
-            <td class="d-lg-table-cell align-middle">
+            <td class="d-lg-table-cell align-middle small">
               <a href="{% url 'delivery_detail' delivery.pk %}"
                  title="Delivery details">{{ delivery.delivery_date|date:"d/m/Y H:i" }}</a>
             </td>
-            <td class="d-lg-table-cell">{{ delivery.received_by.first_name }}</td>
+            <td class="d-lg-table-cell">{{ delivery.received_by.initials }}</td>
             <td class="d-lg-table-cell small">{{ delivery.notes }}</td>
             <td class="d-none d-lg-table-cell">
               {% for stock in delivery.stocks_aggregated %}

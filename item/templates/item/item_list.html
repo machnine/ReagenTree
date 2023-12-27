@@ -10,7 +10,7 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   <div class="table-responsive pt-3">
-    <table class="table">
+    <table class="table table-hover table-sm">
       <thead>
         <tr>
           <th>Name</th>
@@ -25,10 +25,10 @@
       <tbody>
         {% for item in items %}
           <tr>
-            <td class="align-middle">
+            <td>
               <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
             </td>
-            <td>{{ item.product_id }}</td>
+            <td class="small">{{ item.product_id }}</td>
             <td>
               <a href="{% url 'category_detail' item.category.pk %}"
                  title="item details">{{ item.category }}</a>

@@ -10,7 +10,7 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   <div class="table-responsive">
-    <table class="table">
+    <table class="table table-sm table-hover">
       <thead>
         <tr>
           <th>Item</th>
@@ -25,7 +25,7 @@
             <td>
               <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
             </td>
-            <td>{{ reagent.product_id }}</td>
+            <td class="small">{{ reagent.product_id }}</td>
             <td>
               {% for comp in reagent.components.all %}
                 {{ comp.item.name }}
