@@ -11,8 +11,6 @@
     - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
-- Item model
-  - [] image  
 - List view sorting
 - List view search
 - update the usage of stock item when making inhouse reagent

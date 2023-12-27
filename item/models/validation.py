@@ -13,13 +13,14 @@ class ReagentValidation(models.Model):
         ("PENDING", "Pending"),
         ("APPROVED", "Approved"),
         ("REJECTED", "Rejected"),
+        ("NOT_REQUIRED", "Not Required")
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
     status = models.CharField(
-        max_length=10, choices=VALIDATION_CHOICES, default="PENDING"
+        max_length=15, choices=VALIDATION_CHOICES, default="PENDING"
     )
     validated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -37,7 +38,11 @@ class ReagentValidation(models.Model):
         related_name="authoriser",
     )
     authorised = models.DateTimeField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
+    comments = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.content_object} - {self.status}"
+
+
+    class Meta:
+        ordering = ["-validated"]

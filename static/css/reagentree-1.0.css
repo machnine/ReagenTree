@@ -2,8 +2,8 @@
   --rt-light-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   --rt-category: #ffc400;
   --rt-company: #0078d4;
-  --rt-delivery: #361fb8;
-  --rt-item: #1ba756;
+  --rt-delivery: #4830d1;
+  --rt-validation: #1ba756;
   --rt-stock: #ff7c44;
   --rt-inhouse: #005669;
   --rt-location: #66dcc5;
@@ -12,6 +12,7 @@
   --rt-user: #4e4083;
   --rt-fushsia: #915c83;
   --rt-green20: #498205;
+  --rt-item: #5078c2;
 }
 
 a {
@@ -148,6 +149,9 @@ a:hover {
 .user-text-color {
   color: var(--rt-user);
 }
+.validation-text-color {
+  color: var(--rt-validation);
+}
 
 /* width control */
 
@@ -235,7 +239,6 @@ a:hover {
     opacity: 0;
   }
 }
-
 
 /* callout classes */
 .callout-thin {

@@ -1,0 +1,15 @@
+{% extends "object_create_base.html" %}
+{% block title %}
+    Reagent Validation
+{% endblock title %}
+{% block panel_title %}
+    Validation
+{% endblock panel_title %}
+{% block panel_content %}
+{{ object_to_validate}}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock panel_content %}

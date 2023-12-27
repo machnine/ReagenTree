@@ -149,3 +149,10 @@ SESSION_COOKIE_AGE = 60 * 15  # 15 minutes after latst request (idle for 15 minu
 # Media files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# Configure internal IPs (Required for the toolbar to show up)
+INTERNAL_IPS = [
+    # ... your machine's IP, '127.0.0.1' for local development ...
+    '127.0.0.1',
+]

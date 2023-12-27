@@ -2,8 +2,11 @@
 from datetime import timedelta
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
+
+from item.models.validation import ReagentValidation
 
 
 class Stock(models.Model):
@@ -71,9 +74,18 @@ class Stock(models.Model):
             return f"{quantity} {self.remaining_unit}"
         return f"{self.remaining_quantity} {self.remaining_unit}"
 
+    @property
+    def validations(self):
+        """Return the validation for the stock"""
+        content_type = ContentType.objects.get_for_model(self)
+        return ReagentValidation.objects.filter(
+            content_type=content_type, object_id=self.id
+        )
+
     def __str__(self):
         return f"[{self.ordinal_number}]{self.item.name} • {self.lot_number}"
 
     class Meta:
         verbose_name = "Stock"
         verbose_name_plural = "Stocks"
+        ordering = ["-created", "-ordinal_number"]

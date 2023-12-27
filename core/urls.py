@@ -10,7 +10,7 @@ from django.urls import path, include
 from category import urls as category_urls
 from company import urls as company_urls
 from delivery import urls as delivery_urls
-from item.urls import item_urls, stock_urls, usage_urls, inhouse_urls
+from item.urls import item_urls, stock_urls, usage_urls, inhouse_urls, validation_urls
 from location import urls as location_urls
 from user import urls as user_urls
 
@@ -29,8 +29,12 @@ urlpatterns = [
     path("location/", include(location_urls)),
     path("stock/", include(stock_urls)),
     path("usage/", include(usage_urls)),
+    path("validation/", include(validation_urls)),
 ]
 
 
 if settings.DEBUG:
+    import debug_toolbar
+
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]

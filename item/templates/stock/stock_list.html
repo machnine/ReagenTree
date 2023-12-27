@@ -20,6 +20,7 @@
           <th>Lot Number</th>
           <th class="d-none d-lg-table-cell">Expiry Date</th>
           <th class="d-none d-lg-table-cell">Delivery</th>
+          <th>Validation</th>
           <th class="d-none d-lg-table-cell">Location</th>
           <th class="d-none d-lg-table-cell">Actions</th>
         </tr>
@@ -46,7 +47,11 @@
                  data-bs-toggle="tooltip">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
               {% delivery_condicon stock.delivery_condition %}
             </td>
-            <td class="d-none d-lg-table-cell">
+            <td class="ps-lg-4">
+              <a href=" {% if stock.validations|length %}{% url 'validation_detail' 'stock' stock.pk %}{% else %}javascript:{% endif %}">
+              {% validation_status stock.validations.0.status %}</a>
+            </td>
+            <td class="d-none d-lg-table-cell small">
               <a href="{% url 'location_detail' stock.location.pk %}"
                  title="Location detail">{{ stock.location.name }}</a>
             </td>

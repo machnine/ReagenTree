@@ -25,8 +25,21 @@ def delivery_condicon(condition):
     return icons.get(condition, icons[0])
 
 
-@register.filter
-def add_class(field, css):
-    """Add a class to a form field"""
-    field.field.widget.attrs.update({"class": css})
-    return field
+@register.simple_tag
+def validation_status(status: str, show_text: bool = False):
+    """Return a coloured Bootstrap icon for validation status"""
+    status_text = status if show_text else ""
+
+    icons = {
+        "PENDING": mark_safe(
+            f'<span class="text-muted"><i class="bi bi-question" data-bs-toggle="tooltip" title="Status: Pending"></i> {status_text}</span>'
+        ),
+        "APPROVED": mark_safe(
+            f'<span class="text-success fw-bold"><i class="bi bi-check-lg" data-bs-toggle="tooltip" title="Status: Approved"></i> {status_text}</span>'
+        ),
+        "REJECTED": mark_safe(
+            f'<span class="text-danger fw-bold"><i class="bi bi-x-lg" data-bs-toggle="tooltip" title="Status: Rejected"></i> {status_text}</span>'
+        ),
+        "NOT_REQUIRED": "-",
+    }
+    return icons.get(status, icons["PENDING"])
