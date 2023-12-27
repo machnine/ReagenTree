@@ -16,13 +16,9 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   <div class="p-3">
-    <div class="panel">
+    <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
-        <span class="pe-2">
-          <a href=" {% if stock.validations|length %}{% url 'validation_detail' 'stock' stock.pk %}{% else %}javascript:{% endif %}">Validations:
-          {% validation_status stock.validations.0.status %}</a>
-          </span>
       </div>
       <div class="panel-content">
         <table class="table table-sm table-borderless">
@@ -65,7 +61,64 @@
         </table>
       </div>
     </div>
-    <div class="panel">
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between">
+        <span class="fw-bold">
+          <a href="{% url 'validation_detail' 'stock' stock.pk %}"
+             data-bs-toggle="tooltip"
+             title="Validation details">
+            <i class="bi bi-clipboard-check-fill validation-text-color"></i>
+            Validations
+          </a>
+        </span>
+        <span class="text-success pe-2">
+          <a href="{% url 'validation_create' 'stock' stock.pk %}?next={{ request.path }}"
+             title="Add a new Validation"
+             data-bs-toggle="tooltip">
+            <i class="bi bi-plus-circle"></i>
+          </a>
+        </span>
+      </div>
+      <div class="panel-content">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th width="20%">Status</th>
+              <th width="13%">Validated</th>
+              <th width="13%">Authorised</th>
+              <th>Comments</th>
+              <th width="10%">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for validation in stock.validations %}
+              <tr>
+                <td>{% validation_status validation.status True %}</td>
+                <td class="small">
+                  {{ validation.validated|date:"d/m/Y" }}
+                  <span data-bs-toggle="tooltip"
+                        title="{{ validation.validated_by.get_full_name }}">
+                    {{ validation.validated_by.initials }}
+                  </span>
+                </td>
+                <td class="small">
+                  {{ validation.authorised|date:"d/m/Y" }}
+                  <span data-bs-toggle="tooltip"
+                        title="{{ validation.authorised_by.get_full_name }}">
+                    {{ validation.authorised_by.initials }}
+                  </span>
+                </td>
+                <td>{{ validation.comments }}</td>
+                <td>
+                  {{ validation.pk }} <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> {{ stock.item.name }} - all stocks</span>
       </div>

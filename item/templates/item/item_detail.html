@@ -16,7 +16,7 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   <div class="p-3">
-    <div class="panel">
+    <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-info-circle-fill item-text-color"></i> Item Details</span>
       </div>
@@ -67,85 +67,79 @@
         </table>
       </div>
     </div>
-  </div>
-  {# attachments #}
-  <div class="row px-3">
-    <div class="col">
-      <div class="panel">
-        <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
-          <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
-          <a hx-get="{% url 'item_attachment_upload' item.pk %}"
-             hx-trigger="click"
-             hx-target="#crudModal .modal-content"
-             hx-swap="innerHTML"
-             data-bs-toggle="modal"
-             data-bs-target="#crudModal"
-             href="javascript:"
-             class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
-        </div>
-        <div class="panel-content">
-          {% if attachments|length %}
-            <table class="table table-sm table-hover">
-              <thead class="text-small">
+    {# attachments #}
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
+        <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
+        <a hx-get="{% url 'item_attachment_upload' item.pk %}"
+           hx-trigger="click"
+           hx-target="#crudModal .modal-content"
+           hx-swap="innerHTML"
+           data-bs-toggle="modal"
+           data-bs-target="#crudModal"
+           href="javascript:"
+           class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
+      </div>
+      <div class="panel-content">
+        {% if attachments|length %}
+          <table class="table table-sm table-hover">
+            <thead class="text-small">
+              <tr>
+                <th class="text-muted d-none d-lg-block">Uploaded</th>
+                <th class="text-muted">Name</th>
+                <th class="text-muted">File Name</th>
+                <th class="text-muted d-none d-lg-block">Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for file in attachments %}
                 <tr>
-                  <th class="text-muted d-none d-lg-block">Uploaded</th>
-                  <th class="text-muted">Name</th>
-                  <th class="text-muted">File Name</th>
-                  <th class="text-muted d-none d-lg-block">Description</th>
-                  <th></th>
+                  <td class="d-none d-lg-block">
+                    <small title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</small>
+                  </td>
+                  <td>{{ file.name }}</td>
+                  <td>
+                    {% if file.filetype %}
+                      <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
+                    {% else %}
+                      <i class="bi bi-file-earmark text-warning"></i>
+                    {% endif %}
+                    <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+                  </td>
+                  <td class="d-none d-lg-block">
+                    <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+                  </td>
+                  <td>
+                    <a hx-get="{% url 'item_attachment_update' file.id %}"
+                       hx-trigger="click"
+                       hx-target="#crudModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#crudModal"
+                       href="javascript:"><i class="bi bi-pencil-square"></i></a>
+                    <a hx-get="{% url 'item_attachment_delete' file.id %}"
+                       hx-trigger="click"
+                       hx-target="#crudModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#crudModal"
+                       href="javascript:"><i class="bi bi-trash"></i></a>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {% for file in attachments %}
-                  <tr>
-                    <td class="d-none d-lg-block">
-                      <small title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</small>
-                    </td>
-                    <td>{{ file.name }}</td>
-                    <td>
-                      {% if file.filetype %}
-                        <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
-                      {% else %}
-                        <i class="bi bi-file-earmark text-warning"></i>
-                      {% endif %}
-                      <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
-                    </td>
-                    <td class="d-none d-lg-block">
-                      <span class="small">{{ file.description|default:"&nbsp;" }}</span>
-                    </td>
-                    <td>
-                      <a hx-get="{% url 'item_attachment_update' file.id %}"
-                         hx-trigger="click"
-                         hx-target="#crudModal .modal-content"
-                         hx-swap="innerHTML"
-                         data-bs-toggle="modal"
-                         data-bs-target="#crudModal"
-                         href="javascript:"><i class="bi bi-pencil-square"></i></a>
-                      <a hx-get="{% url 'item_attachment_delete' file.id %}"
-                         hx-trigger="click"
-                         hx-target="#crudModal .modal-content"
-                         hx-swap="innerHTML"
-                         data-bs-toggle="modal"
-                         data-bs-target="#crudModal"
-                         href="javascript:"><i class="bi bi-trash"></i></a>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endif %}
-        </div>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
       </div>
     </div>
-  </div>
-  {# stocks #}
-  <div class="row p-3">
-    <div class="col">
-      <div class="panel">
-        <div class="panel-heading d-flex justify-content-between">
-          <span class="fw-bold"><i class="bi bi-box-seam-fill stock-text-color"></i> Available Stocks</span>
-        </div>
-        <div class="panel-content">
+    {# stocks #}
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between">
+        <span class="fw-bold"><i class="bi bi-box-seam-fill stock-text-color"></i> Available Stocks</span>
+      </div>
+      <div class="panel-content">
+        <div class="table-responsive">
           <table class="table table-sm table-hover">
             <thead>
               <tr>

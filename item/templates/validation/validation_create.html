@@ -6,7 +6,7 @@
     Validation
 {% endblock panel_title %}
 {% block panel_content %}
-{{ object_to_validate}}
+    {{ object_to_validate }}
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

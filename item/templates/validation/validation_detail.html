@@ -19,41 +19,57 @@
 {% endblock panel_actions %}
 {% block panel_content %}
     <div class="p-3">
-        <table class="table table-sm table-hover">
-            <thead>
-                <tr>
-                    <th width="20%">Status</th>
-                    <th width="13%">Validated</th>
-                    <th width="13%">Authorised</th>
-                    <th>Comments</th>
-                    <th width="10%">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for validation in validations %}
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
                     <tr>
-                        <td>{% validation_status validation.status True %}</td>
-                        <td class="small">
-                            {{ validation.validated|date:"d/m/Y" }}
-                            <span data-bs-toggle="tooltip"
-                                  title="{{ validation.validated_by.get_full_name }}">
-                                {{ validation.validated_by.initials }}
-                            </span>
-                        </td>
-                        <td class="small">
-                            {{ validation.authorised|date:"d/m/Y" }}
-                            <span data-bs-toggle="tooltip"
-                                  title="{{ validation.authorised_by.get_full_name }}">
-                                {{ validation.authorised_by.initials }}
-                            </span>
-                        </td>
-                        <td>{{ validation.comments }}</td>
-                        <td>
-                            {{ validation.pk }} <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
-                        </td>
+                        <th width="20%">Status</th>
+                        <th width="13%">Validated</th>
+                        <th width="13%">Authorised</th>
+                        <th>Comments</th>
+                        <th width="10%">Actions</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for validation in validations %}
+                        <tr>
+                            <td>{% validation_status validation.status True %}</td>
+                            <td class="small">
+                                {{ validation.validated|date:"d/m/Y" }}
+                                <span data-bs-toggle="tooltip"
+                                      title="{{ validation.validated_by.get_full_name }}">
+                                    {{ validation.validated_by.initials }}
+                                </span>
+                            </td>
+                            <td class="small">
+                                {{ validation.authorised|date:"d/m/Y" }}
+                                <span data-bs-toggle="tooltip"
+                                      title="{{ validation.authorised_by.get_full_name }}">
+                                    {{ validation.authorised_by.initials }}
+                                </span>
+                            </td>
+                            <td>{{ validation.comments }}</td>
+                            <td>
+                                {{ validation.pk }} <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel my-4">
+            <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
+                <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
+                <a hx-get=""
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"
+                   class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
+            </div>
+            <div class="panel-content">Validation documents</div>
+        </div>
     </div>
 {% endblock panel_content %}
