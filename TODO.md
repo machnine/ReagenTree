@@ -1,6 +1,3 @@
-- [] Detail views
-  - [] Stock
-    - list all same batch of stocks in one view
 - Something to better id a delivery when it appears in the dropdown (StockCreate?)
 - User
   - User groups

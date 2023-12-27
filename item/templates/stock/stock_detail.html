@@ -3,7 +3,7 @@
   Stock
 {% endblock title %}
 {% block panel_title %}
-  <i class="bi bi-box-seam-fill stock-text-color"></i> {{ stock }}
+  <i class="bi bi-box-seam-fill stock-text-color"></i> {{ stock.item.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -14,8 +14,59 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <p>Remaining quantity:  {{ stock.remaining_quantity_display}}</p>
-  <p>In-use date: {{ in_use_date|date:"d/m/Y"|default:"not yet in-use" }}</p>
-  {# update time #}
+  <div class="p-3">
+    <div class="panel">
+      <div class="panel-heading d-flex justify-content-between">
+        <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
+        <span class="pe-2"><i class="bi bi-card-checklist text-success"></i></span>
+      </div>
+      <div class="panel-content">
+        <table class="table table-sm table-borderless">
+          <tbody>
+            <tr>
+              <td width="15%" class="text-muted">Item:</td>
+              <td width="35%">
+                <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
+              </td>
+              <td width="15%" class="text-muted">Category:</td>
+              <td width="35%">
+                <a href="{% url 'category_detail' stock.item.category.pk %}">{{ stock.item.category.name }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-muted">Product ID:</td>
+              <td>{{ stock.item.product_id }}</td>
+              <td class="text-muted">Delivery:</td>
+              <td>
+                <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:"d/m/Y H:i" }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-muted">Lot Number:</td>
+              <td>{{ stock.lot_number }}</td>
+              <td class="text-muted">Location:</td>
+              <td>
+                <a href="{% url 'location_detail' stock.location.pk %}">{{ stock.location.name }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-muted">Number:</td>
+              <td>
+                <span class="ms-3 badge rounded-pill bg-info">{{ stock.ordinal_number }}</span>
+              </td>
+              <td class="text-muted">Quantity:</td>
+              <td class="fw-bold">{% include "usage/usage_htmx_updated.html" %}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-heading d-flex justify-content-between">
+        <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> {{ stock.item.name }} - all stocks</span>
+      </div>
+      <div class="panel-content">Other stock of the same item list of them</div>
+    </div>
+  </div>
   {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}
