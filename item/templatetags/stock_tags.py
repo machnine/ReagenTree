@@ -40,6 +40,8 @@ def validation_status(status: str, show_text: bool = False):
         "REJECTED": mark_safe(
             f'<span class="text-danger fw-bold"><i class="bi bi-x-lg" data-bs-toggle="tooltip" title="Status: Rejected"></i> {status_text}</span>'
         ),
-        "NOT_REQUIRED": "-",
+        "NOT_REQUIRED": mark_safe(
+            f'<span class="text-gray-300"><i class="bi bi-ban" data-bs-toggle="tooltip" title="Status: Not required"></i>  {status_text}</span>'
+        ),
     }
     return icons.get(status, icons["PENDING"])

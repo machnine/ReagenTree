@@ -1,0 +1,22 @@
+{% extends "object_update_base.html" %}
+{% block title %}
+  Reagent Validation
+{% endblock title %}
+{% block panel_title %}
+  Validation
+{% endblock panel_title %}
+{% block update_form %}
+  <div class="px-3 pt-3">
+    <span class="text-danger">{{ form.non_field_errors }}</span>
+    <div id="div_id_status" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Status</span>
+      {{ form.status }}
+    </div>
+    <span class="text-danger">{{ form.status.errors }}</span>
+    <div id="div_id_comments" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">comments</span>
+      {{ form.comments }}
+    </div>
+    <span class="text-danger">{{ form.comments.errors }}</span>
+  </div>
+{% endblock update_form %}

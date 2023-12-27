@@ -21,5 +21,16 @@
     </div>
   </div>
   {% block modals %}
+    <div class="modal fade"
+         id="crudModal"
+         tabindex="-1"
+         aria-labelledby="crudModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- HTMX rendered content -->
+        </div>
+      </div>
+    </div>
   {% endblock modals %}
 {% endblock content %}

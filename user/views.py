@@ -6,6 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.db import models
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, DetailView, UpdateView
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
@@ -55,7 +56,8 @@ class UserLoginView(LoginView):
         user = get_user_model().objects.get(username=username)
         display_name = user.first_name or user.username
         messages.success(
-            self.request, f"You have successfully logged in as {display_name}"
+            self.request,
+            mark_safe(f"You have successfully logged in as <b>{display_name}</b>"),
         )
         return super().form_valid(form)
 

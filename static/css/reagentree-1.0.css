@@ -152,7 +152,15 @@ a:hover {
 .validation-text-color {
   color: var(--rt-validation);
 }
-
+.text-gray-100 {
+  color: var(--bs-gray-100);
+}
+.text-gray-300 {
+  color: var(--bs-gray-300);
+}
+.text-gray-500 {
+  color: var(--bs-gray-500);
+}
 /* width control */
 
 .max-width-25pc {

@@ -110,7 +110,15 @@
                 </td>
                 <td>{{ validation.comments }}</td>
                 <td>
-                  {{ validation.pk }} <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+                  <a href="{% url 'validation_update' validation.pk %}?next={{ request.path }}"
+                     title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
+                  <a hx-get="{% url 'validation_delete' validation.pk %}?next={{ request.path }}"
+                     hx-trigger="click"
+                     hx-target="#crudModal .modal-content"
+                     hx-swap="innerHTML"
+                     data-bs-toggle="modal"
+                     data-bs-target="#crudModal"
+                     href="javascript:"><i class="bi bi-trash"></i></a>
                 </td>
               </tr>
             {% endfor %}

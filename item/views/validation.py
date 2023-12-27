@@ -1,23 +1,25 @@
 """Stock validation views"""
 
-from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
-from django.db.models.query import QuerySet
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView
-from django.core.exceptions import ObjectDoesNotExist
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, ListView
+
 
 from core.mixins import SuccessUrlMixin
+from core.views.generic import ObjectDeleteHTMXView
 from item.models import ReagentValidation
+from item.forms import ValidationForm
 
 
 class ValidationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create validation view"""
 
     model = ReagentValidation
-    fields = ["status", "comments"]
+    form_class = ValidationForm
     template_name = "validation/validation_create.html"
     success_url = "/"
 
@@ -49,6 +51,10 @@ class ValidationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
 
 class ValidationUpdateView(LoginRequiredMixin, UpdateView):
     """Update validation view"""
+
+    model = ReagentValidation
+    form_class = ValidationForm
+    template_name = "validation/validation_update.html"
 
     def form_valid(self, form):
         """Add user to form"""
@@ -89,5 +95,9 @@ class ValidationDetailView(LoginRequiredMixin, ListView):
         return context
 
 
-class ValidationDeleteView(LoginRequiredMixin, DeleteView):
+class ValidationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Delete validation view"""
+
+    model = ReagentValidation
+    action_url = "validation_delete"
+    success_url = reverse_lazy("validation_list")
