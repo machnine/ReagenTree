@@ -4,35 +4,47 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.views.generic import View
 
 
-class AttachmentUploadView(View):
-    """Generic view to upload attachments to a given object."""
+class AttachmentActionUrlNameMixin:
+    """Mixin to add action url names to a view."""
 
     owner_model = None
+
+    def get_form_action_url_name(self, action: str):
+        """Return the url name for the form action."""
+        owner_model_name = self.owner_model._meta.model_name
+        return f"{owner_model_name}_attachment_{action}"
+
+
+class AttachmentUploadView(AttachmentActionUrlNameMixin, View):
+    """Generic view to upload attachments to a given object."""
+
     form_class = None
     template_name = None
     success_url_name = None
-    upload_url_name = None
+
+    def get_owner_object(self, pk):
+        """Get the owner object."""
+        return get_object_or_404(self.owner_model, pk=pk)
 
     def get(self, request, pk):
-        obj = get_object_or_404(self.owner_model, pk=pk)
         form = self.form_class()
-        upload_url = reverse_lazy(self.upload_url_name, kwargs={"pk": obj.pk})
+        url_name = self.get_form_action_url_name("upload")
+        upload_url = reverse_lazy(url_name, kwargs={"pk": pk})
         return render(
             request,
             self.template_name,
-            {"form": form, "object": obj, "upload_url": upload_url},
+            {"form": form, "upload_url": upload_url},
         )
 
     def post(self, request, pk):
-        obj = get_object_or_404(self.owner_model, pk=pk)
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             attachment = form.save(commit=False)
-            attachment.content_object = obj
+            attachment.content_object = get_object_or_404(self.owner_model, pk=pk)
             attachment.save()
             messages.success(
                 request, f"Attachment {attachment.filename} uploaded successfully!"
@@ -41,10 +53,10 @@ class AttachmentUploadView(View):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"Upload {field.capitalize()}: {error}")
-        return redirect(reverse_lazy(self.success_url_name, kwargs={"pk": obj.pk}))
+        return redirect(reverse_lazy(self.success_url_name, kwargs={"pk": pk}))
 
 
-class AttachmentUpdateView(View):
+class AttachmentUpdateView(AttachmentActionUrlNameMixin, View):
     """Generic view to edit attachments associated with a given object."""
 
     model = None
@@ -56,7 +68,13 @@ class AttachmentUpdateView(View):
         attachment = get_object_or_404(self.model, pk=pk)
         form = self.form_class(instance=attachment)
         return render(
-            request, self.template_name, {"form": form, "attachment": attachment}
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "attachment": attachment,
+                "action_url_name": self.get_form_action_url_name("update"),
+            },
         )
 
     def post(self, request, pk):
@@ -76,10 +94,10 @@ class AttachmentUpdateView(View):
         )
 
 
-class AttachmentDeleteView(View):
+class AttachmentDeleteView(AttachmentActionUrlNameMixin, View):
     """HTMX powered view to delete attachments associated with a given object."""
 
-    model = None  # a specific child model of Attachment
+    model = None
     template_name = None
     success_url_name = None
 
@@ -89,7 +107,10 @@ class AttachmentDeleteView(View):
         return render(
             request,
             self.template_name,
-            {"attachment": attachment},
+            {
+                "attachment": attachment,
+                "action_url_name": self.get_form_action_url_name("delete"),
+            },
         )
 
     def post(self, request, *args, **kwargs):

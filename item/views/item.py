@@ -148,21 +148,22 @@ class ItemAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
     form_class = ItemAttachmentCreateForm
     success_url_name = "item_detail"
     template_name = "attachment/attachment_upload_form.html"
-    upload_url_name = "item_attachment_upload"
 
 
 class ItemAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteView):
     """Delete view for ItemAttachment model"""
 
+    owner_model = Item
     model = ItemAttachment
-    template_name = "item/item_detail_attachment_delete.html"
+    template_name = "attachment/attachment_delete_form.html"
     success_url_name = "item_detail"
 
 
 class ItemAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
     """Update view for ItemAttachment model"""
 
+    owner_model = Item
     model = ItemAttachment
     form_class = ItemAttachmentUpdateForm
-    template_name = "item/item_detail_attachment_update.html"
+    template_name = "attachment/attachment_update_form.html"
     success_url_name = "item_detail"

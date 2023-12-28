@@ -72,9 +72,8 @@
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold">
-          <a href="{% url 'validation_detail' 'stock' stock.pk %}"
-             data-bs-toggle="tooltip"
-             title="Validation details">
+          <a {% if stock.validations|length %}href="{% url 'validation_detail' 'stock' stock.pk %}" title="Validation details" {% else %} href="javascript:" title="No validations yet" {% endif %}
+             data-bs-toggle="tooltip">
             <i class="bi bi-clipboard-check-fill validation-text-color"></i>
             Validations
           </a>

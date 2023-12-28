@@ -78,9 +78,9 @@ class DeliveryListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         for delivery in queryset:
             # Annotate each delivery with aggregated stock data
-            delivery.stocks_aggregated = delivery.stocks.values("item__id", "item__name").annotate(
-                count=Count("item")
-            )
+            delivery.stocks_aggregated = delivery.stocks.values(
+                "item__id", "item__name"
+            ).annotate(count=Count("item"))
         return queryset
 
 
@@ -105,14 +105,14 @@ class DeliveryAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
     form_class = DeliveryAttachmentCreateForm
     success_url_name = "delivery_detail"
     template_name = "attachment/attachment_upload_form.html"
-    upload_url_name = "delivery_attachment_upload"
 
 
 class DeliveryAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteView):
     """Delete view for DeliveryAttachment model"""
 
+    owner_model = Delivery
     model = DeliveryAttachment
-    template_name = "delivery/delivery_detail_attachment_delete.html"
+    template_name = "attachment/attachment_delete_form.html"
     success_url_name = "delivery_detail"
 
 
@@ -122,5 +122,5 @@ class DeliveryAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
     owner_model = Delivery
     model = DeliveryAttachment
     form_class = DeliveryAttachmentUpdateForm
-    template_name = "delivery/delivery_detail_attachment_update.html"
+    template_name = "attachment/attachment_update_form.html"
     success_url_name = "delivery_detail"
