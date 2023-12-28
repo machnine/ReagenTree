@@ -13,7 +13,7 @@ class ReagentValidation(models.Model):
         ("PENDING", "Pending"),
         ("APPROVED", "Approved"),
         ("REJECTED", "Rejected"),
-        ("NOT_REQUIRED", "Not Required")
+        ("NOT_REQUIRED", "Not Required"),
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -42,7 +42,6 @@ class ReagentValidation(models.Model):
 
     def __str__(self):
         return f"{self.content_object} - {self.status}"
-
 
     class Meta:
         ordering = ["-validated"]
