@@ -2,6 +2,7 @@
 from decimal import Decimal
 from django.conf import settings
 from django.db import models, transaction
+from django.utils import timezone
 
 from item.models.unit import Unit
 
@@ -20,6 +21,7 @@ class Usage(models.Model):
     # Method to update Stock after usage
     def save(self, *args, **kwargs):
         """Update stock after usage"""
+
         # Check if stock unit is valid
         if not Unit.objects.filter(symbol=self.stock.remaining_unit).exists():
             raise ValueError("Stock's remaining unit must be specified.")
@@ -41,6 +43,9 @@ class Usage(models.Model):
             else:
                 # Optionally handle this situation (e.g., logging, user notification)
                 self.stock.remaining_quantity = 0
+            # Update in_use_date if this is the first usage
+            if self.__class__.objects.filter(stock=self.stock).count() == 0:
+                self.stock.in_use_date = timezone.now().date()
             self.stock.save()
 
             super().save(*args, **kwargs)

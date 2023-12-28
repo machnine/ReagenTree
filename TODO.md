@@ -13,4 +13,8 @@
 - COSHH review workflow?
 - List view sorting
 - List view search
-- update the usage of stock item when making inhouse reagent
+- InHouse reagent
+  - Update view!
+  - update the usage of stock item when making inhouse reagent
+  - inhouse reagent component list - recipe? actual quantity?
+- quick (scan -> update Stock level)

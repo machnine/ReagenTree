@@ -6,5 +6,7 @@
   <i class="bi bi-box-fill inhouse-text-color"></i> Update In-house Reagent
 {% endblock panel_title %}
 {% block update_form %}
+  {{ form.non_field_errors }}
+  {{ form.errors }}
   {{ form.as_p }}
 {% endblock update_form %}

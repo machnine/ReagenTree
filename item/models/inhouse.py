@@ -43,3 +43,13 @@ class ReagentComponent(models.Model):
     def __str__(self):
         """Return string representation of the object"""
         return f"{self.stock} ({self.quantity} {self.quantity_unit})"
+
+    @property
+    def quantity_display(self):
+        """Return the remaining quantity with the unit"""
+        if self.quantity:
+            quantity = self.quantity.normalize()
+            if quantity == quantity.to_integral():
+                quantity = int(quantity)
+            return f"{quantity} {self.quantity_unit}"
+        return f"{self.quantity} {self.quantity_unit}"

@@ -11,12 +11,53 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <p>{{ object.product_id }}</p>
-  <p>made by {{ object.created_by }} [{{ object.created }}]</p>
-  {% for comp in reagent_components.all %}
-    <p>
-      [{{ comp.stock.ordinal_number }}] {{ comp.stock.item.name }}- {{ comp.stock.lot_number }} - {{ comp.quantity }}{{ comp.quantity_unit }}
-    </p>
-  {% endfor %}
+  <div class="p-3">
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between">
+        <span class="fw-bold"><i class="bi bi-info-circle-fill inhouse-text-color"></i> Reagent Details</span>
+      </div>
+      <div class="panel-content">
+        <table class="table table-sm table-borderless">
+          <tbody>
+            <tr>
+              <td width="15%" class="text-muted">Product ID:</td>
+              <td width="35%">{{ object.product_id }}</td>
+              <td width="15%" class="text-muted">Made:</td>
+              <td width="35%">{{ object.created|date:'d/m/Y' }} {{ object.created_by.initials }}</td>
+            </tr>
+            <tr>
+              <td class="text-muted">Description:</td>
+              <td colspan="3">{{ object.description }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between">
+        <span class="fw-bold"><i class="bi bi-card-list text-danger"></i> Components</span>
+      </div>
+      <div class="panel-content">
+        <table class="table table-sm table-borderless">
+          <thead>            
+            <th class="text-muted">Item</th>
+            <th class="text-muted">Stock</th>
+            <th class="text-muted">Lot Number</th>
+            <th class="text-muted">Quantity</th>
+          </thead>
+          <tbody>
+            {% for comp in reagent_components.all %}
+              <tr>                
+                <td><a href="{% url 'item_detail' comp.stock.item.pk %}" title="Component item detail">{{ comp.stock.item.name }}</a></td>
+                <td><a href="{% url 'stock_detail' comp.stock.pk %}" title="Component stock detail">{{ comp.stock.ordinal_number }}</a></td>
+                <td>{{ comp.stock.lot_number }}</td>
+                <td>{{ comp.quantity_display }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
   {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

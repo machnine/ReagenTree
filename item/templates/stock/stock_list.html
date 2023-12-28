@@ -16,8 +16,8 @@
         <tr>
           <th>Item</th>
           <th>Box ID</th>
-          <th class="text-center px-lg-4">Quantity</th>
-          <th>Lot Number</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Lot Number</th>
           <th class="d-none d-lg-table-cell">Expiry Date</th>
           <th class="d-none d-lg-table-cell">Delivery</th>
           <th>Validation</th>
@@ -38,8 +38,8 @@
                 <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
               </a>
             </td>
-            <td class="text-end overflow-wrap-hidden max-width-75px">{% include "usage/usage_htmx_updated.html" %}</td>
-            <td>{{ stock.lot_number }}</td>
+            <td class="text-end max-width-75px">{% include "usage/usage_htmx_updated.html" %}</td>
+            <td class="text-center">{{ stock.lot_number }}</td>
             <td class="d-none d-lg-table-cell small">{{ stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="d-none d-lg-table-cell small">
               <a href="{% url 'delivery_detail' stock.delivery.pk %}"

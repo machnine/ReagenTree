@@ -52,6 +52,7 @@ class Stock(models.Model):
         related_name="updated_stock",
     )
     ordinal_number = models.PositiveIntegerField(default=1)
+    in_use_date = models.DateField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:

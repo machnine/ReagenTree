@@ -24,38 +24,46 @@
         <table class="table table-sm table-borderless">
           <tbody>
             <tr>
-              <td width="15%" class="text-muted">Item:</td>
-              <td width="35%">
+              <td width="20%" class="text-muted">Item:</td>
+              <td width="30%">
                 <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
               </td>
-              <td width="15%" class="text-muted">Category:</td>
-              <td width="35%">
-                <a href="{% url 'category_detail' stock.item.category.pk %}">{{ stock.item.category.name }}</a>
+              <td width="20%"  class="text-muted">Stock Number:</td>
+              <td width="30%">
+                <span class="ms-3 badge rounded-pill bg-info">{{ stock.ordinal_number }}</span>
               </td>
             </tr>
             <tr>
               <td class="text-muted">Product ID:</td>
               <td>{{ stock.item.product_id }}</td>
-              <td class="text-muted">Delivery:</td>
+              <td class="text-muted">Delivery Date:</td>
               <td>
-                <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:"d/m/Y H:i" }}</a>
+                <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:"d/m/Y" }}</a>
               </td>
             </tr>
             <tr>
               <td class="text-muted">Lot Number:</td>
               <td>{{ stock.lot_number }}</td>
+              <td class="text-muted">Expiry Date:</td>
+              <td>{{ stock.expiry_date|date:"d/m/Y" }}</td>
+            </tr>
+            <tr>
+              <td class="text-muted">Category:</td>
+              <td>
+                <a href="{% url 'category_detail' stock.item.category.pk %}">{{ stock.item.category.name }}</a>
+              </td>
+              <td class="text-muted">In-use Date:</td>
+              <td>{{ stock.in_use_date|date:'d/m/Y' }}</td>
+            </tr>
+            <tr>
               <td class="text-muted">Location:</td>
               <td>
                 <a href="{% url 'location_detail' stock.location.pk %}">{{ stock.location.name }}</a>
               </td>
-            </tr>
-            <tr>
-              <td class="text-muted">Number:</td>
-              <td>
-                <span class="ms-3 badge rounded-pill bg-info">{{ stock.ordinal_number }}</span>
+              <td class="text-muted">Quantity Remain:</td>
+              <td class="fw-bold">
+                <div class="max-width-150px">{% include "usage/usage_htmx_updated.html" %}</div>
               </td>
-              <td class="text-muted">Quantity:</td>
-              <td class="fw-bold">{% include "usage/usage_htmx_updated.html" %}</td>
             </tr>
           </tbody>
         </table>
@@ -83,11 +91,11 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th width="20%">Status</th>
-              <th width="13%">Validated</th>
-              <th width="13%">Authorised</th>
-              <th>Comments</th>
-              <th width="10%">Actions</th>
+              <th width="20%" class="text-muted">Status</th>
+              <th width="13%" class="text-muted">Validated</th>
+              <th width="13%" class="text-muted">Authorised</th>
+              <th class="text-muted">Comments</th>
+              <th width="10%" class="text-muted">Actions</th>
             </tr>
           </thead>
           <tbody>

@@ -34,7 +34,7 @@
             </tr>
             <tr>
               <td class="text-muted">Quantity:</td>
-              <td>{{ item.quantity|default:""|floatformat }} {{ item.quantity_unit|default:"" }}</td>
+              <td>{{ item.quantity_display }}</td>
               <td class="text-muted">CAS Number:</td>
               <td>
                 {% if item.cas_number %}
@@ -96,7 +96,7 @@
               {% for file in attachments %}
                 <tr>
                   <td class="d-none d-lg-block">
-                    <small title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</small>
+                    <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
                   </td>
                   <td>{{ file.name }}</td>
                   <td>
@@ -143,12 +143,12 @@
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th>Received</th>
-                <th>Lot Number</th>
-                <th>Box Number</th>
-                <th>Expiry Date</th>
-                <th>Location</th>
-                <th>Quantity</th>
+                <th class="text-muted">Received</th>
+                <th class="text-muted">Lot Number</th>
+                <th class="text-muted">Box Number</th>
+                <th class="text-muted">Expiry Date</th>
+                <th class="text-muted">Location</th>
+                <th class="text-muted">Quantity</th>
                 <th class="text-muted">Actions</th>
               </tr>
             </thead>
