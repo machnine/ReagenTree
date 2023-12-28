@@ -56,7 +56,3 @@ class DeliveryAttachment(Attachment):
         related_name="delivery_attachments",
         null=True,
     )
-
-    class Meta:
-        verbose_name = "delivery attachment"
-        verbose_name_plural = "delivery attachments"

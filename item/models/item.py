@@ -80,7 +80,3 @@ class ItemAttachment(Attachment):
         related_name="item_attachments",
         null=True,
     )
-
-    class Meta:
-        verbose_name = "item attachment"
-        verbose_name_plural = "item attachments"
