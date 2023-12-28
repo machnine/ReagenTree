@@ -94,6 +94,12 @@
     {% endblock offcanvas %}
     {% block modals %}
     {% endblock modals %}
+    <form id="logout-form"
+          action="{% url 'logout' %}"
+          method="post"
+          style="display: none">
+      {% csrf_token %}
+    </form>
     <!-- Add your JavaScript files here -->
     <script src="{% static 'js/bootstrap-5.3.2-bundle.min.js' %}"></script>
     <script src="{% static 'js/htmx-1.9.8.min.js' %}"></script>

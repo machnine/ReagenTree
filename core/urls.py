@@ -9,7 +9,6 @@ from django.urls import path, include
 
 from category import urls as category_urls
 from company import urls as company_urls
-from delivery import urls as delivery_urls
 from item.urls import item_urls, stock_urls, usage_urls, inhouse_urls, validation_urls
 from location import urls as location_urls
 from user import urls as user_urls
@@ -23,7 +22,6 @@ urlpatterns = [
     path("", include(user_urls)),
     path("category/", include(category_urls)),
     path("company/", include(company_urls)),
-    path("delivery/", include(delivery_urls)),
     path("inhouse/", include(inhouse_urls)),
     path("item/", include(item_urls)),
     path("location/", include(location_urls)),

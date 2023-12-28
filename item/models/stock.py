@@ -2,11 +2,8 @@
 from datetime import timedelta
 
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
-
-from item.models.validation import ReagentValidation
 
 
 class Stock(models.Model):
@@ -22,9 +19,7 @@ class Stock(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="stocks")
     remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
     remaining_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
-    delivery = models.ForeignKey(
-        "delivery.Delivery", on_delete=models.CASCADE, related_name="stocks", null=True
-    )
+    delivery_date = models.DateTimeField(null=True, blank=True)  # for now
     delivery_condition = models.PositiveSmallIntegerField(
         choices=CONDITION_CHOICES, default=0
     )
@@ -52,6 +47,9 @@ class Stock(models.Model):
         related_name="updated_stock",
     )
     ordinal_number = models.PositiveIntegerField(default=1)
+    total_count = models.PositiveIntegerField(
+        default=1
+    )  # total number of stocks created in bulk
     in_use_date = models.DateField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -78,10 +76,7 @@ class Stock(models.Model):
     @property
     def validations(self):
         """Return the validation for the stock"""
-        content_type = ContentType.objects.get_for_model(self)
-        return ReagentValidation.objects.filter(
-            content_type=content_type, object_id=self.id
-        )
+        return StockValidation.objects.filter(stock=self)
 
     def __str__(self):
         return f"[{self.ordinal_number}]{self.item.name} • {self.lot_number}"
@@ -90,3 +85,15 @@ class Stock(models.Model):
         verbose_name = "Stock"
         verbose_name_plural = "Stocks"
         ordering = ["-created", "-ordinal_number"]
+
+
+class StockValidation(models.Model):
+    """model tracking stock validations"""
+
+    stock = models.ForeignKey(
+        "Stock", on_delete=models.CASCADE, related_name="validations"
+    )
+    validation = models.ForeignKey("ReagentValidation", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("stock", "validation")

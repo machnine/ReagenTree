@@ -60,27 +60,6 @@
     </div>
     <span class="text-danger">{{ form.expiry_date.errors }}</span>
     <div class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Delivery
-        <a href="javascript:"
-           data-bs-toggle="tooltip"
-           data-bs-placement="top"
-           title="Only delivery received within the last week can be seen here.">
-          <sup><i class="bi bi-info-circle ps-1"></i></sup>
-        </a>
-      </span>
-      <select name="delivery" class="form-select">
-        {% for delivery in form.delivery %}{{ delivery }}{% endfor %}
-      </select>
-      <span class="input-group-text">
-        <a href="{% url 'delivery_create' %}?next={{ request.path }}"
-           data-bs-toggle="tooltip"
-           title="Add a new delivery"
-           class="btn btn-sm btn-light">
-          <i class="bi bi-plus-circle text-success"></i></a>
-      </span>
-    </div>
-    <span class="text-danger">{{ form.delivery.errors }}</span>
-    <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Quantity</span>
       <input type="number"
              name="quantity"

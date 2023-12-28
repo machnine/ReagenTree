@@ -2,12 +2,11 @@
 from django import forms
 from django.utils import timezone
 
-from delivery.models import Delivery
 from item.models import Stock
 
 
 stock_form_fields = [
-    "delivery",
+    "delivery_date",
     "item",
     "delivery_condition",
     "lot_number",
@@ -24,14 +23,6 @@ class StockCreateForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = stock_form_fields
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # only show deliveries from the last week
-        within_one_week = timezone.now() - timezone.timedelta(weeks=1)
-        self.fields["delivery"].queryset = Delivery.objects.filter(
-            delivery_date__gte=within_one_week
-        )
 
     def clean_expiry_date(self):
         """Validate that the expiry date is not in the past."""
@@ -54,18 +45,3 @@ class StockUpdateForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = stock_form_fields
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        current_delivery = self.instance.delivery
-        start_date = current_delivery.delivery_date - timezone.timedelta(days=3)
-        end_date = min(
-            current_delivery.delivery_date + timezone.timedelta(days=3), timezone.now()
-        )
-
-        self.fields["delivery"].queryset = Delivery.objects.filter(
-            delivery_date__range=[start_date, end_date]
-        )
-
-    # def clean_expiry_date(self):
-    # This is not implemented to allow for the expiry date to be in the past

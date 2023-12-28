@@ -143,7 +143,6 @@
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th class="text-muted">Received</th>
                 <th class="text-muted">Lot Number</th>
                 <th class="text-muted">Box Number</th>
                 <th class="text-muted">Expiry Date</th>
@@ -156,10 +155,6 @@
               {% for stock in stocks %}
                 {# TODO: paginate page_obj #}
                 <tr>
-                  <td>
-                    <a href="{% url 'delivery_detail' stock.delivery.pk %}"
-                       title="delivery details">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
-                  </td>
                   <td>{{ stock.lot_number }}</td>
                   <td>
                     <a href="{% url 'stock_detail' stock.pk %}" title="stock details"><span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span></a>

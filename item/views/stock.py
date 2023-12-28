@@ -1,6 +1,5 @@
 """Stock Item views"""
 
-from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -14,7 +13,6 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
 
-from delivery.models import Delivery
 from location.models import Location
 from item.models import Stock, Item
 from item.forms import StockCreateForm, StockUpdateForm
@@ -41,6 +39,7 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                     created_by=self.request.user,
                     created=timezone.now(),
                     ordinal_number=n + 1,
+                    total_count=quantity,
                     remaining_quantity=item.quantity,
                     remaining_unit=item.quantity_unit,
                     **{
@@ -61,12 +60,6 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
         self.object = stocks[-1]
         return HttpResponseRedirect(self.get_success_url())
 
-    def get_initial(self):
-        initial = super().get_initial()
-        delivery_pk = self.request.GET.get("delivery")
-        if delivery_pk:
-            initial["delivery"] = get_object_or_404(Delivery, delivery_pk)
-        return initial
 
     def form_invalid(self, form):
         context = self.get_context_data(form=form)

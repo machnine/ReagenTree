@@ -2,12 +2,12 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.db import models
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.safestring import mark_safe
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, View
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
 
@@ -61,13 +61,6 @@ class UserLoginView(LoginView):
         )
         return super().form_valid(form)
 
-
-class UserLogoutView(LogoutView):
-    """User Logout View"""
-
-    next_page = reverse_lazy("login")
-
-
 class UserProfileView(LoginRequiredMixin, DetailView):
     """User Profile View"""
 
@@ -91,3 +84,12 @@ class UserProfileEdit(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None) -> models.Model:
         """Get the user object instead of a user specified by URL"""
         return self.request.user
+
+
+class UserLogoutConfirmView(View):
+    """User Logout Confirm View"""
+
+    def get(self, request, *args, **kwargs):
+        """Logout confirmation"""
+        return render(request, "user/logout.html")
+        

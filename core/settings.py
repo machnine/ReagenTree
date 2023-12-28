@@ -27,9 +27,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # third-party apps
-    "crispy_forms",
-    "crispy_bootstrap5",
     # third-party dev apps
     "django_extensions",
     "debug_toolbar",
@@ -39,7 +36,6 @@ INSTALLED_APPS = [
     "attachment",
     "category",
     "company",
-    "delivery",
     "item",
     "location",
     "user",
@@ -133,10 +129,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom User Model
 AUTH_USER_MODEL = "user.CustomUser"
-
-# Django Crispy Forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Login URL
 LOGIN_URL = "login"

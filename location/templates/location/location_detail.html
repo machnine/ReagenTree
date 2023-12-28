@@ -42,7 +42,6 @@
       <table class="table table-sm">
         <thead>
           <tr>
-            <th class="text-muted">Received</th>
             <th class="text-muted">Sotck Item</th>
             <th class="text-muted">Lot Number</th>
             <th class="text-muted">Box ID</th>
@@ -52,10 +51,6 @@
         </thead>
         {% for stock in page_obj %}
           <tr>
-            <td>
-              <a href="{% url 'delivery_detail' stock.delivery.pk %}"
-                 title="delivery details">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
-            </td>
             <td>
               <a href="{% url 'stock_detail' stock.pk %}">{{ stock.item.name }}</a>
             </td>

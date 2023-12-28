@@ -19,7 +19,6 @@
           <th class="text-center">Quantity</th>
           <th class="text-center">Lot Number</th>
           <th class="d-none d-lg-table-cell">Expiry Date</th>
-          <th class="d-none d-lg-table-cell">Delivery</th>
           <th>Validation</th>
           <th class="d-none d-lg-table-cell">Location</th>
           <th class="d-none d-lg-table-cell">Actions</th>
@@ -32,21 +31,13 @@
               <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
             </td>
             <td>
-              <a href="{% url 'stock_detail' stock.pk %}"
-                 data-bs-toggle="tooltip"
-                 title="#{{ stock.ordinal_number }} Received at {{ stock.delivery.delivery_date|date:'d/m/y H:i' }}">
+              <a href="{% url 'stock_detail' stock.pk %}">
                 <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
               </a>
             </td>
             <td class="text-end max-width-75px">{% include "usage/usage_htmx_updated.html" %}</td>
             <td class="text-center">{{ stock.lot_number }}</td>
             <td class="d-none d-lg-table-cell small">{{ stock.expiry_date|date:'d/m/Y' }}</td>
-            <td class="d-none d-lg-table-cell small">
-              <a href="{% url 'delivery_detail' stock.delivery.pk %}"
-                 title="{{ stock.delivery }}"
-                 data-bs-toggle="tooltip">{{ stock.delivery.delivery_date|date:'d/m/Y' }}</a>
-              {% delivery_condicon stock.delivery_condition %}
-            </td>
             <td class="ps-lg-4">
               <a href="{% if stock.validations|length %}{% url 'validation_detail' 'stock' stock.pk %}{% else %}javascript:{% endif %}">
               {% validation_status stock.validations.0.status %}</a>

@@ -38,7 +38,7 @@
               <td>{{ stock.item.product_id }}</td>
               <td class="text-muted">Delivery Date:</td>
               <td>
-                <a href="{% url 'delivery_detail' stock.delivery.pk %}">{{ stock.delivery.delivery_date|date:"d/m/Y" }}</a>
+               
               </td>
             </tr>
             <tr>
@@ -72,18 +72,11 @@
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold">
-          <a {% if stock.validations|length %}href="{% url 'validation_detail' 'stock' stock.pk %}" title="Validation details" {% else %} href="javascript:" title="No validations yet" {% endif %}
-             data-bs-toggle="tooltip">
-            <i class="bi bi-clipboard-check-fill validation-text-color"></i>
-            Validations
-          </a>
+          <i class="bi bi-clipboard-check-fill validation-text-color"></i>
+          Validations
         </span>
         <span class="text-success pe-2">
-          <a href="{% url 'validation_create' 'stock' stock.pk %}?next={{ request.path }}"
-             title="Add a new Validation"
-             data-bs-toggle="tooltip">
-            <i class="bi bi-plus-circle"></i>
-          </a>
+          <i class="bi bi-plus-circle"></i>
         </span>
       </div>
       <div class="panel-content">
@@ -98,28 +91,27 @@
             </tr>
           </thead>
           <tbody>
-            {% for validation in stock.validations %}
+            {% for sv in stock.validations.all %}
               <tr>
-                <td>{% validation_status validation.status True %}</td>
+                <td>{% validation_status sv.validation.status True %}</td>
                 <td class="small">
-                  {{ validation.validated|date:"d/m/Y" }}
+                  {{ sv.validation.validated|date:"d/m/Y" }}
                   <span data-bs-toggle="tooltip"
-                        title="{{ validation.validated_by.get_full_name }}">
-                    {{ validation.validated_by.initials }}
+                        title="{{ sv.validation.validated_by.get_full_name }}">
+                    {{ sv.validation.validated_by.initials }}
                   </span>
                 </td>
                 <td class="small">
-                  {{ validation.authorised|date:"d/m/Y" }}
+                  {{ sv.validation.authorised|date:"d/m/Y" }}
                   <span data-bs-toggle="tooltip"
-                        title="{{ validation.authorised_by.get_full_name }}">
-                    {{ validation.authorised_by.initials }}
+                        title="{{ sv.validation.authorised_by.get_full_name }}">
+                    {{ sv.validation.authorised_by.initials }}
                   </span>
                 </td>
-                <td>{{ validation.comments }}</td>
+                <td>{{ sv.validation.comments }}</td>
                 <td>
-                  <a href="{% url 'validation_update' validation.pk %}?next={{ request.path }}"
-                     title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get="{% url 'validation_delete' validation.pk %}?next={{ request.path }}"
+                  <a href="" title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
+                  <a hx-get=""
                      hx-trigger="click"
                      hx-target="#crudModal .modal-content"
                      hx-swap="innerHTML"
