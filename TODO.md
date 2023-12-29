@@ -1,4 +1,3 @@
-- Something to better id a delivery when it appears in the dropdown (StockCreate?)
 - User
   - User groups
   - Restrict which group of users can do which CRUD
@@ -6,6 +5,9 @@
 - Full site search function
 - Stock Item 
     - validation workflow
+    - fix the removal of Delivery and add delivery field
+    - add stock related upload
+    - split Stock into main Stock (parent specs) and StockUnit (each box)
     - Stock take work flow - what is it and how to deal with it?
     - Set a stock level threshold for warning
     - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
