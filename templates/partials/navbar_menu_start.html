@@ -9,10 +9,13 @@
        href="javascript:"><i class="bi bi-box-seam-fill stock-text-color"></i> Stock</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
-        <a href="{% url 'stock_create' %}" class="dropdown-item"><i class="bi bi-box-seam-fill stock-text-color"></i> New Stock</a>
+        <a href="{% url 'stock_create' %}" class="dropdown-item"><i class="bi bi-box-seam-fill stock-text-color"></i> New stock</a>
       </li>
       <li>
-        <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes stock-text-color"></i> All Stocks</a>
+        <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes stock-text-color"></i> All stock items</a>
+      </li>
+      <li>
+        <a href="javascript:" class="dropdown-item"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Stock validations</a>
       </li>
     </ul>
   </li>
@@ -26,18 +29,21 @@
        href="javascript:"><i class="bi bi-box2-fill item-text-color"></i> Items</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li>
-        <a href="{% url 'item_create' %}" class="dropdown-item"><i class="bi bi-box2-fill item-text-color"></i> New Items</a>
+        <a href="{% url 'item_create' %}" class="dropdown-item"><i class="bi bi-box2-fill item-text-color"></i> New items</a>
       </li>
       <li>
-        <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-boxes item-text-color"></i> All Items</a>
+        <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-boxes item-text-color"></i> All items</a>
       </li>
       <li class="dropdown-divider"></li>
       <li class="dropdown-header">In-house reagents</li>
       <li>
-        <a href="{% url 'inhouse_create' %}" class="dropdown-item"><i class="bi bi-box-fill inhouse-text-color"></i> New Reagents</a>
+        <a href="{% url 'inhouse_create' %}" class="dropdown-item"><i class="bi bi-box-fill inhouse-text-color"></i> New reagents</a>
       </li>
       <li>
-        <a href="{% url 'inhouse_list' %}" class="dropdown-item"><i class="bi bi-boxes inhouse-text-color"></i> All Reagents</a>
+        <a href="{% url 'inhouse_list' %}" class="dropdown-item"><i class="bi bi-boxes inhouse-text-color"></i> All reagents</a>
+      </li>
+      <li>
+        <a href="javascript:" class="dropdown-item"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Reagent validations</a>
       </li>
     </ul>
   </li>

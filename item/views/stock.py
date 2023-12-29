@@ -106,7 +106,7 @@ class StockListView(LoginRequiredMixin, ListView):
     context_object_name = "stocks"
     template_name = "stock/stock_list.html"
     paginate_by = 16
-    ordering = ["-created", "-ordinal_number"]
+    ordering = ["-created"]
 
 
 class StockDetailView(LoginRequiredMixin, DetailView):
