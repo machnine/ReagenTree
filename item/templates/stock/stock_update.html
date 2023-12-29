@@ -50,16 +50,16 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">Condition</span>
-      <select name="delivery_condition" class="form-select">
-        {% for condition_id, condition_name in form.fields.delivery_condition.choices %}
+      <select name="condition" class="form-select">
+        {% for condition_id, condition_name in form.fields.condition.choices %}
           <option value="{{ condition_id }}"
-                  {% if condition_id == form.delivery_condition.value %}selected{% endif %}>
+                  {% if condition_id == form.condition.value %}selected{% endif %}>
             {{ condition_name }}
           </option>
         {% endfor %}
       </select>
     </div>
-    <span class="text-danger">{{ form.delivery_condition.errors }}</span>
+    <span class="text-danger">{{ form.condition.errors }}</span>
     {# location search input #}
     <div id="location-input" class="type-search-input">
       <div class="input-group mb-3">

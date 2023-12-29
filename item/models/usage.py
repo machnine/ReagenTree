@@ -10,10 +10,10 @@ from item.models.unit import Unit
 class Usage(models.Model):
     """Usage model to track usage of stocks"""
 
-    stock = models.ForeignKey("Stock", on_delete=models.CASCADE, related_name="usages")
+    stock = models.ForeignKey("item.Stock", on_delete=models.CASCADE, related_name="usages")
     used_quantity = models.DecimalField(max_digits=10, decimal_places=1)
     used_date = models.DateTimeField(auto_now_add=True)
-    used_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
+    used_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
     used_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )

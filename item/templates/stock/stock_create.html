@@ -7,11 +7,15 @@
 {% endblock panel_title %}
 {% block create_form %}
   <div class="px-3 pt-3">
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.delivery_date.label_tag }}</span>
+      {{ form.delivery_date }}
+    </div>
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# item search input #}
     <div id="item-input" class="type-search-input">
       <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">Item</span>
+        <span class="input-group-text input-group-text-fw-sm">Item:</span>
         <input type="text"
                name="item_query"
                id="item_search_box"
@@ -41,71 +45,27 @@
     </div>
     {# item search input end #}
     <div class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Lot Number</span>
-      <input type="text"
-             name="lot_number"
-             class="form-control"
-             value="{{ form.lot_number.value|default_if_none:'' }}"
-             autocomplete="off"
-             placeholder="Lot number or batch number...">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.lot_number.label_tag }}</span>
+      {{ form.lot_number }}
     </div>
     <span class="text-danger">{{ form.lot_number.errors }}</span>
     <div class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Expiry Date</span>
-      <input type="date"
-             name="expiry_date"
-             value="{{ form.expiry_date.value|default_if_none:'' }}"
-             class="form-control"
-             placeholder="Expiry Date">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.expiry_date.label_tag }}</span>
+      {{ form.expiry_date }}
     </div>
     <span class="text-danger">{{ form.expiry_date.errors }}</span>
     <div class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Quantity</span>
-      <input type="number"
-             name="quantity"
-             id="id_quantity"
-             min="1"
-             value="1"
-             class="form-control"
-             placeholder="Quantity received...">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
+      {{ form.quantity }}
     </div>
     <div class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Condition</span>
-      <select name="delivery_condition" class="form-select">
-        {% for condition in form.delivery_condition %}{{ condition }}{% endfor %}
-      </select>
+      <span class="input-group-text input-group-text-fw-sm">{{ form.condition.label_tag }}</span>
+      {{ form.condition }}
     </div>
-    <span class="text-danger">{{ form.delivery_condition.errors }}</span>
-    {# location search input #}
-    <div id="location-input" class="type-search-input">
-      <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">Location</span>
-        <input type="text"
-               name="location_query"
-               id="location_search_box"
-               class="form-control"
-               autocomplete="off"
-               value="{{ location_name|default_if_none:'' }}"
-               placeholder="Start typing to enter a location..."
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url 'location_search' %}"
-               hx-target="#locationSearchResults">
-        <span class="input-group-text">
-          <a href="{% url 'location_create' %}?next={{ request.path }}"
-             class="btn btn-sm btn-light"
-             data-bs-toggle="tooltip"
-             title="Add a new location">
-            <i class="bi bi-plus-circle text-success"></i>
-          </a>
-        </span>
-      </div>
-      <span class="text-danger">{{ form.location.errors }}</span>
-      <div id="locationSearchResults" class="list-group type-search-result"></div>
-      <input type="text"
-             name="location"
-             id="id_location"
-             value="{{ form.location.value|default_if_none:'' }}"
-             hidden>
+    <span class="text-danger">{{ form.condition.errors }}</span>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.comments.label_tag }}</span>
+      {{ form.comments }}
     </div>
   </div>
 {% endblock create_form %}
@@ -118,13 +78,6 @@
       resultsDivId: "itemSearchResults",
       resultClass: "item-search-result-item",
       valueAttribute: "item-pk"
-    },
-    {
-      searchBoxId: "location_search_box",
-      textInputId: "id_location",
-      resultsDivId: "locationSearchResults",
-      resultClass: "location-search-result-location",
-      valueAttribute: "location-pk"
     }];
 
     // Initialize each search box listener

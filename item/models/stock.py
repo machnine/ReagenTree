@@ -1,9 +1,6 @@
 """Item models"""
-from datetime import timedelta
-
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
 
 
 class Stock(models.Model):
@@ -16,22 +13,15 @@ class Stock(models.Model):
         (3, "Requires Attention"),
     ]
 
-    item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="stocks")
-    remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
-    remaining_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
-    delivery_date = models.DateTimeField(null=True, blank=True)  # for now
-    delivery_condition = models.PositiveSmallIntegerField(
+    item = models.ForeignKey(
+        "item.Item", on_delete=models.CASCADE, related_name="stocks"
+    )
+    delivery_date = models.DateTimeField()
+    condition = models.PositiveSmallIntegerField(
         choices=CONDITION_CHOICES, default=0
     )
     lot_number = models.CharField(max_length=50)
     expiry_date = models.DateField()
-    location = models.ForeignKey(
-        "location.Location",
-        on_delete=models.CASCADE,
-        related_name="stocks",
-        blank=True,
-        null=True,
-    )
     created = models.DateTimeField()
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -46,22 +36,58 @@ class Stock(models.Model):
         null=True,
         related_name="updated_stock",
     )
-    ordinal_number = models.PositiveIntegerField(default=1)
-    total_count = models.PositiveIntegerField(
-        default=1
-    )  # total number of stocks created in bulk
-    in_use_date = models.DateField(blank=True, null=True)
+    comments = models.TextField(blank=True, null=True)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            # This code only happens if the objects is
-            # not in the database yet. Otherwise it would have a pk
-            self.remaining_quantity = self.item.quantity or 0
-            # set the same created timestamp for stocks created in bulk
-            # remove the microseconds from the timestamp
-            dt = timezone.now()
-            self.created = dt - timedelta(microseconds=dt.microsecond)
-        super().save(*args, **kwargs)
+    @property
+    def validations(self):
+        """Return the validation for the stock"""
+        return StockValidation.objects.filter(stock=self)
+
+    def __str__(self):
+        return f"{self.item.name} - {self.lot_number}"
+
+    class Meta:
+        verbose_name = "Stock"
+        verbose_name_plural = "Stocks"
+        ordering = ["-created", "item", "lot_number"]
+
+
+class StockEntry(models.Model):
+    """Stock Entry model"""
+
+    stock = models.ForeignKey(
+        "item.Stock", on_delete=models.CASCADE, related_name="entries"
+    )
+    remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
+    remaining_unit = models.ForeignKey(
+        "item.Unit", on_delete=models.SET_NULL, null=True, blank=True
+    )
+    location = models.ForeignKey(
+        "location.Location",
+        on_delete=models.CASCADE,
+        related_name="stock_entries",
+        blank=True,
+        null=True,
+    )
+    ordinal_number = models.PositiveIntegerField(default=1)
+    in_use_date = models.DateField(blank=True, null=True)
+    comments = models.TextField(blank=True, null=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="updated_stock_units",
+    )
+
+    def __str__(self):
+        return f"{self.stock.item.name} - Entry {self.ordinal_number}"
+
+    class Meta:
+        unique_together = ('stock', 'ordinal_number')
+        verbose_name = "Stock Entry"
+        verbose_name_plural = "Stock Entries"
+        ordering = ["stock", "-ordinal_number"]
 
     @property
     def remaining_quantity_display(self):
@@ -73,18 +99,15 @@ class Stock(models.Model):
             return f"{quantity} {self.remaining_unit}"
         return f"{self.remaining_quantity} {self.remaining_unit}"
 
-    @property
-    def validations(self):
-        """Return the validation for the stock"""
-        return StockValidation.objects.filter(stock=self)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # This code only happens if the objects is not in the database yet.
+            # Otherwise it would have had a pk
+            self.remaining_quantity = self.stock.item.quantity or 0
+        super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"[{self.ordinal_number}]{self.item.name} • {self.lot_number}"
 
-    class Meta:
-        verbose_name = "Stock"
-        verbose_name_plural = "Stocks"
-        ordering = ["-created", "-ordinal_number"]
+## Validation models
 
 
 class StockValidation(models.Model):

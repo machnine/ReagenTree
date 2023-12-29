@@ -1,7 +1,0 @@
-id,password,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined,initials
-1,pbkdf2_sha256$600000$Lr53thVoKxRWvYJyVHQGx7$6sn/MikT+IKjKa2LYd2cIXADXK8uB4R0nASwkjUdJ5Q=,2023-11-15 22:26:17.995463,1,admin,,,admin@email.com,1,1,2023-11-15 22:25:11.833499,
-2,pbkdf2_sha256$600000$kep3ipjlcH7Lx3z76kBm1j$JRWPzMG3PxNNQ4ZMkTc2hN9wYOSUoKQtgOn3zczbyDw=,2023-12-28 18:33:53.594406,0,mian,Mian,Chen,mian.chen@ouh.nhs.uk,0,1,2023-11-15 22:26:57.080613,MC
-3,pbkdf2_sha256$600000$Pn3farrJM0nV10OQslXxwn$KPhYyhcdvZ6RMq0jIbail1o9CRfMpuZzrZcr/dRsjY0=,2023-12-25 13:54:20.409489,0,test,Tess,Smith,test@gmail.com,0,1,2023-11-16 21:13:30.749581,TS
-4,pbkdf2_sha256$600000$zpwdVpKMgAVCeH4UjfDCQT$uFXLDO5aREKnPNWgmrixry9BaGIUim6AcdZMdWcUi5Q=,2023-12-13 17:41:10.563913,0,someone,Someone,Somewhere,someone@somewhere.com,0,1,2023-11-22 16:32:19.417132,SS
-5,pbkdf2_sha256$600000$EZ4bjK1qj345dYAAJ3ACkK$u40/iVSnW5j8eGjqanZFSoxoMh2iiFfOI+3xzPqrO3o=,2023-12-16 11:55:23.683337,0,user,Random,User,,0,1,2023-12-16 11:53:19.739283,RU
-7,pbkdf2_sha256$600000$yxuySIfJR3wCOnvZ4WAu1I$ivhO7qeIU/+5Ai9falOf2I3FYDcvgmC+r3nOUoUoERg=,2023-12-28 19:08:11.511333,0,guest,Guest,Who,guest@ouh.nhs.uk,0,1,2023-12-16 15:40:06.277039,GW

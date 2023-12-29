@@ -23,7 +23,7 @@ class Item(models.Model):
     quantity = models.DecimalField(
         max_digits=10, decimal_places=1, null=True, blank=True
     )
-    quantity_unit = models.ForeignKey("Unit", on_delete=models.SET_NULL, null=True)
+    quantity_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
     manufacturer = models.ForeignKey(
         "company.Company",
         related_name="manufactured_items",
