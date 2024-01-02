@@ -4,12 +4,13 @@
 - Model search function
 - Full site search function
 - Stock Item 
-    - validation workflow
-    - fix the removal of Delivery and add delivery field
-    - add stock related upload
-    - Stock take work flow - what is it and how to deal with it?
-    - Set a stock level threshold for warning
-    - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
+  - complete the stock/stock entry change
+  - validation workflow
+  - fix the removal of Delivery and add delivery field
+  - add stock related upload
+  - Stock take work flow - what is it and how to deal with it?
+  - Set a stock level threshold for warning
+  - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
 - List view sorting
