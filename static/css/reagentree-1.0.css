@@ -47,6 +47,15 @@ a:hover {
   box-shadow: var(--rt-light-shadow);
 }
 
+.panel-psuedo-heading {
+  padding: 3px;
+  padding-top: 5px;
+  padding-left: 15px;
+  color: var(--bs-body-color);
+  background-color: var(--bs-light);
+  box-shadow: var(--rt-light-shadow);
+}
+
 .panel-content {
   padding: 10px;
 }
@@ -161,6 +170,13 @@ a:hover {
 .text-gray-500 {
   color: var(--bs-gray-500);
 }
+.fushia-text-color {
+  color: var(--rt-fushsia);
+}
+.green20-text-color {
+  color: var(--rt-green20);
+}
+
 /* width control */
 
 .max-width-25pc {
@@ -292,4 +308,20 @@ a:hover {
 }
 .callout-item {
   border-left-color: var(--rt-item);
+}
+
+/* composite icon classes */
+.icon-with-text {
+  position: relative;
+  display: inline-block;
+}
+.icon-with-text .icon-with-text-icon {
+  font-size: 1.5em;
+}
+.icon-with-text .icon-with-text-text {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%, -50%);
 }

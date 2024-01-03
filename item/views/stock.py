@@ -15,7 +15,7 @@ from core.views.generic import ObjectDeleteHTMXView
 
 from location.models import Location
 from item.models import Stock, Item
-from item.forms import StockCreateForm, StockUpdateForm
+from item.forms import StockCreateForm, StockEntryFormSet, StockUpdateForm
 
 
 class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
@@ -26,52 +26,30 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     template_name = "stock/stock_create.html"
     success_url = reverse_lazy("stock_list")
 
-    def form_valid(self, form):
-        # get the quantity
-        quantity = form.cleaned_data.get("quantity")
-        # get the item instance
-        item = get_object_or_404(Item, id=form.cleaned_data.get("item").id)
-        with transaction.atomic():
-            stocks = []
-            for n in range(quantity):
-                stock = Stock(
-                    item=item,
-                    created_by=self.request.user,
-                    created=timezone.now(),
-                    ordinal_number=n + 1,
-                    total_count=quantity,
-                    remaining_quantity=item.quantity,
-                    remaining_unit=item.quantity_unit,
-                    **{
-                        key: value
-                        for key, value in form.cleaned_data.items()
-                        if key not in ["quantity", "item"]
-                    },
-                )
-                stocks.append(stock)
-            Stock.objects.bulk_create(stocks)
-
-        action_success = mark_safe(
-            f"{self.model.__name__}: {quantity}x <i><b>{form.instance}</b></i> created successfully."
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["entries"] = (
+            StockEntryFormSet(self.request.POST)
+            if self.request.POST
+            else StockEntryFormSet()
         )
-        messages.success(self.request, action_success)
-        # set the object attribute to the last stock created
-        # to allow for the get_success_url method to work properly
-        self.object = stocks[-1]
-        return HttpResponseRedirect(self.get_success_url())
+        return context
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        entries = context["entries"]
 
-    def form_invalid(self, form):
-        context = self.get_context_data(form=form)
-        # retain the selected item, location
-        # in the form if the form is invalid for better UX
-        if "item" in form.cleaned_data:
-            item = get_object_or_404(Item, pk=form.cleaned_data["item"].id)
-            context["item_name"] = item.name
-        if "location" in form.cleaned_data:
-            location = get_object_or_404(Location, pk=form.cleaned_data["location"].id)
-            context["location_name"] = location.name
-        return self.render_to_response(context)
+        with transaction.atomic():
+            form.instance.created_by = self.request.user
+            form.instance.last_updated_by = self.request.user
+            self.object = form.save()
+
+            if entries.is_valid():
+                entries.instance = self.object
+                entries.last_updated_by = self.request.user
+                entries.save()
+                return HttpResponseRedirect(self.get_success_url())
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class StockUpdateView(

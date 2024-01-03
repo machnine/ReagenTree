@@ -1,0 +1,64 @@
+{% extends "object_list_base.html" %}
+{% load stock_tags %}
+{% block title %}
+  Stock
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-boxes stock-text-color"></i> All Stock Items
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive">
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Box ID</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Lot Number</th>
+          <th class="d-none d-lg-table-cell">Expiry Date</th>
+          <th>Validation</th>
+          <th class="d-none d-lg-table-cell">Location</th>
+          <th class="d-none d-lg-table-cell">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in stocks %}
+          <tr>
+            <td class="align-middle">
+              <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
+            </td>
+            <td>
+              <a href="{% url 'stock_detail' stock.pk %}">
+                <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
+              </a>
+            </td>
+            <td class="text-end max-width-75px">{% include "usage/usage_htmx_updated.html" %}</td>
+            <td class="text-center">{{ stock.lot_number }}</td>
+            <td class="d-none d-lg-table-cell small">{{ stock.expiry_date|date:'d/m/Y' }}</td>
+            <td class="ps-lg-4">
+              <a href="{% if stock.validations|length %}{% url 'validation_detail' 'stock' stock.pk %}{% else %}javascript:{% endif %}">
+              {% validation_status stock.validations.0.status %}</a>
+            </td>
+            <td class="d-none d-lg-table-cell small">
+              <a href="#"
+                 title="Location detail">{{ stock.location.name }}</a>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <a href="{% url 'stock_update' pk=stock.pk %}"><i class="bi bi-pencil-square"></i></a>
+              <a hx-get="{% url 'stock_delete' stock.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 href="javascript:"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock panel_content %}

@@ -1,8 +1,9 @@
 """This module contains the forms for the item app."""
 from django import forms
+from django.forms import inlineformset_factory
 from django.utils import timezone
 
-from item.models import Stock
+from item.models import Stock, StockEntry
 
 
 class StockCreateForm(forms.ModelForm):
@@ -16,11 +17,21 @@ class StockCreateForm(forms.ModelForm):
 
     class Meta:
         model = Stock
-        fields = ["item", "comments", "lot_number", "condition"]
+        fields = [
+            "item",
+            "comments",
+            "lot_number",
+            "condition",
+            "delivery_date",
+            "expiry_date",
+        ]
 
     def __init__(self, *args, **kwargs):
         """Override the init method to add the location field."""
         super().__init__(*args, **kwargs)
+        self.fields["condition"].widget.attrs.update({"class": "form-select"})
+        self.fields["comments"].widget.attrs.update({"rows": 2})
+
         for field in [
             "comments",
             "lot_number",
@@ -29,8 +40,6 @@ class StockCreateForm(forms.ModelForm):
             "delivery_date",
         ]:
             self.fields[field].widget.attrs.update({"class": "form-control"})
-        self.fields["condition"].widget.attrs.update({"class": "form-select"})
-        self.fields["comments"].widget.attrs.update({"rows": 2})
 
     def clean_expiry_date(self):
         """Validate that the expiry date is not in the past."""
@@ -38,6 +47,11 @@ class StockCreateForm(forms.ModelForm):
         if expiry_date and expiry_date < timezone.now().date():
             raise forms.ValidationError("Expiry date cannot be in the past.")
         return expiry_date
+
+
+StockEntryFormSet = inlineformset_factory(
+    Stock, StockEntry, fields=("location", "comments"), extra=1, can_delete=False
+)
 
 
 class StockUpdateForm(forms.ModelForm):

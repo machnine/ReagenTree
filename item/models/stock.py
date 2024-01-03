@@ -22,7 +22,7 @@ class Stock(models.Model):
     )
     lot_number = models.CharField(max_length=50)
     expiry_date = models.DateField()
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -42,6 +42,11 @@ class Stock(models.Model):
     def validations(self):
         """Return the validation for the stock"""
         return StockValidation.objects.filter(stock=self)
+    
+    @property
+    def entries(self):
+        """Return the entries for the stock"""
+        return StockEntry.objects.filter(stock=self)
 
     def __str__(self):
         return f"{self.item.name} - {self.lot_number}"
@@ -87,7 +92,7 @@ class StockEntry(models.Model):
         unique_together = ('stock', 'ordinal_number')
         verbose_name = "Stock Entry"
         verbose_name_plural = "Stock Entries"
-        ordering = ["stock", "-ordinal_number"]
+        ordering = ["stock", "ordinal_number"]
 
     @property
     def remaining_quantity_display(self):
@@ -104,6 +109,7 @@ class StockEntry(models.Model):
             # This code only happens if the objects is not in the database yet.
             # Otherwise it would have had a pk
             self.remaining_quantity = self.stock.item.quantity or 0
+            self.remaining_unit = self.stock.item.quantity_unit
         super().save(*args, **kwargs)
 
 

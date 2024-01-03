@@ -1,0 +1,88 @@
+{% extends "object_create_base.html" %}
+{% block title %}
+  Stock
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-box-seam-fill stock-text-color"></i> Commit to Stock
+{% endblock panel_title %}
+{% block create_form %}
+  <div class="px-3 pt-3">
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.delivery_date.label_tag }}</span>
+      {{ form.delivery_date }}
+    </div>
+    <span class="text-danger">{{ form.non_field_errors }}</span>
+    {# item search input #}
+    <div id="item-input" class="type-search-input">
+      <div class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-sm">Item:</span>
+        <input type="text"
+               name="item_query"
+               id="item_search_box"
+               class="form-control"
+               autocomplete="off"
+               value="{{ item_name|default_if_none:'' }}"
+               placeholder="Start typing to enter an item..."
+               hx-trigger="keyup changed delay:500ms"
+               hx-get="{% url 'item_search' %}"
+               hx-target="#itemSearchResults">
+        <span class="input-group-text">
+          <a href="{% url 'item_create' %}?next={{ request.path }}"
+             class="btn btn-sm btn-light"
+             data-bs-toggle="tooltip"
+             title="Add a new item">
+            <i class="bi bi-plus-circle text-success"></i>
+          </a>
+        </span>
+      </div>
+      <span class="text-danger">{{ form.item.errors }}</span>
+      <div id="itemSearchResults" class="list-group type-search-result"></div>
+      <input type="text"
+             name="item"
+             id="id_item"
+             value="{{ form.item.value|default_if_none:'' }}"
+             hidden>
+    </div>
+    {# item search input end #}
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.lot_number.label_tag }}</span>
+      {{ form.lot_number }}
+    </div>
+    <span class="text-danger">{{ form.lot_number.errors }}</span>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.expiry_date.label_tag }}</span>
+      {{ form.expiry_date }}
+    </div>
+    <span class="text-danger">{{ form.expiry_date.errors }}</span>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
+      {{ form.quantity }}
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.condition.label_tag }}</span>
+      {{ form.condition }}
+    </div>
+    <span class="text-danger">{{ form.condition.errors }}</span>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.comments.label_tag }}</span>
+      {{ form.comments }}
+    </div>
+  </div>
+{% endblock create_form %}
+{% block js %}
+  <script>
+    //set up the search result listener for the item search box
+    const searchConfigurations = [{
+      searchBoxId: "item_search_box",
+      textInputId: "id_item",
+      resultsDivId: "itemSearchResults",
+      resultClass: "item-search-result-item",
+      valueAttribute: "item-pk"
+    }];
+
+    // Initialize each search box listener
+    searchConfigurations.forEach(
+      config => TypeSearchResultListenerConfig(config)
+    );
+  </script>
+{% endblock js %}

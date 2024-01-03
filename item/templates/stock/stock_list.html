@@ -10,55 +10,83 @@
   <a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <div class="table-responsive">
-    <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Box ID</th>
-          <th class="text-center">Quantity</th>
-          <th class="text-center">Lot Number</th>
-          <th class="d-none d-lg-table-cell">Expiry Date</th>
-          <th>Validation</th>
-          <th class="d-none d-lg-table-cell">Location</th>
-          <th class="d-none d-lg-table-cell">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for stock in stocks %}
-          <tr>
-            <td class="align-middle">
-              <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
-            </td>
-            <td>
-              <a href="{% url 'stock_detail' stock.pk %}">
-                <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
-              </a>
-            </td>
-            <td class="text-end max-width-75px">{% include "usage/usage_htmx_updated.html" %}</td>
-            <td class="text-center">{{ stock.lot_number }}</td>
-            <td class="d-none d-lg-table-cell small">{{ stock.expiry_date|date:'d/m/Y' }}</td>
-            <td class="ps-lg-4">
-              <a href="{% if stock.validations|length %}{% url 'validation_detail' 'stock' stock.pk %}{% else %}javascript:{% endif %}">
-              {% validation_status stock.validations.0.status %}</a>
-            </td>
-            <td class="d-none d-lg-table-cell small">
-              <a href="{% url 'location_detail' stock.location.pk %}"
-                 title="Location detail">{{ stock.location.name }}</a>
-            </td>
-            <td class="d-none d-lg-table-cell">
-              <a href="{% url 'stock_update' pk=stock.pk %}"><i class="bi bi-pencil-square"></i></a>
-              <a hx-get="{% url 'stock_delete' stock.pk %}"
-                 hx-trigger="click"
-                 hx-target="#crudModal .modal-content"
-                 hx-swap="innerHTML"
-                 data-bs-toggle="modal"
-                 data-bs-target="#crudModal"
-                 href="javascript:"><i class="bi bi-trash"></i></a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  {% for stock in stocks %}
+    <div class="panel">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-lg-4">
+            <span class="h5 item-text-color">{{ stock.item.name }}</span>
+            {% if stock.comments %}
+              <i class="bi bi-chat-left-dots ps-2 text-danger"
+                 title="Comments: {{ stock.comments }}"
+                 data-bs-toggle="tooltip"></i>
+            {% endif %}
+          </div>
+          {% if forloop.first %}
+            <div class="col-lg-7 d-none d-lg-block">
+              <div class="row text-center fw-bold text-muted small">
+                <div class="col-1">Box</div>
+                <div class="col-2">In use</div>
+                <div class="col-3">Quantity</div>
+                <div class="col-3">Comments</div>
+                <div class="col-2">Location</div>
+                <div class="col-1">Actions</div>
+              </div>
+            </div>
+          {% endif %}
+          <div class="col flex-grow-1">
+            <span class="float-end">
+              <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-content">
+        <div class="row align-items-center">
+          <div class="col-lg-4 ps-4 small">
+            {# stock properties #}
+            <span class="text-muted">Lot number:</span>
+            {{ stock.lot_number }}
+            <br>
+            <span class="text-muted">Expires on:</span>
+            {{ stock.expiry_date|date:"d/m/Y" }}
+            <br>
+            <span class="text-muted">Received:</span>
+            {{ stock.delivery_date|date:"d/m/Y" }} {% delivery_condition stock.condition %}
+            <br>
+          </div>
+          <div class="col-lg-7">
+            {# entries #}
+            {% for entry in stock.entries.all %}
+              <div class="row text-center">
+                <div class="col-1">
+                  <a href=""
+                     title="More Details: Box #{{ entry.ordinal_number }}"
+                     data-bs-toggle="tooltip">
+                    <span class="icon-with-text">
+                      <i class="bi bi-box2-fill icon-with-text-icon {% cycle 'delivery' 'stock' 'green20' 'location' 'setting' %}-text-color"></i>
+                      <i class="icon-with-text-text">{{ entry.ordinal_number }}</i>
+                    </span>
+                  </a>
+                </div>
+                <div class="col-2 text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
+                <div class="col-3">{{ entry.remaining_quantity_display }}</div>
+                <div class="col-3">
+                  {% if entry.comments|length %}
+                    <i class="bi bi-chat-square-dots"
+                       data-bs-toggle="tooltip"
+                       title="{{ entry.comments }}"></i>
+                  {% endif %}
+                </div>
+                <div class="col-2">{{ entry.location.name }}</div>
+                <div class="col-1">
+                  <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock panel_content %}
