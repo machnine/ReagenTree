@@ -318,10 +318,31 @@ a:hover {
 .icon-with-text .icon-with-text-icon {
   font-size: 1.5em;
 }
-.icon-with-text .icon-with-text-text {
+.icon-with-text .icon-with-text-low {
   position: absolute;
-  top: 65%;
-  left: 50%;
+  top: 63%;
+  left: 48%;
   color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+}
+
+.icon-with-text .icon-with-text-center {
+  position: absolute;
+  top: 53%;
+  left: 48%;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+}
+.icon-with-text .icon-with-text-high {
+  position: absolute;
+  top: 43%;
+  left: 48%;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
   transform: translate(-50%, -50%);
 }

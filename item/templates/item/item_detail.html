@@ -157,7 +157,7 @@
                 <tr>
                   <td>{{ stock.lot_number }}</td>
                   <td>
-                    <a href="{% url 'stock_detail' stock.pk %}" title="stock details"><span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span></a>
+                    <span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span>
                   </td>
                   <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
                   <td>

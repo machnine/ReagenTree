@@ -16,10 +16,8 @@ class Stock(models.Model):
     item = models.ForeignKey(
         "item.Item", on_delete=models.CASCADE, related_name="stocks"
     )
-    delivery_date = models.DateTimeField()
-    condition = models.PositiveSmallIntegerField(
-        choices=CONDITION_CHOICES, default=0
-    )
+    delivery_date = models.DateField()
+    condition = models.PositiveSmallIntegerField(choices=CONDITION_CHOICES, default=0)
     lot_number = models.CharField(max_length=50)
     expiry_date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
@@ -42,7 +40,7 @@ class Stock(models.Model):
     def validations(self):
         """Return the validation for the stock"""
         return StockValidation.objects.filter(stock=self)
-    
+
     @property
     def entries(self):
         """Return the entries for the stock"""
@@ -89,10 +87,10 @@ class StockEntry(models.Model):
         return f"{self.stock.item.name} - Entry {self.ordinal_number}"
 
     class Meta:
-        unique_together = ('stock', 'ordinal_number')
+        unique_together = ("stock", "ordinal_number")
         verbose_name = "Stock Entry"
         verbose_name_plural = "Stock Entries"
-        ordering = ["stock", "ordinal_number"]
+        ordering = ["ordinal_number"]
 
     @property
     def remaining_quantity_display(self):

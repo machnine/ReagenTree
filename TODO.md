@@ -11,6 +11,7 @@
   - Stock take work flow - what is it and how to deal with it?
   - Set a stock level threshold for warning
   - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
+  - Deal with deleting the last entry of a Stock
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
 - List view sorting

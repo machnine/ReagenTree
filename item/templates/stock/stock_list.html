@@ -14,7 +14,7 @@
     <div class="panel">
       <div class="panel-heading">
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <span class="h5 item-text-color">{{ stock.item.name }}</span>
             {% if stock.comments %}
               <i class="bi bi-chat-left-dots ps-2 text-danger"
@@ -30,57 +30,92 @@
                 <div class="col-3">Quantity</div>
                 <div class="col-3">Comments</div>
                 <div class="col-2">Location</div>
-                <div class="col-1">Actions</div>
+                <div class="col-auto d-none d-lg-block">Actions</div>
               </div>
             </div>
           {% endif %}
           <div class="col flex-grow-1">
-            <span class="float-end">
-              <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+            <span class="float-end pe-2">
+              <a href="{% url 'stock_update' stock.pk %}"
+                 title="Edit stock information"><i class="bi bi-pencil-square"></i></a>
+              <a hx-get="{% url 'stock_delete' stock.pk %}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 title="Delete this stock and all its entries"
+                 href="javascript:"><i class="bi bi-trash"></i></a>
             </span>
           </div>
         </div>
       </div>
       <div class="panel-content">
         <div class="row align-items-center">
-          <div class="col-lg-4 ps-4 small">
+          <div class="col-lg-3 small px-5">
             {# stock properties #}
-            <span class="text-muted">Lot number:</span>
-            {{ stock.lot_number }}
-            <br>
-            <span class="text-muted">Expires on:</span>
-            {{ stock.expiry_date|date:"d/m/Y" }}
-            <br>
-            <span class="text-muted">Received:</span>
-            {{ stock.delivery_date|date:"d/m/Y" }} {% delivery_condition stock.condition %}
-            <br>
+            <table class="table table-sm table-borderless">
+              <tr>
+                <td class="text-muted">Product Id:</td>
+                <td>
+                  <a href="{% url 'item_detail' stock.item.pk %}"
+                     title="{{ stock.item.name }} details">{{ stock.item.product_id }}</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted">Lot number:</td>
+                <td>{{ stock.lot_number }}</td>
+              </tr>
+              <tr>
+                <td class="text-muted">Expires on:</td>
+                <td>{{ stock.expiry_date|date:"d/m/Y" }}</td>
+              </tr>
+              <tr>
+                <td class="text-muted">Received:</td>
+                <td>
+                  <span class="pe-3">{{ stock.delivery_date|date:"d/m/Y" }}</span>
+                  <span>{% delivery_condition stock.condition %}</span>
+                </td>
+              </tr>
+            </table>
           </div>
           <div class="col-lg-7">
             {# entries #}
             {% for entry in stock.entries.all %}
               <div class="row text-center">
                 <div class="col-1">
-                  <a href=""
+                  <a href="#"
                      title="More Details: Box #{{ entry.ordinal_number }}"
                      data-bs-toggle="tooltip">
                     <span class="icon-with-text">
-                      <i class="bi bi-box2-fill icon-with-text-icon {% cycle 'delivery' 'stock' 'green20' 'location' 'setting' %}-text-color"></i>
-                      <i class="icon-with-text-text">{{ entry.ordinal_number }}</i>
+                      <i class="bi bi-box2-fill icon-with-text-icon {% stock_entry_colour entry.ordinal_number %}-text-color"></i>
+                      <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
                     </span>
                   </a>
                 </div>
-                <div class="col-2 text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
+                <div class="col-2 small text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
                 <div class="col-3">{{ entry.remaining_quantity_display }}</div>
                 <div class="col-3">
                   {% if entry.comments|length %}
-                    <i class="bi bi-chat-square-dots"
+                    <i class="bi bi-chat-left-dots"
                        data-bs-toggle="tooltip"
-                       title="{{ entry.comments }}"></i>
+                       title="#{{ entry.ordinal_number }}: {{ entry.comments }}"></i>
                   {% endif %}
                 </div>
-                <div class="col-2">{{ entry.location.name }}</div>
-                <div class="col-1">
-                  <i class="bi bi-pencil-square"></i> <i class="bi bi-trash"></i>
+                <div class="col-2 small">
+                  <a href="">{{ entry.location.name }}</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                  <a href="{% url 'stock_entry_update' entry.pk %}"
+                     title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
+                  <a hx-get="{% url 'stock_entry_delete' entry.pk %}"
+                     hx-trigger="click"
+                     hx-target="#crudModal .modal-content"
+                     hx-swap="innerHTML"
+                     data-bs-toggle="modal"
+                     data-bs-target="#crudModal"
+                     title="Delete {{ entry.ordinal_number }}"
+                     href="javascript:"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
             {% endfor %}
