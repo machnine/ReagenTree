@@ -13,18 +13,22 @@
         <span class="input-group-text input-group-text-fw-sm">{{ form.first_name.label_tag }}</span>
         {{ form.first_name }}
       </div>
+      <span class="text-danger">{{ form.first_name.errors }}</span>
       <div class="input-group mb-3">
         <span class="input-group-text input-group-text-fw-sm">{{ form.last_name.label_tag }}</span>
         {{ form.last_name }}
       </div>
+      <span class="text-danger">{{ form.last_name.errors }}</span>
       <div class="mb-3 input-group">
         <span class="input-group-text input-group-text-fw-sm">{{ form.email.label_tag }}</span>
         {{ form.email }}
       </div>
+      <span class="text-danger">{{ form.email.errors }}</span>
       <div class="mb-3 input-group">
         <span class="input-group-text input-group-text-fw-sm">{{ form.initials.label_tag }}</span>
         {{ form.initials }}
       </div>
+      <span class="text-danger">{{ form.initials.errors }}</span>
       <div class="text-end">
         <button type="submit" class="btn btn-sm btn-success">
           <i class="bi bi-floppy"></i> Save
