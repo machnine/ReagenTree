@@ -4,14 +4,11 @@
 - Model search function
 - Full site search function
 - Stock Item 
-  - complete the stock/stock entry change
-  - validation workflow
-  - fix the removal of Delivery and add delivery field
-  - add stock related upload
+  - validation workflow  
   - Stock take work flow - what is it and how to deal with it?
   - Set a stock level threshold for warning
   - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing    
-  - Deal with deleting the last entry of a Stock
+  - Stock detail view with validations
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
 - List view sorting
@@ -20,4 +17,4 @@
   - Update view!
   - update the usage of stock item when making inhouse reagent
   - inhouse reagent component list - recipe? actual quantity?
-- quick (scan -> update Stock level)
+- quick shortcut (scan -> update Stock level)

@@ -3,7 +3,9 @@ from django import forms
 from django.forms import inlineformset_factory
 from django.utils import timezone
 
+from attachment.forms import AttachmentForm
 from item.models import Stock, StockEntry
+from item.models.stock import StockAttachment
 
 STOCK_FIELDS = [
     "item",
@@ -61,6 +63,7 @@ class StockForm(forms.ModelForm):
         return delivery_date
 
 
+# Stock entry forms
 class StockEntryCreateForm(forms.ModelForm):
     """Custom input form for the StockEntry model."""
 
@@ -97,3 +100,20 @@ class StockEntryUpdateForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({"class": "form-control"})
         self.fields["comments"].widget.attrs.update({"rows": 1})
         self.fields["remaining_unit"].widget.attrs.update({"class": "form-select"})
+
+
+# Stock Attachment forms
+class StockAttachmentCreateForm(AttachmentForm):
+    """Custom input form for the StockAttachment model."""
+
+    class Meta(AttachmentForm.Meta):
+        model = StockAttachment
+        fields = ("file", "name", "description")
+
+
+class StockAttachmentUpdateForm(AttachmentForm):
+    """Custom update form for the StockAttachment model."""
+
+    class Meta(AttachmentForm.Meta):
+        model = StockAttachment
+        exclude = ("file",)

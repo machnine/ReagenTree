@@ -15,7 +15,7 @@
       <div class="panel-heading">
         <div class="row">
           <div class="col-lg-3">
-            <span class="h5 item-text-color">{{ stock.item.name }}</span>
+            <i class="bi bi-boxes stock-text-color"></i> <a href="{% url 'stock_detail' stock.pk %}"><span class="h5">{{ stock.item.name }}</span></a>
             {% if stock.comments %}
               <i class="bi bi-chat-left-dots ps-2 text-danger"
                  title="Comments: {{ stock.comments }}"
@@ -88,7 +88,7 @@
                      title="More Details: Box #{{ entry.ordinal_number }}"
                      data-bs-toggle="tooltip">
                     <span class="icon-with-text">
-                      <i class="bi bi-box2-fill icon-with-text-icon {% stock_entry_colour entry.ordinal_number %}-text-color"></i>
+                      <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
                       <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
                     </span>
                   </a>

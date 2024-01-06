@@ -2,6 +2,8 @@
 from django.conf import settings
 from django.db import models
 
+from attachment.models import Attachment
+
 
 class Stock(models.Model):
     """Stock model for the stocks"""
@@ -124,3 +126,15 @@ class StockValidation(models.Model):
 
     class Meta:
         unique_together = ("stock", "validation")
+
+
+# stock attachments
+class StockAttachment(Attachment):
+    """Attachments associated with an stock"""
+
+    uploaded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="stock_attachments",
+        null=True,
+    )

@@ -4,11 +4,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
+from attachment.views import (
+    AttachmentDeleteView,
+    AttachmentUpdateView,
+    AttachmentUploadView,
+)
 from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
-from item.models.stock import StockEntry
+from item.forms.stock import StockAttachmentCreateForm, StockAttachmentUpdateForm
+from item.models.stock import StockAttachment, StockEntry
 from item.models import Stock
 from item.forms import StockForm, StockEntryFormSet, StockEntryUpdateForm
 
@@ -97,6 +103,21 @@ class StockDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     success_url = reverse_lazy("stock_list")
 
 
+class StockDetailView(LoginRequiredMixin, DetailView):
+    """Detail view for Stock model"""
+
+    model = Stock
+    context_object_name = "stock"
+    template_name = "stock/stock_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["attachments"] = StockAttachment.objects.filter(
+            object_id=self.object.id
+        )
+        return context
+
+
 # StockEntry Views
 
 
@@ -129,3 +150,34 @@ class StockEntryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     model = StockEntry
     action_url = "stock_entry_delete"
     success_url = reverse_lazy("stock_list")
+
+
+#
+# Stock attachment CRUD views
+#
+class StockAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
+    """Upload view for StockAttachment model"""
+
+    owner_model = Stock
+    form_class = StockAttachmentCreateForm
+    success_url_name = "stock_detail"
+    template_name = "attachment/attachment_upload_form.html"
+
+
+class StockAttachmentDeleteView(LoginRequiredMixin, AttachmentDeleteView):
+    """Delete view for StockAttachment model"""
+
+    owner_model = Stock
+    model = StockAttachment
+    template_name = "attachment/attachment_delete_form.html"
+    success_url_name = "stock_detail"
+
+
+class StockAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
+    """Update view for StockAttachment model"""
+
+    owner_model = Stock
+    model = StockAttachment
+    form_class = StockAttachmentUpdateForm
+    template_name = "attachment/attachment_update_form.html"
+    success_url_name = "stock_detail"
