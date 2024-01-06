@@ -28,8 +28,8 @@
                 <div class="col-1">Box</div>
                 <div class="col-2">In use</div>
                 <div class="col-3">Quantity</div>
-                <div class="col-3">Comments</div>
                 <div class="col-2">Location</div>
+                <div class="col-3">Comments</div>
                 <div class="col-auto d-none d-lg-block">Actions</div>
               </div>
             </div>
@@ -82,9 +82,9 @@
           <div class="col-lg-7">
             {# entries #}
             {% for entry in stock.entries.all %}
-              <div class="row text-center">
+              <div class="row text-center align-items-center">
                 <div class="col-1">
-                  <a href="#"
+                  <a href="#{{ entry.pk }}"
                      title="More Details: Box #{{ entry.ordinal_number }}"
                      data-bs-toggle="tooltip">
                     <span class="icon-with-text">
@@ -94,16 +94,22 @@
                   </a>
                 </div>
                 <div class="col-2 small text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
-                <div class="col-3">{{ entry.remaining_quantity_display }}</div>
+                <div class="col-3">
+                  {% if entry.remaining_quantity == 0 %}
+                    <del>0 {{ entry.remaining_unit }}</del>
+                  {% else %}
+                    {% include "usage/usage_htmx_updated.html" %}
+                  {% endif %}
+                </div>
+                <div class="col-2 small">
+                  <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
+                </div>
                 <div class="col-3">
                   {% if entry.comments|length %}
                     <i class="bi bi-chat-left-dots"
                        data-bs-toggle="tooltip"
                        title="#{{ entry.ordinal_number }}: {{ entry.comments }}"></i>
                   {% endif %}
-                </div>
-                <div class="col-2 small">
-                  <a href="">{{ entry.location.name }}</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                   <a href="{% url 'stock_entry_update' entry.pk %}"

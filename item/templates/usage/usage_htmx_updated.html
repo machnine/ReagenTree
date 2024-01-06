@@ -1,11 +1,12 @@
-<div class="row" hx-target="this">
+<div class="row ps-4" hx-target="this">
+  <div class="col-auto"></div>
   <div class="col-8">
-    <a hx-get="{% url 'usage_update' stock.pk %}"
+    <a hx-get="{% url 'usage_update' entry.pk %}"
        hx-trigger="dblclick"
        hx-swap="outerHTML"
-       href="javascript:">{{ stock.remaining_quantity_display }}</a>
+       href="javascript:">{{ entry.remaining_quantity_display }}</a>
   </div>
-  <div class="col-4 text-center">
+  <div class="col-auto text-center">
     <span class="hide-after-animation fade-out text-success fw-bold">-{{ form.used_quantity.value }}</span>
   </div>
 </div>

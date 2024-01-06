@@ -8,9 +8,11 @@ from item.models.unit import Unit
 
 
 class Usage(models.Model):
-    """Usage model to track usage of stocks"""
+    """Usage model to track usage of stock entries"""
 
-    stock = models.ForeignKey("item.Stock", on_delete=models.CASCADE, related_name="usages")
+    stock_entry = models.ForeignKey(
+        "item.StockEntry", on_delete=models.CASCADE, related_name="usages"
+    )
     used_quantity = models.DecimalField(max_digits=10, decimal_places=1)
     used_date = models.DateTimeField(auto_now_add=True)
     used_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
@@ -18,35 +20,35 @@ class Usage(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
 
-    # Method to update Stock after usage
+    # Method to update Stock entry after usage
     def save(self, *args, **kwargs):
-        """Update stock after usage"""
+        """Update stock entry after usage"""
 
-        # Check if stock unit is valid
-        if not Unit.objects.filter(symbol=self.stock.remaining_unit).exists():
+        # Check if stock entry unit is valid
+        if not Unit.objects.filter(symbol=self.stock_entry.remaining_unit).exists():
             raise ValueError("Stock's remaining unit must be specified.")
 
         # Update remaining quantity
-        if self.stock.remaining_unit != self.used_unit:
+        if self.stock_entry.remaining_unit != self.used_unit:
             used_quantity = self.convert_quantity(
                 self.used_quantity,
                 self.used_unit.symbol,
-                self.stock.remaining_unit.symbol,
+                self.stock_entry.remaining_unit.symbol,
             )
         else:
             used_quantity = self.used_quantity
 
         # Use a transaction to ensure that these operations are atomic
         with transaction.atomic():
-            if used_quantity <= self.stock.remaining_quantity:
-                self.stock.remaining_quantity -= used_quantity
+            if used_quantity <= self.stock_entry.remaining_quantity:
+                self.stock_entry.remaining_quantity -= used_quantity
             else:
                 # Optionally handle this situation (e.g., logging, user notification)
-                self.stock.remaining_quantity = 0
+                self.stock_entry.remaining_quantity = 0
             # Update in_use_date if this is the first usage
-            if self.__class__.objects.filter(stock=self.stock).count() == 0:
-                self.stock.in_use_date = timezone.now().date()
-            self.stock.save()
+            if self.__class__.objects.filter(stock_entry=self.stock_entry).count() == 0:
+                self.stock_entry.in_use_date = timezone.now().date()
+            self.stock_entry.save()
 
             super().save(*args, **kwargs)
 

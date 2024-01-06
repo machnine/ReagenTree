@@ -1,7 +1,5 @@
 """validation urls"""
 from django.urls import path
-
-1
 from item.views import (
     ValidationCreateView,
     ValidationDetailView,

@@ -18,3 +18,9 @@
   - update the usage of stock item when making inhouse reagent
   - inhouse reagent component list - recipe? actual quantity?
 - quick shortcut (scan -> update Stock level)
+
+
+- Validation redirect URLs
+- Validation deletion ....
+- Validation document upload
+- Simplify Validation to stock only? No - how about the inhouse reagent which need to be validated as well - think about it.

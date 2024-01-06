@@ -138,11 +138,12 @@
           Validations
         </span>
         <span class="text-success pe-2">
-          <i class="bi bi-plus-circle"></i>
+          <a href="{% url 'validation_create' 'stock' stock.pk %}"
+             class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Add</a>
         </span>
       </div>
       <div class="panel-content">
-        <table class="table table-sm table-hover">
+        <table class="table table-sm">
           <thead>
             <tr>
               <th width="20%" class="text-muted">Status</th>
@@ -152,18 +153,18 @@
               <th width="10%" class="text-muted">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="small">
             {% for sv in stock.validations.all %}
               <tr>
                 <td>{% validation_status sv.validation.status True %}</td>
-                <td class="small">
+                <td>
                   {{ sv.validation.validated|date:"d/m/Y" }}
                   <span data-bs-toggle="tooltip"
                         title="{{ sv.validation.validated_by.get_full_name }}">
                     {{ sv.validation.validated_by.initials }}
                   </span>
                 </td>
-                <td class="small">
+                <td>
                   {{ sv.validation.authorised|date:"d/m/Y" }}
                   <span data-bs-toggle="tooltip"
                         title="{{ sv.validation.authorised_by.get_full_name }}">
@@ -172,8 +173,9 @@
                 </td>
                 <td>{{ sv.validation.comments|default_if_none:"" }}</td>
                 <td>
-                  <a href="" title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get=""
+                  <a href="{% url 'validation_update' sv.pk %}"
+                     title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
+                  <a hx-get="{% url 'validation_delete' sv.pk %}"
                      hx-trigger="click"
                      hx-target="#crudModal .modal-content"
                      hx-swap="innerHTML"
@@ -194,7 +196,7 @@
         <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
       </div>
       <div class="panel-content">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
           <thead>
             <tr>
               <th class="text-muted text-center">Box</th>
@@ -215,13 +217,21 @@
                   </span>
                 </td>
                 <td class="text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</td>
-                <td class="text-center">{{ entry.remaining_quantity_display }}</td>
-                <td>{{ entry.location.name }}</td>
-                <td>{{ entry.comments }}</td>
+                <td class="text-center max-width-100px">
+                  {% if entry.remaining_quantity == 0 %}
+                    <del>0 {{ entry.remaining_unit }}</del>
+                  {% else %}
+                    {% include "usage/usage_htmx_updated.html" %}
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
+                </td>
+                <td>{{ entry.comments|default_if_none:"" }}</td>
                 <td class="text-center">
-                  <a href="{% url 'stock_entry_update' entry.pk %}"
+                  <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
                      title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get="{% url 'stock_entry_delete' entry.pk %}"
+                  <a hx-get="{% url 'stock_entry_delete' entry.pk %}?next={{ request.path }}"
                      hx-trigger="click"
                      hx-target="#crudModal .modal-content"
                      hx-swap="innerHTML"
