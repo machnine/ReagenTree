@@ -4,11 +4,9 @@
 - Model search function
 - Full site search function
 - Stock Item 
-  - validation workflow  
   - Stock take work flow - what is it and how to deal with it?
   - Set a stock level threshold for warning
   - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing? how about their location? 
-  - Stock detail view with validations
 - View for expired items - for disposal or relabelling for research only use
 - COSHH review workflow?
 - List view sorting
@@ -17,5 +15,6 @@
   - Update view!
   - update the usage of stock item when making inhouse reagent
   - inhouse reagent component list - recipe? actual quantity?
+  - validation
+  - validation list view
 - quick shortcut (scan -> update Stock level)
-- unify verification authorisation and edit

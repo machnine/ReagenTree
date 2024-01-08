@@ -40,14 +40,14 @@ class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, View)
         """Get validation object"""
         return get_object_or_404(ReagentValidation, pk=pk)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, **kwargs):
         """HTMX GET request for authorising a validation"""
         validation = self.get_validation(kwargs["pk"])
         action_url = reverse_lazy("validation_authorise", kwargs={"pk": validation.pk})
         context = {"validation": validation, "action_url": action_url}
         return render(request, self.get_template_name, context=context)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, **kwargs):
         """HTMX POST request for authorising a validation"""
         validation = self.get_validation(kwargs["pk"])
         validation.authorised_by = self.request.user
@@ -101,7 +101,7 @@ class StockValidationListView(LoginRequiredMixin, ListView):
 
     model = StockValidation
     context_object_name = "validations"
-    template_name = "validation/validation_list.html"
+    template_name = "validation/validation_list_stock.html"
     paginate_by = 16
     ordering = ["-validation__created"]
 
@@ -112,6 +112,6 @@ class InhouseValidationListView(LoginRequiredMixin, ListView):
 
     model = InhouseReagentValidation
     context_object_name = "validations"
-    template_name = "validation/validation_list.html"
+    template_name = "validation/validation_list_inhouse.html"
     paginate_by = 16
     ordering = ["-validation__created"]

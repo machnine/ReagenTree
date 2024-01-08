@@ -1,0 +1,50 @@
+{% extends "object_list_base.html" %}
+{% load stock_tags %}
+{% block title %}
+  Stock Validation
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-clipboard-check-fill validation-text-color"></i> Validations
+{% endblock panel_title %}
+{% block panel_actions %}
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="table-responsive pt-3">
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th width="25%">Stock Item</th>
+          <th width="15%">Delivery</th>
+          <th width="15%">Status</th>
+          <th width="15%">Created</th>
+          <th width="15%">Authorised</th>
+          <th>Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sv in validations %}
+          <tr>
+            <td>
+              <a href="{% url 'stock_detail' sv.stock.pk %}">{{ sv.stock }}</a>
+            </td>
+            <td>{{ sv.stock.delivery_date|date:"d/m/Y"|default_if_none:"" }}</td>
+            <td>{% validation_status sv.validation.status True %}</td>
+            <td>
+              {{ sv.validation.created|date:"d/m/Y"|default_if_none:"" }}
+              <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
+            </td>
+            <td>
+              {% if sv.validation.authorised %}
+                {{ sv.validation.authorised|date:"d/m/Y"|default_if_none:"" }}
+                <span title="{{ sv.validation.authorised_by.get_full_name }}">{{ sv.validation.authorised_by.initials }}</span>
+              {% else %}
+                <i class="bi bi-three-dots text-muted" title="To be authorised..."></i>
+              {% endif %}
+            </td>
+            <td>{{ sv.validation.comments }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock panel_content %}
