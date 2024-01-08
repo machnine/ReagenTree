@@ -1,22 +1,22 @@
 {% extends "object_create_base.html" %}
 {% block title %}
-    Reagent Validation
+  Reagent Validation
 {% endblock title %}
 {% block panel_title %}
-    Validation
+  <i class="bi bi-clipboard-check-fill validation-text-color"></i> Validation create
 {% endblock panel_title %}
 {% block create_form %}
-    <div class="px-3 pt-3">
-        <span class="text-danger">{{ form.non_field_errors }}</span>
-        <div id="div_id_status" class="input-group mb-3">
-            <span class="input-group-text input-group-text-fw-sm">Status</span>
-            {{ form.status }}
-        </div>
-        <span class="text-danger">{{ form.status.errors }}</span>
-        <div id="div_id_comments" class="input-group mb-3">
-            <span class="input-group-text input-group-text-fw-sm">comments</span>
-            {{ form.comments }}
-        </div>
-        <span class="text-danger">{{ form.comments.errors }}</span>
+  <div class="px-3 pt-3">
+    <span class="text-danger">{{ form.non_field_errors }}</span>
+    <div id="div_id_status" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Status:</span>
+      {{ form.status }}
     </div>
+    <span class="text-danger">{{ form.status.errors }}</span>
+    <div id="div_id_comments" class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Comments:</span>
+      {{ form.comments }}
+    </div>
+    <span class="text-danger">{{ form.comments.errors }}</span>
+  </div>
 {% endblock create_form %}

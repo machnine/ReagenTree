@@ -7,11 +7,14 @@ from item.views import (
     StockDeleteView,
     StockUpdateView,
     StockDetailView,
-    StockAttachmentUploadView, 
+    StockAttachmentUploadView,
     StockAttachmentUpdateView,
     StockAttachmentDeleteView,
     StockEntryDeleteView,
     StockEntryUpdateView,
+    StockValidationCreateView,
+    StockValidationDeleteView,
+    StockValidationListView,
 )
 
 urlpatterns = [
@@ -44,5 +47,20 @@ urlpatterns = [
         "entry/<int:pk>/update/",
         StockEntryUpdateView.as_view(),
         name="stock_entry_update",
+    ),
+    path(
+        "<int:pk>/validation/create/",
+        StockValidationCreateView.as_view(),
+        name="stock_validation_create",
+    ),
+    path(
+        "validation/<int:pk>/delete/",
+        StockValidationDeleteView.as_view(),
+        name="stock_validation_delete",
+    ),
+    path(
+        "validations/",
+        StockValidationListView.as_view(),
+        name="stock_validation_list",
     ),
 ]

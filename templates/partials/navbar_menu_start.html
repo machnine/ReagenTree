@@ -15,7 +15,7 @@
         <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes stock-text-color"></i> All stock items</a>
       </li>
       <li>
-        <a href="javascript:" class="dropdown-item"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Stock validations</a>
+        <a href="{% url 'stock_validation_list' %}" class="dropdown-item"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Stock validations</a>
       </li>
     </ul>
   </li>
@@ -43,7 +43,7 @@
         <a href="{% url 'inhouse_list' %}" class="dropdown-item"><i class="bi bi-boxes inhouse-text-color"></i> All reagents</a>
       </li>
       <li>
-        <a href="javascript:" class="dropdown-item"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Reagent validations</a>
+        <a href="{% url 'inhouse_validation_list' %}" class="dropdown-item"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Reagent validations</a>
       </li>
     </ul>
   </li>

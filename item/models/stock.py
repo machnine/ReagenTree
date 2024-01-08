@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from attachment.models import Attachment
+from item.models.validation import ValidationBase
 
 
 class Stock(models.Model):
@@ -47,6 +48,14 @@ class Stock(models.Model):
     def entries(self):
         """Return the entries for the stock"""
         return StockEntry.objects.filter(stock=self)
+
+    @property
+    def is_empty(self):
+        """Return True if the stock is empty"""
+        for entry in self.entries.all():
+            if entry.remaining_quantity > 0:
+                return False
+        return True
 
     def __str__(self):
         return f"{self.item.name} - {self.lot_number}"
@@ -113,21 +122,6 @@ class StockEntry(models.Model):
         super().save(*args, **kwargs)
 
 
-## Validation models
-
-
-class StockValidation(models.Model):
-    """model tracking stock validations"""
-
-    stock = models.ForeignKey(
-        "Stock", on_delete=models.CASCADE, related_name="validations"
-    )
-    validation = models.ForeignKey("ReagentValidation", on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ("stock", "validation")
-
-
 # stock attachments
 class StockAttachment(Attachment):
     """Attachments associated with an stock"""
@@ -138,3 +132,4 @@ class StockAttachment(Attachment):
         related_name="stock_attachments",
         null=True,
     )
+

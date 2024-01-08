@@ -12,12 +12,10 @@
 {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col">{% include "homepage/notifications.html" %}</div>
-      <div class="col">{% include "homepage/stock_levels.html" %}</div>
-    </div>
-    <div class="row">
-      <div class="col">{% include "homepage/statistics.html" %}</div>
-      <div class="col">{% include "homepage/deliveries.html" %}</div>
+      <div class="col-lg-6">{% include "homepage/notifications.html" %}</div>
+      <div class="col-lg-6">{% include "homepage/stock_levels.html" %}</div>
+      <div class="col-lg-6">{% include "homepage/statistics.html" %}</div>
+      <div class="col-lg-6">{% include "homepage/deliveries.html" %}</div>
     </div>
   </div>
 {% endblock content %}

@@ -63,7 +63,7 @@
     <main id="main-content" class="mx-2">
       <!-- Alerts goes here -->
       {% block alerts %}
-        <div class="container-fluid">
+        <div class="container-fluid" id="alerts-container">
           {% if messages %}
             {% for message in messages %}
               <div role="alert"

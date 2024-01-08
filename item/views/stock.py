@@ -14,11 +14,11 @@ from attachment.views import (
 from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
 from item.forms.stock import StockAttachmentCreateForm, StockAttachmentUpdateForm
-from item.models.stock import StockAttachment, StockEntry
-from item.models import Stock
+from item.models import Stock, StockAttachment, StockEntry
 from item.forms import StockForm, StockEntryFormSet, StockEntryUpdateForm
 
 
+# Stock model CRUD views
 class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     """Create view for Stock model"""
 
@@ -91,7 +91,7 @@ class StockListView(LoginRequiredMixin, ListView):
     model = Stock
     context_object_name = "stocks"
     template_name = "stock/stock_list.html"
-    paginate_by = 16
+    paginate_by = 8
     ordering = ["-created"]
 
 
@@ -118,9 +118,7 @@ class StockDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-# StockEntry Views
-
-
+# StockEntry CRUD Views
 class StockEntryUpdateView(
     LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView
 ):
@@ -152,9 +150,7 @@ class StockEntryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     success_url = reverse_lazy("stock_list")
 
 
-#
 # Stock attachment CRUD views
-#
 class StockAttachmentUploadView(LoginRequiredMixin, AttachmentUploadView):
     """Upload view for StockAttachment model"""
 

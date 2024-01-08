@@ -22,7 +22,7 @@
         <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
       </div>
       <div class="panel-content">
-        <table class="table table-sm table-borderless">
+        <table class="table table-sm table-borderless small">
           <tbody>
             <tr>
               <td width="20%" class="text-muted">Item:</td>
@@ -78,8 +78,8 @@
       </div>
       <div class="panel-content">
         {% if attachments|length %}
-          <table class="table table-sm table-hover">
-            <thead class="text-small">
+          <table class="table table-sm table-hover small">
+            <thead>
               <tr>
                 <th class="text-muted d-none d-lg-block">Uploaded</th>
                 <th class="text-muted">Name</th>
@@ -120,6 +120,7 @@
                        hx-swap="innerHTML"
                        data-bs-toggle="modal"
                        data-bs-target="#crudModal"
+                       title="Delete {{ file.name }}"
                        href="javascript:"><i class="bi bi-trash"></i></a>
                   </td>
                 </tr>
@@ -138,49 +139,58 @@
           Validations
         </span>
         <span class="text-success pe-2">
-          <a href="{% url 'validation_create' 'stock' stock.pk %}"
+          <a href="{% url 'stock_validation_create' stock.pk %}?next={{ request.path }}"
              class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Add</a>
         </span>
       </div>
       <div class="panel-content">
-        <table class="table table-sm">
-          <thead>
+        <table class="table table-sm small">
+          <thead class="text-center">
             <tr>
-              <th width="20%" class="text-muted">Status</th>
-              <th width="13%" class="text-muted">Validated</th>
-              <th width="13%" class="text-muted">Authorised</th>
+              <th width="15%" class="text-muted text-start">Status</th>
+              <th width="20%" class="text-muted">Validated</th>
+              <th width="20%" class="text-muted">Authorised</th>
               <th class="text-muted">Validation comments</th>
-              <th width="10%" class="text-muted">Actions</th>
+              <th width="10%" class="text-muted"></th>
             </tr>
           </thead>
-          <tbody class="small">
+          <tbody class="text-center">
             {% for sv in stock.validations.all %}
               <tr>
-                <td>{% validation_status sv.validation.status True %}</td>
+                <td class="text-start">{% validation_status sv.validation.status True %}</td>
                 <td>
-                  {{ sv.validation.validated|date:"d/m/Y" }}
-                  <span data-bs-toggle="tooltip"
-                        title="{{ sv.validation.validated_by.get_full_name }}">
-                    {{ sv.validation.validated_by.initials }}
-                  </span>
+                  {% if sv.validation.created %}<i class="bi bi-check-lg text-success"></i>{% endif %}
+                  {{ sv.validation.created|date:"d/m/Y" }}
+                  <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
                 </td>
                 <td>
-                  {{ sv.validation.authorised|date:"d/m/Y" }}
-                  <span data-bs-toggle="tooltip"
-                        title="{{ sv.validation.authorised_by.get_full_name }}">
-                    {{ sv.validation.authorised_by.initials }}
-                  </span>
+                  {% if sv.validation.authorised %}
+                    <i class="bi bi-check2-all text-success"></i>
+                    {{ sv.validation.authorised|date:"d/m/Y" }}
+                    <span title="{{ sv.validation.authorised_by.get_full_name }}">{{ sv.validation.authorised_by.initials }}</span>
+                  {% else %}
+                    <a href="javascript:"
+                       hx-trigger="click"
+                       hx-get="{% url 'validation_authorise' sv.validation.pk %}?next={{ request.path }}"
+                       hx-target="#crudModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#crudModal">
+                      <i class="bi bi-three-dots text-muted" title="To be authorised..."></i>
+                    </a>
+                  {% endif %}
                 </td>
                 <td>{{ sv.validation.comments|default_if_none:"" }}</td>
                 <td>
-                  <a href="{% url 'validation_update' sv.pk %}"
+                  <a href="{% url 'validation_update' sv.validation_id %}?next={{ request.path }}"
                      title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get="{% url 'validation_delete' sv.pk %}"
+                  <a hx-get="{% url 'stock_validation_delete' sv.pk %}?next={{ request.path }}"
                      hx-trigger="click"
                      hx-target="#crudModal .modal-content"
                      hx-swap="innerHTML"
                      data-bs-toggle="modal"
                      data-bs-target="#crudModal"
+                     title="Delete the validation"
                      href="javascript:"><i class="bi bi-trash"></i></a>
                 </td>
               </tr>
@@ -196,27 +206,27 @@
         <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
       </div>
       <div class="panel-content">
-        <table class="table table-sm table-hover">
-          <thead>
+        <table class="table table-sm table-hover small">
+          <thead class="text-center">
             <tr>
-              <th class="text-muted text-center">Box</th>
-              <th class="text-muted text-center">In-Use</th>
-              <th class="text-muted text-center">Quantity</th>
-              <th class="text-muted">Location</th>
-              <th class="text-muted">Comments</th>
-              <th class="text-muted text-center">Actions</th>
+              <th class="text-muted">Box</th>
+              <th class="text-muted">In-Use</th>
+              <th class="text-muted">Quantity</th>
+              <th class="text-muted text-start">Location</th>
+              <th class="text-muted text-start">Comments</th>
+              <th class="text-muted"></th>
             </tr>
           </thead>
-          <tbody class="small">
+          <tbody class="text-center align-middle">
             {% for entry in stock.entries.all %}
               <tr>
-                <td class="text-center">
+                <td>
                   <span class="icon-with-text">
                     <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
                     <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
                   </span>
                 </td>
-                <td class="text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</td>
+                <td>{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</td>
                 <td class="text-center max-width-100px">
                   {% if entry.remaining_quantity == 0 %}
                     <del>0 {{ entry.remaining_unit }}</del>
@@ -224,11 +234,11 @@
                     {% include "usage/usage_htmx_updated.html" %}
                   {% endif %}
                 </td>
-                <td>
+                <td class="text-start">
                   <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
                 </td>
-                <td>{{ entry.comments|default_if_none:"" }}</td>
-                <td class="text-center">
+                <td class="text-start">{{ entry.comments|default_if_none:"" }}</td>
+                <td>
                   <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
                      title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
                   <a hx-get="{% url 'stock_entry_delete' entry.pk %}?next={{ request.path }}"

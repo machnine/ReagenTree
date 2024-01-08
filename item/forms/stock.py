@@ -51,8 +51,10 @@ class StockForm(forms.ModelForm):
     def clean_expiry_date(self):
         """Validate that the expiry date is not in the past."""
         expiry_date = self.cleaned_data.get("expiry_date")
-        if expiry_date and expiry_date < timezone.now().date():
-            raise forms.ValidationError("Expiry date cannot be in the past.")
+        if self.instance.pk is None:
+            # if the object is being created, then the expiry date cannot be in the past
+            if expiry_date and expiry_date < timezone.now().date():
+                raise forms.ValidationError("Expiry date cannot be in the past.")
         return expiry_date
 
     def clean_delivery_date(self):

@@ -35,7 +35,7 @@ def delivery_condition(condition: int, show_text: bool = False):
 
 VALIDATION_ICONS = {
     "PENDING": "bi-question text-muted",
-    "APPROVED": "bi-check-lg text-success",
+    "APPROVED": "bi-circle-fill validation-text-color small",
     "REJECTED": "bi-x-lg text-danger",
     "NOT_REQUIRED": "bi-ban text-gray-300",
 }
@@ -52,7 +52,7 @@ def validation_status(status: str, show_text: bool = False):
 
 
 # stock entry colour collections
-STOCK_ENTRY_COLOURS = ["stock", "user", "green20", "location", "setting", "delivery"]
+STOCK_ENTRY_COLOURS = ["stock", "user", "green20", "fushia", "setting", "delivery"]
 
 
 @register.simple_tag

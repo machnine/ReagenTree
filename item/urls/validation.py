@@ -1,24 +1,12 @@
 """validation urls"""
 from django.urls import path
-from item.views import (
-    ValidationCreateView,
-    ValidationDetailView,
-    ValidationUpdateView,
-    ValidationDeleteView,
-)
-
+from item.views import ValidationUpdateView, ValidationAuthorisationHtmxView
 
 urlpatterns = [
-    path(
-        "<str:object_type>/<int:object_id>/create/",
-        ValidationCreateView.as_view(),
-        name="validation_create",
-    ),
     path("<int:pk>/update/", ValidationUpdateView.as_view(), name="validation_update"),
     path(
-        "<str:object_type>/<int:object_id>/detail/",
-        ValidationDetailView.as_view(),
-        name="validation_detail",
+        "<int:pk>/authorise/",
+        ValidationAuthorisationHtmxView.as_view(),
+        name="validation_authorise",
     ),
-    path("<int:pk>/delete/", ValidationDeleteView.as_view(), name="validation_delete"),
 ]

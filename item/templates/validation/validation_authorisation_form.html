@@ -1,0 +1,23 @@
+<form method="post" action="{{ action_url }}">
+  <div class="modal-header">
+    <h5 class="modal-title" id="crudModalLabel">Confirm Authorisation</h5>
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    {% csrf_token %}
+    <p>
+      Sign off the following validation?
+      <p>
+        <i class="text-danger fw-bold">{{ validation }}</i>
+      </p>
+    </p>
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-sm btn-danger">Cofirm</button>
+  </div>
+</form>

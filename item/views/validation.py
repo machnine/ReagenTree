@@ -1,102 +1,117 @@
 """Stock validation views"""
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseNotAllowed
-from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.utils import timezone
+from django.views.generic import CreateView, ListView, UpdateView, View
 
-from core.mixins import SuccessUrlMixin
+from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
-from item.models import ReagentValidation
 from item.forms import ValidationForm
+from item.models import (
+    ReagentValidation,
+    Stock,
+    StockValidation,
+    InhouseReagentValidation,
+)
 
 
-class ValidationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
-    """Create validation view"""
-
-    model = ReagentValidation
-    form_class = ValidationForm
-    template_name = "validation/validation_create.html"
-    success_url = "/"
-
-    def dispatch(self, request, *args, **kwargs):
-        """Get the object to validate based on the object_type and object_id from the URL."""
-        try:
-            content_type = ContentType.objects.get(model=self.kwargs["object_type"])
-            self.object_to_validate = get_object_or_404(
-                content_type.model_class(), pk=self.kwargs["object_id"]
-            )
-        except (ObjectDoesNotExist, ValueError):
-            return HttpResponseNotAllowed("Invalid object type or object ID")
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["object_to_validate"] = self.object_to_validate
-        return context
-
-    def form_valid(self, form):
-        # Set the content_object for the validation
-        object_content_type = ContentType.objects.get_for_model(self.object_to_validate)
-        form.instance.content_type = object_content_type
-        form.instance.object_id = self.object_to_validate.id
-        form.instance.validated_by = self.request.user
-        return super().form_valid(form)
-
-
-class ValidationUpdateView(LoginRequiredMixin, UpdateView):
-    """Update validation view"""
+class ValidationUpdateView(
+    LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView
+):
+    """Generic validation update view"""
 
     model = ReagentValidation
     form_class = ValidationForm
     template_name = "validation/validation_update.html"
+    success_url = reverse_lazy("stock_list")
+
+
+class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, View):
+    """HTMX view for authorising a validation"""
+
+    get_template_name = "validation/validation_authorisation_form.html"
+
+    def get_validation(self, pk):
+        """Get validation object"""
+        return get_object_or_404(ReagentValidation, pk=pk)
+
+    def get(self, request, *args, **kwargs):
+        """HTMX GET request for authorising a validation"""
+        validation = self.get_validation(kwargs["pk"])
+        action_url = reverse_lazy("validation_authorise", kwargs={"pk": validation.pk})
+        context = {"validation": validation, "action_url": action_url}
+        return render(request, self.get_template_name, context=context)
+
+    def post(self, request, *args, **kwargs):
+        """HTMX POST request for authorising a validation"""
+        validation = self.get_validation(kwargs["pk"])
+        validation.authorised_by = self.request.user
+        validation.authorised = timezone.now()
+        validation.save()
+        messages.success(request, "Validation authorised successfully.")
+        return redirect(self.get_success_url())
+
+
+# Stock Validations
+class StockValidationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
+    """Create view for StockValidation model"""
+
+    model = ReagentValidation
+    form_class = ValidationForm
+    template_name = "validation/validation_create.html"
+    success_url = reverse_lazy("stock_list")
 
     def form_valid(self, form):
-        """Add user to form"""
-        form.instance.validated_by = self.request.user
-        return super().form_valid(form)
+        # create validation
+        form.instance.created_by = self.request.user
+        validation = form.save()
+        # link validation to stock
+        stock_id = self.kwargs.get("pk")
+        stock = get_object_or_404(Stock, pk=stock_id)
+        StockValidation.objects.create(stock=stock, validation=validation)
+        return HttpResponseRedirect(self.get_success_url())
 
 
-class ValidationDetailView(LoginRequiredMixin, ListView):
-    """Detail validation view"""
+class StockValidationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
+    """Delete StockValidation (relation) and the associated Validation (object)"""
 
-    model = ReagentValidation
-    template_name = "validation/validation_detail.html"
+    model = StockValidation
+    action_url = "stock_validation_delete"
+    success_url = reverse_lazy("stock_detail")
+
+    def post(self, request, *args, **kwargs):
+        """HTMX POST request for deleting an object."""
+        with transaction.atomic():
+            obj = self.get_object(kwargs["pk"])
+            stock_id = obj.stock.pk
+            obj.validation.delete()
+            messages.success(request, "Validation deleted successfully.")
+        if not request.POST.get("next"):
+            self.success_url = reverse_lazy("stock_detail", kwargs={"pk": stock_id})
+        return redirect(self.get_success_url())
+
+
+class StockValidationListView(LoginRequiredMixin, ListView):
+    """List view for StockValidation model"""
+
+    model = StockValidation
     context_object_name = "validations"
-
-    def get_queryset(self):
-        """Get the validation objects for the object_type and object_id from the URL."""
-        content_object_type = get_object_or_404(
-            ContentType, model=self.kwargs["object_type"]
-        )
-        return ReagentValidation.objects.filter(
-            content_type=content_object_type, object_id=self.kwargs["object_id"]
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        queryset = self.get_queryset()
-        object_type = self.kwargs["object_type"]
-        object_to_validate = queryset.first().content_object
-        object_to_validate_detail_url = f"{object_type}_detail"
-        context.update(
-            {
-                "object_type": object_type,
-                "object_to_validate": object_to_validate,
-                "object_to_validate_detail_url": object_to_validate_detail_url,
-            }
-        )
-
-        return context
+    template_name = "validation/validation_list.html"
+    paginate_by = 16
+    ordering = ["-validation__created"]
 
 
-class ValidationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
-    """Delete validation view"""
+# Inhouse reagent validations
+class InhouseValidationListView(LoginRequiredMixin, ListView):
+    """List view for InhouseReagentValidation model"""
 
-    model = ReagentValidation
-    action_url = "validation_delete"
-    success_url = reverse_lazy("validation_list")
+    model = InhouseReagentValidation
+    context_object_name = "validations"
+    template_name = "validation/validation_list.html"
+    paginate_by = 16
+    ordering = ["-validation__created"]

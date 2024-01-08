@@ -125,6 +125,15 @@ a:hover {
   display: none; /* Hide the close button */
 }
 
+#alerts-container {
+  position: fixed; /* or absolute */
+  top: 0px;
+  left: 25%;
+  z-index: 1050;
+  width: 50%;
+  overflow: auto;
+}
+
 .category-text-color {
   color: var(--rt-category);
 }
