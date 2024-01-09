@@ -13,35 +13,21 @@
     <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th width="25%">Inhouse Reagent</th>
-          <th width="15%">Made</th>
+          <th width="25%">Stock Items</th>
+          <th width="15%">Delivery</th>
           <th width="15%">Status</th>
-          <th width="15%">Created</th>
-          <th width="15%">Authorised</th>
           <th>Comments</th>
         </tr>
       </thead>
       <tbody>
-        {% for sv in validations %}
+        {% for stock in inhouse_reagents %}
           <tr>
             <td>
-              <a href="{% url 'stock_detail' sv.stock.pk %}">{{ sv.stock }}</a>
+              <a href="{% url 'stock_detail' stock.pk %}">{{ stock }}</a>
             </td>
-            <td>{{ sv.stock.delivery_date|date:"d/m/Y"|default_if_none:"" }}</td>
-            <td>{% validation_status sv.validation.status True %}</td>
-            <td>
-              {{ sv.validation.created|date:"d/m/Y"|default_if_none:"" }}
-              <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
-            </td>
-            <td>
-              {% if sv.validation.authorised %}
-                {{ sv.validation.authorised|date:"d/m/Y"|default_if_none:"" }}
-                <span title="{{ sv.validation.authorised_by.get_full_name }}">{{ sv.validation.authorised_by.initials }}</span>
-              {% else %}
-                <i class="bi bi-three-dots text-muted" title="To be authorised..."></i>
-              {% endif %}
-            </td>
-            <td>{{ sv.validation.comments }}</td>
+            <td>{{ stock.delivery_date|date:"d/m/Y"|default_if_none:"" }}</td>
+            <td>?</td>
+            <td>{{ stock.comments }}</td>
           </tr>
         {% endfor %}
       </tbody>

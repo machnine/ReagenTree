@@ -107,13 +107,16 @@ class StockValidationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
 
 
 class StockValidationListView(LoginRequiredMixin, ListView):
-    """List view for StockValidation model"""
+    """List view for Stock with pending validations"""
 
-    model = StockValidation
-    context_object_name = "validations"
+    model = Stock
+    context_object_name = "stocks"
     template_name = "validation/validation_list_stock.html"
-    paginate_by = 16
-    ordering = ["-validation__created"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(validations__isnull=True)
+        return queryset.order_by("-delivery_date")
 
 
 # Inhouse reagent validations
@@ -121,7 +124,10 @@ class InhouseValidationListView(LoginRequiredMixin, ListView):
     """List view for InhouseReagentValidation model"""
 
     model = InhouseReagentValidation
-    context_object_name = "validations"
+    context_object_name = "inhouse_reagents"
     template_name = "validation/validation_list_inhouse.html"
-    paginate_by = 16
-    ordering = ["-validation__created"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(validations__isnull=True)
+        return queryset.order_by("-delivery_date")

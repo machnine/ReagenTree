@@ -50,7 +50,6 @@ class ValidationBase(models.Model):
     class Meta:
         abstract = True
 
-
 # specific validation models
 class StockValidation(ValidationBase):
     """model tracking stock validations"""
@@ -61,6 +60,7 @@ class StockValidation(ValidationBase):
 
     class Meta:
         unique_together = ("stock", "validation")
+        ordering = ["-validation__created"]
 
 
 class InhouseReagentValidation(ValidationBase):
@@ -72,3 +72,4 @@ class InhouseReagentValidation(ValidationBase):
 
     class Meta:
         unique_together = ("inhouse_reagent", "validation")
+        ordering = ["-validation__created"]

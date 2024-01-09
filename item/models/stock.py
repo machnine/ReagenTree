@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from attachment.models import Attachment
-from item.models.validation import StockValidation
+from item.models.validation import ReagentValidation, StockValidation
 
 
 class Stock(models.Model):
@@ -42,7 +42,9 @@ class Stock(models.Model):
     @property
     def validations(self):
         """Return the validation for the stock"""
-        return StockValidation.objects.filter(stock=self)
+        return StockValidation.objects.filter(stock=self).order_by(
+            "-validation__created"
+        )
 
     @property
     def entries(self):
@@ -70,7 +72,7 @@ class Stock(models.Model):
     class Meta:
         verbose_name = "Stock"
         verbose_name_plural = "Stocks"
-        ordering = ["-created", "item", "lot_number"]
+        ordering = ["-delivery_date", "item", "lot_number"]
 
 
 class StockEntry(models.Model):
