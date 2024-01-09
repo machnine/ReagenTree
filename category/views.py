@@ -11,6 +11,7 @@ from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 
 from .models import Category
+from .forms import CategoryForm
 
 
 # Category search view
@@ -42,9 +43,10 @@ class CategoryCreateView(
     """Category create view."""
 
     model = Category
-    fields = ["name", "description"]
+    form_class = CategoryForm
     template_name = "category/category_create.html"
     success_url = reverse_lazy("category_list")
+
 
 class CategoryUpdateView(
     LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
@@ -52,7 +54,7 @@ class CategoryUpdateView(
     """Category update view."""
 
     model = Category
-    fields = ["name", "description"]
+    form_class = CategoryForm
     success_url = reverse_lazy("category_list")
     template_name = "category/category_update.html"
 

@@ -3,24 +3,8 @@
   Category Create
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-bookmarks-fill category-text-color"></i> New Category
+  <i class="bi bi-bookmarks-fill category-text-color"></i> New Category
 {% endblock panel_title %}
 {% block create_form %}
-  <div class="px-3 pt-3">
-    <div id="div_id_name" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Name*</span>
-      <input type="text"
-             name="name"
-             maxlength="50"
-             autocomplete="off"
-             class="textinput form-control"
-             required
-             id="id_name">
-    </div>
-    <div id="div_id_description" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Description</span>
-      <textarea name="description" cols="40" rows="3" class="textarea form-control" id="id_description">
-</textarea>
-    </div>
-  </div>
+  {% include "category/category_form.html" %}
 {% endblock create_form %}

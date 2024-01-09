@@ -3,45 +3,8 @@
   Company Create
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-buildings company-text-color"></i> New Company
+  <i class="bi bi-buildings company-text-color"></i> New Company
 {% endblock panel_title %}
 {% block create_form %}
-  <div class="px-3 pt-3">
-    <div id="div_id_name" class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Name*</span>
-      <input type="text"
-             name="name"
-             maxlength="100"
-             class="textinput form-control"
-             required
-             autocomplete="off"
-             id="id_name">
-    </div>
-    <div id="div_id_website" class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Website</span>
-      <input type="url"
-             name="website"
-             maxlength="200"
-             autocomplete="off"
-             class="urlinput form-control"
-             id="id_website">
-    </div>
-    <div id="div_id_phone" class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Phone</span>
-      <input type="text"
-             name="phone"
-             maxlength="20"
-             autocomplete="off"
-             class="textinput form-control"
-             id="id_phone">
-    </div>
-    <div id="div_id_description" class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Description</span>
-      <textarea name="description"
-                cols="40"
-                rows="3"
-                class="textarea form-control"
-                id="id_description"></textarea>
-    </div>
-  </div>
+  {% include "company/company_form.html" %}
 {% endblock create_form %}

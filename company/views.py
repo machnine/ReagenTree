@@ -10,8 +10,7 @@ from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
 
 from .models import Company
-
-company_fields = ["name", "description", "website", "phone"]
+from .forms import CompanyForm
 
 
 # company search view
@@ -50,9 +49,10 @@ class CompanyCreateView(
     """View for creating a Company."""
 
     model = Company
-    fields = company_fields
+    form_class = CompanyForm
     template_name = "company/company_create.html"
     success_url = reverse_lazy("company_list")
+
 
 class CompanyUpdateView(
     LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
@@ -60,7 +60,7 @@ class CompanyUpdateView(
     """View for updating a Company."""
 
     model = Company
-    fields = company_fields
+    form_class = CompanyForm
     template_name = "company/company_update.html"
     success_url = reverse_lazy("company_list")
 
