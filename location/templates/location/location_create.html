@@ -3,33 +3,8 @@
   Location Create
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-geo-alt-fill location-text-color"></i> New Storage Location
+  <i class="bi bi-geo-alt-fill location-text-color"></i> New Storage Location
 {% endblock panel_title %}
 {% block create_form %}
-  <div class="px-3 pt-3">
-    <div id="div_id_name" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Name*</span>
-      <input type="text"
-             name="name"
-             maxlength="100"
-             class="textinput form-control"
-             autocomplete="off"
-             required
-             id="id_name">
-    </div>
-    <div id="div_id_room" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Room</span>
-      <input type="text"
-             name="room"
-             maxlength="100"
-             autocomplete="off"
-             class="textinput form-control"
-             id="id_room">
-    </div>
-    <div id="div_id_description" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Description</span>
-      <textarea name="description" cols="40" rows="3" class="textarea form-control" id="id_description">
-</textarea>
-    </div>
-  </div>
+  {% include "location/location_form.html" %}
 {% endblock create_form %}

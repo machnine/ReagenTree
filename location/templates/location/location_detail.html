@@ -1,4 +1,5 @@
 {% extends "object_detail_base.html" %}
+{% load stock_tags %}
 {% block title %}
   Location - {{ location.name }}
 {% endblock title %}
@@ -44,22 +45,20 @@
           <tr>
             <th class="text-muted">Sotck Item</th>
             <th class="text-muted">Lot Number</th>
-            <th class="text-muted">Box ID</th>
             <th class="text-muted">Expiry Date</th>
-            <th class="text-muted">Stock Level</th>
+            <th class="text-muted text-center">Box ID</th>
+            <th class="text-muted text-center">Remaining</th>
           </tr>
         </thead>
-        {% for stock in page_obj %}
+        {% for entry in page_obj %}
           <tr>
-            <td>
-              <a href="{% url 'stock_detail' stock.pk %}">{{ stock.item.name }}</a>
+            <td>{{ entry.stock.item.name }}</td>
+            <td>{{ entry.stock.lot_number }}</td>
+            <td>{{ entry.stock.expiry_date|date:'d/m/Y' }}</td>
+            <td class="text-center">
+              <span class="{% stock_entry_colour entry.ordinal_number %}-text-color"><b>{{ entry.ordinal_number }}</b></span>
             </td>
-            <td>{{ stock.lot_number }}</td>
-            <td>
-              <a href="{% url 'stock_detail' stock.pk %}" title="stock details"><span class="badge rounded-pill bg-info"><b>{{ stock.ordinal_number }}</b></span></a>
-            </td>
-            <td>{{ stock.expiry_date|date:'d/m/Y' }}</td>
-            <td>{{ stock.remaining_quantity_display }}</td>
+            <td class="text-center">{{ entry.remaining_quantity_display }}</td>
           </tr>
         {% endfor %}
       </table>

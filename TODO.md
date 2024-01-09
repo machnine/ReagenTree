@@ -18,3 +18,4 @@
   - validation
   - validation list view
 - quick shortcut (scan -> update Stock level)
+- a watch list for items whose stock level required monitoring

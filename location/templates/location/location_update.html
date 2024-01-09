@@ -3,38 +3,8 @@
   Location Update
 {% endblock title %}
 {% block panel_title %}
-<i class="bi bi-geo-alt-fill location-text-color"></i> {{ location.name }}
+  <i class="bi bi-geo-alt-fill location-text-color"></i> {{ location.name }}
 {% endblock panel_title %}
 {% block update_form %}
-  <div class="px-3 pt-3">
-    <div id="div_id_name" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Name</span>
-      <input type="text"
-             name="name"
-             maxlength="100"
-             class="textinput form-control"
-             autocomplete="off"
-             value="{{ location.name }}"
-             required
-             id="id_name">
-    </div>
-    <div id="div_id_room" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Room</span>
-      <input type="text"
-             name="room"
-             maxlength="100"
-             autocomplete="off"
-             value="{{ location.room }}"
-             class="textinput form-control"
-             id="id_room">
-    </div>
-    <div id="div_id_description" class="input-group mb-3">
-      <span class="input-group-text input-group-text-fw-sm">Description</span>
-      <textarea name="description"
-                cols="40"
-                rows="3"
-                class="textarea form-control"
-                id="id_description">{{ location.description }}</textarea>
-    </div>
-  </div>
+  {% include "location/location_form.html" %}
 {% endblock update_form %}

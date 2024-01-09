@@ -66,6 +66,14 @@ class Item(models.Model):
             return f"{quantity} {self.quantity_unit}"
         return f"{self.quantity} {self.quantity_unit}"
 
+    @property
+    def remaining_stock(self):
+        """Return the remaining stock"""
+        remaining_stock = 0
+        for stock in self.stocks.all():
+            remaining_stock += stock.remaining_stock
+        return remaining_stock
+
     class Meta:
         ordering = ["name"]
         unique_together = ["name", "product_id"]

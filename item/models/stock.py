@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from attachment.models import Attachment
-from item.models.validation import ValidationBase
+from item.models.validation import StockValidation
 
 
 class Stock(models.Model):
@@ -52,10 +52,17 @@ class Stock(models.Model):
     @property
     def is_empty(self):
         """Return True if the stock is empty"""
+        if self.remaining_stock == 0:
+            return True
+        return False
+
+    @property
+    def remaining_stock(self):
+        """Return the remaining stock"""
+        remaining_stock = 0
         for entry in self.entries.all():
-            if entry.remaining_quantity > 0:
-                return False
-        return True
+            remaining_stock += entry.remaining_quantity
+        return remaining_stock
 
     def __str__(self):
         return f"{self.item.name} - {self.lot_number}"
@@ -132,4 +139,3 @@ class StockAttachment(Attachment):
         related_name="stock_attachments",
         null=True,
     )
-

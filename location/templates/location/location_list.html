@@ -22,16 +22,21 @@
       </thead>
       <tbody>
         {% for location in locations %}
-          <tr>
-            <td class="align-middle">
+          <tr class="align-middle">
+            <td>
               <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
             </td>
-            <td class="d-none d-lg-table-cell align-middle">{{ location.room }}</td>
+            <td class="d-none d-lg-table-cell align-middle">{{ location.room_name|default_if_none:"" }}</td>
             <td class="d-none d-lg-table-cell small">{{ location.description|truncatechars:150 }}</td>
-            <td class="d-none d-lg-table-cell">
-              {{ location.stock_entries }}
+            <td class="d-none d-lg-table-cell small">
+              {% if location.stock_items|length %}
+                {% for stock in location.stock_items|slice:10 %}
+                  <a href="{% url 'stock_detail' stock.pk %}">{{ stock }}</a>
+                  {% if not forloop.last %},{% endif %}
+                {% endfor %}
+              {% endif %}
             </td>
-            <td class="align-middle">
+            <td>
               <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'location_delete' location.pk %}"
                  hx-trigger="click"

@@ -1,0 +1,17 @@
+<div class="px-3 pt-3">
+  <div class="input-group mb-3">
+    <span class="input-group-text input-group-text-fw-sm">{{ form.name.label_tag }}</span>
+    {{ form.name }}
+  </div>
+  <span class="text-danger">{{ form.name.errors }}</span>
+  <div class="input-group mb-3">
+    <span class="input-group-text input-group-text-fw-sm">{{ form.room.label_tag }}</span>
+    {{ form.room }}
+  </div>
+  <span class="text-danger">{{ form.room.errors }}</span>
+  <div class="input-group mb-3">
+    <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
+    {{ form.description }}
+  </div>
+  <span class="text-danger">{{ form.description.errors }}</span>
+</div>

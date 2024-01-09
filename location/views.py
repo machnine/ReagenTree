@@ -71,16 +71,20 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
     template_name = "location/location_detail.html"
     paginate_by = 10
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     # get items for pagination
-    #     #stocks = self.object.stocks.all()
-    #     # paginate items
-    #     paginator = Paginator(stocks, self.paginate_by)
-    #     page_number = self.request.GET.get("page")
-    #     page_obj = paginator.get_page(page_number)
-    #     context["page_obj"] = page_obj
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get items for pagination
+        stock_entries = (
+            self.object.stock_entries.all()
+            .filter(remaining_quantity__gt=0)
+            .order_by("stock")
+        )
+        # paginate items
+        paginator = Paginator(stock_entries, self.paginate_by)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        return context
 
 
 class LocationListView(LoginRequiredMixin, ListView):
@@ -90,12 +94,3 @@ class LocationListView(LoginRequiredMixin, ListView):
     context_object_name = "locations"
     template_name = "location/location_list.html"
     paginate_by = 5
-
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     for location in queryset:
-    #         # Annotate each delivery with aggregated stock data
-    #         location.stocks_aggregated = location.stocks.values(
-    #             "item__id", "item__name"
-    #         ).annotate(count=Count("item"))
-    #     return queryset
