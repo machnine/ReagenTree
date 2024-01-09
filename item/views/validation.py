@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, ListView, UpdateView, View
+from django.views.generic import CreateView, ListView, UpdateView, FormView
 
 from core.mixins import SuccessUrlMixin, FormValidMessageMixin
 from core.views.generic import ObjectDeleteHTMXView
@@ -31,10 +31,20 @@ class ValidationUpdateView(
     success_url = reverse_lazy("stock_list")
 
 
-class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, View):
+class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, FormView):
     """HTMX view for authorising a validation"""
 
-    get_template_name = "validation/validation_authorisation_form.html"
+    template_name = "validation/validation_authorisation_form.html"
+    success_url = "/"
+
+    def dispatch(self, request, *args, **kwargs):
+        """Check user permissions"""
+        if not request.user.is_supervisor:
+            messages.error(
+                request, "You do not have permission to authorise validations."
+            )
+            return redirect(self.get_success_url())
+        return super().dispatch(request, *args, **kwargs)
 
     def get_validation(self, pk):
         """Get validation object"""
@@ -45,7 +55,7 @@ class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, View)
         validation = self.get_validation(kwargs["pk"])
         action_url = reverse_lazy("validation_authorise", kwargs={"pk": validation.pk})
         context = {"validation": validation, "action_url": action_url}
-        return render(request, self.get_template_name, context=context)
+        return render(request, self.template_name, context=context)
 
     def post(self, request, **kwargs):
         """HTMX POST request for authorising a validation"""

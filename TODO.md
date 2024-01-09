@@ -1,6 +1,3 @@
-- User
-  - User groups
-  - Restrict which group of users can do which CRUD
 - Model search function
 - Full site search function
 - Stock Item 
