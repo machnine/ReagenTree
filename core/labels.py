@@ -59,7 +59,7 @@ def generate_pdf_for_qr_codes(
     page_width, page_height = A4
 
     # Initial X and Y positions based on margins
-    x = margin_left
+    inital_x_pos = margin_left
     initial_y_pos = page_height - margin_top
 
     # Iterate through the messages and create QR codes
@@ -74,7 +74,7 @@ def generate_pdf_for_qr_codes(
         row = (label_number - 1) // cols
         col = (label_number - 1) % cols
 
-        x_pos = margin_left + (col * (label_width + space_x))
+        x_pos = inital_x_pos + (col * (label_width + space_x))
         y_pos = initial_y_pos - (row * (label_height + space_y)) % (
             page_height - margin_top
         )
