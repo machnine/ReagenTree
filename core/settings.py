@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "category",
     "company",
     "item",
+    "label",
     "location",
     "user",
 ]

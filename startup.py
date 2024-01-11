@@ -1,4 +1,5 @@
-from core.pdf import *
+from rich import pretty
 
-filename = "media/test.pdf"
+pretty.install()
+
 
