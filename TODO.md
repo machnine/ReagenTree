@@ -14,5 +14,9 @@
   - inhouse reagent component list - recipe? actual quantity?
   - validation
   - validation list view
-- quick shortcut (scan -> update Stock level)
+- Label
+  - quick shortcut (scan -> update Stock level)
+  - off canvas label print confirmation 
+  - is success url return necessary if the above is implemented?
 - a watch list for items whose stock level required monitoring
+  

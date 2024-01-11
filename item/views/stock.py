@@ -3,7 +3,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
 from attachment.views import (
@@ -16,6 +16,7 @@ from core.views.generic import ObjectDeleteHTMXView
 from item.forms.stock import StockAttachmentCreateForm, StockAttachmentUpdateForm
 from item.models import Stock, StockAttachment, StockEntry
 from item.forms import StockForm, StockEntryFormSet, StockEntryUpdateForm
+from label.views import LabelPrintBaseView
 
 
 # Stock model CRUD views
@@ -177,3 +178,19 @@ class StockAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
     form_class = StockAttachmentUpdateForm
     template_name = "attachment/attachment_update_form.html"
     success_url_name = "stock_detail"
+
+
+# Stock label printing views
+class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
+    """Print view for Stock model"""
+
+    def get_message_context(self) -> dict:
+        base_url = self.request.build_absolute_uri("/").rstrip("/")
+        stock = Stock.objects.get(pk=self.kwargs["pk"])
+        entries = stock.entries.all()
+        messages = {
+            f"{stock.lot_number}-{entry.ordinal_number}": base_url
+            + reverse("usage_update", kwargs={"pk": entry.pk})
+            for entry in entries
+        }
+        return messages

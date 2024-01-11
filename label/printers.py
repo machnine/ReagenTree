@@ -9,7 +9,7 @@ from reportlab.pdfgen import canvas
 
 
 from label.models import LabelSheet
-from label.generators import QRCodeGenerator
+from label.qr_code import QRCodeGenerator
 
 
 @dataclass
@@ -29,7 +29,7 @@ class QRCodeLabelPDFPrinter:
         self.sheet = sheet
         self.page_size = getattr(pagesizes, self.sheet.page_size)
         self.messages = messages
-        self.filename = filename or "labels.pdf"
+        self.filename = filename
         self.skipped = kwargs.get("skipped", 0)
         self.qr_size = kwargs.get("qr_size", LabelImageSize(15, 15))
         self.font_size = kwargs.get("font_size", 8)
@@ -149,10 +149,13 @@ class QRCodeLabelPDFPrinter:
         # save the PDF
         c.save()
 
+        # reset the buffer
+        pdf_buffer.seek(0)
+
         # Save or return the PDF
         if self.filename:
             with open(self.filename, "wb") as f:
                 f.write(pdf_buffer.getvalue())
             return self.filename
         else:
-            return pdf_buffer.getvalue()
+            return pdf_buffer

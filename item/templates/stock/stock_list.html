@@ -36,6 +36,7 @@
           {% endif %}
           <div class="col flex-grow-1">
             <span class="float-end pe-2">
+              <a href="{% url 'stock_label_print' stock.pk %}" title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
               <a href="{% url 'stock_update' stock.pk %}"
                  title="Edit stock information"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'stock_delete' stock.pk %}"
