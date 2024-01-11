@@ -19,4 +19,6 @@
   - off canvas label print confirmation 
   - is success url return necessary if the above is implemented?
 - a watch list for items whose stock level required monitoring
-  
+- User login via QR code
+  - QR code printable from the user profile UI
+  - user can request changes to the code, but password remains the same.
