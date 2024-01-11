@@ -27,6 +27,12 @@
       <li>
         <a href="#" class="dropdown-item"><i class="bi bi-sliders setting-text-color"></i> Settings</a>
       </li>
+      {% if request.user.is_superuser %}
+      <li class="dropdown-divider"></li>
+      <li>
+        <a href="{% url 'admin:index' %}" class="dropdown-item"><i class="bi bi-tools text-warning"></i> Admin Panel</a>
+      </li>
+      {% endif %}
       <li class="dropdown-divider"></li>
       <li>
         <a href="#"
