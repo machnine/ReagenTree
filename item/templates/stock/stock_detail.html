@@ -151,7 +151,7 @@
               <th width="20%" class="text-muted">Validated</th>
               <th width="20%" class="text-muted">Authorised</th>
               <th class="text-muted">Validation comments</th>
-              <th width="10%" class="text-muted"></th>
+              <th></th>
             </tr>
           </thead>
           <tbody class="text-center">
@@ -208,6 +208,10 @@
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
+        <span class="float-right pe-2">
+          <a href="{% url 'stock_label_print' stock.pk %}"
+             title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
+        </span>
       </div>
       <div class="panel-content">
         <table class="table table-sm table-hover small">
@@ -218,7 +222,7 @@
               <th class="text-muted">Quantity</th>
               <th class="text-muted text-start">Location</th>
               <th class="text-muted text-start">Comments</th>
-              <th class="text-muted"></th>
+              <th>{% include "partials/tooltray_toggle_icon.html" %}</th>
             </tr>
           </thead>
           <tbody class="text-center align-middle">
@@ -243,16 +247,18 @@
                 </td>
                 <td class="text-start">{{ entry.comments|default_if_none:"" }}</td>
                 <td>
-                  <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
-                     title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get="{% url 'stock_entry_delete' entry.pk %}?next={{ request.path }}"
-                     hx-trigger="click"
-                     hx-target="#crudModal .modal-content"
-                     hx-swap="innerHTML"
-                     data-bs-toggle="modal"
-                     data-bs-target="#crudModal"
-                     title="Delete {{ entry.ordinal_number }}"
-                     href="javascript:"><i class="bi bi-trash"></i></a>
+                  <span class="tooltray-container d-none">
+                    <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
+                       title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
+                    <a hx-get="{% url 'stock_entry_delete' entry.pk %}?next={{ request.path }}"
+                       hx-trigger="click"
+                       hx-target="#crudModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#crudModal"
+                       title="Delete {{ entry.ordinal_number }}"
+                       href="javascript:"><i class="bi bi-trash"></i></a>
+                  </span>
                 </td>
               </tr>
             {% endfor %}

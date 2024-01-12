@@ -19,4 +19,3 @@
   - off canvas label print confirmation 
   - is success url return necessary if the above is implemented?
 - a watch list for items whose stock level required monitoring
-  

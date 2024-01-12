@@ -24,19 +24,22 @@
           </div>
           {% if forloop.first %}
             <div class="col-lg-7 d-none d-lg-block">
-              <div class="row text-center fw-bold text-muted small">
+              <div class="row text-center fw-bold text-muted small  align-items-center">
                 <div class="col-1">Box</div>
                 <div class="col-2">In use</div>
                 <div class="col-3">Quantity</div>
                 <div class="col-2">Location</div>
                 <div class="col-3">Comments</div>
-                <div class="col-auto d-none d-lg-block"></div>
+                <div class="col-auto d-none d-lg-block">
+                 {% include "partials/tooltray_toggle_icon.html" %}
+                </div>
               </div>
             </div>
           {% endif %}
           <div class="col flex-grow-1">
-            <span class="float-end pe-2">
-              <a href="{% url 'stock_label_print' stock.pk %}" title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
+            <span class="float-end pe-2 tooltray-container d-none">
+              <a href="{% url 'stock_label_print' stock.pk %}"
+                 title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
               <a href="{% url 'stock_update' stock.pk %}"
                  title="Edit stock information"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'stock_delete' stock.pk %}"
@@ -125,16 +128,18 @@
                   {% endif %}
                 </div>
                 <div class="col-auto d-none d-lg-block">
-                  <a href="{% url 'stock_entry_update' entry.pk %}"
-                     title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get="{% url 'stock_entry_delete' entry.pk %}"
-                     hx-trigger="click"
-                     hx-target="#crudModal .modal-content"
-                     hx-swap="innerHTML"
-                     data-bs-toggle="modal"
-                     data-bs-target="#crudModal"
-                     title="Delete {{ entry.ordinal_number }}"
-                     href="javascript:"><i class="bi bi-trash"></i></a>
+                  <span class="tooltray-container d-none">
+                    <a href="{% url 'stock_entry_update' entry.pk %}"
+                       title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
+                    <a hx-get="{% url 'stock_entry_delete' entry.pk %}"
+                       hx-trigger="click"
+                       hx-target="#crudModal .modal-content"
+                       hx-swap="innerHTML"
+                       data-bs-toggle="modal"
+                       data-bs-target="#crudModal"
+                       title="Delete {{ entry.ordinal_number }}"
+                       href="javascript:"><i class="bi bi-trash"></i></a>
+                  </span>
                 </div>
               </div>
             {% endfor %}

@@ -17,7 +17,7 @@
           <th width="15%" class="d-none d-lg-table-cell">Room</th>
           <th width="20%" class="d-none d-lg-table-cell">Description</th>
           <th class="d-none d-lg-table-cell">Stock Items</th>
-          <th width="5%"></th>
+          <th>{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -37,14 +37,16 @@
               {% endif %}
             </td>
             <td>
-              <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>
-              <a hx-get="{% url 'location_delete' location.pk %}"
-                 hx-trigger="click"
-                 hx-target="#crudModal .modal-content"
-                 hx-swap="innerHTML"
-                 data-bs-toggle="modal"
-                 data-bs-target="#crudModal"
-                 href="javascript:"><i class="bi bi-trash"></i></a>
+              <span class="tooltray-container d-none">
+                <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'location_delete' location.pk %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </span>
             </td>
           </tr>
         {% endfor %}

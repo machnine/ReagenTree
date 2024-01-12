@@ -16,7 +16,7 @@
           <th width="15%">Categories</th>
           <th width="25%" class="d-none d-lg-table-cell">Description</th>
           <th class="d-none d-lg-table-cell">Items</th>
-          <th width="5%" class="d-lg-table-cell"></th>
+          <th class="d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -35,14 +35,16 @@
               {% if category.items.count > 20 %}...{% endif %}
             </td>
             <td class="d-lg-table-cell align-middle">
-              <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
-              <a hx-get="{% url 'category_delete' category.pk %}"
-                 hx-trigger="click"
-                 hx-target="#crudModal .modal-content"
-                 hx-swap="innerHTML"
-                 data-bs-toggle="modal"
-                 data-bs-target="#crudModal"
-                 href="javascript:"><i class="bi bi-trash"></i></a>
+              <span class="tooltray-container d-none">
+                <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'category_delete' category.pk %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </span>
             </td>
           </tr>
         {% endfor %}

@@ -19,7 +19,7 @@
           <th class="text-center d-none d-lg-table-cell">Supplied</th>
           <th class="ps-3 d-lg-table-cell">Phone</th>
           <th>Website</th>
-          <th width="5%" class=" d-lg-table-cell"></th>
+          <th class="d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -42,14 +42,16 @@
                  target="blank">{{ company.website }}</a>
             </td>
             <td class="d-lg-table-cell">
-              <a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a>
-              <a hx-get="{% url 'company_delete' company.pk %}"
-                 hx-trigger="click"
-                 hx-target="#crudModal .modal-content"
-                 hx-swap="innerHTML"
-                 data-bs-toggle="modal"
-                 data-bs-target="#crudModal"
-                 href="javascript:"><i class="bi bi-trash"></i></a>
+              <span class="tooltray-container d-none">
+                <a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'company_delete' company.pk %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </span>
             </td>
           </tr>
         {% endfor %}

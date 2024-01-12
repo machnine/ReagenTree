@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // remove fade out hide elements
     applyHideAfterAnimation();
   });
+
+  // Add a listener to trigger tool tray icons
+  document
+    .getElementById("tooltray-trigger")
+    .addEventListener("click", toggleToolTrayIcons);
 });
 
 /**
@@ -103,4 +108,20 @@ function applyHideAfterAnimation() {
       });
     }
   });
+}
+
+/**
+ * This function toggles the visibility of the tool tray icons.
+ * **/
+function toggleToolTrayIcons() {
+  var toolTrayIcons = document.getElementsByClassName("tooltray-container");
+  var triggerIcon = document.getElementById("tooltray-trigger");
+
+  for (let icon of toolTrayIcons) {
+    icon.classList.toggle("d-none");
+  }
+
+  triggerIcon.innerHTML = triggerIcon.innerHTML.includes("bi-tools")
+    ? '<i class="bi bi-three-dots fw-bold text-primary"></i>' // Change to a 'close' icon
+    : '<i class="bi bi-tools fw-bold text-danger"></i>'; // Change back to the 'tools' icon
 }
