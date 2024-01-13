@@ -13,13 +13,13 @@
     <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th width="20%">Company</th>
+          <th>Company</th>
           <th width="25%" class="d-none d-lg-table-cell">Description</th>
           <th class="text-center d-none d-lg-table-cell">Manufactured</th>
           <th class="text-center d-none d-lg-table-cell">Supplied</th>
-          <th class="ps-3 d-lg-table-cell">Phone</th>
+          <th class="ps-3 d-none d-lg-table-cell">Phone</th>
           <th>Website</th>
-          <th class="d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
+          <th class="d-none d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -35,13 +35,13 @@
             <td class="text-center d-none d-lg-table-cell">
               <span><a href="{% url 'company_detail' company.pk %}#supplied">{{ company.supplied_items.count|default:"" }}</a></span>
             </td>
-            <td class="ps-3 d-lg-table-cell">{{ company.phone }}</td>
+            <td class="ps-3 d-none d-lg-table-cell">{{ company.phone }}</td>
             <td>
               <a href="{{ company.website }}"
                  title="Visit {{ company.website }}"
                  target="blank">{{ company.website }}</a>
             </td>
-            <td class="d-lg-table-cell">
+            <td class="d-none d-lg-table-cell">
               <span class="tooltray-container d-none">
                 <a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a>
                 <a hx-get="{% url 'company_delete' company.pk %}"

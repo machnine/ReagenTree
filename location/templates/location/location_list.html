@@ -13,11 +13,11 @@
     <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th width="20%">Name</th>
+          <th>Name</th>
           <th width="15%" class="d-none d-lg-table-cell">Room</th>
           <th width="20%" class="d-none d-lg-table-cell">Description</th>
           <th class="d-none d-lg-table-cell">Stock Items</th>
-          <th>{% include "partials/tooltray_toggle_icon.html" %}</th>
+          <th class="d-none d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +36,7 @@
                 {% endfor %}
               {% endif %}
             </td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               <span class="tooltray-container d-none">
                 <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>
                 <a hx-get="{% url 'location_delete' location.pk %}"

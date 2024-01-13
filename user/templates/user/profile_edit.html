@@ -30,6 +30,9 @@
       </div>
       <span class="text-danger">{{ form.initials.errors }}</span>
       <div class="text-end">
+        <a href="{% url 'user_profile' %}" class="btn btn-sm btn-secondary">
+          <i class="bi bi-x-lg"></i> Cancel
+        </a>
         <button type="submit" class="btn btn-sm btn-success">
           <i class="bi bi-floppy"></i> Save
         </button>

@@ -12,6 +12,7 @@ from attachment.views import (
     AttachmentUploadView,
 )
 from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from core.settings import DEBUG
 from core.views.generic import ObjectDeleteHTMXView
 from item.forms.stock import StockAttachmentCreateForm, StockAttachmentUpdateForm
 from item.models import Stock, StockAttachment, StockEntry
@@ -185,12 +186,20 @@ class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
     """Print view for Stock model"""
 
     def get_message_context(self) -> dict:
-        base_url = self.request.build_absolute_uri("/").rstrip("/")
+        """Return the context for the message"""
+        if DEBUG:
+            base_url = "http://172.18.1.127:8000"
+        else:
+            base_url = self.request.build_absolute_uri("/").rstrip("/")
         stock = Stock.objects.get(pk=self.kwargs["pk"])
         entries = stock.entries.all()
         messages = {
-            f"{stock.lot_number}-{entry.ordinal_number}": base_url
+            f"{stock.lot_number}-{stock.pk}-{entry.ordinal_number}": base_url
             + reverse("usage_update", kwargs={"pk": entry.pk})
             for entry in entries
         }
         return messages
+
+    def get_action_url(self, *args, **kwargs) -> str:
+        """Return the action url"""
+        return reverse("stock_label_print", kwargs={"pk": self.kwargs["pk"]})

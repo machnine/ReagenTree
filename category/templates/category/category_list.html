@@ -13,10 +13,10 @@
     <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th width="15%">Categories</th>
+          <th>Categories</th>
           <th width="25%" class="d-none d-lg-table-cell">Description</th>
           <th class="d-none d-lg-table-cell">Items</th>
-          <th class="d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
+          <th class="d-none d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -34,7 +34,7 @@
               {% endfor %}
               {% if category.items.count > 20 %}...{% endif %}
             </td>
-            <td class="d-lg-table-cell align-middle">
+            <td class="d-none d-lg-table-cell align-middle">
               <span class="tooltray-container d-none">
                 <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
                 <a hx-get="{% url 'category_delete' category.pk %}"

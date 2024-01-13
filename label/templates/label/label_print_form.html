@@ -1,5 +1,14 @@
-<form method="post">
+<form method="post" action="{{ action_url }}">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Submit</button>
+  <div class="px-3 pt-3">
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Label Sheet:</span>
+      {{ form.label_sheet }}
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Skipped Labels:</span>
+      {{ form.skipped_labels }}
+    </div>
+    <button type="submit" class="btn btn-success float-end">Submit</button>
+  </div>
 </form>

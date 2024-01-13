@@ -22,7 +22,10 @@ class LabelPrintBaseView(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {"form": form})
+        action_url = self.get_action_url(*args, **kwargs)
+        return render(
+            request, self.template_name, {"form": form, "action_url": action_url}
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -49,3 +52,7 @@ class LabelPrintBaseView(View):
     def get_message_context(self) -> dict:
         """Default implementation, override in subclass"""
         return {"test": "This is a test message override me."}
+
+    def get_action_url(self, *args, **kwargs) -> str:
+        """Default implementation, override in subclass"""
+        return "label_print"

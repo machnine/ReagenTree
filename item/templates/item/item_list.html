@@ -15,10 +15,10 @@
         <tr>
           <th>Name</th>
           <th>Product ID</th>
-          <th>Category</th>
-          <th>Manufacturer</th>
-          <th>Supplier</th>
-          <th>Description</th>
+          <th class="d-none d-lg-table-cell">Category</th>
+          <th class="d-none d-lg-table-cell">Manufacturer</th>
+          <th class="d-none d-lg-table-cell">Supplier</th>
+          <th class="d-none d-lg-table-cell">Description</th>
           <th class="d-none d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
         </tr>
       </thead>
@@ -29,21 +29,21 @@
               <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
             </td>
             <td class="small">{{ item.product_id }}</td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               <a href="{% url 'category_detail' item.category.pk %}"
                  title="item details">{{ item.category }}</a>
             </td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               {% if item.manufacturer %}
                 <a href="{% url 'company_detail' item.manufacturer.pk %}">{{ item.manufacturer }}</a>
               {% endif %}
             </td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               {% if item.supplier %}
                 <a href="{% url 'company_detail' item.supplier.pk %}">{{ item.supplier }}</a>
               {% endif %}
             </td>
-            <td class="small">{{ item.description|truncatechars:150 }}</td>
+            <td class="small d-none d-lg-table-cell">{{ item.description|truncatechars:150 }}</td>
             <td class="d-none d-lg-table-cell">
               <span class="tooltray-container d-none">
                 <a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a>

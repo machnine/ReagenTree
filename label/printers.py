@@ -32,7 +32,7 @@ class QRCodeLabelPDFPrinter:
         self.filename = filename
         self.skipped = kwargs.get("skipped", 0)
         self.qr_size = kwargs.get("qr_size", LabelImageSize(15, 15))
-        self.font_size = kwargs.get("font_size", 8)
+        self.font_size = kwargs.get("font_size", 6)
         self.qr_generator = QRCodeGenerator()
 
     def _get_x_offset(self, width: float) -> float:

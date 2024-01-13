@@ -360,3 +360,11 @@ a:hover {
   padding-top: 0px;
   padding-bottom: 0px;
 }
+
+/* Custom class for small devices (sm) and up */
+@media (min-width: 576px) {
+  /* Bootstrap 'sm' breakpoint */
+  .fs-sm-5 {
+    font-size: 1.25rem !important; /* Adjust this value to match Bootstrap's .fs-5 */
+  }
+}

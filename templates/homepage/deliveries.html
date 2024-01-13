@@ -18,11 +18,8 @@
           {% for stock in stocks|slice:5 %}
             <tr>
               <td>{{ stock.delivery_date|date:'d/m/Y' }}</td>
-              <td>{{ stock.item.name }}</td>
-              <td>x {{ stock.entries.count }}</td>
-              <td>
-                <a href="{% url 'stock_detail' stock.pk %}"><i class="bi bi-box-arrow-up-right"></i></a>
-              </td>
+              <td><a href="{% url 'stock_detail' stock.pk %}">{{ stock.item.name }}</a></td>
+              <td class="d-none d-lg-block">x {{ stock.entries.count }}</td>
             </tr>
           {% endfor %}
         </tbody>
