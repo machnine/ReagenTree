@@ -11,7 +11,9 @@
     <a href="{% url 'item_update' item.pk %}?next={{ request.path }}"
        title="Update sitem"
        class="btn btn-sm btn-success">
-      <i class="bi bi-pencil-square"></i> Edit</a>
+      <i class="bi bi-pencil-square"></i>
+      <span class="d-none d-sm-inline">Edit</span>
+    </a>
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
@@ -78,7 +80,9 @@
            data-bs-toggle="modal"
            data-bs-target="#crudModal"
            href="javascript:"
-           class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
+           class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i>
+           <span class="d-none d-sm-inline">Upload</span>
+          </a>
       </div>
       <div class="panel-content">
         {% if attachments|length %}

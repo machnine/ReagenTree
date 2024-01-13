@@ -11,7 +11,9 @@
     <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
        title="Update stock"
        class="btn btn-sm btn-success">
-      <i class="bi bi-pencil-square"></i> Edit</a>
+      <i class="bi bi-pencil-square"></i>
+      <span class="d-none d-sm-inline">Edit</span>
+    </a>
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
@@ -21,43 +23,41 @@
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
       </div>
-      <div class="panel-content">
-        <div class="container">
-          <!-- Item -->
-          <div class="row g-2 mb-2">
-            <div class="col-12 col-sm-3 text-muted">Item:</div>
-            <div class="col-12 col-sm-9">
-              <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
-            </div>
+      <div class="panel-content px-3">
+        <!-- Item -->
+        <div class="row g-2 mb-2">
+          <div class="col-6 col-sm-3 text-muted">Item:</div>
+          <div class="col-6 col-sm-9">
+            <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
           </div>
-          <!-- Product ID and Expiry Date -->
-          <div class="row g-2 mb-2">
-            <div class="col-6 col-sm-3 text-muted">Product ID:</div>
-            <div class="col-6 col-sm-3">{{ stock.item.product_id }}</div>
-            <div class="col-6 col-sm-3 text-muted">Expiry Date:</div>
-            <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
+        </div>
+        <!-- Product ID and Expiry Date -->
+        <div class="row g-2 mb-2">
+          <div class="col-6 col-sm-3 text-muted">Product ID:</div>
+          <div class="col-6 col-sm-3">{{ stock.item.product_id }}</div>
+          <div class="col-6 col-sm-3 text-muted">Expiry Date:</div>
+          <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
+        </div>
+        <!-- Lot Number and Delivery Date -->
+        <div class="row g-2 mb-2">
+          <div class="col-6 col-sm-3 text-muted">Lot Number:</div>
+          <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
+          <div class="col-6 col-sm-3 text-muted">Delivery Date:</div>
+          <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
+        </div>
+        <!-- Category and Received Condition -->
+        <div class="row g-2 mb-2">
+          <div class="col-6 col-sm-3 text-muted">Category:</div>
+          <div class="col-6 col-sm-3">
+            <a href="{% url 'category_detail' stock.item.category.pk %}">{{ stock.item.category.name }}</a>
           </div>
-          <!-- Lot Number and Delivery Date -->
-          <div class="row g-2 mb-2">
-            <div class="col-6 col-sm-3 text-muted">Lot Number:</div>
-            <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
-            <div class="col-6 col-sm-3 text-muted">Delivery Date:</div>
-            <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
-          </div>
-          <!-- Category and Received Condition -->
-          <div class="row g-2 mb-2">
-            <div class="col-6 col-sm-3 text-muted">Category:</div>
-            <div class="col-6 col-sm-3">
-              <a href="{% url 'category_detail' stock.item.category.pk %}">{{ stock.item.category.name }}</a>
-            </div>
-            <div class="col-6 col-sm-3 text-muted">Received Condition:</div>
-            <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
-          </div>
-          <!-- Notes -->
-          <div class="row g-2">
-            <div class="col-12 col-sm-3 text-muted">Notes:</div>
-            <div class="col-12 col-sm-9">{{ stock.comments }}</div>
-          </div>
+          <div class="col-6 col-sm-3 text-muted">Received Condition:</div>
+          <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
+        </div>
+        <!-- Notes -->
+        <div class="row g-2 mb-2">
+          <div class="col-12 col-sm-3 text-muted">Notes:</div>
+          <div class="col-12 col-sm-9">{{ stock.comments }}</div>
         </div>
       </div>
     </div>
@@ -66,206 +66,200 @@
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
         <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
-        <a hx-get="{% url 'stock_attachment_upload' stock.pk %}"
-           hx-trigger="click"
-           hx-target="#crudModal .modal-content"
-           hx-swap="innerHTML"
-           data-bs-toggle="modal"
-           data-bs-target="#crudModal"
-           href="javascript:"
-           class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i> Upload</a>
-      </div>
-      <div class="panel-content">
-        {% if attachments|length %}
-          <table class="table table-sm table-hover small">
-            <thead>
-              <tr>
-                <th class="text-muted d-none d-lg-block">Uploaded</th>
-                <th class="text-muted">Name</th>
-                <th class="text-muted">File Name</th>
-                <th class="text-muted d-none d-lg-block">Description</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for file in attachments %}
-                <tr>
-                  <td class="d-none d-lg-block">
-                    <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
-                  </td>
-                  <td>{{ file.name }}</td>
-                  <td>
-                    {% if file.filetype %}
-                      <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
-                    {% else %}
-                      <i class="bi bi-file-earmark text-warning"></i>
-                    {% endif %}
-                    <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
-                  </td>
-                  <td class="d-none d-lg-block">
-                    <span class="small">{{ file.description|default:"&nbsp;" }}</span>
-                  </td>
-                  <td>
-                    <a hx-get="{% url 'stock_attachment_update' file.id %}"
-                       hx-trigger="click"
-                       hx-target="#crudModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#crudModal"
-                       href="javascript:"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'stock_attachment_delete' file.id %}"
-                       hx-trigger="click"
-                       hx-target="#crudModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#crudModal"
-                       title="Delete {{ file.name }}"
-                       href="javascript:"><i class="bi bi-trash"></i></a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% endif %}
-      </div>
-    </div>
-    {# attachments end #}
-    {# stock validations #}
-    <div class="panel mb-4">
-      <div class="panel-heading d-flex justify-content-between">
-        <span class="fw-bold">
-          <i class="bi bi-clipboard-check-fill validation-text-color"></i>
-          Validations
-        </span>
-        <span class="text-success pe-2">
-          <a href="{% url 'stock_validation_create' stock.pk %}?next={{ request.path }}"
-             class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Add</a>
-        </span>
-      </div>
-      <div class="panel-content">
-        <table class="table table-sm small">
-          <thead class="text-center">
-            <tr>
-              <th width="15%" class="text-muted text-start">Status</th>
-              <th width="20%" class="text-muted">Validated</th>
-              <th width="20%" class="text-muted">Authorised</th>
-              <th class="text-muted d-none d-lg-block">Validation comments</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            {% for sv in stock.validations.all %}
-              <tr>
-                <td class="text-start">{% validation_status sv.validation.status True %}</td>
-                <td>
-                  {% if sv.validation.created %}<i class="bi bi-check-lg text-success"></i>{% endif %}
-                  {{ sv.validation.created|date:"d/m/Y" }}
-                  <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
-                </td>
-                <td>
-                  {% if sv.validation.authorised %}
-                    <i class="bi bi-check2-all text-success"></i>
-                    {{ sv.validation.authorised|date:"d/m/Y" }}
-                    <span title="{{ sv.validation.authorised_by.get_full_name }}">{{ sv.validation.authorised_by.initials }}</span>
-                  {% else %}
-                    {% if request.user.is_supervisor %}
-                      <a href="javascript:"
-                         hx-trigger="click"
-                         hx-get="{% url 'validation_authorise' sv.validation.pk %}?next={{ request.path }}"
-                         hx-target="#crudModal .modal-content"
-                         hx-swap="innerHTML"
-                         data-bs-toggle="modal"
-                         data-bs-target="#crudModal">
-                        <i class="bi bi-three-dots text-muted" title="To be authorised..."></i>
-                      </a>
-                    {% else %}
-                      <i class="bi bi-three-dots text-muted" title="To be authorised..."></i>
-                    {% endif %}
-                  {% endif %}
-                </td>
-                <td class="d-none d-lg-block">{{ sv.validation.comments|default_if_none:"" }}</td>
-                <td>
-                  <a href="{% url 'validation_update' sv.validation_id %}?next={{ request.path }}"
-                     title="Edit the validation"><i class="bi bi-pencil-square"></i></a>
-                  <a hx-get="{% url 'stock_validation_delete' sv.pk %}?next={{ request.path }}"
-                     hx-trigger="click"
-                     hx-target="#crudModal .modal-content"
-                     hx-swap="innerHTML"
-                     data-bs-toggle="modal"
-                     data-bs-target="#crudModal"
-                     title="Delete the validation"
-                     href="javascript:"><i class="bi bi-trash"></i></a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {# stock validations end #}
-    {# stock entries #}
-    <div class="panel mb-4">
-      <div class="panel-heading d-flex justify-content-between">
-        <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
-        <span class="float-right pe-2">
-          <a href="{% url 'stock_label_print' stock.pk %}"
-             title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
-        </span>
-      </div>
-      <div class="panel-content">
-        <table class="table table-sm table-hover small">
-          <thead class="text-center">
-            <tr>
-              <th class="text-muted">Box</th>
-              <th class="text-muted">In-Use</th>
-              <th class="text-muted">Quantity</th>
-              <th class="text-muted text-start">Location</th>
-              <th class="text-muted text-start">Comments</th>
-              <th>{% include "partials/tooltray_toggle_icon.html" %}</th>
-            </tr>
-          </thead>
-          <tbody class="text-center align-middle">
-            {% for entry in stock.entries.all %}
-              <tr>
-                <td>
-                  <span class="icon-with-text">
-                    <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
-                    <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
-                  </span>
-                </td>
-                <td>{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</td>
-                <td class="text-center max-width-100px">
-                  {% if entry.remaining_quantity == 0 %}
-                    <del>0 {{ entry.remaining_unit }}</del>
-                  {% else %}
-                    {% include "usage/usage_htmx_updated.html" %}
-                  {% endif %}
-                </td>
-                <td class="text-start">
-                  <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
-                </td>
-                <td class="text-start">{{ entry.comments|default_if_none:"" }}</td>
-                <td>
-                  <span class="tooltray-container d-none">
-                    <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
-                       title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'stock_entry_delete' entry.pk %}?next={{ request.path }}"
-                       hx-trigger="click"
-                       hx-target="#crudModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#crudModal"
-                       title="Delete {{ entry.ordinal_number }}"
-                       href="javascript:"><i class="bi bi-trash"></i></a>
-                  </span>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {# stock entries end #}
+      <a hx-get="{% url 'stock_attachment_upload' stock.pk %}"
+         hx-trigger="click"
+         hx-target="#crudModal .modal-content"
+         hx-swap="innerHTML"
+         data-bs-toggle="modal"
+         data-bs-target="#crudModal"
+         href="javascript:"
+         class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i>
+      <span class="d-none d-sm-inline">Upload</span>
+    </a>
   </div>
-  {% include "partials/object_last_updated.html" %}
+  <div class="panel-content px-3">
+    {% if attachments|length %}
+      <div class="container">
+        <!-- Headings for larger screens -->
+        <div class="row d-none d-lg-flex g-2 mb-2">
+          <div class="col-lg-2 text-muted fw-bold">Uploaded</div>
+          <div class="col-lg-2 text-muted fw-bold">Name</div>
+          <div class="col-lg-3 text-muted fw-bold">File Name</div>
+          <div class="col-lg-4 text-muted fw-bold">Description</div>
+          <div class="col-lg-1">
+            <a href="javascript:"
+               id="document-trigger"
+               class="btn btn-sm"
+               title="Toggle icons"
+               onclick="toggleToolTrayIcons('document-trigger', '.document-tool-tray')">
+              <i class="bi bi-tools fw-bold text-danger"></i>
+            </a>
+          </div>
+        </div>
+        {% for file in attachments %}
+          <!-- Each attachment entry as a row -->
+          <div class="row g-2 mb-2 align-items-center">
+            <!-- Uploaded -->
+            <div class="col-12 col-lg-2 d-none d-lg-block">
+              <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
+            </div>
+            <!-- Name -->
+            <div class="col-6 col-lg-2">{{ file.name }}</div>
+            <!-- File Name -->
+            <div class="col-6 col-lg-3">
+              {% if file.filetype %}
+                <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
+              {% else %}
+                <i class="bi bi-file-earmark text-warning"></i>
+              {% endif %}
+              <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+            </div>
+            <!-- Description -->
+            <div class="col-12 col-lg-4 d-none d-lg-block">
+              <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+            </div>
+            <!-- Actions -->
+            <div class="col-12 col-lg-1">
+              <!-- Action buttons -->
+              <span class="document-tool-tray d-none">
+                <a hx-get="{% url 'stock_attachment_update' file.id %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'stock_attachment_delete' file.id %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   title="Delete {{ file.name }}"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{# attachments end #}
+{# stock validations #}
+<div class="panel mb-4">
+  <div class="panel-heading d-flex justify-content-between">
+    <span class="fw-bold">
+      <i class="bi bi-clipboard-check-fill validation-text-color"></i>
+      Validations
+    </span>
+    <span class="text-success pe-2">
+    <a href="{% url 'stock_validation_create' stock.pk %}?next={{ request.path }}"
+       class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i>
+    <span class="d-none d-sm-inline">Add</span>
+  </a>
+</span>
+</div>
+<div class="panel-content px-3">
+  <div class="container">
+    <!-- Headings for larger screens -->
+    <div class="row d-none d-lg-flex g-2 mb-2 text-center">
+      <div class="col-lg-2 text-muted text-start">Status</div>
+      <div class="col-lg-2 text-muted">Validated</div>
+      <div class="col-lg-2 text-muted">Authorised</div>
+      <div class="col-lg-4 text-muted">Validation comments</div>
+      <div class="col-lg-2"></div>
+    </div>
+    {% for sv in stock.validations.all %}
+      <!-- Each validation entry as a row -->
+      <div class="row g-2 mb-2 align-items-center text-center">
+        <!-- Status -->
+        <div class="col-12 col-lg-2 text-start">{% validation_status sv.validation.status True %}</div>
+        <!-- Validated -->
+        <div class="col-4 col-lg-2">
+          {% if sv.validation.created %}<i class="bi bi-check-lg text-success"></i>{% endif %}
+          {{ sv.validation.created|date:"d/m/Y" }}
+          <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
+        </div>
+        <!-- Authorised -->
+        <div class="col-4 col-lg-2">
+          <!-- Authorised content -->
+        </div>
+        <!-- Validation Comments -->
+        <div class="col-12 col-lg-4 d-none d-lg-block">{{ sv.validation.comments|default_if_none:"" }}</div>
+        <!-- Actions -->
+        <div class="col-4 col-lg-2 text-lg-end">
+          <!-- Action buttons -->
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+</div>
+{# stock validations end #}
+{# stock entries #}
+<div class="panel mb-4">
+  <div class="panel-heading d-flex justify-content-between">
+    <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
+    <span class="float-right pe-2">
+      <a href="{% url 'stock_label_print' stock.pk %}"
+         title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
+    </span>
+  </div>
+  <div class="panel-content px-3">
+    <table class="table table-sm table-hover small">
+      <thead class="text-center">
+        <tr>
+          <th class="text-muted">Box</th>
+          <th class="text-muted">In-Use</th>
+          <th class="text-muted">Quantity</th>
+          <th class="text-muted text-start">Location</th>
+          <th class="text-muted text-start">Comments</th>
+          <th>{% include "partials/tooltray_toggle_icon.html" %}</th>
+        </tr>
+      </thead>
+      <tbody class="text-center align-middle">
+        {% for entry in stock.entries.all %}
+          <tr>
+            <td>
+              <span class="icon-with-text">
+                <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
+                <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
+              </span>
+            </td>
+            <td>{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</td>
+            <td class="text-center max-width-100px">
+              {% if entry.remaining_quantity == 0 %}
+                <del>0 {{ entry.remaining_unit }}</del>
+              {% else %}
+                {% include "usage/usage_htmx_updated.html" %}
+              {% endif %}
+            </td>
+            <td class="text-start">
+              <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
+            </td>
+            <td class="text-start">{{ entry.comments|default_if_none:"" }}</td>
+            <td>
+              <span class="tooltray-container d-none">
+                <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
+                   title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'stock_entry_delete' entry.pk %}?next={{ request.path }}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   title="Delete {{ entry.ordinal_number }}"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </span>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{# stock entries end #}
+</div>
+{% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

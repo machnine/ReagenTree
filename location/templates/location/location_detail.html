@@ -11,7 +11,9 @@
     <a href="{% url 'location_update' location.pk %}?next={{ request.path }}"
        title="Update location"
        class="btn btn-sm btn-success">
-      <i class="bi bi-pencil-square"></i> Edit</a>
+      <i class="bi bi-pencil-square"></i>
+      <span class="d-none d-sm-inline">Edit</span>
+    </a>
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}

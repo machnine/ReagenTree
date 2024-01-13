@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
     applyHideAfterAnimation();
   });
 
-  // Add a listener to trigger tool tray icons
-  document
-    .getElementById("tooltray-trigger")
-    .addEventListener("click", toggleToolTrayIcons);
+  // // Add a listener to trigger tool tray icons
+  // document
+  //   .getElementById("tooltray-trigger")
+  //   .addEventListener("click", toggleToolTrayIcons);
 });
 
 /**
@@ -112,16 +112,23 @@ function applyHideAfterAnimation() {
 
 /**
  * This function toggles the visibility of the tool tray icons.
- * **/
-function toggleToolTrayIcons() {
-  var toolTrayIcons = document.getElementsByClassName("tooltray-container");
-  var triggerIcon = document.getElementById("tooltray-trigger");
-
-  for (let icon of toolTrayIcons) {
-    icon.classList.toggle("d-none");
-  }
-
+ * @param {string} triggerId - The ID of the trigger element.
+ * @param {string} containerIdentifier - The identifier (ID or class) of the container.
+ **/
+function toggleToolTrayIcons(triggerId, containerIdentifier) {
+  var triggerIcon = document.getElementById(triggerId);
   triggerIcon.innerHTML = triggerIcon.innerHTML.includes("bi-tools")
     ? '<i class="bi bi-three-dots fw-bold text-primary"></i>' // Change to a 'close' icon
     : '<i class="bi bi-tools fw-bold text-danger"></i>'; // Change back to the 'tools' icon
+
+  if (containerIdentifier.startsWith("#")) {
+    var container = document.getElementById(containerIdentifier.slice(1));
+    container.classList.toggle("d-none");
+  } else if (containerIdentifier.startsWith(".")) {
+    var containers = document.getElementsByClassName(containerIdentifier.slice(1));
+    for (let container of containers) {
+      container.classList.toggle("d-none");
+    }
+  }
 }
+

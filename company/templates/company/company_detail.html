@@ -10,7 +10,9 @@
     <a href="{% url 'company_update' company.pk %}?next={{ request.path }}"
        title="Update company"
        class="btn btn-sm btn-success">
-      <i class="bi bi-pencil-square"></i> Edit</a>
+      <i class="bi bi-pencil-square"></i>
+      <span class="d-none d-sm-inline">Edit</span>
+    </a>
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
