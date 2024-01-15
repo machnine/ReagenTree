@@ -36,12 +36,12 @@
           {% endif %}
           <div class="col flex-grow-1">
             <span class="float-end pe-2 tooltray-container d-none">
-              <a href="#offcanvasPrintSetting"
+              <a href="#startOffcanvas"
                  data-bs-toggle="offcanvas"
-                 hx-target="#offcanvas-form"
+                 hx-target="#startOffcanvas"
                  hx-get="{% url 'stock_label_print' stock.pk %}"
                  hx-swap="innerHTML"
-                 title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>              
+                 title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
               <a href="{% url 'stock_update' stock.pk %}"
                  title="Edit stock information"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'stock_delete' stock.pk %}"
@@ -151,11 +151,5 @@
   {% endfor %}
 {% endblock panel_content %}
 {% block offcanvas %}
-  <div class="offcanvas offcanvas-start"
-       tabindex="-1"
-       id="offcanvasPrintSetting">
-    <div class="offcanvas-body">
-      <div id="offcanvas-form"></div>
-    </div>
-  </div>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="startOffcanvas">{# offcanvas-start target#}</div>
 {% endblock offcanvas %}

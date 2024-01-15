@@ -9,6 +9,7 @@ class InhouseReagent(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     product_id = models.CharField(max_length=100)
+    lot_number = models.CharField(max_length=50)
     components = models.ManyToManyField(
         "item.Stock", through="item.ReagentComponent", related_name="inhouse_reagents"
     )
@@ -29,7 +30,10 @@ class InhouseReagent(models.Model):
 
     def __str__(self):
         """Return string representation of the object"""
-        return self.name
+        return f"{self.name} ({self.product_id} - {self.lot_number})"
+
+    class Meta:
+        unique_together = ["product_id", "lot_number"]
 
 
 class ReagentComponent(models.Model):

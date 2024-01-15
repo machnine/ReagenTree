@@ -14,14 +14,11 @@
   - inhouse reagent component list - recipe? actual quantity?
   - validation
   - validation list view
-- Label
-  - quick shortcut (scan -> update Stock level)
-  - off canvas label print confirmation (partially done - make the offcanvas element more generic/auto close offcanvas when submit is pressed)
-  - off canvas say how many labels are being printed?
-  - off canvas header etc.
+- quick shortcut (scan -> update Stock level)
 - a watch list for items whose stock level required monitoring
 - Responsive views for mobile phones
   - change most of the table layout to grid layout
+- Make Stock/Inhouse Reagent available only after validations
 - User login via QR code
   - QR code printable from the user profile UI
   - user can request changes to the code, but password remains the same.

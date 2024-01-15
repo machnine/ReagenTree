@@ -184,7 +184,8 @@ class StockAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
 # Stock label printing views
 class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
     """Print view for Stock model"""
-
+    template_name = "stock/stock_label_print.html"
+    
     def get_message_context(self) -> dict:
         """Return the context for the message"""
         if DEBUG:

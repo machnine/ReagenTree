@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from attachment.models import Attachment
-from item.models.validation import ReagentValidation, StockValidation
+from item.models.validation import StockValidation
 
 
 class Stock(models.Model):
