@@ -5,7 +5,7 @@ from django.db import models
 from core.mixins import TimeStampUserMixin
 
 
-class InhouseReagent(TimeStampUserMixin):
+class InhouseReagent(TimeStampUserMixin, models.Model):
     """Inhouse reagent model"""
 
     name = models.CharField(max_length=255)

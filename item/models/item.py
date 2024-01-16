@@ -9,7 +9,7 @@ from core.mixins import TimeStampUserMixin
 USER = settings.AUTH_USER_MODEL
 
 
-class Item(TimeStampUserMixin):
+class Item(TimeStampUserMixin, models.Model):
     """Item model the basis for all items"""
 
     name = models.CharField(max_length=255)

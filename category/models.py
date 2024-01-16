@@ -4,7 +4,7 @@ from django.db import models
 from core.mixins import TimeStampUserMixin
 
 
-class Category(TimeStampUserMixin):
+class Category(TimeStampUserMixin, models.Model):
     """Category model."""
 
     name = models.CharField(max_length=50, unique=True)

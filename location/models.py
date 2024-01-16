@@ -4,7 +4,7 @@ from django.db import models
 from core.mixins import TimeStampUserMixin
 
 
-class Location(TimeStampUserMixin):
+class Location(TimeStampUserMixin, models.Model):
     """Item storage location model."""
 
     ROOM_CHOICES = [

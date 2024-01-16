@@ -12,7 +12,7 @@ from item.models.validation import StockValidation
 USER = settings.AUTH_USER_MODEL
 
 
-class Stock(TimeStampUserMixin):
+class Stock(TimeStampUserMixin, models.Model):
     """Stock model for the stocks"""
 
     CONDITION_CHOICES = [(0, "Unknown"), (1, "Good"), (2, "Unacceptable"), (3, "Requires Attention")]

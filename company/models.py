@@ -4,7 +4,7 @@ from django.db import models
 from core.mixins import TimeStampUserMixin
 
 
-class Company(TimeStampUserMixin):
+class Company(TimeStampUserMixin, models.Model):
     """Company model"""
 
     name = models.CharField(max_length=100, unique=True)
@@ -19,3 +19,7 @@ class Company(TimeStampUserMixin):
     class Meta:
         verbose_name_plural = "Companies"
         ordering = ["name"]
+
+
+class Test(models.Model):
+    name = models.CharField(max_length=100, unique=True)

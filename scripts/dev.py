@@ -17,6 +17,7 @@ inital_users = [
         "email": "admin@localhost",
         "first_name": "Admin",
         "last_name": "User",
+        "initials": "AU",
     },
     {
         "username": "user",
@@ -27,6 +28,7 @@ inital_users = [
         "email": "user@localhost",
         "first_name": "Normal",
         "last_name": "User",
+        "initials": "NU",
     },
     {
         "username": "guest",
@@ -37,26 +39,16 @@ inital_users = [
         "email": "guest@localhost",
         "first_name": "Guest",
         "last_name": "User",
+        "initials": "GU",
     },
 ]
 
 
-initial_categories = [
-    {"name": f"Category {n}", "description": f"This is Category {n}."}
-    for n in range(1, 21)
-]
-initial_companies = [
-    {"name": f"Company {n}", "description": f"This is Company {n}."}
-    for n in range(1, 21)
-]
-initial_locations = [
-    {"name": f"Location {n}", "description": f"This is Location {n}."}
-    for n in range(1, 21)
-]
+initial_categories = [{"name": f"Category {n}", "description": f"This is Category {n}."} for n in range(1, 21)]
+initial_companies = [{"name": f"Company {n}", "description": f"This is Company {n}."} for n in range(1, 21)]
+initial_locations = [{"name": f"Location {n}", "description": f"This is Location {n}."} for n in range(1, 21)]
 
-initial_items = [
-    {"name": f"Item {n}", "description": f"This is Item {n}."} for n in range(1, 21)
-]
+initial_items = [{"name": f"Item {n}", "description": f"This is Item {n}."} for n in range(1, 21)]
 
 
 def create_initial_categories():

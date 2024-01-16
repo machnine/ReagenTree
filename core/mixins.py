@@ -36,12 +36,12 @@ class FormValidMessageMixin:
 
 
 class TimeStampUserMixin(models.Model):
-    """TimeStamp User Mixin"""
-
-    class Meta:
-        abstract = True
+    """TimeStamp User Mixin provides the following fields for a model"""
 
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True, related_name="created_%(class)s")
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True, related_name="updated_%(class)s")
+
+    class Meta:
+        abstract = True
