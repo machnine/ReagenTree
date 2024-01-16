@@ -1,15 +1,8 @@
 """url patterns for user app"""
-from django.urls import path
 from django.contrib.auth.views import LogoutView
-from django.urls import reverse_lazy
+from django.urls import path, reverse_lazy
 
-from .views import (
-    UserRegistrationView,
-    UserLoginView,
-    UserProfileView,
-    UserProfileEdit,
-    UserLogoutConfirmView,
-)
+from .views import UserLoginView, UserLogoutConfirmView, UserProfileEdit, UserProfileView, UserRegistrationView
 
 urlpatterns = [
     path("register/", UserRegistrationView.as_view(), name="register"),

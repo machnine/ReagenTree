@@ -1,5 +1,6 @@
 """Attachment models"""
 from pathlib import Path
+
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -20,10 +21,7 @@ class UploadToPathAndRename:
         # Using the ContentType framework to get the related object's ID
         object_id = getattr(instance, "object_id", None)
         if object_id is None:
-            raise AttributeError(
-                f"The instance of '{type(instance).__name__}' \
-                                  does not have an associated object ID."
-            )
+            raise AttributeError(f"The instance of '{type(instance).__name__}' does not have an associated object ID.")
         # Construct a safe file name
         new_filename = Path(filename).name
         # Construct the new path and filename
@@ -41,11 +39,7 @@ class Attachment(models.Model):
     file = models.FileField("file", upload_to=UploadToPathAndRename("attachments"))
     uploaded_at = models.DateTimeField("uploaded at", auto_now_add=True)
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="uploaded_attachments",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="uploaded_attachments"
     )
     name = models.CharField("name", max_length=255, blank=True)
     description = models.TextField("description", blank=True)

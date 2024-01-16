@@ -10,8 +10,8 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 
-from .models import Category
 from .forms import CategoryForm
+from .models import Category
 
 
 # Category search view
@@ -20,26 +20,17 @@ def category_search(request):
     """HTMX GET request for returning a list of search categories"""
     query = request.GET.get("category_query", "")
     if query:
-        queries = [
-            Q(name__icontains=term) | Q(description__icontains=term)
-            for term in query.split()
-        ]
+        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
         query = queries.pop()
         for category in queries:
             query &= category
         categories = Category.objects.filter(query)[:5]
     else:
         categories = []
-    return render(
-        request,
-        "category/category_search_results.html",
-        {"found_categories": categories},
-    )
+    return render(request, "category/category_search_results.html", {"found_categories": categories})
 
 
-class CategoryCreateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
-):
+class CategoryCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):
     """Category create view."""
 
     model = Category
@@ -48,9 +39,7 @@ class CategoryCreateView(
     success_url = reverse_lazy("category_list")
 
 
-class CategoryUpdateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
-):
+class CategoryUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
     """Category update view."""
 
     model = Category

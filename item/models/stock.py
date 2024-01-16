@@ -1,50 +1,55 @@
 """Item models"""
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 
 from attachment.models import Attachment
+from item.models.unit import Unit
 from item.models.validation import StockValidation
 
 
 class Stock(models.Model):
     """Stock model for the stocks"""
 
-    CONDITION_CHOICES = [
-        (0, "Unknown"),
-        (1, "Good"),
-        (2, "Unacceptable"),
-        (3, "Requires Attention"),
-    ]
+    CONDITION_CHOICES = [(0, "Unknown"), (1, "Good"), (2, "Unacceptable"), (3, "Requires Attention")]
 
-    item = models.ForeignKey(
-        "item.Item", on_delete=models.CASCADE, related_name="stocks"
+    item = models.ForeignKey("item.Item", on_delete=models.CASCADE, related_name="stocks", null=True, blank=True)
+    inhouse_reagent = models.ForeignKey(
+        "item.InhouseReagent", on_delete=models.CASCADE, related_name="stocks", null=True, blank=True
     )
-    delivery_date = models.DateField()
+    delivery_date = models.DateField(blank=True, null=True)
     condition = models.PositiveSmallIntegerField(choices=CONDITION_CHOICES, default=0)
     lot_number = models.CharField(max_length=50)
     expiry_date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_stock",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_stock"
     )
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="updated_stock",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_stock"
     )
     comments = models.TextField(blank=True, null=True)
 
     @property
     def validations(self):
         """Return the validation for the stock"""
-        return StockValidation.objects.filter(stock=self).order_by(
-            "-validation__created"
-        )
+        return StockValidation.objects.filter(stock=self).order_by("-validation__created")
+
+    @property
+    def source(self):
+        """Return the stock source (item or inhouse reagent))"""
+        return self.item or self.inhouse_reagent
+
+    @property
+    def source_url(self):
+        """Return the stock source url"""
+        if self.item:
+            return reverse("item_detail", args=[self.item.pk])
+        elif self.inhouse_reagent:
+            return reverse("inhouse_detail", args=[self.inhouse_reagent.pk])
+        return "#"
 
     @property
     def entries(self):
@@ -67,44 +72,43 @@ class Stock(models.Model):
         return remaining_stock
 
     def __str__(self):
-        return f"{self.item.name} - {self.lot_number}"
+        return f"{self.source.name}({self.lot_number})"
+
+    def save(self, *args, **kwargs):
+        if self.item and self.inhouse_reagent:
+            raise ValidationError("Stock can only be associated with an item or a reagent")
+        if self.item and (self.delivery_date is None):
+            raise ValidationError("Item stock must have a delivery date")
+        if self.item is None and self.inhouse_reagent is None:
+            raise ValidationError("Stock must be associated with an item or a reagent")
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Stock"
         verbose_name_plural = "Stocks"
-        ordering = ["-delivery_date", "item", "lot_number"]
+        ordering = ["-delivery_date", "item", "inhouse_reagent", "lot_number"]
 
 
 class StockEntry(models.Model):
     """Stock Entry model"""
 
-    stock = models.ForeignKey(
-        "item.Stock", on_delete=models.CASCADE, related_name="entries"
-    )
+    stock = models.ForeignKey("item.Stock", on_delete=models.CASCADE, related_name="entries")
     remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
-    remaining_unit = models.ForeignKey(
-        "item.Unit", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    remaining_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True, blank=True)
     location = models.ForeignKey(
-        "location.Location",
-        on_delete=models.CASCADE,
-        related_name="stock_entries",
-        blank=True,
-        null=True,
+        "location.Location", on_delete=models.CASCADE, related_name="stock_entries", blank=True, null=True
     )
     ordinal_number = models.PositiveIntegerField(default=1)
     in_use_date = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="updated_stock_units",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_stock_units"
     )
 
     def __str__(self):
-        return f"{self.stock.item.name} - Entry {self.ordinal_number}"
+        return f"{self.stock.source.name}(#{self.ordinal_number})"
 
     class Meta:
         unique_together = ("stock", "ordinal_number")
@@ -126,8 +130,12 @@ class StockEntry(models.Model):
         if not self.pk:
             # This code only happens if the objects is not in the database yet.
             # Otherwise it would have had a pk
-            self.remaining_quantity = self.stock.item.quantity or 0
-            self.remaining_unit = self.stock.item.quantity_unit
+            if self.stock.item:
+                self.remaining_quantity = self.stock.item.quantity or 0
+                self.remaining_unit = self.stock.item.quantity_unit
+            else: # TODO: sort this out
+                self.remaining_quantity = 999
+                self.remaining_unit = Unit.objects.get(pk=1)
         super().save(*args, **kwargs)
 
 
@@ -136,8 +144,5 @@ class StockAttachment(Attachment):
     """Attachments associated with an stock"""
 
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        related_name="stock_attachments",
-        null=True,
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="stock_attachments", null=True
     )

@@ -1,5 +1,5 @@
 """ label component generators """
-from qrcode import constants, QRCode
+from qrcode import QRCode, constants
 
 
 class QRCodeImage:
@@ -38,9 +38,7 @@ class QRCodeGenerator:
             "H": constants.ERROR_CORRECT_H,
         }
         self.version = kwargs.get("version", None)
-        self.error_correction = self.CORRECTIONS.get(
-            kwargs.get("error_correction", "M"), constants.ERROR_CORRECT_M
-        )
+        self.error_correction = self.CORRECTIONS.get(kwargs.get("error_correction", "M"), constants.ERROR_CORRECT_M)
         self.box_size = kwargs.get("box_size", 10)
         self.border = kwargs.get("border", 4)
         self.fill_color = kwargs.get("fill_color", "black")

@@ -21,17 +21,11 @@ class Location(models.Model):
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_locations",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_locations"
     )
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="updated_locations",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_locations"
     )
 
     def __str__(self):
@@ -48,11 +42,7 @@ class Location(models.Model):
     def stock_items(self):
         """Return the stock items for the location."""
         stock_entries = self.stock_entries.all()
-        return {
-            stock_entry.stock
-            for stock_entry in stock_entries
-            if stock_entry.remaining_quantity > 0
-        }
+        return {stock_entry.stock for stock_entry in stock_entries if stock_entry.remaining_quantity > 0}
 
     class Meta:
         """Meta class for Location model."""

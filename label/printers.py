@@ -7,7 +7,6 @@ from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
-
 from label.models import LabelSheet
 from label.qr_code import QRCodeGenerator
 
@@ -23,9 +22,7 @@ class LabelImageSize:
 class QRCodeLabelPDFPrinter:
     """Generate a PDF file with labels for printing"""
 
-    def __init__(
-        self, sheet: LabelSheet, messages: dict, filename: str = None, **kwargs
-    ):
+    def __init__(self, sheet: LabelSheet, messages: dict, filename: str = None, **kwargs):
         self.sheet = sheet
         self.page_size = getattr(pagesizes, self.sheet.page_size)
         self.messages = messages
@@ -36,20 +33,18 @@ class QRCodeLabelPDFPrinter:
         self.qr_generator = QRCodeGenerator()
 
     def _get_x_offset(self, width: float) -> float:
-        """calculate the x offset for a the QR code image (middle of the label)"""        
-        return (self.sheet.label_width - width) / 2 # in mm
+        """calculate the x offset for a the QR code image (middle of the label)"""
+        return (self.sheet.label_width - width) / 2  # in mm
 
     def _get_y_offset(self) -> float:
         """calculate the y offset for a the QR code image (upper 1/3 of the label)"""
-        return (self.sheet.label_height - self.qr_size.height) / 3 * 2 # in mm
+        return (self.sheet.label_height - self.qr_size.height) / 3 * 2  # in mm
 
     def _get_x_position(self, col: int, width: float) -> float:
         """calculate the x position for a label"""
         return (
-            self.sheet.margin_left
-            + (self.sheet.label_width + self.sheet.space_x) * col
-            + self._get_x_offset(width)
-        ) * mm # (* mm converts to pionts)
+            self.sheet.margin_left + (self.sheet.label_width + self.sheet.space_x) * col + self._get_x_offset(width)
+        ) * mm  # (* mm converts to pionts)
 
     def _get_y_position(self, row: int):
         """calculate the y position for a label"""
@@ -82,18 +77,12 @@ class QRCodeLabelPDFPrinter:
         qr_buffer.seek(0)
         img_reader = ImageReader(qr_buffer)
 
-        c.drawImage(
-            img_reader,
-            img_x_pos,
-            img_y_pos,
-            width=img_width,
-            height=img_height,
-        )
+        c.drawImage(img_reader, img_x_pos, img_y_pos, width=img_width, height=img_height)
 
     def _draw_hint_text(self, c: canvas.Canvas, hint_text: str, col: int, row: int):
         """draw a hint text on a label"""
         # text_widtch converted to mm
-        text_width = c.stringWidth(hint_text, "Helvetica", self.font_size) / mm 
+        text_width = c.stringWidth(hint_text, "Helvetica", self.font_size) / mm
         txt_x_pos = self._get_x_position(col, text_width)
         txt_y_pos = self._get_y_position(row) - self.font_size
 
@@ -137,10 +126,7 @@ class QRCodeLabelPDFPrinter:
                     if current_label % self.sheet.labels_per_sheet == 0:
                         break
                 # Break the outer loop as well if moving to a new page or if all messages are printed
-                if (
-                    current_label % self.sheet.labels_per_sheet == 0
-                    or label_index >= len(self.messages)
-                ):
+                if current_label % self.sheet.labels_per_sheet == 0 or label_index >= len(self.messages):
                     break
             # Start a new page if not all messages are printed
             if label_index < len(self.messages):

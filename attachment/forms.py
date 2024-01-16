@@ -2,22 +2,10 @@
 from pathlib import Path
 
 from django import forms
+
 from .models import Attachment
 
-ALLOWED_FILE_TYPES = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".bmp",
-    ".pdf",
-    ".doc",
-    ".docx",
-    ".xls",
-    ".xlsx",
-    ".csv",
-    ".txt",
-    ".xml",
-]
+ALLOWED_FILE_TYPES = (".jpg", ".jpeg", ".png", ".bmp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".txt", ".xml")
 
 
 class AttachmentForm(forms.ModelForm):
@@ -50,6 +38,4 @@ class AttachmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["name"].widget.attrs.update({"class": "form-control"})
-        self.fields["description"].widget.attrs.update(
-            {"class": "form-control", "rows": 2}
-        )
+        self.fields["description"].widget.attrs.update({"class": "form-control", "rows": 2})

@@ -54,7 +54,7 @@
         </thead>
         {% for entry in page_obj %}
           <tr>
-            <td>{{ entry.stock.item.name }}</td>
+            <td>{{ entry.stock.source.name }}</td>
             <td>{{ entry.stock.lot_number }}</td>
             <td>{{ entry.stock.expiry_date|date:'d/m/Y' }}</td>
             <td class="text-center">

@@ -10,22 +10,14 @@ class InhouseReagent(models.Model):
     description = models.TextField(blank=True, null=True)
     product_id = models.CharField(max_length=100)
     lot_number = models.CharField(max_length=50)
-    components = models.ManyToManyField(
-        "item.Stock", through="item.ReagentComponent", related_name="inhouse_reagents"
-    )
+    components = models.ManyToManyField("item.Stock", through="item.ReagentComponent", related_name="inhouse_reagents")
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_inhouse_reagents",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_inhouse_reagents"
     )
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="updated_inhouse_reagents",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_inhouse_reagents"
     )
 
     def __str__(self):

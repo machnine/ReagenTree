@@ -1,5 +1,6 @@
 """ track uage of stocks """
 from decimal import Decimal
+
 from django.conf import settings
 from django.db import models, transaction
 from django.utils import timezone
@@ -10,15 +11,11 @@ from item.models.unit import Unit
 class Usage(models.Model):
     """Usage model to track usage of stock entries"""
 
-    stock_entry = models.ForeignKey(
-        "item.StockEntry", on_delete=models.CASCADE, related_name="usages"
-    )
+    stock_entry = models.ForeignKey("item.StockEntry", on_delete=models.CASCADE, related_name="usages")
     used_quantity = models.DecimalField(max_digits=10, decimal_places=1)
     used_date = models.DateTimeField(auto_now_add=True)
     used_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
-    used_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
-    )
+    used_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
 
     # Method to update Stock entry after usage
     def save(self, *args, **kwargs):
@@ -31,9 +28,7 @@ class Usage(models.Model):
         # Update remaining quantity
         if self.stock_entry.remaining_unit != self.used_unit:
             used_quantity = self.convert_quantity(
-                self.used_quantity,
-                self.used_unit.symbol,
-                self.stock_entry.remaining_unit.symbol,
+                self.used_quantity, self.used_unit.symbol, self.stock_entry.remaining_unit.symbol
             )
         else:
             used_quantity = self.used_quantity
@@ -56,18 +51,8 @@ class Usage(models.Model):
     def convert_quantity(cls, quantity, from_unit, to_unit):
         """Convert quantity from one unit to another"""
         # Conversion rates with 'ml' and 'mg' as base units
-        volumes = {
-            "μl": Decimal("0.001"),
-            "ml": Decimal("1"),
-            "dl": Decimal("10"),
-            "L": Decimal("1000"),
-        }
-        masses = {
-            "μg": Decimal("0.001"),
-            "mg": Decimal("1"),
-            "g": Decimal("1000"),
-            "kg": Decimal("1000000"),
-        }
+        volumes = {"μl": Decimal("0.001"), "ml": Decimal("1"), "dl": Decimal("10"), "L": Decimal("1000")}
+        masses = {"μg": Decimal("0.001"), "mg": Decimal("1"), "g": Decimal("1000"), "kg": Decimal("1000000")}
 
         if from_unit in volumes and to_unit in volumes:
             return quantity * volumes[from_unit] / volumes[to_unit]

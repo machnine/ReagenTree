@@ -4,15 +4,13 @@ URL configuration for the whole project.
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import include, path
 
 from category import urls as category_urls
 from company import urls as company_urls
-from item.urls import item_urls, stock_urls, usage_urls, inhouse_urls, validation_urls
+from item.urls import inhouse_urls, item_urls, stock_urls, usage_urls, validation_urls
 from location import urls as location_urls
 from user import urls as user_urls
-
 
 from .views import index
 

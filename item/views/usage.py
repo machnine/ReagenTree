@@ -1,7 +1,7 @@
 """ Usage views """
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View
 from django.shortcuts import get_object_or_404, render
+from django.views.generic import View
 
 from item.forms import UsageForm
 from item.models import StockEntry

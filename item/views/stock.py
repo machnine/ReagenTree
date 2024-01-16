@@ -4,19 +4,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from attachment.views import (
-    AttachmentDeleteView,
-    AttachmentUpdateView,
-    AttachmentUploadView,
-)
-from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from attachment.views import AttachmentDeleteView, AttachmentUpdateView, AttachmentUploadView
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.settings import DEBUG
 from core.views.generic import ObjectDeleteHTMXView
+from item.forms import StockEntryFormSet, StockEntryUpdateForm, StockForm
 from item.forms.stock import StockAttachmentCreateForm, StockAttachmentUpdateForm
 from item.models import Stock, StockAttachment, StockEntry
-from item.forms import StockForm, StockEntryFormSet, StockEntryUpdateForm
 from label.views import LabelPrintBaseView
 
 
@@ -31,17 +27,13 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["entries"] = (
-            StockEntryFormSet(self.request.POST)
-            if self.request.POST
-            else StockEntryFormSet()
-        )
+        context["entries"] = StockEntryFormSet(self.request.POST) if self.request.POST else StockEntryFormSet()
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         entries = context["entries"]
-
+        print(form.cleaned_data)
         with transaction.atomic():
             form.instance.created_by = self.request.user
             form.instance.last_updated_by = self.request.user
@@ -55,19 +47,14 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                 for n in range(quantity):
                     # Create the StockEntry instances
                     entry = StockEntry(
-                        location=location,
-                        stock=self.object,
-                        last_updated_by=self.request.user,
-                        ordinal_number=n + 1,
+                        location=location, stock=self.object, last_updated_by=self.request.user, ordinal_number=n + 1
                     )
                     entry.save()
                 return HttpResponseRedirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class StockUpdateView(
-    LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView
-):
+class StockUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
     """Update view for Stock model"""
 
     model = Stock
@@ -79,7 +66,7 @@ class StockUpdateView(
         context = super().get_context_data(**kwargs)
         stock = self.object  # The stock being updated
         if stock.item:
-            context["item_name"] = stock.item.name
+            context["item_name"] = stock.source.name
         return context
 
     def form_invalid(self, form):
@@ -114,16 +101,12 @@ class StockDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["attachments"] = StockAttachment.objects.filter(
-            object_id=self.object.id
-        )
+        context["attachments"] = StockAttachment.objects.filter(object_id=self.object.id)
         return context
 
 
 # StockEntry CRUD Views
-class StockEntryUpdateView(
-    LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView
-):
+class StockEntryUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
     """Update view for the StockEntry model"""
 
     model = StockEntry
@@ -184,8 +167,9 @@ class StockAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
 # Stock label printing views
 class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
     """Print view for Stock model"""
-    template_name = "stock/stock_label_print.html"
-    
+
+    template_name = "stock/partials/label_print_settings.html"
+
     def get_message_context(self) -> dict:
         """Return the context for the message"""
         if DEBUG:

@@ -1,16 +1,17 @@
 """In house reagent views """
-from typing import Any
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from core.views.generic import ObjectDeleteHTMXView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from item.models import InhouseReagent, ReagentComponent
+from core.views.generic import ObjectDeleteHTMXView
 from item.forms import InhouseReagentForm, ReagentComponentForm
+from item.models import InhouseReagent, ReagentComponent
 
 
 # mixins
@@ -39,9 +40,7 @@ class InhouseReagentFormProccessorMixin:
         """form valid method"""
         # Validate that at least one ReagentComponent is present
         if not formset.forms or all(
-            form.cleaned_data.get("DELETE", False)
-            for form in formset.forms
-            if form.cleaned_data
+            form.cleaned_data.get("DELETE", False) for form in formset.forms if form.cleaned_data
         ):
             messages.error(self.request, "At least one component is required.")
             return self.form_invalid(form, formset)
@@ -58,9 +57,7 @@ class InhouseReagentFormProccessorMixin:
         formset.save()
         # Messages
 
-        action_success = mark_safe(
-            f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully."
-        )
+        action_success = mark_safe(f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully.")
         messages.success(self.request, action_success)
         # Now call the superclass's form_valid method
         return super().form_valid(form)
@@ -71,9 +68,24 @@ class InhouseReagentFormProccessorMixin:
         return render(self.request, self.template_name, form_context)
 
 
-class InhouseReagentCreateView(
-    LoginRequiredMixin, InhouseReagentFormProccessorMixin, CreateView
-):
+# inhouse reagent search view
+@login_required
+def inhouse_reagent_search(request):
+    """HTMX view for returning a list of inhouse reagents"""
+    query = request.GET.get("inhouse_query", "")
+    if query:
+        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
+        query = queries.pop()
+        for reagent in queries:
+            query &= reagent
+        inhouse_reagents = InhouseReagent.objects.filter(query)[:5]
+    else:
+        inhouse_reagents = []
+    return render(request, "inhouse/partials/search_results.html", {"found_inhouse_reagents": inhouse_reagents})
+
+
+# CRUD views
+class InhouseReagentCreateView(LoginRequiredMixin, InhouseReagentFormProccessorMixin, CreateView):
     """Create view for inhouse reagents"""
 
     model = InhouseReagent
@@ -98,9 +110,7 @@ class InhouseReagentCreateView(
         return self.form_invalid(form, formset)
 
 
-class InhouseReagentUpdateView(
-    LoginRequiredMixin, InhouseReagentFormProccessorMixin, UpdateView
-):
+class InhouseReagentUpdateView(LoginRequiredMixin, InhouseReagentFormProccessorMixin, UpdateView):
     """Update view for inhouse reagents"""
 
     model = InhouseReagent

@@ -10,17 +10,11 @@ class Category(models.Model):
     description = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_categories",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_categories"
     )
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="updated_categories",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_categories"
     )
 
     def __str__(self):

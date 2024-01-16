@@ -1,4 +1,4 @@
-"""This module contains the forms for the item app."""
+""" Stock forms"""
 from django import forms
 from django.forms import inlineformset_factory
 from django.utils import timezone
@@ -7,27 +7,15 @@ from attachment.forms import AttachmentForm
 from item.models import Stock, StockEntry
 from item.models.stock import StockAttachment
 
-STOCK_FIELDS = [
-    "item",
-    "comments",
-    "lot_number",
-    "condition",
-    "delivery_date",
-    "expiry_date",
-]
+STOCK_FIELDS = ("item", "inhouse_reagent", "comments", "lot_number", "condition", "delivery_date", "expiry_date")
 
 
 class StockForm(forms.ModelForm):
     """Custom input form for the Stock model."""
 
     quantity = forms.IntegerField(min_value=1, initial=1, required=False)
-
-    delivery_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")
-    )
-    expiry_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")
-    )
+    delivery_date = forms.DateField(initial=timezone.now().date, widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
+    expiry_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
 
     class Meta:
         model = Stock
@@ -39,13 +27,7 @@ class StockForm(forms.ModelForm):
         self.fields["condition"].widget.attrs.update({"class": "form-select"})
         self.fields["comments"].widget.attrs.update({"rows": 1})
 
-        for field in [
-            "comments",
-            "lot_number",
-            "quantity",
-            "expiry_date",
-            "delivery_date",
-        ]:
+        for field in ["comments", "lot_number", "quantity", "expiry_date", "delivery_date"]:
             self.fields[field].widget.attrs.update({"class": "form-control"})
 
     def clean_expiry_date(self):
@@ -58,7 +40,7 @@ class StockForm(forms.ModelForm):
         return expiry_date
 
     def clean_delivery_date(self):
-        """ "Validate that the delivery date is not in the future."""
+        """ "Validate that the delivery date is not in the future."""        
         delivery_date = self.cleaned_data.get("delivery_date")
         if delivery_date and delivery_date > timezone.now().date():
             raise forms.ValidationError("Delivery date cannot be in the future.")
@@ -78,14 +60,8 @@ class StockEntryCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["location"].widget.attrs.update({"class": "form-control"})
 
-
-StockEntryFormSet = inlineformset_factory(
-    Stock,
-    StockEntry,
-    form=StockEntryCreateForm,
-    extra=1,
-    can_delete=False,
-)
+# Stock entry formset
+StockEntryFormSet = inlineformset_factory(Stock, StockEntry, form=StockEntryCreateForm, extra=1, can_delete=False)
 
 
 class StockEntryUpdateForm(forms.ModelForm):

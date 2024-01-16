@@ -1,0 +1,3 @@
+{% for inhouse in found_inhouse_reagents %}
+  <a href="javascript:" class="list-group-item list-group-item-action inhouse-search-result-inhouse" inhouse-pk={{ inhouse.pk }}>{{ inhouse.name }}</a>
+{% endfor %}

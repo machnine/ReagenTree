@@ -6,17 +6,13 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from attachment.views import (
-    AttachmentUploadView,
-    AttachmentDeleteView,
-    AttachmentUpdateView,
-)
-from core.mixins import SuccessUrlMixin, FormValidMessageMixin
-from core.views.generic import ObjectDeleteHTMXView
+from attachment.views import AttachmentDeleteView, AttachmentUpdateView, AttachmentUploadView
 from category.models import Category
 from company.models import Company
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
+from core.views.generic import ObjectDeleteHTMXView
+from item.forms import ItemAttachmentCreateForm, ItemAttachmentUpdateForm, ItemForm
 from item.models import Item, ItemAttachment, Stock
-from item.forms import ItemForm, ItemAttachmentCreateForm, ItemAttachmentUpdateForm
 
 
 # Item search view
@@ -38,13 +34,11 @@ def item_search(request):
         items = Item.objects.filter(query)[:5]
     else:
         items = []
-    return render(request, "item/item_search_results.html", {"found_items": items})
+    return render(request, "item/partials/search_results.html", {"found_items": items})
 
 
 # Item CRUD views
-class ItemCreateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
-):
+class ItemCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):
     """Create view for Item model"""
 
     model = Item
@@ -55,11 +49,7 @@ class ItemCreateView(
     def get_field_obj_name(self, field_value, obj_model):
         """Return the name of the field object."""
         if field_value:
-            obj = (
-                field_value
-                if hasattr(field_value, "id")
-                else obj_model.objects.get(pk=field_value)
-            )
+            obj = field_value if hasattr(field_value, "id") else obj_model.objects.get(pk=field_value)
             return obj.name
 
     def form_invalid(self, form):
@@ -67,21 +57,13 @@ class ItemCreateView(
         # retain the selected category, manufacturer, and supplier
         # in the form if the form is invalid for better UX
 
-        context["category_name"] = self.get_field_obj_name(
-            form.cleaned_data.get("category"), Category
-        )
-        context["manufacturer_name"] = self.get_field_obj_name(
-            form.cleaned_data.get("manufacturer"), Company
-        )
-        context["supplier_name"] = self.get_field_obj_name(
-            form.cleaned_data.get("supplier"), Company
-        )
+        context["category_name"] = self.get_field_obj_name(form.cleaned_data.get("category"), Category)
+        context["manufacturer_name"] = self.get_field_obj_name(form.cleaned_data.get("manufacturer"), Company)
+        context["supplier_name"] = self.get_field_obj_name(form.cleaned_data.get("supplier"), Company)
         return self.render_to_response(context)
 
 
-class ItemUpdateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
-):
+class ItemUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
     """Update view for Item model"""
 
     model = Item

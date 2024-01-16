@@ -2,12 +2,12 @@
 from django.urls import path
 
 from .views import (
-    category_search,
     CategoryCreateView,
     CategoryDeleteView,
     CategoryDetailView,
     CategoryListView,
     CategoryUpdateView,
+    category_search,
 )
 
 urlpatterns = [

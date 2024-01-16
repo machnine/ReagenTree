@@ -1,6 +1,7 @@
 """ form for inhouse reagents """
 
 from django import forms
+
 from item.models import InhouseReagent, ReagentComponent
 
 
@@ -29,7 +30,7 @@ class ReagentComponentForm(forms.ModelForm):
 
     class Meta:
         model = ReagentComponent
-        fields = ["stock", "quantity", "quantity_unit"]
+        fields = ("stock", "quantity", "quantity_unit")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

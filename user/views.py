@@ -9,7 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, DetailView, UpdateView, View
 
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
+from .forms import CustomAuthenticationForm, CustomUserCreationForm, UserProfileForm
 
 # get the user model (it could be a custom one in this case)
 User = get_user_model()
@@ -55,11 +55,9 @@ class UserLoginView(LoginView):
         username = form.cleaned_data.get("username")
         user = get_user_model().objects.get(username=username)
         display_name = user.first_name or user.username
-        messages.success(
-            self.request,
-            mark_safe(f"You have successfully logged in as <b>{display_name}</b>"),
-        )
+        messages.success(self.request, mark_safe(f"You have successfully logged in as <b>{display_name}</b>"))
         return super().form_valid(form)
+
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     """User Profile View"""
@@ -92,4 +90,3 @@ class UserLogoutConfirmView(View):
     def get(self, request, *args, **kwargs):
         """Logout confirmation"""
         return render(request, "user/logout.html")
-        

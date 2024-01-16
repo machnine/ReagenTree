@@ -6,11 +6,11 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 
-from .models import Company
 from .forms import CompanyForm
+from .models import Company
 
 
 # company search view
@@ -26,10 +26,7 @@ def company_search(request):
         query = request.GET.get("supplier_query", "")
         company_type = "supplier"
     if query:
-        queries = [
-            Q(name__icontains=term) | Q(description__icontains=term)
-            for term in query.split()
-        ]
+        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
         query = queries.pop()
         for company in queries:
             query &= company
@@ -37,15 +34,11 @@ def company_search(request):
     else:
         companies = []
     return render(
-        request,
-        "company/company_search_results.html",
-        {"found_companies": companies, "company_type": company_type},
+        request, "company/company_search_results.html", {"found_companies": companies, "company_type": company_type}
     )
 
 
-class CompanyCreateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
-):
+class CompanyCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):
     """View for creating a Company."""
 
     model = Company
@@ -54,9 +47,7 @@ class CompanyCreateView(
     success_url = reverse_lazy("company_list")
 
 
-class CompanyUpdateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
-):
+class CompanyUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
     """View for updating a Company."""
 
     model = Company

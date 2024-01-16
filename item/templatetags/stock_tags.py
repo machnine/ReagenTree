@@ -5,12 +5,7 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 # delivery condition texts
-CONDITION_TEXT = {
-    0: "Unknown",
-    1: "Good",
-    2: "Unacceptable",
-    3: "Requires Attention!",
-}
+CONDITION_TEXT = {0: "Unknown", 1: "Good", 2: "Unacceptable", 3: "Requires Attention!"}
 
 # delivery condition icons
 CONDITION_ICONS = {
@@ -27,7 +22,9 @@ def delivery_condition(condition: int, show_text: bool = False):
 
     condition_text = CONDITION_TEXT.get(condition, "") if show_text else ""
     tooltip = f'data-bs-toggle="tooltip" title="Condition: {CONDITION_TEXT.get(condition, "Unknown")}" '
-    icons_template = f'<i class="bi {CONDITION_ICONS.get(condition, CONDITION_ICONS[0])}" {tooltip}></i> {condition_text}'
+    icons_template = (
+        f'<i class="bi {CONDITION_ICONS.get(condition, CONDITION_ICONS[0])}" {tooltip}></i> {condition_text}'
+    )
     return mark_safe(icons_template)
 
 
@@ -46,8 +43,9 @@ def validation_status(status: str, show_text: bool = False):
     """Return a coloured Bootstrap icon for validation status"""
     status_text = status if show_text else ""
     status_tooltip = f"""data-bs-toggle="tooltip" title="Status: {status}" """
-
-    icons_template = f'<i class="bi {VALIDATION_ICONS.get(status, VALIDATION_ICONS["PENDING"])}" {status_tooltip}></i> {status_text}'
+    icons_template = (
+        f'<i class="bi {VALIDATION_ICONS.get(status, VALIDATION_ICONS["PENDING"])}" {status_tooltip}></i> {status_text}'
+    )
     return mark_safe(icons_template)
 
 

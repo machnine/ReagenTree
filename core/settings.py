@@ -16,7 +16,7 @@ SECRET_KEY = "django-insecure-k0n=k(rcb_&f97&qi-%evw0-04vz)+2g36*7#p-wz=3z8-t^s)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','172.18.1.127']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.18.1.127"]
 
 # Application definition
 
@@ -147,5 +147,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Configure internal IPs (Required for the toolbar to show up)
 INTERNAL_IPS = [
     # ... your machine's IP, '127.0.0.1' for local development ...
-    '127.0.0.1',
+    "127.0.0.1",
 ]

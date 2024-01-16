@@ -4,7 +4,7 @@
   Stock
 {% endblock title %}
 {% block panel_title %}
-  <i class="bi bi-box-seam-fill stock-text-color"></i> {{ stock.item.name }}
+  <i class="bi bi-box-seam-fill stock-text-color"></i> {{ stock.source.name }}
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="p-1">
@@ -26,9 +26,9 @@
       <div class="panel-content px-3">
         <!-- Item -->
         <div class="row g-2 mb-2">
-          <div class="col-6 col-sm-3 text-muted">Item:</div>
+          <div class="col-6 col-sm-3 text-muted">Source:</div>
           <div class="col-6 col-sm-9">
-            <a href="{% url 'item_detail' stock.item.pk %}">{{ stock.item.name }}</a>
+            <a href="{{ stock.source_url }}">{{ stock.source.name }}</a>
           </div>
         </div>
         <!-- Product ID and Expiry Date -->

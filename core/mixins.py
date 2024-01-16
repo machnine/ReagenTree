@@ -26,8 +26,6 @@ class FormValidMessageMixin:
             form.instance.created_by = self.request.user
         form.instance.last_updated_by = self.request.user
         response = super().form_valid(form)
-        action_success = mark_safe(
-            f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully."
-        )
+        action_success = mark_safe(f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully.")
         messages.success(self.request, action_success)
         return response

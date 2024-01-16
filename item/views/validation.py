@@ -7,22 +7,15 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, ListView, UpdateView, FormView
+from django.views.generic import CreateView, FormView, ListView, UpdateView
 
-from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 from item.forms import ValidationForm
-from item.models import (
-    ReagentValidation,
-    Stock,
-    StockValidation,
-    InhouseReagentValidation,
-)
+from item.models import InhouseReagentValidation, ReagentValidation, Stock, StockValidation
 
 
-class ValidationUpdateView(
-    LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView
-):
+class ValidationUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
     """Generic validation update view"""
 
     model = ReagentValidation
@@ -40,9 +33,7 @@ class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, FormV
     def dispatch(self, request, *args, **kwargs):
         """Check user permissions"""
         if not request.user.is_supervisor:
-            messages.error(
-                request, "You do not have permission to authorise validations."
-            )
+            messages.error(request, "You do not have permission to authorise validations.")
             return redirect(self.get_success_url())
         return super().dispatch(request, *args, **kwargs)
 

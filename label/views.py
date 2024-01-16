@@ -1,9 +1,9 @@
 """Views for the label app."""
 from io import BytesIO
 
-from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views import View
 
 from .forms import LabelPrintForm
 from .printers import QRCodeLabelPDFPrinter
@@ -23,9 +23,7 @@ class LabelPrintBaseView(View):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         action_url = self.get_action_url(*args, **kwargs)
-        return render(
-            request, self.template_name, {"form": form, "action_url": action_url}
-        )
+        return render(request, self.template_name, {"form": form, "action_url": action_url})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

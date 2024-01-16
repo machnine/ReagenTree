@@ -2,14 +2,13 @@
 from django.urls import path
 
 from .views import (
-    location_search,
-    LocationListView,
-    LocationDetailView,
     LocationCreateView,
-    LocationUpdateView,
     LocationDeleteView,
+    LocationDetailView,
+    LocationListView,
+    LocationUpdateView,
+    location_search,
 )
-
 
 urlpatterns = [
     path("", LocationListView.as_view(), name="location_list"),

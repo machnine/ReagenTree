@@ -1,0 +1,31 @@
+<div id="item-input" class="type-search-input">
+  <div class="input-group mb-3">
+    <span class="input-group-text input-group-text-fw-sm">Item:</span>
+    <input type="text"
+           name="item_query"
+           id="item_search_box"
+           class="form-control"
+           autocomplete="off"
+           value="{{ item_name|default_if_none:'' }}"
+           placeholder="Start typing to enter an item..."
+           hx-trigger="keyup changed delay:500ms"
+           hx-get="{% url 'item_search' %}"
+           hx-target="#itemSearchResults">
+    <span class="input-group-text">
+      <a href="{% url 'item_create' %}?next={{ request.path }}"
+         class="btn btn-sm btn-light"
+         data-bs-toggle="tooltip"
+         target="blank"
+         title="Add a new item">
+        <i class="bi bi-plus-circle text-success"></i>
+      </a>
+    </span>
+  </div>
+  <span class="text-danger">{{ form.item.errors }}</span>
+  <div id="itemSearchResults" class="list-group type-search-result"></div>
+  <input type="text"
+         name="item"
+         id="id_item"
+         value="{{ form.item.value|default_if_none:'' }}"
+         hidden>
+</div>

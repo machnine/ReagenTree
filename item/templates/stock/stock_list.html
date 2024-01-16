@@ -14,8 +14,8 @@
     <div class="panel">
       <div class="panel-heading">
         <div class="row">
-          <div class="col-lg-3">
-            <a href="{% url 'stock_detail' stock.pk %}"><span class="fs-6 fs-sm-5">{{ stock.item.name }}</span></a>
+          <div class="col-lg-4">
+            <a href="{% url 'stock_detail' stock.pk %}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
             {% if stock.comments %}
               <i class="bi bi-chat-left-dots ps-2 text-danger"
                  title="Comments: {{ stock.comments }}"
@@ -58,44 +58,36 @@
       </div>
       <div class="panel-content">
         <div class="row align-items-center">
-          <div class="col-lg-3 small px-5">
+          <div class="col-lg-4 small px-3">
             {# stock properties #}
-            <table class="table table-sm table-borderless table-compact">
-              <tr>
-                <td class="text-muted">Product Id:</td>
-                <td>
-                  <a href="{% url 'item_detail' stock.item.pk %}"
-                     title="{{ stock.item.name }} details">{{ stock.item.product_id }}</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-muted">Lot number:</td>
-                <td>{{ stock.lot_number }}</td>
-              </tr>
-              <tr>
-                <td class="text-muted">Expires on:</td>
-                <td>{{ stock.expiry_date|date:"d/m/Y" }}</td>
-              </tr>
-              <tr>
-                <td class="text-muted">Received:</td>
-                <td>
-                  <span class="pe-3">{{ stock.delivery_date|date:"d/m/Y" }}</span>
-                  <span>{% delivery_condition stock.condition %}</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-muted">Validation:</td>
-                <td>
-                  {% if stock.validations.all|length %}
-                    {% for sv in stock.validations.all %}
-                      {% validation_status sv.validation.status %}
-                    {% endfor %}
-                  {% else %}
-                    {% validation_status "PENDING" %}
-                  {% endif %}
-                </td>
-              </tr>
-            </table>
+            <div class="row g-0">
+              <div class="col-6 col-sm-3 text-muted">Product Id:</div>
+              <div class="col-6 col-sm-3">
+                <a href="{{ stock.source_url }}" title="{{ stock.source.name }} details">{{ stock.item.product_id }}</a>
+              </div>
+              <div class="col-6 col-sm-3 text-muted">Lot number:</div>
+              <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
+            </div>
+            <div class="row g-0">
+              <div class="col-6 col-sm-3 text-muted">Expires on:</div>
+              <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
+              <div class="col-6 col-sm-3 text-muted">Received:</div>
+              <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
+            </div>
+            <div class="row g-0">
+              <div class="col-6 col-sm-3 text-muted">Validation:</div>
+              <div class="col-6 col-sm-3">
+                {% if stock.validations.all|length %}
+                  {% for sv in stock.validations.all %}
+                    {% validation_status sv.validation.status %}
+                  {% endfor %}
+                {% else %}
+                  {% validation_status "PENDING" %}
+                {% endif %}
+              </div>
+              <div class="col-6 col-sm-3 text-muted">Condition:</div>
+              <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
+            </div>
           </div>
           <div class="col-lg-7">
             {# entries #}

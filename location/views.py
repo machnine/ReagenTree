@@ -2,16 +2,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import Q, Count
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from core.mixins import SuccessUrlMixin, FormValidMessageMixin
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 
-from .models import Location
 from .forms import LocationForm
+from .models import Location
 
 
 # Location search view
@@ -27,16 +27,10 @@ def location_search(request):
         locations = Location.objects.filter(query)[:5]
     else:
         locations = []
-    return render(
-        request,
-        "location/location_search_results.html",
-        {"found_locations": locations},
-    )
+    return render(request, "location/location_search_results.html", {"found_locations": locations})
 
 
-class LocationCreateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView
-):
+class LocationCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):
     """Location create view."""
 
     model = Location
@@ -45,9 +39,7 @@ class LocationCreateView(
     success_url = reverse_lazy("location_list")
 
 
-class LocationUpdateView(
-    LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView
-):
+class LocationUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
     """Location update view."""
 
     model = Location
@@ -74,11 +66,7 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # get items for pagination
-        stock_entries = (
-            self.object.stock_entries.all()
-            .filter(remaining_quantity__gt=0)
-            .order_by("stock")
-        )
+        stock_entries = self.object.stock_entries.all().filter(remaining_quantity__gt=0).order_by("stock")
         # paginate items
         paginator = Paginator(stock_entries, self.paginate_by)
         page_number = self.request.GET.get("page")

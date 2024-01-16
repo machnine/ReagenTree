@@ -3,7 +3,7 @@ from pathlib import Path
 
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import View
 
@@ -34,11 +34,7 @@ class AttachmentUploadView(AttachmentActionUrlNameMixin, View):
         form = self.form_class()
         url_name = self.get_form_action_url_name("upload")
         upload_url = reverse_lazy(url_name, kwargs={"pk": pk})
-        return render(
-            request,
-            self.template_name,
-            {"form": form, "upload_url": upload_url},
-        )
+        return render(request, self.template_name, {"form": form, "upload_url": upload_url})
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
@@ -46,9 +42,7 @@ class AttachmentUploadView(AttachmentActionUrlNameMixin, View):
             attachment = form.save(commit=False)
             attachment.content_object = get_object_or_404(self.owner_model, pk=pk)
             attachment.save()
-            messages.success(
-                request, f"Attachment {attachment.filename} uploaded successfully!"
-            )
+            messages.success(request, f"Attachment {attachment.filename} uploaded successfully!")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -70,11 +64,7 @@ class AttachmentUpdateView(AttachmentActionUrlNameMixin, View):
         return render(
             request,
             self.template_name,
-            {
-                "form": form,
-                "attachment": attachment,
-                "action_url_name": self.get_form_action_url_name("update"),
-            },
+            {"form": form, "attachment": attachment, "action_url_name": self.get_form_action_url_name("update")},
         )
 
     def post(self, request, pk):
@@ -82,16 +72,12 @@ class AttachmentUpdateView(AttachmentActionUrlNameMixin, View):
         form = self.form_class(request.POST, request.FILES, instance=attachment)
         if form.is_valid():
             attachment = form.save()
-            messages.success(
-                request, f"Attachment {attachment.filename} updated successfully!"
-            )
+            messages.success(request, f"Attachment {attachment.filename} updated successfully!")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"Upload {field.capitalize()}: {error}")
-        return redirect(
-            reverse_lazy(self.success_url_name, kwargs={"pk": attachment.object_id})
-        )
+        return redirect(reverse_lazy(self.success_url_name, kwargs={"pk": attachment.object_id}))
 
 
 class AttachmentDeleteView(AttachmentActionUrlNameMixin, View):
@@ -107,27 +93,20 @@ class AttachmentDeleteView(AttachmentActionUrlNameMixin, View):
         return render(
             request,
             self.template_name,
-            {
-                "attachment": attachment,
-                "action_url_name": self.get_form_action_url_name("delete"),
-            },
+            {"attachment": attachment, "action_url_name": self.get_form_action_url_name("delete")},
         )
 
     def post(self, request, *args, **kwargs):
         """HTMX POST request for deleting an Attachment."""
         attachment = get_object_or_404(self.model, pk=kwargs["pk"])
         # delete from the database
-        owner_object_id = (
-            attachment.object_id
-        )  # get the id of the related object before the attachment is deleted
+        owner_object_id = attachment.object_id  # get the id of the related object before the attachment is deleted
         attachment.delete()
         # Delete the file from the file system
         file_path = Path(settings.MEDIA_ROOT) / attachment.file.name
         if file_path.is_file():
             file_path.unlink()
-        messages.success(
-            request, f"Attachment {attachment.filename} deleted successfully!"
-        )
+        messages.success(request, f"Attachment {attachment.filename} deleted successfully!")
 
         return redirect(self.get_owner_redirect_url(owner_object_id))
 

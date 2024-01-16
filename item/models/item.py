@@ -14,43 +14,23 @@ class Item(models.Model):
     product_id = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
-        "category.Category",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="items",
+        "category.Category", on_delete=models.SET_NULL, null=True, blank=True, related_name="items"
     )
-    quantity = models.DecimalField(
-        max_digits=10, decimal_places=1, null=True, blank=True
-    )
+    quantity = models.DecimalField(max_digits=10, decimal_places=1, null=True, blank=True)
     quantity_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
     manufacturer = models.ForeignKey(
-        "company.Company",
-        related_name="manufactured_items",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        "company.Company", related_name="manufactured_items", on_delete=models.SET_NULL, null=True, blank=True
     )
     supplier = models.ForeignKey(
-        "company.Company",
-        related_name="supplied_items",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        "company.Company", related_name="supplied_items", on_delete=models.SET_NULL, null=True, blank=True
     )
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_items",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_items"
     )
     last_updated = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="updated_items",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_items"
     )
 
     def __str__(self):
@@ -83,8 +63,5 @@ class ItemAttachment(Attachment):
     """Attachments associated with an item"""
 
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        related_name="item_attachments",
-        null=True,
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="item_attachments", null=True
     )

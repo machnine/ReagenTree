@@ -14,23 +14,13 @@ class ReagentValidation(models.Model):
         ("NOT_REQUIRED", "Not Required"),
     )
 
-    status = models.CharField(
-        max_length=15, choices=VALIDATION_CHOICES, default="PENDING"
-    )
+    status = models.CharField(max_length=15, choices=VALIDATION_CHOICES, default="PENDING")
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        related_name="validator",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+        settings.AUTH_USER_MODEL, related_name="validator", on_delete=models.SET_NULL, blank=True, null=True
     )
     created = models.DateTimeField(auto_now_add=True)
     authorised_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name="authoriser",
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, related_name="authoriser"
     )
     authorised = models.DateTimeField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
@@ -50,13 +40,12 @@ class ValidationBase(models.Model):
     class Meta:
         abstract = True
 
+
 # specific validation models
 class StockValidation(ValidationBase):
     """model tracking stock validations"""
 
-    stock = models.ForeignKey(
-        "item.Stock", on_delete=models.CASCADE, related_name="validations"
-    )
+    stock = models.ForeignKey("item.Stock", on_delete=models.CASCADE, related_name="validations")
 
     class Meta:
         unique_together = ("stock", "validation")
@@ -66,9 +55,7 @@ class StockValidation(ValidationBase):
 class InhouseReagentValidation(ValidationBase):
     """model tracking inhouse validations"""
 
-    inhouse_reagent = models.ForeignKey(
-        "item.InhouseReagent", on_delete=models.CASCADE, related_name="validations"
-    )
+    inhouse_reagent = models.ForeignKey("item.InhouseReagent", on_delete=models.CASCADE, related_name="validations")
 
     class Meta:
         unique_together = ("inhouse_reagent", "validation")

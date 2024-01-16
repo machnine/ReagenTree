@@ -26,13 +26,7 @@ class ItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize the form."""
         super().__init__(*args, **kwargs)
-        for field in [
-            "name",
-            "product_id",
-            "quantity",
-            "description",
-            "cas_number",
-        ]:
+        for field in ["name", "product_id", "quantity", "description", "cas_number"]:
             self.fields[field].widget.attrs.update({"class": "form-control"})
         self.fields["quantity_unit"].widget.attrs.update({"class": "form-select"})
         self.fields["description"].widget.attrs.update({"rows": 3})
