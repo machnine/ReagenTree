@@ -30,7 +30,7 @@
           <div class="col-6 col-sm-3">{{ object.quantity_display }}</div>
           <div class="col-6 col-sm-3 text-muted">Created date:</div>
           <div class="col-6 col-sm-3">
-            <span title="{{ object.created }}">{{ object.created|date:"d/m/Y" }}</span>
+            <span title="{{ object.created }}">{{ object.created|date:"d/m/Y" }} {{ object.created_by.initials }}</span>
           </div>
         </div>
         <div class="row mb-1">
@@ -39,10 +39,8 @@
             <a href="{% url 'category_detail' object.category.pk %}"
                title="{{ object.category }}">{{ object.category }}</a>
           </div>
-          <div class="col-6 col-sm-3 text-muted">Created by:</div>
-          <div class="col-6 col-sm-3">
-            <span title="{{ object.created }}">{{ object.created_by.initials }}</span>
-          </div>
+          <div class="col-6 col-sm-3 text-muted">Expiry date:</div>
+          <div class="col-6 col-sm-3">{{ object.expiry_date|date:"d/m/Y" }}</div>
         </div>
         <div class="row mb-1">
           <div class="col-12 col-sm-3 text-muted">Description:</div>
@@ -52,7 +50,7 @@
     </div>
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
-        <span class="fw-bold"><i class="bi bi-card-list inhouse-text-color"></i> Reagent Components</span>
+        <span class="fw-bold"><i class="bi bi-menu-button-wide-fill inhouse-text-color"></i> Reagent Components</span>
       </div>
       <div class="panel-content px-3 small">
         <!-- Headings for larger screens -->
@@ -68,7 +66,8 @@
               <a href="{{ c.stock.source_url }}" title="Component Info">{{ c.stock.source.name }}</a>
             </div>
             <div class="col">
-              <a href="{% url 'stock_detail' c.stock.pk %}" title="Component Stock Info">{{ c.stock.lot_number }}</a>
+              <a href="{% url 'stock_detail' c.stock.pk %}"
+                 title="Component Stock Info">{{ c.stock.lot_number }}</a>
             </div>
             <div class="col">{{ c.quantity_display }}</div>
             <div class="col">{{ c.stock.source.description }}</div>

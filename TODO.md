@@ -9,11 +9,7 @@
 - List view sorting
 - List view search
 - InHouse reagent
-  - Update view!
-  - update the usage of stock item when making inhouse reagent
-  - inhouse reagent component list - recipe? actual quantity?
-  - validation
-  - validation list view
+  - Update view!!!!
 - quick shortcut (scan -> update Stock level)
 - a watch list for items whose stock level required monitoring
 - Responsive views for mobile phones
@@ -22,3 +18,4 @@
 - User login via QR code
   - QR code printable from the user profile UI
   - user can request changes to the code, but password remains the same.
+- highlight expiry date when expired

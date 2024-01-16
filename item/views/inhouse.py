@@ -29,10 +29,7 @@ class InhouseReagentFormProccessorMixin:
     def get_formset(self, data=None, instance=None, extra_forms=1):
         """Helper function to get formset"""
         ReagentComponentFormSet = inlineformset_factory(
-            InhouseReagent,
-            ReagentComponent,
-            form=ReagentComponentForm,
-            extra=extra_forms,
+            InhouseReagent, ReagentComponent, form=ReagentComponentForm, extra=extra_forms
         )
         return ReagentComponentFormSet(data=data, instance=instance)
 
@@ -52,12 +49,10 @@ class InhouseReagentFormProccessorMixin:
         form.instance.last_updated_by = self.request.user
         # Save the main form (InhouseReagent)
         self.object = form.save()
-        print(self.object)
         # Set the instance for the formset and save it
         formset.instance = self.object
         formset.save()
         # Messages
-
         action_success = mark_safe(f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully.")
         messages.success(self.request, action_success)
         # Now call the superclass's form_valid method
@@ -65,8 +60,8 @@ class InhouseReagentFormProccessorMixin:
 
     def form_invalid(self, form, formset):
         """form invalid method"""
-        form_context = {"form": form, "formset": formset}
-        return render(self.request, self.template_name, form_context)
+        context = self.get_context_data(form=form, formset=formset)
+        return render(self.request, self.template_name, context)
 
 
 # inhouse reagent search view
@@ -106,7 +101,6 @@ class InhouseReagentCreateView(LoginRequiredMixin, InhouseReagentFormProccessorM
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         formset = self.get_formset(data=request.POST, instance=InhouseReagent())
-        print(form.data, formset.data)
         if form.is_valid() and formset.is_valid():
             return self.form_valid(form, formset)
         return self.form_invalid(form, formset)
@@ -127,8 +121,8 @@ class InhouseReagentUpdateView(LoginRequiredMixin, InhouseReagentFormProccessorM
 
         # Formset for reagent components
         formset = self.get_formset(instance=self.object)
-        form_context = {"form": form, "formset": formset}
-        return render(request, self.template_name, form_context)
+        context = self.get_context_data(form=form, formset=formset)
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -137,6 +131,12 @@ class InhouseReagentUpdateView(LoginRequiredMixin, InhouseReagentFormProccessorM
         if form.is_valid() and formset.is_valid():
             return self.form_valid(form, formset)
         return self.form_invalid(form, formset)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object.category:
+            context["category_name"] = self.object.category.name
+        return context
 
 
 class InhouseReagentDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
@@ -153,6 +153,7 @@ class InhouseReagentListView(LoginRequiredMixin, ListView):
     model = InhouseReagent
     template_name = "inhouse/inhouse_list.html"
     context_object_name = "inhouse_reagents"
+    paginate_by = 16
 
 
 class InhouseReagentDetailView(LoginRequiredMixin, DetailView):

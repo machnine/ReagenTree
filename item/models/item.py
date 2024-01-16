@@ -7,8 +7,6 @@ from attachment.models import Attachment
 from core.mixins import TimeStampUserMixin
 from item.mixins import QuantityDisplayMixin
 
-USER = settings.AUTH_USER_MODEL
-
 
 class Item(TimeStampUserMixin, QuantityDisplayMixin, models.Model):
     """Item model the basis for all items"""
@@ -49,4 +47,6 @@ class Item(TimeStampUserMixin, QuantityDisplayMixin, models.Model):
 class ItemAttachment(Attachment):
     """Attachments associated with an item"""
 
-    uploaded_by = models.ForeignKey(USER, on_delete=models.SET_NULL, related_name="item_attachments", null=True)
+    uploaded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="item_attachments", null=True
+    )

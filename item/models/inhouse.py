@@ -15,7 +15,8 @@ class InhouseReagent(TimeStampUserMixin, QuantityDisplayMixin, models.Model):
         "category.Category", on_delete=models.SET_NULL, null=True, related_name="inhouse_reagents"
     )
     product_id = models.CharField(max_length=100)
-    lot_number = models.CharField(max_length=50)
+    lot_number = models.CharField(max_length=50)        
+    expiry_date = models.DateField()
     components = models.ManyToManyField("item.Stock", through="item.ReagentComponent", related_name="inhouse_reagents")
 
     def __str__(self):

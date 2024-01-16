@@ -23,8 +23,28 @@
       {{ form.lot_number }}
       <span class="text-danger small">{{ form.lot_number.errors }}</span>
     </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.expiry_date.label_tag }}</span>
+      {{ form.expiry_date }}
+    </div>
+    {# quantity #}
+    <div class="row">
+      <div class="col-9">
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
+          {{ form.quantity }}
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.quantity_unit.label_tag }}</span>
+          {{ form.quantity_unit }}
+        </div>
+      </div>
+    </div>
     {# category type search input #}
     <div id="category-input" class="type-search-input">{% include "category/partials/category_search_input.html" %}</div>
+    <span class="text-danger small">{{ form.category.errors }}</span>
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
       {{ form.description }}

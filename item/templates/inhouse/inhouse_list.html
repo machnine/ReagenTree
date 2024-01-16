@@ -11,29 +11,36 @@
 {% block panel_content %}
   <!-- Headings for larger screens -->
   <div class="row d-none d-lg-flex g-2 mb-2 fw-bold">
-    <div class="col-md-3">Item</div>
-    <div class="col-md-2">Product ID</div>
-    <div class="col-md-4">Components</div>
-    <div class="col-auto d-none d-lg-block">{% include "partials/tooltray_toggle_icon.html" %}</div>
+    <div class="col col-sm-2">Reagent Name</div>
+    <div class="col col-sm-1">Product ID</div>
+    <div class="col col-sm-1">Lot Number</div>
+    <div class="col col-sm-1">Expiry Date</div>
+    <div class="col col-sm-2">Category</div>
+    <div class="col col-sm-2">Components</div>
+    <div class="col col-sm-2">Description</div>
+    <div class="col col-sm-1 d-none d-sm-block">{% include "partials/tooltray_toggle_icon.html" %}</div>
   </div>
   {% for reagent in inhouse_reagents %}
     <!-- Each reagent entry as a row -->
     <div class="row g-2 mb-2 align-items-center">
-      <!-- Item -->
-      <div class="col-12 col-md-3 mb-2 mb-md-0">
+      <div class="col col-sm-2">
         <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
       </div>
-      <!-- Product ID -->
-      <div class="col-6 col-md-2 mb-2 mb-md-0 small">{{ reagent.product_id }}</div>
-      <!-- Components -->
-      <div class="col-6 col-md-4 mb-2 mb-md-0">
+      <div class="col col-sm-1 d-none d-sm-block">{{ reagent.product_id }}</div>
+      <div class="col col-sm-1">{{ reagent.lot_number }}</div>
+      <div class="col col-sm-1 d-none d-sm-block">{{ reagent.expiry_date|date:'d/m/Y' }}</div>
+      <div class="col col-sm-2 d-none d-sm-block">
+        <a href="{% url 'category_detail' reagent.category.pk %}">{{ reagent.category }}</a>
+      </div>
+      <div class="col col-sm-2 d-none d-sm-block">
         {% for comp in reagent.components.all %}
-          {{ comp.item.name }}
+          {{ comp.source.name }}
           {% if not forloop.last %},{% endif %}
         {% endfor %}
       </div>
+      <div class="col col-sm-2 d-none d-sm-block">{{ reagent.description }}</div>
       <!-- Actions -->
-      <div class="col-auto d-none d-lg-block">
+      <div class="col col-sm-1 d-none d-sm-block">
         <span class="tooltray-container d-none">
           <a href="{% url 'inhouse_update' reagent.pk %}"><i class="bi bi-pencil-square"></i></a>
           <a hx-get="{% url 'inhouse_delete' reagent.pk %}"
