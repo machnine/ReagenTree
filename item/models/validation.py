@@ -3,6 +3,8 @@
 from django.conf import settings
 from django.db import models
 
+USER = settings.AUTH_USER_MODEL
+
 
 class ReagentValidation(models.Model):
     """Reagent validation workflow tracking"""
@@ -15,13 +17,9 @@ class ReagentValidation(models.Model):
     )
 
     status = models.CharField(max_length=15, choices=VALIDATION_CHOICES, default="PENDING")
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="validator", on_delete=models.SET_NULL, blank=True, null=True
-    )
+    created_by = models.ForeignKey(USER, related_name="validator", on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    authorised_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, related_name="authoriser"
-    )
+    authorised_by = models.ForeignKey(USER, on_delete=models.SET_NULL, blank=True, null=True, related_name="authoriser")
     authorised = models.DateTimeField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
 

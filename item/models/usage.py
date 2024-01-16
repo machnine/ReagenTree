@@ -7,6 +7,8 @@ from django.utils import timezone
 
 from item.models.unit import Unit
 
+USER = settings.AUTH_USER_MODEL
+
 
 class Usage(models.Model):
     """Usage model to track usage of stock entries"""
@@ -15,7 +17,7 @@ class Usage(models.Model):
     used_quantity = models.DecimalField(max_digits=10, decimal_places=1)
     used_date = models.DateTimeField(auto_now_add=True)
     used_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
-    used_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    used_by = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True)
 
     # Method to update Stock entry after usage
     def save(self, *args, **kwargs):

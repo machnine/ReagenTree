@@ -5,11 +5,14 @@ from django.db import models
 from django.urls import reverse
 
 from attachment.models import Attachment
+from core.mixins import TimeStampUserMixin
 from item.models.unit import Unit
 from item.models.validation import StockValidation
 
+USER = settings.AUTH_USER_MODEL
 
-class Stock(models.Model):
+
+class Stock(TimeStampUserMixin):
     """Stock model for the stocks"""
 
     CONDITION_CHOICES = [(0, "Unknown"), (1, "Good"), (2, "Unacceptable"), (3, "Requires Attention")]
@@ -22,14 +25,6 @@ class Stock(models.Model):
     condition = models.PositiveSmallIntegerField(choices=CONDITION_CHOICES, default=0)
     lot_number = models.CharField(max_length=50)
     expiry_date = models.DateField()
-    created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_stock"
-    )
-    last_updated = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_stock"
-    )
     comments = models.TextField(blank=True, null=True)
 
     @property
@@ -39,7 +34,7 @@ class Stock(models.Model):
 
     @property
     def source(self):
-        """Return the stock source (item or inhouse reagent))"""
+        """Return the stock source (item or inhouse reagent)"""
         return self.item or self.inhouse_reagent
 
     @property
@@ -103,9 +98,7 @@ class StockEntry(models.Model):
     in_use_date = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_stock_units"
-    )
+    last_updated_by = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True, related_name="updated_stock_units")
 
     def __str__(self):
         return f"{self.stock.source.name}(#{self.ordinal_number})"
@@ -133,7 +126,7 @@ class StockEntry(models.Model):
             if self.stock.item:
                 self.remaining_quantity = self.stock.item.quantity or 0
                 self.remaining_unit = self.stock.item.quantity_unit
-            else: # TODO: sort this out
+            else:  # TODO: sort this out
                 self.remaining_quantity = 999
                 self.remaining_unit = Unit.objects.get(pk=1)
         super().save(*args, **kwargs)
@@ -143,6 +136,4 @@ class StockEntry(models.Model):
 class StockAttachment(Attachment):
     """Attachments associated with an stock"""
 
-    uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="stock_attachments", null=True
-    )
+    uploaded_by = models.ForeignKey(USER, on_delete=models.SET_NULL, related_name="stock_attachments", null=True)

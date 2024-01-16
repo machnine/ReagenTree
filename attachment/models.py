@@ -7,6 +7,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.deconstruct import deconstructible
 
+USER = settings.AUTH_USER_MODEL
+
 
 @deconstructible
 class UploadToPathAndRename:
@@ -39,7 +41,7 @@ class Attachment(models.Model):
     file = models.FileField("file", upload_to=UploadToPathAndRename("attachments"))
     uploaded_at = models.DateTimeField("uploaded at", auto_now_add=True)
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="uploaded_attachments"
+        USER, on_delete=models.SET_NULL, null=True, blank=True, related_name="uploaded_attachments"
     )
     name = models.CharField("name", max_length=255, blank=True)
     description = models.TextField("description", blank=True)

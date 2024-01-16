@@ -1,9 +1,10 @@
 """Item storage location model."""
-from django.conf import settings
 from django.db import models
 
+from core.mixins import TimeStampUserMixin
 
-class Location(models.Model):
+
+class Location(TimeStampUserMixin):
     """Item storage location model."""
 
     ROOM_CHOICES = [
@@ -19,14 +20,6 @@ class Location(models.Model):
     name = models.CharField(max_length=100, unique=True)
     room = models.PositiveSmallIntegerField(choices=ROOM_CHOICES, default=0)
     description = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="created_locations"
-    )
-    last_updated = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="updated_locations"
-    )
 
     def __str__(self):
         """Return string representation of model."""

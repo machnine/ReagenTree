@@ -57,43 +57,45 @@
         </div>
       </div>
       <div class="panel-content">
-        <div class="row align-items-center">
+        <div class="row mt-sm-3 align-items-center">
           <div class="col-lg-4 small px-3">
             {# stock properties #}
-            <div class="row g-0">
-              <div class="col-6 col-sm-3 text-muted">Product Id:</div>
-              <div class="col-6 col-sm-3">
-                <a href="{{ stock.source_url }}" title="{{ stock.source.name }} details">{{ stock.item.product_id }}</a>
+            <div class="panel p-sm-3 p-2">
+              <div class="row g-0">
+                <div class="col-6 col-sm-3 text-muted">Product Id:</div>
+                <div class="col-6 col-sm-3">
+                  <a href="{{ stock.source_url }}" title="{{ stock.source.name }} details">{{ stock.item.product_id }}</a>
+                </div>
+                <div class="col-6 col-sm-3 text-muted">Lot number:</div>
+                <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
               </div>
-              <div class="col-6 col-sm-3 text-muted">Lot number:</div>
-              <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
-            </div>
-            <div class="row g-0">
-              <div class="col-6 col-sm-3 text-muted">Expires on:</div>
-              <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
-              <div class="col-6 col-sm-3 text-muted">Received:</div>
-              <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
-            </div>
-            <div class="row g-0">
-              <div class="col-6 col-sm-3 text-muted">Validation:</div>
-              <div class="col-6 col-sm-3">
-                {% if stock.validations.all|length %}
-                  {% for sv in stock.validations.all %}
-                    {% validation_status sv.validation.status %}
-                  {% endfor %}
-                {% else %}
-                  {% validation_status "PENDING" %}
-                {% endif %}
+              <div class="row g-0">
+                <div class="col-6 col-sm-3 text-muted">Expires on:</div>
+                <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
+                <div class="col-6 col-sm-3 text-muted">Received:</div>
+                <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
               </div>
-              <div class="col-6 col-sm-3 text-muted">Condition:</div>
-              <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
+              <div class="row g-0">
+                <div class="col-6 col-sm-3 text-muted">Validation:</div>
+                <div class="col-6 col-sm-3">
+                  {% if stock.validations.all|length %}
+                    {% for sv in stock.validations.all %}
+                      {% validation_status sv.validation.status %}
+                    {% endfor %}
+                  {% else %}
+                    {% validation_status "PENDING" %}
+                  {% endif %}
+                </div>
+                <div class="col-6 col-sm-3 text-muted">Condition:</div>
+                <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
+              </div>
             </div>
           </div>
           <div class="col-lg-7">
             {# entries #}
             {% for entry in stock.entries.all %}
               <div class="row text-center align-items-center">
-                <div class="col-2 col-lg-1">
+                <div class="col-1 col-lg-1">
                   <a href="#{{ entry.pk }}"
                      title="{{ stock.lot_number }}-{{ stock.pk }}-{{ entry.ordinal_number }}">
                     <span class="icon-with-text">
@@ -103,7 +105,7 @@
                   </a>
                 </div>
                 <div class="col-3 col-lg-2 small text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
-                <div class="col-7 col-lg-3">
+                <div class="col-8 col-lg-3">
                   {% if entry.remaining_quantity == 0 %}
                     <del>0 {{ entry.remaining_unit }}</del>
                   {% else %}
