@@ -19,3 +19,4 @@
   - QR code printable from the user profile UI
   - user can request changes to the code, but password remains the same.
 - highlight expiry date when expired
+- Front page ordering panel
