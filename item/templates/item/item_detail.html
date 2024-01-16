@@ -22,154 +22,153 @@
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-info-circle-fill item-text-color"></i> Item Details</span>
       </div>
-      <div class="panel-content">
-        <table class="table table-sm table-borderless small">
-          <tbody>
-            <tr>
-              <td width="15%" class="text-muted">Product ID:</td>
-              <td width="35%">{{ item.product_id }}</td>
-              <td width="15%" class="text-muted">Category:</td>
-              <td width="35%">
-                <a href="{% url 'category_detail' item.category.pk %}"
-                   title="{{ item.category }}">{{ item.category }}</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-muted">Quantity:</td>
-              <td>{{ item.quantity_display }}</td>
-              <td class="text-muted">CAS Number:</td>
-              <td>
-                {% if item.cas_number %}
-                  <i class="bi bi-link-45deg"></i>
-                  <a href="https://commonchemistry.cas.org/detail?cas_rn={{ item.cas_number }}"
-                     target="blank"
-                     title="More chemical details">{{ item.cas_number }}</a>
-                {% else %}
-                  &nbsp;
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <td class="text-muted">Manufacturer:</td>
-              <td>
-                <a href="{% url 'company_detail' item.manufacturer.pk %}"
-                   title="{{ item.manufacturer }}">{{ item.manufacturer }}</a>
-              </td>
-              <td class="text-muted">Supplier:</td>
-              <td>
-                <a href="{% url 'company_detail' item.supplier.pk %}"
-                   title="{{ item.supplier }}">{{ item.supplier }}</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-muted">Description:</td>
-              <td colspan="3">{{ item.description }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="panel-content px-3 small">
+        <!-- Product ID and Category -->
+        <div class="row mb-1">
+          <div class="col-6 col-sm-3 text-muted">Product ID:</div>
+          <div class="col-6 col-sm-3">{{ item.product_id }}</div>
+          <div class="col-6 col-sm-3 text-muted">Category:</div>
+          <div class="col-6 col-sm-3">
+            <a href="{% url 'category_detail' item.category.pk %}"
+               title="{{ item.category }}">{{ item.category }}</a>
+          </div>
+        </div>
+        <!-- Quantity and CAS Number -->
+        <div class="row mb-1">
+          <div class="col-6 col-sm-3 text-muted">Quantity:</div>
+          <div class="col-6 col-sm-3">{{ item.quantity_display }}</div>
+          <div class="col-6 col-sm-3 text-muted">CAS number:</div>
+          <div class="col-6 col-sm-3">
+            {% if item.cas_number %}
+              <a href="https://commonchemistry.cas.org/detail?cas_rn={{ item.cas_number }}"
+                 target="_blank"
+                 title="More chemical details">{{ item.cas_number }}</a><i class="bi bi-link-45deg"></i>
+            {% else %}
+              &nbsp;
+            {% endif %}
+          </div>
+        </div>
+        <!-- Manufacturer and Supplier -->
+        <div class="row mb-1">
+          <div class="col-6 col-sm-3 text-muted">Manufacturer:</div>
+          <div class="col-6 col-sm-3">
+            <a href="{% url 'company_detail' item.manufacturer.pk %}"
+               title="{{ item.manufacturer }}">{{ item.manufacturer }}</a>
+          </div>
+          <div class="col-6 col-sm-3 text-muted">Supplier:</div>
+          <div class="col-6 col-sm-3">
+            <a href="{% url 'company_detail' item.supplier.pk %}"
+               title="{{ item.supplier }}">{{ item.supplier }}</a>
+          </div>
+        </div>
+        <!-- Description -->
+        <div class="row mb-1">
+          <div class="col-12 col-sm-3 text-muted">Description:</div>
+          <div class="col-12 col-sm-9">{{ item.description }}</div>
+        </div>
       </div>
     </div>
     {# attachments #}
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
         <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
-        <a hx-get="{% url 'item_attachment_upload' item.pk %}"
-           hx-trigger="click"
-           hx-target="#crudModal .modal-content"
-           hx-swap="innerHTML"
-           data-bs-toggle="modal"
-           data-bs-target="#crudModal"
-           href="javascript:"
-           class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i>
-           <span class="d-none d-sm-inline">Upload</span>
-          </a>
-      </div>
-      <div class="panel-content">
-        {% if attachments|length %}
-          <table class="table table-sm table-hover small">
-            <thead>
-              <tr>
-                <th class="text-muted d-none d-lg-block">Uploaded</th>
-                <th class="text-muted">Name</th>
-                <th class="text-muted">File Name</th>
-                <th class="text-muted d-none d-lg-block">Description</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for file in attachments %}
-                <tr>
-                  <td class="d-none d-lg-block">
-                    <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
-                  </td>
-                  <td>{{ file.name }}</td>
-                  <td>
-                    {% if file.filetype %}
-                      <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
-                    {% else %}
-                      <i class="bi bi-file-earmark text-warning"></i>
-                    {% endif %}
-                    <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
-                  </td>
-                  <td class="d-none d-lg-block">
-                    <span class="small">{{ file.description|default:"&nbsp;" }}</span>
-                  </td>
-                  <td>
-                    <a hx-get="{% url 'item_attachment_update' file.id %}"
-                       hx-trigger="click"
-                       hx-target="#crudModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#crudModal"
-                       href="javascript:"><i class="bi bi-pencil-square"></i></a>
-                    <a hx-get="{% url 'item_attachment_delete' file.id %}"
-                       hx-trigger="click"
-                       hx-target="#crudModal .modal-content"
-                       hx-swap="innerHTML"
-                       data-bs-toggle="modal"
-                       data-bs-target="#crudModal"
-                       href="javascript:"><i class="bi bi-trash"></i></a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% endif %}
-      </div>
-    </div>
-    {# stocks #}
-    <div class="panel mb-4">
-      <div class="panel-heading d-flex justify-content-between">
-        <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Available Stocks</span>
-      </div>
-      <div class="panel-content">
-        <div class="table-responsive">
-          <table class="table table-sm table-hover small">
-            <thead>
-              <tr>
-                <th class="text-muted">Lot Number</th>
-                <th class="text-muted">Expiry Date</th>
-                <th class="text-muted">Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for stock in stocks %}
-                {% if not stock.is_empty %}
-                  <tr>
-                    <td class="ps-2">
-                      <a href="{% url 'stock_detail' stock.pk %}">{{ stock.lot_number }}</a>
-                    </td>
-                    <td class="ps-2">{{ stock.expiry_date|date:'d/m/Y' }}</td>
-                    <td class="ps-2">{{ stock.entries.count }}</td>
-                  </tr>
+      <a hx-get="{% url 'item_attachment_upload' item.pk %}"
+         hx-trigger="click"
+         hx-target="#crudModal .modal-content"
+         hx-swap="innerHTML"
+         data-bs-toggle="modal"
+         data-bs-target="#crudModal"
+         href="javascript:"
+         class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i>
+      <span class="d-none d-sm-inline">Upload</span>
+    </a>
+  </div>
+  <div class="panel-content">
+    {% if attachments|length %}
+      <table class="table table-sm table-hover small">
+        <thead>
+          <tr>
+            <th class="text-muted d-none d-lg-block">Uploaded</th>
+            <th class="text-muted">Name</th>
+            <th class="text-muted">File Name</th>
+            <th class="text-muted d-none d-lg-block">Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for file in attachments %}
+            <tr>
+              <td class="d-none d-lg-block">
+                <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
+              </td>
+              <td>{{ file.name }}</td>
+              <td>
+                {% if file.filetype %}
+                  <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
+                {% else %}
+                  <i class="bi bi-file-earmark text-warning"></i>
                 {% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+              </td>
+              <td class="d-none d-lg-block">
+                <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+              </td>
+              <td>
+                <a hx-get="{% url 'item_attachment_update' file.id %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'item_attachment_delete' file.id %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+</div>
+{# stocks #}
+<div class="panel mb-4">
+  <div class="panel-heading d-flex justify-content-between">
+    <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Available Stocks</span>
+  </div>
+  <div class="panel-content">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover small">
+        <thead>
+          <tr>
+            <th class="text-muted">Lot Number</th>
+            <th class="text-muted">Expiry Date</th>
+            <th class="text-muted">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stock in stocks %}
+            {% if not stock.is_empty %}
+              <tr>
+                <td class="ps-2">
+                  <a href="{% url 'stock_detail' stock.pk %}">{{ stock.lot_number }}</a>
+                </td>
+                <td class="ps-2">{{ stock.expiry_date|date:'d/m/Y' }}</td>
+                <td class="ps-2">{{ stock.entries.count }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
-  {# update time #}
-  {% include "partials/object_last_updated.html" %}
+</div>
+</div>
+{# update time #}
+{% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

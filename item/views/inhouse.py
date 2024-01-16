@@ -52,6 +52,7 @@ class InhouseReagentFormProccessorMixin:
         form.instance.last_updated_by = self.request.user
         # Save the main form (InhouseReagent)
         self.object = form.save()
+        print(self.object)
         # Set the instance for the formset and save it
         formset.instance = self.object
         formset.save()
@@ -105,6 +106,7 @@ class InhouseReagentCreateView(LoginRequiredMixin, InhouseReagentFormProccessorM
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         formset = self.get_formset(data=request.POST, instance=InhouseReagent())
+        print(form.data, formset.data)
         if form.is_valid() and formset.is_valid():
             return self.form_valid(form, formset)
         return self.form_invalid(form, formset)

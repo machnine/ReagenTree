@@ -8,23 +8,13 @@
 {% block update_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
-    {# item search input UI disabled #}
-    <div id="item-input" class="type-search-input">
-      <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.item.label_tag }}</span>
-        <input type="text"
-               name="item_query"
-               class="form-control"
-               disabled
-               value="{{ item_name }}">
-      </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Source:</span>
       <input type="text"
-             name="item"
-             id="id_item"
-             hidden
-             value="{{ form.item.value }}">
+             class="form-control"
+             disabled
+             value="{{ stock.source.name }}">
     </div>
-    {# item search input end #}
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.lot_number.label_tag }}</span>
       {{ form.lot_number }}
@@ -52,4 +42,3 @@
     <span class="text-danger">{{ form.comments.errors }}</span>
   </div>
 {% endblock update_form %}
-

@@ -1,0 +1,28 @@
+<div id="div_id_category" class="input-group mb-3">
+  <span class="input-group-text input-group-text-fw-sm">{{ form.category.label_tag }}</span>
+  <input type="text"
+         name="category_query"
+         id="category_search_box"
+         class="form-control"
+         autocomplete="off"
+         value="{{ category_name|default:'' }}"
+         placeholder="Start typing to search for a category..."
+         hx-trigger="keyup changed delay:500ms"
+         hx-get="{% url 'category_search' %}"
+         hx-target="#categorySearchResults">
+  <span class="input-group-text">
+    <a href="{% url 'category_create' %}?next={{ request.path }}"
+       class="btn btn-sm btn-light"
+       title="Add a new category"
+       target="_blank"
+       >
+      <i class="bi bi-plus-circle text-success"></i>
+    </a>
+  </span>
+</div>
+<div id="categorySearchResults" class="list-group type-search-result"></div>
+<input type="text"
+       name="category"
+       id="id_category"
+       hidden
+       value="{{ form.category.value }}">

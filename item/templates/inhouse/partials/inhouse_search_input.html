@@ -1,0 +1,29 @@
+<div class="input-group mb-3">
+  <span class="input-group-text input-group-text-fw-sm"><small>In-house reagent:</small></span>
+  <input type="text"
+         name="inhouse_query"
+         id="inhouse_search_box"
+         class="form-control"
+         autocomplete="off"
+         value="{{ inhouse_name|default_if_none:'' }}"
+         placeholder="Start typing to enter an inhouse reagent..."
+         hx-trigger="keyup changed delay:500ms"
+         hx-get="{% url 'inhouse_search' %}"
+         hx-target="#inhouseSearchResults">
+  <span class="input-group-text">
+    <a href="{% url 'inhouse_create' %}?next={{ request.path }}"
+       class="btn btn-sm btn-light"
+       data-bs-toggle="tooltip"
+       target="_blank"
+       title="Add a new inhouse">
+      <i class="bi bi-plus-circle text-success"></i>
+    </a>
+  </span>
+</div>
+<span class="text-danger">{{ form.inhouse.errors }}</span>
+<div id="inhouseSearchResults" class="list-group type-search-result"></div>
+<input type="text"
+       name="inhouse_reagent"
+       id="id_inhouse"
+       value="{{ form.inhouse.value|default_if_none:'' }}"
+       hidden>

@@ -18,14 +18,33 @@
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-info-circle-fill inhouse-text-color"></i> Reagent Details</span>
       </div>
-      <div class="panel-content px-3">
-        <div class="row g-2 mb-2">
+      <div class="panel-content px-3 small">
+        <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Product ID:</div>
           <div class="col-6 col-sm-3">{{ object.product_id }}</div>
-          <div class="col-6 col-sm-3 text-muted">Made:</div>
-          <div class="col-6 col-sm-3">{{ object.created|date:'d/m/Y' }} {{ object.created_by.initials }}</div>
+          <div class="col-6 col-sm-3 text-muted">Lot number:</div>
+          <div class="col-6 col-sm-3">{{ object.lot_number }}</div>
         </div>
-        <div class="row g-2 mb-2">
+        <div class="row mb-1">
+          <div class="col-6 col-sm-3 text-muted">Quantity:</div>
+          <div class="col-6 col-sm-3">{{ object.quantity_display }}</div>
+          <div class="col-6 col-sm-3 text-muted">Created date:</div>
+          <div class="col-6 col-sm-3">
+            <span title="{{ object.created }}">{{ object.created|date:"d/m/Y" }}</span>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-6 col-sm-3 text-muted">Category:</div>
+          <div class="col-6 col-sm-3">
+            <a href="{% url 'category_detail' object.category.pk %}"
+               title="{{ object.category }}">{{ object.category }}</a>
+          </div>
+          <div class="col-6 col-sm-3 text-muted">Created by:</div>
+          <div class="col-6 col-sm-3">
+            <span title="{{ object.created }}">{{ object.created_by.initials }}</span>
+          </div>
+        </div>
+        <div class="row mb-1">
           <div class="col-12 col-sm-3 text-muted">Description:</div>
           <div class="col-12 col-sm-9">{{ object.description }}</div>
         </div>
@@ -33,19 +52,26 @@
     </div>
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between">
-        <span class="fw-bold"><i class="bi bi-card-list text-danger"></i> Components</span>
+        <span class="fw-bold"><i class="bi bi-card-list inhouse-text-color"></i> Reagent Components</span>
       </div>
-      <div class="panel-content px-3">
-        <div class="row g-2 mb-2">
-          <div class="col-6 col-sm-6 text-muted fw-bold">Reagent</div>
-          <div class="d-none d-sm-block col-sm-3 text-muted fw-bold">Lot Number</div>
-          <div class="col-6 col-sm-3 text-muted fw-bold text-end text-sm-start">Added</div>
+      <div class="panel-content px-3 small">
+        <!-- Headings for larger screens -->
+        <div class="row d-none d-lg-flex g-2 mb-2">
+          <div class="col text-muted fw-bold">Stock Item</div>
+          <div class="col text-muted fw-bold">Lot Number</div>
+          <div class="col text-muted fw-bold">Quantity</div>
+          <div class="col text-muted fw-bold">Description</div>
         </div>
-        {% for c in reagent_components.all %}
-          <div class="row g-2 mb-2">
-            <div class="col-6 col-sm-6"><a href="{% url 'stock_detail' c.stock.pk %}" title="Stock detail">{{ c.stock.item.name }}</a></div>
-            <div class="d-none d-sm-block col-sm-3">{{ c.stock.lot_number }}</div>
-            <div class="col-6 col-sm-3 text-end text-sm-start">{{ c.quantity_display }}</div>
+        {% for c in reagent_components %}
+          <div class="row g-2 mb-2 align-items-center">
+            <div class="col">
+              <a href="{{ c.stock.source_url }}" title="Component Info">{{ c.stock.source.name }}</a>
+            </div>
+            <div class="col">
+              <a href="{% url 'stock_detail' c.stock.pk %}" title="Component Stock Info">{{ c.stock.lot_number }}</a>
+            </div>
+            <div class="col">{{ c.quantity_display }}</div>
+            <div class="col">{{ c.stock.source.description }}</div>
           </div>
         {% endfor %}
       </div>

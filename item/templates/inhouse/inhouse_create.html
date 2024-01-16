@@ -3,10 +3,11 @@
   In-house Reagent
 {% endblock title %}
 {% block panel_title %}
-  <i class="bi bi-box-fill inhouse-text-color"></i> Create In-house Reagent
+  <i class="bi bi-box-fill inhouse-text-color"></i> New Reagent
 {% endblock panel_title %}
 {% block create_form %}
   <div class="px-3 pt-3">
+    <span class="text-danger small">{{ form.non_field_errors }}</span>
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.name.label_tag }}</span>
       {{ form.name }}
@@ -18,6 +19,13 @@
       <span class="text-danger small">{{ form.product_id.errors }}</span>
     </div>
     <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.lot_number.label_tag }}</span>
+      {{ form.lot_number }}
+      <span class="text-danger small">{{ form.lot_number.errors }}</span>
+    </div>
+    {# category type search input #}
+    <div id="category-input" class="type-search-input">{% include "category/partials/category_search_input.html" %}</div>
+    <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
       {{ form.description }}
       <span class="text-danger small">{{ form.description.errors }}</span>
@@ -26,9 +34,7 @@
     <div class="panel mt-4">
       <div class="panel-heading d-flex justify-content-between align-items-center px-3">
         <b>Add Components</b>
-        <a href="javascript:"
-           id="add-more"
-           class="btn btn-sm item-text-color">
+        <a href="javascript:" id="add-more" class="btn btn-sm item-text-color">
           <b><i class="bi bi-plus-circle"></i> Add</b>
         </a>
       </div>
@@ -93,6 +99,20 @@
       totalForms.value = formIndex + 1;
   });
   
-  
+  // Array of configurations for each search box
+  const searchConfigurations = [
+  {
+      searchBoxId: "category_search_box",
+      textInputId: "id_category",
+      resultsDivId: "categorySearchResults",
+      resultClass: "category-search-result-category",
+      valueAttribute: "category-pk"
+  }
+  ];
+
+  // Initialize each search box listener
+  searchConfigurations.forEach(
+    config => TypeSearchResultListenerConfig(config)
+  );
   </script>
 {% endblock js %}

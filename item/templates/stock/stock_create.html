@@ -7,14 +7,11 @@
 {% endblock panel_title %}
 {% block create_form %}
   <div class="px-3 pt-3">
-    <div class="mb-3">
-      <h5>Stock/delivery Information</h5>
-    </div>
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# item search input #}
-    {% include "stock/partials/item_search_input.html" %}
+    <div id="item-input" class="type-search-input">{% include "item/partials/item_search_input.html" %}</div>
     {# inhouse reagent search input #}
-    {% include "stock/partials/inhouse_search_input.html" %}
+    <div id="inhouse-input" class="type-search-input">{% include "inhouse/partials/inhouse_search_input.html" %}</div>
     <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.lot_number.label_tag }}</span>
       {{ form.lot_number }}
@@ -51,7 +48,7 @@
     {{ entries.management_form }}
     {% with entry_form=entries.forms.0 %}
       {# location search input #}
-      {% include "stock/partials/location_search_input.html" %}
+      <div id="location-input" class="type-search-input">{% include "location/partials/location_search_input.html" %}</div>
     {% endwith %}
   </div>
 {% endblock create_form %}

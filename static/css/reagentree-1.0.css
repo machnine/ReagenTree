@@ -12,8 +12,8 @@
   --rt-green20: #498205;
   --rt-item: #503191;
   --rt-stock: #ff9000;
-  --rt-inhouse: #dd5030;
-  --rt-inhousestock: #008080;
+  --rt-dark-orange: #dd5030;
+  --rt-inhouse: #008080;
 }
 
 a {
@@ -320,6 +320,9 @@ a:hover {
 }
 .callout-item {
   border-left-color: var(--rt-item);
+}
+.callout-stock {
+  border-left-color: var(--rt-stock);
 }
 
 /* composite icon classes */

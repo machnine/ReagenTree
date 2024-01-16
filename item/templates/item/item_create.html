@@ -9,18 +9,18 @@
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# name #}
-    <div id="div_id_name" class="input-group mb-3">
+    <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.name.label_tag }}</span>
       {{ form.name }}
     </div>
     <span class="text-danger">{{ form.name.errors }}</span>
     {# product id #}
-    <div id="div_id_product_id" class="input-group mb-3">
+    <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.product_id.label_tag }}</span>
       {{ form.product_id }}
     </div>
     {# cas number #}
-    <div id="div_id_cas_number" class="input-group mb-3">
+    <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.cas_number.label_tag }}</span>
       {{ form.cas_number }}
     </div>
@@ -28,110 +28,27 @@
     {# quantity #}
     <div class="row">
       <div class="col-9">
-        <div id="div_id_weight" class="input-group mb-3">
+        <div class="input-group mb-3">
           <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
           {{ form.quantity }}
         </div>
       </div>
       <div class="col-3">
-        <div id="div_id_quantity_unit" class="input-group mb-3">
+        <div class="input-group mb-3">
           <span class="input-group-text input-group-text-fw-sm">{{ form.quantity_unit.label_tag }}</span>
           {{ form.quantity_unit }}
         </div>
       </div>
     </div>
-    {# category type search input #}
-    <div id="category-input" class="type-search-input">
-      <div id="div_id_category" class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.category.label_tag }}</span>
-        <input type="text"
-               name="category_query"
-               id="category_search_box"
-               class="form-control"
-               autocomplete="off"
-               value="{{ category_name|default:'' }}"
-               placeholder="Start typing to search for a category..."
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url 'category_search' %}"
-               hx-target="#categorySearchResults">
-        <span class="input-group-text">
-          <a href="{% url 'category_create' %}?next={{ request.path }}"
-             class="btn btn-sm btn-light"
-             title="Add a new category">
-            <i class="bi bi-plus-circle text-success"></i>
-          </a>
-        </span>
-      </div>
-      <div id="categorySearchResults" class="list-group type-search-result"></div>
-      <input type="text"
-             name="category"
-             id="id_category"
-             hidden
-             value="{{ form.category.value }}">
-    </div>
+    <div id="category-input" class="type-search-input">{% include "category/partials/category_search_input.html" %}</div>
     <span class="text-danger">{{ form.category.errors }}</span>
-    {# manufacturer type search input #}
     <div id="manufacturer-input" class="type-search-input">
-      <div id="div_id_manufacturer" class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.manufacturer.label_tag }}</span>
-        <input type="text"
-               name="manufacturer_query"
-               id="manufacturer_search_box"
-               class="form-control"
-               autocomplete="off"
-               value="{{ manufacturer_name|default:'' }}"
-               placeholder="Start typing to search for a manufacturer..."
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url 'company_search' %}"
-               hx-target="#manufacturerSearchResults">
-        <span class="input-group-text">
-          <a href="{% url 'company_create' %}?next={{ request.path }}"
-             class="btn btn-sm btn-light"
-             title="Add a new company">
-            <i class="bi bi-plus-circle text-success"></i>
-          </a>
-        </span>
-      </div>
-      <div id="manufacturerSearchResults" class="list-group type-search-result"></div>
-      <input type="text"
-             name="manufacturer"
-             id="id_manufacturer"
-             value="{{ form.manufacturer.value|default_if_none:'' }}"
-             hidden>
+      {% include "company/partials/manufacturer_search_input.html" %}
     </div>
     <span class="text-danger">{{ form.manufacturer.errors }}</span>
-    {# supplier type search input #}
-    <div id="supplier-input" class="type-search-input">
-      <div id="div_id_supplier" class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.supplier.label_tag }}</span>
-        <input type="text"
-               name="supplier_query"
-               id="supplier_search_box"
-               class="form-control"
-               autocomplete="off"
-               value="{{ supplier_name|default:'' }}"
-               placeholder="Start typing to search for a supplier..."
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url 'company_search' %}"
-               hx-target="#supplierSearchResults">
-        <span class="input-group-text">
-          <a href="{% url 'company_create' %}?next={{ request.path }}"
-             class="btn btn-sm btn-light"
-             title="Add a new company">
-            <i class="bi bi-plus-circle text-success"></i>
-          </a>
-        </span>
-      </div>
-      <div id="supplierSearchResults" class="list-group type-search-result"></div>
-      <input type="text"
-             name="supplier"
-             id="id_supplier"
-             value="{{ form.supplier.value|default_if_none:'' }}"
-             hidden>
-    </div>
+    <div id="supplier-input" class="type-search-input">{% include "company/partials/supplier_search_input.html" %}</div>
     <span class="text-danger">{{ form.supplier.errors }}</span>
-    {# description #}
-    <div id="div_id_description" class="input-group mb-3">
+    <div class="input-group mb-3">
       <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
       {{ form.description }}
     </div>

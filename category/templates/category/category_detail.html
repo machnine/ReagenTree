@@ -34,40 +34,31 @@
     </div>
   </div>
   <div class="panel mx-3">
-    <div class="panel-heading">
-      <span class="h5"><i class="bi bi-box2-fill item-text-color"></i> All items in this category</span>
+    <div class="panel-heading d-flex justify-content-between">
+      <span class="fw-bold"><i class="bi bi-box2-fill item-text-color"></i> All items in this category</span>
     </div>
     <div class="panel-content">
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th width="25%" class="text-muted">Name</th>
-            <th width="20%" class="text-muted">Manufacturer</th>
-            <th width="20%" class="text-muted">Supplier</th>
-            <th width="35%" class="text-muted">Description</th>
-          </tr>
-        </thead>
-        {% for item in page_obj %}
-          <tr>
-            <td>
-              <a href="{% url 'item_detail' item.pk %}" title="View item">{{ item.name }}</a>
-            </td>
-            <td>
-              {% if item.manufacturer %}
-                <a href="{% url 'company_detail' item.manufacturer.pk %}">{{ item.manufacturer }}</a>
-              {% endif %}
-            </td>
-            <td>
-              {% if item.supplier %}
-                <a href="{% url 'company_detail' item.supplier.pk %}">{{ item.supplier }}</a>
-              {% endif %}
-            </td>
-            <td>{{ item.description|truncatechars:50 }}</td>
-          </tr>
+      <div class="panel-content small">
+        <!-- Headings for larger screens -->
+        <div class="row d-none d-lg-flex g-2 mb-2">
+          <div class="col text-muted fw-bold">Name</div>
+          <div class="col text-muted fw-bold">Product ID</div>
+          <div class="col text-muted fw-bold">Quantity</div>
+          <div class="col text-muted fw-bold">Description</div>
+        </div>
+        {% for obj in page_obj %}
+          <div class="row g-2 mb-2 align-items-center">
+            <div class="col">
+              <a href=" {% if obj.get_class_name == "Item" %} {% url 'item_detail' obj.pk %} {% else %} {% url 'inhouse_detail' obj.pk %} {% endif %} ">{{ obj.name }}</a>
+            </div>
+            <div class="col">{{ obj.product_id }}</div>
+            <div class="col">{{ obj.quantity_display }}</div>
+            <div class="col">{{ obj.description }}</div>
+          </div>
         {% endfor %}
-      </table>
-      {% include "partials/pagination_simple.html" %}
+      </div>
     </div>
+    {% include "partials/pagination_simple.html" %}
   </div>
   {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

@@ -67,8 +67,11 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         # get items for pagination
         items = self.object.items.all()
+        inhouse = self.object.inhouse_reagents.all()
+        # combine items and inhouse reagents
+        combined = list(items) + list(inhouse)
         # paginate items
-        paginator = Paginator(items, self.paginate_by)
+        paginator = Paginator(combined, self.paginate_by)
         page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         context["page_obj"] = page_obj

@@ -23,39 +23,39 @@
       <div class="panel-heading d-flex justify-content-between">
         <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
       </div>
-      <div class="panel-content px-3">
+      <div class="panel-content px-3 small">
         <!-- Item -->
-        <div class="row g-2 mb-2">
+        <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Source:</div>
           <div class="col-6 col-sm-9">
             <a href="{{ stock.source_url }}">{{ stock.source.name }}</a>
           </div>
         </div>
         <!-- Product ID and Expiry Date -->
-        <div class="row g-2 mb-2">
+        <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Product ID:</div>
-          <div class="col-6 col-sm-3">{{ stock.item.product_id }}</div>
-          <div class="col-6 col-sm-3 text-muted">Expiry Date:</div>
+          <div class="col-6 col-sm-3">{{ stock.source.product_id }}</div>
+          <div class="col-6 col-sm-3 text-muted">Expiry date:</div>
           <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
         </div>
         <!-- Lot Number and Delivery Date -->
-        <div class="row g-2 mb-2">
-          <div class="col-6 col-sm-3 text-muted">Lot Number:</div>
+        <div class="row mb-1">
+          <div class="col-6 col-sm-3 text-muted">Lot number:</div>
           <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
-          <div class="col-6 col-sm-3 text-muted">Delivery Date:</div>
+          <div class="col-6 col-sm-3 text-muted">Delivery date:</div>
           <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
         </div>
         <!-- Category and Received Condition -->
-        <div class="row g-2 mb-2">
+        <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Category:</div>
           <div class="col-6 col-sm-3">
-            <a href="{% url 'category_detail' stock.item.category.pk %}">{{ stock.item.category.name }}</a>
+            <a href="{% url 'category_detail' stock.source.category.pk %}">{{ stock.source.category.name }}</a>
           </div>
-          <div class="col-6 col-sm-3 text-muted">Received Condition:</div>
+          <div class="col-6 col-sm-3 text-muted">Received condition:</div>
           <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
         </div>
         <!-- Notes -->
-        <div class="row g-2 mb-2">
+        <div class="row mb-1">
           <div class="col-12 col-sm-3 text-muted">Notes:</div>
           <div class="col-12 col-sm-9">{{ stock.comments }}</div>
         </div>

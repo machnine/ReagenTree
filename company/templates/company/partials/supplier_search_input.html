@@ -1,0 +1,27 @@
+<div id="div_id_supplier" class="input-group mb-3">
+  <span class="input-group-text input-group-text-fw-sm">{{ form.supplier.label_tag }}</span>
+  <input type="text"
+         name="supplier_query"
+         id="supplier_search_box"
+         class="form-control"
+         autocomplete="off"
+         value="{{ supplier_name|default:'' }}"
+         placeholder="Start typing to search for a supplier..."
+         hx-trigger="keyup changed delay:500ms"
+         hx-get="{% url 'company_search' %}"
+         hx-target="#supplierSearchResults">
+  <span class="input-group-text">
+    <a href="{% url 'company_create' %}?next={{ request.path }}"
+       class="btn btn-sm btn-light"
+       title="Add a new company"
+       target="_blank">
+      <i class="bi bi-plus-circle text-success"></i>
+    </a>
+  </span>
+</div>
+<div id="supplierSearchResults" class="list-group type-search-result"></div>
+<input type="text"
+       name="supplier"
+       id="id_supplier"
+       value="{{ form.supplier.value|default_if_none:'' }}"
+       hidden>

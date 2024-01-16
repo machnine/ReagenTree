@@ -1,0 +1,27 @@
+<div id="div_id_manufacturer" class="input-group mb-3">
+  <span class="input-group-text input-group-text-fw-sm">{{ form.manufacturer.label_tag }}</span>
+  <input type="text"
+         name="manufacturer_query"
+         id="manufacturer_search_box"
+         class="form-control"
+         autocomplete="off"
+         value="{{ manufacturer_name|default:'' }}"
+         placeholder="Start typing to search for a manufacturer..."
+         hx-trigger="keyup changed delay:500ms"
+         hx-get="{% url 'company_search' %}"
+         hx-target="#manufacturerSearchResults">
+  <span class="input-group-text">
+    <a href="{% url 'company_create' %}?next={{ request.path }}"
+       class="btn btn-sm btn-light"
+       target="_blank"
+       title="Add a new company">
+      <i class="bi bi-plus-circle text-success"></i>
+    </a>
+  </span>
+</div>
+<div id="manufacturerSearchResults" class="list-group type-search-result"></div>
+<input type="text"
+       name="manufacturer"
+       id="id_manufacturer"
+       value="{{ form.manufacturer.value|default_if_none:'' }}"
+       hidden>

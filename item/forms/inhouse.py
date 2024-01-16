@@ -10,19 +10,13 @@ class InhouseReagentForm(forms.ModelForm):
 
     class Meta:
         model = InhouseReagent
-        fields = ["name", "product_id", "description"]
+        fields = ("name", "product_id", "description", "category", "lot_number")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["name"].widget.attrs.update(
-            {"class": "form-control", "autocomplete": "off", "placeholder": "Reagent name"}
-        )
-        self.fields["description"].widget.attrs.update(
-            {"class": "form-control", "rows": 2, "placeholder": "Reagent description"}
-        )
-        self.fields["product_id"].widget.attrs.update(
-            {"class": "form-control", "autocomplete": "off", "placeholder": "Assign reagent ID"}
-        )
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class": "form-control"})
+        self.fields["description"].widget.attrs.update({"rows": 2})
 
 
 class ReagentComponentForm(forms.ModelForm):
@@ -34,6 +28,5 @@ class ReagentComponentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["stock"].widget.attrs.update({"class": "form-control"})
-        self.fields["quantity"].widget.attrs.update({"class": "form-control"})
-        self.fields["quantity_unit"].widget.attrs.update({"class": "form-control"})
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class": "form-control"})

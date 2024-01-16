@@ -57,14 +57,14 @@
         </div>
       </div>
       <div class="panel-content">
-        <div class="row mt-sm-3 align-items-center">
+        <div class="row">
           <div class="col-lg-4 small px-3">
             {# stock properties #}
-            <div class="panel p-sm-3 p-2">
+            <div class="callout callout-light m-0 p-1">
               <div class="row g-0">
                 <div class="col-6 col-sm-3 text-muted">Product Id:</div>
                 <div class="col-6 col-sm-3">
-                  <a href="{{ stock.source_url }}" title="{{ stock.source.name }} details">{{ stock.item.product_id }}</a>
+                  <a href="{{ stock.source_url }}" title="{{ stock.source.name }} details">{{ stock.source.product_id }}</a>
                 </div>
                 <div class="col-6 col-sm-3 text-muted">Lot number:</div>
                 <div class="col-6 col-sm-3">{{ stock.lot_number }}</div>
@@ -97,7 +97,7 @@
               <div class="row text-center align-items-center">
                 <div class="col-1 col-lg-1">
                   <a href="#{{ entry.pk }}"
-                     title="{{ stock.lot_number }}-{{ stock.pk }}-{{ entry.ordinal_number }}">
+                     title="{{ stock.lot_number }}-{{ entry.pk }}-{{ entry.ordinal_number }}">
                     <span class="icon-with-text">
                       <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
                       <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
