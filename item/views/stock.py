@@ -179,7 +179,7 @@ class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
         stock = Stock.objects.get(pk=self.kwargs["pk"])
         entries = stock.entries.all()
         messages = {
-            f"{stock.lot_number}-{stock.pk}-{entry.ordinal_number}": base_url
+            f"{stock.lot_number}-{entry.pk}-{entry.ordinal_number}": base_url
             + reverse("usage_update", kwargs={"pk": entry.pk})
             for entry in entries
         }

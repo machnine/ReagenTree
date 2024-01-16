@@ -71,8 +71,7 @@ class QRCodeLabelPDFPrinter:
 
         # draw the QR code on the PDF
         qr_code_image = self.qr_generator.make(message).image
-        # convert the image to a buffer
-        qr_buffer = BytesIO()
+        qr_buffer = BytesIO()  # convert the image to a buffer
         qr_code_image.save(qr_buffer, format="PNG")
         qr_buffer.seek(0)
         img_reader = ImageReader(qr_buffer)
@@ -81,10 +80,9 @@ class QRCodeLabelPDFPrinter:
 
     def _draw_hint_text(self, c: canvas.Canvas, hint_text: str, col: int, row: int):
         """draw a hint text on a label"""
-        # text_widtch converted to mm
-        text_width = c.stringWidth(hint_text, "Helvetica", self.font_size) / mm
+        text_width = c.stringWidth(hint_text, "Helvetica", self.font_size) / mm  # text_widtch converted to mm
         txt_x_pos = self._get_x_position(col, text_width)
-        txt_y_pos = self._get_y_position(row) - self.font_size
+        txt_y_pos = self._get_y_position(row) - self.font_size / 2
 
         # draw the hint text on the PDF
         c.setFont("Helvetica", self.font_size)
@@ -93,16 +91,11 @@ class QRCodeLabelPDFPrinter:
     def print(self):
         """create and position label on PDF"""
 
-        # buffer
-        pdf_buffer = BytesIO()
-        # canvas
-        c = canvas.Canvas(pdf_buffer, pagesize=self.page_size)
-        # message iterator
-        message_iter = iter(self.messages.items())
-        # current label number
-        current_label = 0
-        # index for the current label being printed
-        label_index = 0
+        pdf_buffer = BytesIO()  # buffer for the PDF
+        c = canvas.Canvas(pdf_buffer, pagesize=self.page_size)  # canvas
+        message_iter = iter(self.messages.items())  # message iterator
+        current_label = 0  # current label number
+        label_index = 0  # index for the current label being printed
 
         while label_index < len(self.messages):
             for row in range(self.sheet.label_rows):
@@ -115,13 +108,10 @@ class QRCodeLabelPDFPrinter:
                         except StopIteration:
                             break
 
-                        # draw the QR code
-                        self._draw_qr_code(c, message, col, row)
-                        # draw the hint text
-                        self._draw_hint_text(c, hint, col, row)
+                        self._draw_qr_code(c, message, col, row)  # draw the QR code
+                        self._draw_hint_text(c, hint, col, row)  # draw the hint text
 
-                    # increment the current label number
-                    current_label += 1
+                    current_label += 1  # increment the current label number
                     # check if we reached the end of the page
                     if current_label % self.sheet.labels_per_sheet == 0:
                         break
@@ -132,11 +122,8 @@ class QRCodeLabelPDFPrinter:
             if label_index < len(self.messages):
                 c.showPage()
 
-        # save the PDF
-        c.save()
-
-        # reset the buffer
-        pdf_buffer.seek(0)
+        c.save()  # save the PDF
+        pdf_buffer.seek(0)  # reset the buffer
 
         # Save or return the PDF
         if self.filename:

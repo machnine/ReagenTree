@@ -16,7 +16,7 @@ class AttachmentForm(forms.ModelForm):
         fields = ("file", "name", "description")
 
     def clean_file(self):
-        """Check that the file extension is allowed"""
+        """Ensure the uploaded file type is allowed."""
         file = self.cleaned_data.get("file")
         file_type = Path(file.name).suffix.lower()
         if file_type not in ALLOWED_FILE_TYPES:
@@ -24,6 +24,7 @@ class AttachmentForm(forms.ModelForm):
         return file
 
     def clean(self):
+        """If no name is provided, use the file's name without the extension."""
         cleaned_data = super().clean()
         file = cleaned_data.get("file")
         name = cleaned_data.get("name")
