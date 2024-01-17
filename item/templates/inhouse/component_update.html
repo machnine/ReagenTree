@@ -1,0 +1,33 @@
+{% extends "object_update_base.html" %}
+{% block title %}
+  In-house Reagent
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-box-fill inhouse-text-color"></i> Update Component
+{% endblock panel_title %}
+{% block update_form %}
+  <div class="px-3 pt-3">
+    <span class="text-danger small">{{ form.non_field_errors }}</span>
+    <div class="input-group mb-3">
+      <span class="input-group-text input-group-text-fw-sm">Component:</span>
+      <input type="text" class="form-control" disabled value="{{ object.stock }}">
+    </div>
+    {{ form.stock }}{# hidden field #}
+    <span class="text-danger small">{{ form.stock.errors }}</span>
+    {# quantity #}
+    <div class="row">
+      <div class="col-6 col-lg-9">
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
+          {{ form.quantity }}
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-sm">{{ form.quantity_unit.label_tag }}</span>
+          {{ form.quantity_unit }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock update_form %}

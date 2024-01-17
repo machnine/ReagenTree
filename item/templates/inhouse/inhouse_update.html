@@ -3,7 +3,7 @@
   In-house Reagent
 {% endblock title %}
 {% block panel_title %}
-  <i class="bi bi-box-fill inhouse-text-color"></i> Update In-house Reagent
+  <i class="bi bi-box-fill inhouse-text-color"></i> Update Reagent
 {% endblock panel_title %}
 {% block update_form %}
   <div class="px-3 pt-3">
@@ -30,13 +30,13 @@
     </div>
     {# quantity #}
     <div class="row">
-      <div class="col-9">
+      <div class="col-6 col-lg-9">
         <div class="input-group mb-3">
           <span class="input-group-text input-group-text-fw-sm">{{ form.quantity.label_tag }}</span>
           {{ form.quantity }}
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-6 col-lg-3">
         <div class="input-group mb-3">
           <span class="input-group-text input-group-text-fw-sm">{{ form.quantity_unit.label_tag }}</span>
           {{ form.quantity_unit }}
@@ -50,47 +50,6 @@
       <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
       {{ form.description }}
       <span class="text-danger small">{{ form.description.errors }}</span>
-    </div>
-    {{ formset.management_form }}
-    <div class="panel mt-4">
-      <div class="panel-heading d-flex justify-content-between align-items-center px-3">
-        <b>Add Components</b>
-        <a href="javascript:" id="add-more" class="btn btn-sm item-text-color">
-          <b><i class="bi bi-plus-circle"></i> Add</b>
-        </a>
-      </div>
-      <div class="panel-content">
-        <div id="formset-container">
-          {% for comp_form in formset %}
-            
-            <div class="reagent-component-form">
-              <div class="row py-2">
-                <div class="col-6">
-                  <div class="input-group">
-                    <span class="input-group-text">Reagent:</span>
-                    {{ comp_form.stock }}
-                  </div>
-                  <span class="text-danger small">{{ comp_form.stock.errors }}</span>
-                </div>
-                <div class="col-3">
-                  <div class="input-group">
-                    <span class="input-group-text">Quantity:</span>
-                    {{ comp_form.quantity }}
-                  </div>
-                  <span class="text-danger small">{{ comp_form.quantity.errors }}</span>
-                </div>
-                <div class="col-2">
-                  <div class="input-group">
-                    <span class="input-group-text">Unit:</span>
-                    {{ comp_form.quantity_unit }}
-                  </div>
-                  <span class="text-danger small">{{ comp_form.quantity_unit.errors }}</span>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
     </div>
   </div>
 {% endblock update_form %}

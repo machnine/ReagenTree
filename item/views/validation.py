@@ -108,17 +108,3 @@ class StockValidationListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(validations__isnull=True)
         return queryset.order_by("-delivery_date")
-
-
-# Inhouse reagent validations
-class InhouseValidationListView(LoginRequiredMixin, ListView):
-    """List view for InhouseReagentValidation model"""
-
-    model = InhouseReagentValidation
-    context_object_name = "inhouse_reagents"
-    template_name = "validation/validation_list_inhouse.html"
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(validations__isnull=True)
-        return queryset.order_by("-delivery_date")

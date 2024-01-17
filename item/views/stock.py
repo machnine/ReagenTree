@@ -62,13 +62,6 @@ class StockUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin
     template_name = "stock/stock_update.html"
     success_url = reverse_lazy("stock_list")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        stock = self.object  # The stock being updated
-        if stock.item:
-            context["item_name"] = stock.source.name
-        return context
-
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
         return self.render_to_response(context)

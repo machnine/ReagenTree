@@ -24,7 +24,7 @@
           </div>
           {% if forloop.first %}
             <div class="col-lg-7 d-none d-lg-block">
-              <div class="row text-center fw-bold text-muted small  align-items-center">
+              <div class="row text-center fw-bold text-muted small align-items-center">
                 <div class="col-1">Box</div>
                 <div class="col-2">In use</div>
                 <div class="col-3">Quantity</div>
@@ -80,7 +80,7 @@
                 <div class="col-6 col-sm-3">
                   {% if stock.validations.all|length %}
                     {% for sv in stock.validations.all %}
-                      {% validation_status sv.validation.status %}
+                      {% validation_status sv.validation.status True %}
                     {% endfor %}
                   {% else %}
                     {% validation_status "PENDING" %}

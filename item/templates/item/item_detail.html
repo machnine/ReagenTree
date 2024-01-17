@@ -6,21 +6,19 @@
 {% block panel_title %}
   <i class="bi bi-box2-fill item-text-color"></i> {{ item.name }}
 {% endblock panel_title %}
-{% block panel_actions %}
-  <span class="p-1">
-    <a href="{% url 'item_update' item.pk %}?next={{ request.path }}"
-       title="Update sitem"
-       class="btn btn-sm btn-success">
-      <i class="bi bi-pencil-square"></i>
-      <span class="d-none d-sm-inline">Edit</span>
-    </a>
-  </span>
-{% endblock panel_actions %}
 {% block panel_content %}
   <div class="p-3">
     <div class="panel mb-4">
-      <div class="panel-heading d-flex justify-content-between">
+      <div class="panel-heading d-flex justify-content-between align-items-center">
         <span class="fw-bold"><i class="bi bi-info-circle-fill item-text-color"></i> Item Details</span>
+        <span>
+          <a href="{% url 'item_update' item.pk %}?next={{ request.path }}"
+             title="Update item"
+             class="btn btn-sm btn-success">
+            <i class="bi bi-pencil-square"></i>
+            <span class="d-none d-sm-inline">Edit</span>
+          </a>
+        </span>
       </div>
       <div class="panel-content px-3 small">
         <!-- Product ID and Category -->

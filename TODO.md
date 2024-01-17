@@ -8,8 +8,6 @@
 - COSHH review workflow?
 - List view sorting
 - List view search
-- InHouse reagent
-  - Update view!!!!
 - quick shortcut (scan -> update Stock level)
 - a watch list for items whose stock level required monitoring
 - Responsive views for mobile phones
@@ -20,3 +18,4 @@
   - user can request changes to the code, but password remains the same.
 - highlight expiry date when expired
 - Front page ordering panel
+- Is a 'short name' function or actual property necessary for labels

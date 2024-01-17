@@ -40,5 +40,10 @@ class ReagentComponentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({"class": "form-control"})
+        self.fields["stock"].widget.attrs.update({"class": "form-control"})
+        self.fields["quantity"].widget.attrs.update({"class": "form-control"})
+        self.fields["quantity_unit"].widget.attrs.update({"class": "form-select"})
+
+        if self.instance.pk:
+            self.fields["stock"].initial = self.instance.stock
+            self.fields["stock"].widget.attrs.update({"hidden": True})

@@ -15,7 +15,7 @@
         <a href="{% url 'stock_list' %}" class="dropdown-item"><i class="bi bi-boxes stock-text-color"></i> All stock items</a>
       </li>
       <li>
-        <a href="{% url 'stock_validation_list' %}" class="dropdown-item"><i class="bi bi-clipboard validation-text-color"></i> Validations</a>
+        <a href="{% url 'stock_validation_list' %}" class="dropdown-item"><i class="bi bi-clipboard validation-text-color"></i> For validation</a>
       </li>
     </ul>
   </li>
@@ -28,7 +28,9 @@
        aria-expanded="false"
        href="javascript:"><i class="bi bi-eyedropper inhouse-text-color"></i> Reagents</a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-      <li class="dropdown-header">Commercial Reagents</li>
+      <li class="dropdown-header">
+        <span class="item-text-color">Commercial Reagents</span>
+      </li>
       <li>
         <a href="{% url 'item_create' %}" class="dropdown-item"><i class="bi bi-box2-fill item-text-color"></i> New items</a>
       </li>
@@ -36,7 +38,9 @@
         <a href="{% url 'item_list' %}" class="dropdown-item"><i class="bi bi-boxes item-text-color"></i> All items</a>
       </li>
       <li class="dropdown-divider"></li>
-      <li class="dropdown-header">Inhouse Reagents</li>
+      <li class="dropdown-header">
+        <span class="inhouse-text-color">Inhouse Reagents</span>
+      </li>
       <li>
         <a href="{% url 'inhouse_create' %}" class="dropdown-item"><i class="bi bi-box-fill inhouse-text-color"></i> New reagents</a>
       </li>

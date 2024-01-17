@@ -28,6 +28,7 @@ class InhouseReagent(TimeStampUserMixin, QuantityDisplayMixin, models.Model):
 
     class Meta:
         unique_together = ["product_id", "lot_number"]
+        ordering = ["name"]
 
 
 class ReagentComponent(QuantityDisplayMixin, models.Model):

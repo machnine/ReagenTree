@@ -6,22 +6,20 @@
 {% block panel_title %}
   <i class="bi bi-box-seam-fill stock-text-color"></i> {{ stock.source.name }}
 {% endblock panel_title %}
-{% block panel_actions %}
-  <span class="p-1">
-    <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
-       title="Update stock"
-       class="btn btn-sm btn-success">
-      <i class="bi bi-pencil-square"></i>
-      <span class="d-none d-sm-inline">Edit</span>
-    </a>
-  </span>
-{% endblock panel_actions %}
 {% block panel_content %}
   <div class="p-3">
     {# stock info #}
     <div class="panel mb-4">
-      <div class="panel-heading d-flex justify-content-between">
+      <div class="panel-heading d-flex justify-content-between align-items-center">
         <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
+        <span>
+          <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
+             title="Update stock"
+             class="btn btn-sm btn-success">
+            <i class="bi bi-pencil-square"></i>
+            <span class="d-none d-sm-inline">Edit</span>
+          </a>
+        </span>
       </div>
       <div class="panel-content px-3 small">
         <!-- Item -->
@@ -161,7 +159,7 @@
 </span>
 </div>
 <div class="panel-content px-3">
-  <div class="container">
+  <div class="container small">
     <!-- Headings for larger screens -->
     <div class="row d-none d-lg-flex g-2 mb-2 text-center">
       <div class="col-lg-2 text-muted text-start">Status</div>
@@ -173,23 +171,36 @@
     {% for sv in stock.validations.all %}
       <!-- Each validation entry as a row -->
       <div class="row g-2 mb-2 align-items-center text-center">
-        <!-- Status -->
         <div class="col-12 col-lg-2 text-start">{% validation_status sv.validation.status True %}</div>
-        <!-- Validated -->
         <div class="col-4 col-lg-2">
           {% if sv.validation.created %}<i class="bi bi-check-lg text-success"></i>{% endif %}
           {{ sv.validation.created|date:"d/m/Y" }}
           <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
         </div>
-        <!-- Authorised -->
         <div class="col-4 col-lg-2">
-          <!-- Authorised content -->
+          {% if sv.validation.authorised %}
+            <i class="bi bi-check2-all text-success"></i>
+            {{ sv.validation.authorised|date:"d/m/Y" }}
+            <span title="{{ sv.validation.authorised_by.get_full_name }}">{{ sv.validation.authorised_by.initials }}</span>
+          {% else %}
+            {% if request.user.is_supervisor %}
+              <a hx-get="{% url 'validation_authorise' sv.validation.pk %}?next={{ request.path }}"
+                 hx-trigger="click"
+                 hx-target="#crudModal .modal-content"
+                 hx-swap="innerHTML"
+                 data-bs-toggle="modal"
+                 data-bs-target="#crudModal"
+                 title="Authorise this validation"
+                 href="javascript:"><i class="bi bi-pen-fill text-danger">___</i></a>
+            {% else %}
+              <i class="bi bi-three-dots text-danger" title="Awaiting authorisation!"></i>
+            {% endif %}
+          {% endif %}
         </div>
-        <!-- Validation Comments -->
         <div class="col-12 col-lg-4 d-none d-lg-block">{{ sv.validation.comments|default_if_none:"" }}</div>
         <!-- Actions -->
         <div class="col-4 col-lg-2 text-lg-end">
-          <!-- Action buttons -->
+          TODO: Actions here
         </div>
       </div>
     {% endfor %}

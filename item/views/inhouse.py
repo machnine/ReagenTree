@@ -10,6 +10,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.views.generic import ObjectDeleteHTMXView
+from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from item.forms import InhouseReagentForm, ReagentComponentForm
 from item.models import InhouseReagent, ReagentComponent
 
@@ -106,7 +107,7 @@ class InhouseReagentCreateView(LoginRequiredMixin, InhouseReagentFormProccessorM
         return self.form_invalid(form, formset)
 
 
-class InhouseReagentUpdateView(LoginRequiredMixin, InhouseReagentFormProccessorMixin, UpdateView):
+class InhouseReagentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
     """Update view for inhouse reagents"""
 
     model = InhouseReagent
@@ -114,29 +115,20 @@ class InhouseReagentUpdateView(LoginRequiredMixin, InhouseReagentFormProccessorM
     form_class = InhouseReagentForm
     success_url = reverse_lazy("inhouse_list")
 
-    def get(self, request, *args, **kwargs):
-        """Override get to set initial form data"""
-        self.object = self.get_object()
-        form = self.get_form()
-
-        # Formset for reagent components
-        formset = self.get_formset(instance=self.object)
-        context = self.get_context_data(form=form, formset=formset)
-        return render(request, self.template_name, context)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        formset = self.get_formset(data=request.POST, instance=self.object)
-        if form.is_valid() and formset.is_valid():
-            return self.form_valid(form, formset)
-        return self.form_invalid(form, formset)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.object.category:
             context["category_name"] = self.object.category.name
         return context
+
+
+class InhouseReagentComponentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
+    """Update view for inhouse reagent components"""
+
+    model = ReagentComponent
+    template_name = "inhouse/component_update.html"
+    form_class = ReagentComponentForm
+    success_url = reverse_lazy("inhouse_list")
 
 
 class InhouseReagentDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
