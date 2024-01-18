@@ -123,12 +123,9 @@ class StockEntry(models.Model):
         if not self.pk:
             # This code only happens if the objects is not in the database yet.
             # Otherwise it would have had a pk
-            if self.stock.item:
-                self.remaining_quantity = self.stock.item.quantity or 0
-                self.remaining_unit = self.stock.item.quantity_unit
-            else:  # TODO: sort this out
-                self.remaining_quantity = 999
-                self.remaining_unit = Unit.objects.get(pk=1)
+            if self.stock.item or self.stock.inhouse_reagent:
+                self.remaining_quantity = self.stock.source.quantity or 0
+                self.remaining_unit = self.stock.source.quantity_unit
         super().save(*args, **kwargs)
 
 

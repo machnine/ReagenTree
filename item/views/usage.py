@@ -1,6 +1,7 @@
 """ Usage views """
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
 
 from item.forms import UsageForm
@@ -13,6 +14,7 @@ class UsageUpdateHtmxView(LoginRequiredMixin, View):
     form_class = UsageForm
     input_template = "usage/usage_htmx_input.html"
     updated_template = "usage/usage_htmx_updated.html"
+    success_url = "/"
 
     def dispatch(self, request, *args, **kwargs):
         """Get the stock object before processing the request"""
@@ -22,11 +24,7 @@ class UsageUpdateHtmxView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         """Handle GET requests: return the form to update usage."""
         form = self.form_class(initial={"used_unit": self.stock_entry.remaining_unit})
-        return render(
-            request,
-            self.input_template,
-            {"entry": self.stock_entry, "form": form},
-        )
+        return render(request, self.input_template, {"entry": self.stock_entry, "form": form})
 
     def post(self, request, *args, **kwargs):
         """Handle POST requests: update the stock after usage"""
@@ -37,5 +35,17 @@ class UsageUpdateHtmxView(LoginRequiredMixin, View):
             usage_instance.stock_entry = self.stock_entry
             usage_instance.used_by = request.user
             usage_instance.save()
-            return render(request, self.updated_template, context)
+            messages.success(request, "Usage updated ...")
+            if "HX-Request" in request.headers:
+                return render(request, self.updated_template, context)
+            next_url = form.data.get("next") or self.success_url
+            return redirect(next_url)
+        messages.error(request, "Error updating usage")
         return render(request, self.input_template, context)
+
+
+class UsageQRUpdateView(UsageUpdateHtmxView):
+    """View to update usage for stock."""
+
+    form_class = UsageForm
+    input_template = "usage/usage_qr_update.html"

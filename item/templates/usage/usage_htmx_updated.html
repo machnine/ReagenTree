@@ -1,7 +1,7 @@
 <div class="row ps-4" hx-target="this">
   <div class="col-auto"></div>
   <div class="col-8">
-    <a hx-get="{% url 'usage_update' entry.pk %}"
+    <a hx-get="{% url 'usage_htmx_update' entry.pk %}"
        hx-trigger="dblclick"
        hx-swap="outerHTML"
        href="javascript:">{{ entry.remaining_quantity_display }}</a>

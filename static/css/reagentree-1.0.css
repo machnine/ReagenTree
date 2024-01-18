@@ -374,3 +374,14 @@ a:hover {
     font-size: 1.25rem !important; /* Adjust this value to match Bootstrap's .fs-5 */
   }
 }
+
+/* expand the min-vh class */
+.min-vh-25 {
+  min-height: 25vh !important;
+}
+.min-vh-50 {
+  min-height: 50vh !important;
+}
+.min-vh-75 {
+  min-height: 75vh !important;
+}

@@ -9,7 +9,7 @@
         class="w-75 form-control-sm-fh"
         {% if form.errors %}style="border-color: red;"{% endif %}
         hx-swap="outerHTML"
-        hx-post="{% url 'usage_update' entry.pk %}"
+        hx-post="{% url 'usage_htmx_update' entry.pk %}"
         {# triger when the input value changes and lose focus and wait for 500ms #}
         hx-trigger="change changed delay:500ms">
       </div>
