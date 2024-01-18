@@ -119,7 +119,7 @@ function toggleToolTrayIcons(triggerId, containerIdentifier) {
   var triggerIcon = document.getElementById(triggerId);
   triggerIcon.innerHTML = triggerIcon.innerHTML.includes("bi-tools")
     ? '<i class="bi bi-three-dots fw-bold text-primary"></i>' // Change to a 'close' icon
-    : '<i class="bi bi-tools fw-bold text-danger"></i>'; // Change back to the 'tools' icon
+    : '<i class="bi bi-tools fw-bold text-gray-500"></i>'; // Change back to the 'tools' icon
 
   if (containerIdentifier.startsWith("#")) {
     var container = document.getElementById(containerIdentifier.slice(1));

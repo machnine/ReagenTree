@@ -8,10 +8,13 @@
 - COSHH review workflow?
 - List view sorting
 - List view search
-- quick shortcut (scan -> update Stock level)
 - a watch list for items whose stock level required monitoring
 - Responsive views for mobile phones
-  - change most of the table layout to grid layout
+  - item_list
+  - company_list, company_detail
+  - category_list, category_detail
+  - validation_list
+  - location_list, location_detail
 - Make Stock/Inhouse Reagent available only after validations
 - User login via QR code
   - QR code printable from the user profile UI

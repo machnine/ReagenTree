@@ -1,20 +1,17 @@
 <form hx-target="this">
   {% csrf_token %}
-  <div class="row">
-    <div class="col-auto"></div>
-    <div class="col-8 pe-0">
-      <input type="number"
-        name="used_quantity"
-        placeholder="quantity used..."
-        class="w-75 form-control-sm-fh"
-        {% if form.errors %}style="border-color: red;"{% endif %}
-        hx-swap="outerHTML"
-        hx-post="{% url 'usage_htmx_update' entry.pk %}"
-        {# triger when the input value changes and lose focus and wait for 500ms #}
-        hx-trigger="change changed delay:500ms">
-      </div>
-      <div class="col-auto text-start">{{ entry.remaining_unit }}</div>
-    </div>
-    {{ form.used_unit }}
-    <input type="text" name="next" value="{{ request.path }}" hidden>
-  </form>
+  <div class="d-flex justify-content-center align-items-center">
+    <input type="number"
+           name="used_quantity"
+           placeholder="used..."
+           class="w-50 text-end"
+           style="{% if form.errors %}border-color: red;
+                  {% endif %}"
+           hx-swap="outerHTML"
+           hx-post="{% url 'usage_htmx_update' entry.pk %}"
+           hx-trigger="change changed delay:500ms">
+    <span class="ps-2">{{ entry.remaining_unit }}</span>
+  </div>
+  {{ form.used_unit }}
+  <input type="text" name="next" value="{{ request.path }}" hidden>
+</form>

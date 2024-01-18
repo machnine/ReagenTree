@@ -1,12 +1,12 @@
-<div class="row ps-4" hx-target="this">
-  <div class="col-auto"></div>
-  <div class="col-8">
-    <a hx-get="{% url 'usage_htmx_update' entry.pk %}"
-       hx-trigger="dblclick"
-       hx-swap="outerHTML"
-       href="javascript:">{{ entry.remaining_quantity_display }}</a>
-  </div>
-  <div class="col-auto text-center">
-    <span class="hide-after-animation fade-out text-success fw-bold">-{{ form.used_quantity.value }}</span>
-  </div>
+<div class="d-flex justify-content-center align-items-center"
+     style="position: relative"
+     hx-target="this">
+  <a hx-get="{% url 'usage_htmx_update' entry.pk %}"
+     hx-trigger="dblclick"
+     hx-swap="outerHTML"
+     href="javascript:">{{ entry.remaining_quantity_display }}</a>
+  <span class="hide-after-animation fade-out text-success fw-bold"
+        style="position: absolute;
+               top: 0;
+               right: 0">-{{ form.used_quantity.value }}</span>
 </div>

@@ -1,5 +1,6 @@
 """Stock validation views"""
 
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -12,7 +13,7 @@ from django.views.generic import CreateView, FormView, ListView, UpdateView
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 from item.forms import ValidationForm
-from item.models import InhouseReagentValidation, ReagentValidation, Stock, StockValidation
+from item.models import ReagentValidation, Stock, StockValidation
 
 
 class ValidationUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
@@ -22,6 +23,14 @@ class ValidationUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessage
     form_class = ValidationForm
     template_name = "validation/validation_update.html"
     success_url = reverse_lazy("stock_list")
+
+    def dispatch(self, request, *args, **kwargs):
+        """Check if the validation is already authorised"""
+        self.object = self.get_object()
+        if self.object.authorised:
+            messages.error(request, "Authorised validations cannot be edited.")
+            return redirect(self.get_success_url())
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, FormView):

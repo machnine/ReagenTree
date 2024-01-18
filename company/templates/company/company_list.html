@@ -1,4 +1,5 @@
 {% extends "object_list_base.html" %}
+{% load ui_tags %}
 {% block title %}
   Companies
 {% endblock title %}
@@ -19,7 +20,7 @@
           <th class="text-center d-none d-lg-table-cell">Supplied</th>
           <th class="ps-3 d-none d-lg-table-cell">Phone</th>
           <th>Website</th>
-          <th class="d-none d-lg-table-cell">{% include "partials/tooltray_toggle_icon.html" %}</th>
+          <th class="d-none d-lg-table-cell">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</th>
         </tr>
       </thead>
       <tbody>

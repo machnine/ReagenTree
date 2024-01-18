@@ -30,31 +30,13 @@ class ReagentValidation(models.Model):
         ordering = ["-created"]
 
 
-class ValidationBase(models.Model):
-    """base validation abstract model"""
-
-    validation = models.ForeignKey(ReagentValidation, on_delete=models.CASCADE)
-
-    class Meta:
-        abstract = True
-
-
 # specific validation models
-class StockValidation(ValidationBase):
+class StockValidation(models.Model):
     """model tracking stock validations"""
 
+    validation = models.ForeignKey(ReagentValidation, on_delete=models.CASCADE)
     stock = models.ForeignKey("item.Stock", on_delete=models.CASCADE, related_name="validations")
 
     class Meta:
         unique_together = ("stock", "validation")
-        ordering = ["-validation__created"]
-
-
-class InhouseReagentValidation(ValidationBase):
-    """model tracking inhouse validations"""
-
-    inhouse_reagent = models.ForeignKey("item.InhouseReagent", on_delete=models.CASCADE, related_name="validations")
-
-    class Meta:
-        unique_together = ("inhouse_reagent", "validation")
         ordering = ["-validation__created"]

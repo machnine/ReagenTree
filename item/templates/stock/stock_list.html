@@ -1,5 +1,6 @@
 {% extends "object_list_base.html" %}
 {% load stock_tags %}
+{% load ui_tags %}
 {% block title %}
   Stock
 {% endblock title %}
@@ -13,7 +14,7 @@
   {% for stock in stocks %}
     <div class="panel">
       <div class="panel-heading">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col-lg-4">
             <a href="{% url 'stock_detail' stock.pk %}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
             {% if stock.comments %}
@@ -30,7 +31,7 @@
                 <div class="col-3">Quantity</div>
                 <div class="col-2">Location</div>
                 <div class="col-3">Comments</div>
-                <div class="col-auto d-none d-lg-block">{% include "partials/tooltray_toggle_icon.html" %}</div>
+                <div class="col-auto d-none d-lg-block">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
               </div>
             </div>
           {% endif %}
@@ -41,15 +42,16 @@
                  hx-target="#startOffcanvas"
                  hx-get="{% url 'stock_label_print' stock.pk %}"
                  hx-swap="innerHTML"
+                 class="px-1"
                  title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
               <a href="{% url 'stock_update' stock.pk %}"
-                 title="Edit stock information"><i class="bi bi-pencil-square"></i></a>
+                 title="Edit stock information" class="px-1"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'stock_delete' stock.pk %}"
                  hx-trigger="click"
                  hx-target="#crudModal .modal-content"
                  hx-swap="innerHTML"
                  data-bs-toggle="modal"
-                 data-bs-target="#crudModal"
+                 data-bs-target="#crudModal" class="px-1"
                  title="Delete this stock and all its entries"
                  href="javascript:"><i class="bi bi-trash"></i></a>
             </span>
@@ -144,6 +146,3 @@
     </div>
   {% endfor %}
 {% endblock panel_content %}
-{% block offcanvas %}
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="startOffcanvas">{# offcanvas-start target#}</div>
-{% endblock offcanvas %}

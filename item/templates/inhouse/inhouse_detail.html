@@ -1,4 +1,5 @@
 {% extends "object_detail_base.html" %}
+{% load ui_tags %}
 {% block panel_title %}
   <i class="bi bi-box-fill inhouse-text-color"></i> {{ object.name }}
 {% endblock panel_title %}
@@ -57,7 +58,7 @@
           <div class="col text-muted fw-bold">Lot Number</div>
           <div class="col text-muted fw-bold">Quantity</div>
           <div class="col text-muted fw-bold">Description</div>
-          <div class="col-1 text-center">{% include "partials/tooltray_toggle_icon.html" %}</div>
+          <div class="col-1 text-center">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
         </div>
         {% for c in reagent_components %}
           <div class="row g-2 mb-2 align-items-center">

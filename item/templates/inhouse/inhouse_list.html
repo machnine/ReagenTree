@@ -1,4 +1,5 @@
 {% extends "object_list_base.html" %}
+{% load ui_tags %}
 {% block title %}
   In-house Reagents
 {% endblock title %}
@@ -18,7 +19,7 @@
     <div class="col col-sm-2">Category</div>
     <div class="col col-sm-2">Components</div>
     <div class="col col-sm-2">Description</div>
-    <div class="col col-sm-1 d-none d-sm-block">{% include "partials/tooltray_toggle_icon.html" %}</div>
+    <div class="col col-sm-1 d-none d-sm-block">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
   </div>
   {% for reagent in inhouse_reagents %}
     <!-- Each reagent entry as a row -->

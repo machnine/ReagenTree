@@ -1,5 +1,6 @@
 {% extends "object_detail_base.html" %}
 {% load stock_tags %}
+{% load ui_tags %}
 {% block title %}
   Stock
 {% endblock title %}
@@ -8,17 +9,15 @@
 {% endblock panel_title %}
 {% block panel_content %}
   <div class="p-3">
-    {# stock info #}
     <div class="panel mb-4">
-      <div class="panel-heading d-flex justify-content-between align-items-center">
+      <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
         <span class="fw-bold"><i class="bi bi-info-circle-fill stock-text-color"></i> Stock Details</span>
         <span>
           <a href="{% url 'stock_update' stock.pk %}?next={{ request.path }}"
              title="Update stock"
              class="btn btn-sm btn-success">
             <i class="bi bi-pencil-square"></i>
-            <span class="d-none d-sm-inline">Edit</span>
-          </a>
+            <span class="d-none d-sm-inline">Edit</span></a>
         </span>
       </div>
       <div class="panel-content px-3 small">
@@ -59,198 +58,195 @@
         </div>
       </div>
     </div>
-    {# stock info end #}
-    {# attachments #}
+    {# Stock Details END #}
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between align-items-center pe-2">
         <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
-      <a hx-get="{% url 'stock_attachment_upload' stock.pk %}"
-         hx-trigger="click"
-         hx-target="#crudModal .modal-content"
-         hx-swap="innerHTML"
-         data-bs-toggle="modal"
-         data-bs-target="#crudModal"
-         href="javascript:"
-         class="btn btn-sm btn-success"><i class="bi bi-file-earmark-arrow-up"></i>
-      <span class="d-none d-sm-inline">Upload</span>
-    </a>
-  </div>
-  <div class="panel-content px-3">
-    {% if attachments|length %}
-      <div class="container">
-        <!-- Headings for larger screens -->
-        <div class="row d-none d-lg-flex g-2 mb-2">
-          <div class="col-lg-2 text-muted fw-bold">Uploaded</div>
-          <div class="col-lg-2 text-muted fw-bold">Name</div>
-          <div class="col-lg-3 text-muted fw-bold">File Name</div>
-          <div class="col-lg-4 text-muted fw-bold">Description</div>
-          <div class="col-lg-1">
-            <a href="javascript:"
-               id="document-trigger"
-               class="btn btn-sm"
-               title="Toggle icons"
-               onclick="toggleToolTrayIcons('document-trigger', '.document-tool-tray')">
-              <i class="bi bi-tools fw-bold text-danger"></i>
-            </a>
+        <a hx-get="{% url 'stock_attachment_upload' stock.pk %}"
+           hx-trigger="click"
+           hx-target="#crudModal .modal-content"
+           hx-swap="innerHTML"
+           data-bs-toggle="modal"
+           data-bs-target="#crudModal"
+           href="javascript:"
+           class="btn btn-sm btn-success">
+          <i class="bi bi-file-earmark-arrow-up"></i> <span class="d-none d-sm-inline">Upload</span></a>
+      </div>
+      <div class="panel-content px-3">
+        {% if attachments|length %}
+          <!-- Headings for larger screens -->
+          <div class="row d-none d-lg-flex g-2 fw-bold text-muted">
+            <div class="col-lg-2">Uploaded</div>
+            <div class="col-lg-2">Name</div>
+            <div class="col-lg-3">File Name</div>
+            <div class="col-lg-4">Description</div>
+            <div class="col-lg-1">{% toggle_icon 'document-trigger' 'document-tool-tray' %}</div>
           </div>
+          {% for file in attachments %}
+            <!-- Each attachment entry as a row -->
+            <div class="row g-2 align-items-center">
+              <!-- Uploaded -->
+              <div class="col-12 col-lg-2 d-none d-sm-block">
+                <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
+              </div>
+              <!-- Name -->
+              <div class="col-6 col-lg-2">{{ file.name }}</div>
+              <!-- File Name -->
+              <div class="col-6 col-lg-3">
+                {% if file.filetype %}
+                  <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
+                {% else %}
+                  <i class="bi bi-file-earmark text-warning"></i>
+                {% endif %}
+                <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+              </div>
+              <!-- Description -->
+              <div class="col-12 col-lg-4 d-none d-sm-block">
+                <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+              </div>
+              <!-- Actions -->
+              <div class="col-12 col-lg-1">
+                <!-- Action buttons -->
+                <span class="document-tool-tray d-none">
+                  <a hx-get="{% url 'stock_attachment_update' file.id %}"
+                     hx-trigger="click"
+                     hx-target="#crudModal .modal-content"
+                     hx-swap="innerHTML"
+                     data-bs-toggle="modal"
+                     data-bs-target="#crudModal"
+                     href="javascript:"><i class="bi bi-pencil-square"></i></a>
+                  <a hx-get="{% url 'stock_attachment_delete' file.id %}"
+                     hx-trigger="click"
+                     hx-target="#crudModal .modal-content"
+                     hx-swap="innerHTML"
+                     data-bs-toggle="modal"
+                     data-bs-target="#crudModal"
+                     title="Delete {{ file.name }}"
+                     href="javascript:"><i class="bi bi-trash"></i></a>
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    {# Documents END #}
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between pe-2">
+        <span class="fw-bold"><i class="bi bi-clipboard-check-fill validation-text-color"></i> Validations</span>
+        <span class="text-success">
+          <a href="{% url 'stock_validation_create' stock.pk %}?next={{ request.path }}"
+             class="btn btn-sm btn-success">
+            <i class="bi bi-plus-circle"></i> <span class="d-none d-sm-inline">Add</span></a>
+        </span>
+      </div>
+      <div class="panel-content px-3">
+        <!-- Headings for larger screens -->
+        <div class="row d-none d-lg-flex g-2 fw-bold text-muted">
+          <div class="col-lg-3">Status</div>
+          <div class="col-lg-2">Validated</div>
+          <div class="col-lg-2">Authorised</div>
+          <div class="col-lg-4">Validation comments</div>
+          <div class="col-lg-1">{% toggle_icon 'validation-trigger' 'validation-tool-tray' %}</div>
         </div>
-        {% for file in attachments %}
-          <!-- Each attachment entry as a row -->
-          <div class="row g-2 mb-2 align-items-center">
-            <!-- Uploaded -->
-            <div class="col-12 col-lg-2 d-none d-lg-block">
-              <span title="{{ file.uploaded_at|date:'d/m/Y H:i:s' }}">{{ file.uploaded_at|date:'d/m/Y' }}</span>
-            </div>
-            <!-- Name -->
-            <div class="col-6 col-lg-2">{{ file.name }}</div>
-            <!-- File Name -->
-            <div class="col-6 col-lg-3">
-              {% if file.filetype %}
-                <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
-              {% else %}
-                <i class="bi bi-file-earmark text-warning"></i>
+        {% for sv in stock.validations.all %}
+          <!-- Each validation entry as a row -->
+          <div class="row g-2 align-items-center">
+            <div class="col-6 col-lg-3 text-start">{% validation_status sv.validation.status True %}</div>
+            <div class="col-lg-2 d-none d-sm-block">
+              {% if sv.validation.created %}
+                {{ sv.validation.created|date:"d/m/Y" }}
+                <i class="bi bi-check-lg text-success"
+                   title="{{ sv.validation.created_by.get_full_name }}"></i>
               {% endif %}
-              <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
             </div>
-            <!-- Description -->
-            <div class="col-12 col-lg-4 d-none d-lg-block">
-              <span class="small">{{ file.description|default:"&nbsp;" }}</span>
+            <div class="col-6 col-lg-2">
+              {% if sv.validation.authorised %}
+                {{ sv.validation.authorised|date:"d/m/Y" }}
+                <i class="bi bi-check2-all text-success"
+                   title="{{ sv.validation.authorised_by.get_full_name }}"></i>
+              {% else %}
+                {% if request.user.is_supervisor %}
+                  <a hx-get="{% url 'validation_authorise' sv.validation.pk %}?next={{ request.path }}"
+                     hx-trigger="click"
+                     hx-target="#crudModal .modal-content"
+                     hx-swap="innerHTML"
+                     data-bs-toggle="modal"
+                     data-bs-target="#crudModal"
+                     title="Authorise this validation"
+                     href="javascript:"><i class="bi bi-pen-fill text-danger">___</i></a>
+                {% else %}
+                  <i class="bi bi-three-dots text-danger" title="Awaiting authorisation!"></i>
+                {% endif %}
+              {% endif %}
             </div>
+            <div class="col-lg-4 d-none d-sm-block">{{ sv.validation.comments|default_if_none:"" }}</div>
             <!-- Actions -->
-            <div class="col-12 col-lg-1">
-              <!-- Action buttons -->
-              <span class="document-tool-tray d-none">
-                <a hx-get="{% url 'stock_attachment_update' file.id %}"
+            <div class="col-4 col-lg-1">
+              <span class="validation-tool-tray d-none">
+                <a href="{% url 'validation_update' sv.pk %}?next={{ request.path }}"
+                   title="Edit validation"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'stock_validation_delete' sv.pk %}?next={{ request.path }}"
                    hx-trigger="click"
                    hx-target="#crudModal .modal-content"
                    hx-swap="innerHTML"
                    data-bs-toggle="modal"
                    data-bs-target="#crudModal"
-                   href="javascript:"><i class="bi bi-pencil-square"></i></a>
-                <a hx-get="{% url 'stock_attachment_delete' file.id %}"
-                   hx-trigger="click"
-                   hx-target="#crudModal .modal-content"
-                   hx-swap="innerHTML"
-                   data-bs-toggle="modal"
-                   data-bs-target="#crudModal"
-                   title="Delete {{ file.name }}"
-                   href="javascript:"><i class="bi bi-trash"></i></a>
+                   title="Delete this validation"
+                   href="javascript:">
+                  <i class="bi bi-trash" title="Delete validation"></i>
+                </a>
               </span>
             </div>
           </div>
         {% endfor %}
       </div>
-    {% endif %}
-  </div>
-</div>
-{# attachments end #}
-{# stock validations #}
-<div class="panel mb-4">
-  <div class="panel-heading d-flex justify-content-between">
-    <span class="fw-bold">
-      <i class="bi bi-clipboard-check-fill validation-text-color"></i>
-      Validations
-    </span>
-    <span class="text-success pe-2">
-    <a href="{% url 'stock_validation_create' stock.pk %}?next={{ request.path }}"
-       class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i>
-    <span class="d-none d-sm-inline">Add</span>
-  </a>
-</span>
-</div>
-<div class="panel-content px-3">
-  <div class="container small">
-    <!-- Headings for larger screens -->
-    <div class="row d-none d-lg-flex g-2 mb-2 text-center">
-      <div class="col-lg-2 text-muted text-start">Status</div>
-      <div class="col-lg-2 text-muted">Validated</div>
-      <div class="col-lg-2 text-muted">Authorised</div>
-      <div class="col-lg-4 text-muted">Validation comments</div>
-      <div class="col-lg-2"></div>
     </div>
-    {% for sv in stock.validations.all %}
-      <!-- Each validation entry as a row -->
-      <div class="row g-2 mb-2 align-items-center text-center">
-        <div class="col-12 col-lg-2 text-start">{% validation_status sv.validation.status True %}</div>
-        <div class="col-4 col-lg-2">
-          {% if sv.validation.created %}<i class="bi bi-check-lg text-success"></i>{% endif %}
-          {{ sv.validation.created|date:"d/m/Y" }}
-          <span title="{{ sv.validation.created_by.get_full_name }}">{{ sv.validation.created_by.initials }}</span>
-        </div>
-        <div class="col-4 col-lg-2">
-          {% if sv.validation.authorised %}
-            <i class="bi bi-check2-all text-success"></i>
-            {{ sv.validation.authorised|date:"d/m/Y" }}
-            <span title="{{ sv.validation.authorised_by.get_full_name }}">{{ sv.validation.authorised_by.initials }}</span>
-          {% else %}
-            {% if request.user.is_supervisor %}
-              <a hx-get="{% url 'validation_authorise' sv.validation.pk %}?next={{ request.path }}"
-                 hx-trigger="click"
-                 hx-target="#crudModal .modal-content"
-                 hx-swap="innerHTML"
-                 data-bs-toggle="modal"
-                 data-bs-target="#crudModal"
-                 title="Authorise this validation"
-                 href="javascript:"><i class="bi bi-pen-fill text-danger">___</i></a>
-            {% else %}
-              <i class="bi bi-three-dots text-danger" title="Awaiting authorisation!"></i>
-            {% endif %}
-          {% endif %}
-        </div>
-        <div class="col-12 col-lg-4 d-none d-lg-block">{{ sv.validation.comments|default_if_none:"" }}</div>
-        <!-- Actions -->
-        <div class="col-4 col-lg-2 text-lg-end">
-          TODO: Actions here
-        </div>
+    {# Validations END #}
+    <div class="panel mb-4">
+      <div class="panel-heading d-flex justify-content-between pe-2">
+        <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
+        <span class="float-right">
+          <a href="#startOffcanvas"
+             data-bs-toggle="offcanvas"
+             hx-target="#startOffcanvas"
+             hx-get="{% url 'stock_label_print' stock.pk %}"
+             hx-swap="innerHTML"
+             class="btn btn-sm"
+             title="Print QR Code Stickers"><i class="bi bi-qr-code"></i> Labels</a>
+        </span>
       </div>
-    {% endfor %}
-  </div>
-</div>
-</div>
-{# stock validations end #}
-{# stock entries #}
-<div class="panel mb-4">
-  <div class="panel-heading d-flex justify-content-between">
-    <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Stock Entries</span>
-    <span class="float-right pe-2">
-      <a href="{% url 'stock_label_print' stock.pk %}"
-         title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
-    </span>
-  </div>
-  <div class="panel-content px-3">
-    <table class="table table-sm table-hover small">
-      <thead class="text-center">
-        <tr>
-          <th class="text-muted">Box</th>
-          <th class="text-muted">In-Use</th>
-          <th class="text-muted">Quantity</th>
-          <th class="text-muted text-start">Location</th>
-          <th class="text-muted text-start">Comments</th>
-          <th>{% include "partials/tooltray_toggle_icon.html" %}</th>
-        </tr>
-      </thead>
-      <tbody class="text-center align-middle">
+      <div class="panel-content px-3">
+        <!-- Headings for larger screens -->
+        <div class="row d-none d-lg-flex g-2 fw-bold text-muted">
+          <div class="col-lg-2 ps-3">Box</div>
+          <div class="col-lg-2">In-use date</div>
+          <div class="col-lg-3 text-center">Quantity</div>
+          <div class="col-lg-2">Location</div>
+          <div class="col-lg-2">Comments</div>
+          <div class="col-lg-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
+        </div>
         {% for entry in stock.entries.all %}
-          <tr>
-            <td>
+          <div class="row g-2 align-items-center">
+            <div class="col-2 col-lg-2 ps-3">
               <span class="icon-with-text">
                 <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
                 <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
               </span>
-            </td>
-            <td>{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</td>
-            <td class="text-center max-width-100px">
+            </div>
+            <div class="col-4 col-lg-2">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
+            <div class="col-6 col-lg-3">
               {% if entry.remaining_quantity == 0 %}
                 <del>0 {{ entry.remaining_unit }}</del>
               {% else %}
                 {% include "usage/usage_htmx_updated.html" %}
               {% endif %}
-            </td>
-            <td class="text-start">
+            </div>
+            <div class="d-none d-sm-block col-lg-2">
               <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
-            </td>
-            <td class="text-start">{{ entry.comments|default_if_none:"" }}</td>
-            <td>
+            </div>
+            <div class="d-none d-sm-block col-lg-2">{{ entry.comments|default_if_none:"" }}</div>
+            <div class="d-none d-sm-block col-lg-1">
               <span class="tooltray-container d-none">
                 <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"
                    title="Edit {{ entry.ordinal_number }}"><i class="bi bi-pencil-square"></i></a>
@@ -263,14 +259,11 @@
                    title="Delete {{ entry.ordinal_number }}"
                    href="javascript:"><i class="bi bi-trash"></i></a>
               </span>
-            </td>
-          </tr>
+            </div>
+          </div>
         {% endfor %}
-      </tbody>
-    </table>
+      </div>
+    </div>
   </div>
-</div>
-{# stock entries end #}
-</div>
-{% include "partials/object_last_updated.html" %}
+  {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}

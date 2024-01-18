@@ -34,10 +34,10 @@ class UsageUpdateHtmxView(LoginRequiredMixin, View):
             usage_instance = form.save(commit=False)
             usage_instance.stock_entry = self.stock_entry
             usage_instance.used_by = request.user
-            usage_instance.save()
-            messages.success(request, "Usage updated ...")
+            usage_instance.save()            
             if "HX-Request" in request.headers:
                 return render(request, self.updated_template, context)
+            messages.success(request, "Usage updated ...")
             next_url = form.data.get("next") or self.success_url
             return redirect(next_url)
         messages.error(request, "Error updating usage")
