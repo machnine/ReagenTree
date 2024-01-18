@@ -83,6 +83,20 @@ class UserProfileEdit(LoginRequiredMixin, UpdateView):
         """Get the user object instead of a user specified by URL"""
         return self.request.user
 
+    def form_valid(self, form):
+        """Save the user profile"""
+        user = form.save(commit=False)
+        password1 = form.cleaned_data.get("password1")
+
+        # Update the password if a new one is provided
+        if password1:
+            user.set_password(password1)
+            messages.success(self.request, "Your password has been updated successfully.")
+
+        user.save()
+        messages.success(self.request, "Your profile has been updated successfully.")
+        return super().form_valid(form)
+
 
 class UserLogoutConfirmView(View):
     """User Logout Confirm View"""

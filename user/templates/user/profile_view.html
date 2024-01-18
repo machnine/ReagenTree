@@ -16,34 +16,37 @@
 {% block panel_content %}
   <div class="pt-3 px-3">
     <div class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">First name:</span>
+      <span class="input-group-text input-group-text-fw-md">Username:</span>
       <input type="text"
              class="form-control bg-light"
-             id="firstName"
+             value="{{ user.username }}"
+             disabled>
+    </div>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-md">First name:</span>
+      <input type="text"
+             class="form-control bg-light"
              value="{{ user.first_name }}"
              disabled>
     </div>
     <div class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Last name:</span>
+      <span class="input-group-text input-group-text-fw-md">Last name:</span>
       <input type="text"
              class="form-control bg-light"
-             id="lastName"
              value="{{ user.last_name }}"
              disabled>
     </div>
     <div class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Email address:</span>
+      <span class="input-group-text input-group-text-fw-md">Email address:</span>
       <input type="text"
              class="form-control bg-light"
-             id="lastName"
              value="{{ user.email }}"
              disabled>
     </div>
     <div class="mb-3 input-group">
-      <span class="input-group-text input-group-text-fw-sm">Initials:</span>
+      <span class="input-group-text input-group-text-fw-md">Initials:</span>
       <input type="text"
              class="form-control bg-light"
-             id="lastName"
              value="{{ user.initials }}"
              disabled>
     </div>

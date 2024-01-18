@@ -7,28 +7,51 @@
 {% endblock panel_title %}
 {% block panel_content %}
   <div class="pt-3 px-3">
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-md">Username:</span>
+      <input type="text"
+             class="form-control bg-light"
+             value="{{ user.username }}"
+             disabled>
+    </div>
     <form method="post">
       {% csrf_token %}
       <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.first_name.label_tag }}</span>
+        <span class="input-group-text input-group-text-fw-md">{{ form.first_name.label_tag }}</span>
         {{ form.first_name }}
       </div>
       <span class="text-danger">{{ form.first_name.errors }}</span>
       <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.last_name.label_tag }}</span>
+        <span class="input-group-text input-group-text-fw-md">{{ form.last_name.label_tag }}</span>
         {{ form.last_name }}
       </div>
       <span class="text-danger">{{ form.last_name.errors }}</span>
       <div class="mb-3 input-group">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.email.label_tag }}</span>
+        <span class="input-group-text input-group-text-fw-md">{{ form.email.label_tag }}</span>
         {{ form.email }}
       </div>
       <span class="text-danger">{{ form.email.errors }}</span>
       <div class="mb-3 input-group">
-        <span class="input-group-text input-group-text-fw-sm">{{ form.initials.label_tag }}</span>
+        <span class="input-group-text input-group-text-fw-md">{{ form.initials.label_tag }}</span>
         {{ form.initials }}
       </div>
       <span class="text-danger">{{ form.initials.errors }}</span>
+      <hr>
+      <div class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-md">{{ form.current_password.label_tag }}</span>
+        {{ form.current_password }}
+      </div>
+      <span class="text-danger">{{ form.current_password.errors }}</span>
+      <div class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-md">{{ form.password1.label_tag }}</span>
+        {{ form.password1 }}
+      </div>
+      <span class="text-danger">{{ form.password1.errors }}</span>
+      <div class="input-group mb-3">
+        <span class="input-group-text input-group-text-fw-md">{{ form.password2.label_tag }}</span>
+        {{ form.password2 }}
+      </div>
+      <span class="text-danger">{{ form.password2.errors }}</span>
       <div class="text-end">
         <a href="{% url 'user_profile' %}" class="btn btn-sm btn-secondary">
           <i class="bi bi-x-lg"></i> Cancel
