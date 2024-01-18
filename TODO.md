@@ -19,4 +19,4 @@
 - highlight expiry date when expired
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
-- In house reagent create - more clever in adding items? use HTMX to add/remove dynamically?
+- In house reagent create - more clever in adding items? use HTMX to add/remove dynamically

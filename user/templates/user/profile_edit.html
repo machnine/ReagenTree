@@ -31,28 +31,37 @@
         {{ form.email }}
       </div>
       <span class="text-danger">{{ form.email.errors }}</span>
-      <div class="mb-3 input-group">
+      <div class="mb-1 input-group">
         <span class="input-group-text input-group-text-fw-md">{{ form.initials.label_tag }}</span>
         {{ form.initials }}
       </div>
       <span class="text-danger">{{ form.initials.errors }}</span>
-      <hr>
-      <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-md">{{ form.current_password.label_tag }}</span>
-        {{ form.current_password }}
+
+        <a data-bs-toggle="collapse"
+           href="#passwordCollapse"
+           title="Toggle password inputs"
+           class="small">
+          <i>change password</i> <i class="bi bi-arrow-down-short"></i>
+        </a>
+      <div class="collapse" id="passwordCollapse">
+        <hr>
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-md">{{ form.current_password.label_tag }}</span>
+          {{ form.current_password }}
+        </div>
+        <span class="text-danger">{{ form.current_password.errors }}</span>
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-md">{{ form.password1.label_tag }}</span>
+          {{ form.password1 }}
+        </div>
+        <span class="text-danger">{{ form.password1.errors }}</span>
+        <div class="input-group mb-3">
+          <span class="input-group-text input-group-text-fw-md">{{ form.password2.label_tag }}</span>
+          {{ form.password2 }}
+        </div>
+        <span class="text-danger">{{ form.password2.errors }}</span>
       </div>
-      <span class="text-danger">{{ form.current_password.errors }}</span>
-      <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-md">{{ form.password1.label_tag }}</span>
-        {{ form.password1 }}
-      </div>
-      <span class="text-danger">{{ form.password1.errors }}</span>
-      <div class="input-group mb-3">
-        <span class="input-group-text input-group-text-fw-md">{{ form.password2.label_tag }}</span>
-        {{ form.password2 }}
-      </div>
-      <span class="text-danger">{{ form.password2.errors }}</span>
-      <div class="text-end">
+      <div class="text-end mb-3">
         <a href="{% url 'user_profile' %}" class="btn btn-sm btn-secondary">
           <i class="bi bi-x-lg"></i> Cancel
         </a>
