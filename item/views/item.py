@@ -1,8 +1,5 @@
 """Item views"""
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -13,28 +10,6 @@ from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
 from item.forms import ItemAttachmentCreateForm, ItemAttachmentUpdateForm, ItemForm
 from item.models import Item, ItemAttachment, Stock
-
-
-# Item search view
-@login_required
-def item_search(request):
-    """HTMX GET request for returning a list of search items"""
-    query = request.GET.get("item_query", "")
-    if query:
-        queries = [
-            Q(name__icontains=term)
-            | Q(description__icontains=term)
-            | Q(manufacturer__name__icontains=term)
-            | Q(supplier__name__icontains=term)
-            for term in query.split()
-        ]
-        query = queries.pop()
-        for item in queries:
-            query &= item
-        items = Item.objects.filter(query)[:5]
-    else:
-        items = []
-    return render(request, "item/partials/search_results.html", {"found_items": items})
 
 
 # Item CRUD views

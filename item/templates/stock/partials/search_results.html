@@ -1,0 +1,3 @@
+{% for stock in found_stocks %}
+  <a href="javascript:" class="list-group-item list-group-item-action stock-search-result-stock" stock-pk={{ stock.pk }}>{{ stock.source.name }}</a>
+{% endfor %}

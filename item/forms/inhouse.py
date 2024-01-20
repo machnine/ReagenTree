@@ -29,6 +29,8 @@ class InhouseReagentForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({"class": "form-control"})
         self.fields["description"].widget.attrs.update({"rows": 2})
         self.fields["quantity_unit"].widget.attrs.update({"class": "form-select"})
+        self.fields["quantity"].widget.attrs.update({"placeholder": "Quantity in each aliquot..."})
+        self.fields["product_id"].widget.attrs.update({"placeholder": "Assign a product ID follow the convention..."})
 
 
 class ReagentComponentForm(forms.ModelForm):

@@ -50,75 +50,10 @@
       {{ form.description }}
     </div>
     <span class="text-danger small">{{ form.description.errors }}</span>
-    {{ formset.management_form }}
-    <div class="panel mt-4">
-      <div class="panel-heading d-flex justify-content-between align-items-center px-3">
-        <b>Add Components</b>
-        <a href="javascript:" id="add-more" class="btn btn-sm item-text-color">
-          <b><i class="bi bi-plus-circle"></i> Add</b>
-        </a>
-      </div>
-      <div class="panel-content">
-        <div id="formset-container">
-          {% for comp_form in formset %}
-            <div class="reagent-component-form">
-              <div class="row py-2">
-                <div class="col-6">
-                  <div class="input-group">
-                    <span class="input-group-text">Reagent:</span>
-                    {{ comp_form.stock }}
-                  </div>
-                  <span class="text-danger small">{{ comp_form.stock.errors }}</span>
-                </div>
-                <div class="col-3">
-                  <div class="input-group">
-                    <span class="input-group-text">Quantity:</span>
-                    {{ comp_form.quantity }}
-                  </div>
-                  <span class="text-danger small">{{ comp_form.quantity.errors }}</span>
-                </div>
-                <div class="col-2">
-                  <div class="input-group">
-                    <span class="input-group-text">Unit:</span>
-                    {{ comp_form.quantity_unit }}
-                  </div>
-                  <span class="text-danger small">{{ comp_form.quantity_unit.errors }}</span>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
   </div>
 {% endblock create_form %}
 {% block js %}
   <script>
-    document.getElementById('add-more').addEventListener('click', function() {
-      var totalForms = document.getElementById('id_reagentcomponent_set-TOTAL_FORMS');
-      var formIndex = parseInt(totalForms.value);
-      var newElement = document.querySelector('.reagent-component-form:last-child').cloneNode(true);
-  
-      // Helper function to update attributes
-      function updateAttribute(element, attr) {
-          if (element.hasAttribute(attr)) {
-              element.setAttribute(attr, element.getAttribute(attr).replace(/-\d+-/, '-' + formIndex + '-'));
-          }
-      }
-  
-      // Update form field names and IDs
-      newElement.querySelectorAll('input, select, textarea').forEach(function(element) {
-          updateAttribute(element, 'name');
-          updateAttribute(element, 'id');
-      });
-  
-      // Append the new form
-      document.getElementById('formset-container').appendChild(newElement);
-  
-      // Increment the TOTAL_FORMS count
-      totalForms.value = formIndex + 1;
-  });
-  
   // Array of configurations for each search box
   const searchConfigurations = [
   {

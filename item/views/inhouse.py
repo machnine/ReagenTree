@@ -1,110 +1,27 @@
 """In house reagent views """
+
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from django.forms import inlineformset_factory
-from django.shortcuts import render
+from django.db import transaction
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from core.views.generic import ObjectDeleteHTMXView
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
+from core.views.generic import ObjectDeleteHTMXView
 from item.forms import InhouseReagentForm, ReagentComponentForm
 from item.models import InhouseReagent, ReagentComponent
 
 
-# mixins
-class InhouseReagentFormProccessorMixin:
-    """Mixin for processing inhouse reagent form"""
-
-    def get_success_url(self):
-        """return the URL to redirect to, after processing a valid form."""
-
-        if next_url := self.request.POST.get("next"):
-            return next_url
-        else:
-            return super().get_success_url()
-
-    def get_formset(self, data=None, instance=None, extra_forms=1):
-        """Helper function to get formset"""
-        ReagentComponentFormSet = inlineformset_factory(
-            InhouseReagent, ReagentComponent, form=ReagentComponentForm, extra=extra_forms
-        )
-        return ReagentComponentFormSet(data=data, instance=instance)
-
-    def form_valid(self, form, formset):
-        """form valid method"""
-        # Validate that at least one ReagentComponent is present
-        if not formset.forms or all(
-            form.cleaned_data.get("DELETE", False) for form in formset.forms if form.cleaned_data
-        ):
-            messages.error(self.request, "At least one component is required.")
-            return self.form_invalid(form, formset)
-        action = "updated"
-        # Set the created_by and last_updated_by fields
-        if not bool(form.instance.pk):
-            action = "created"
-            form.instance.created_by = self.request.user
-        form.instance.last_updated_by = self.request.user
-        # Save the main form (InhouseReagent)
-        self.object = form.save()
-        # Set the instance for the formset and save it
-        formset.instance = self.object
-        formset.save()
-        # Messages
-        action_success = mark_safe(f"{self.model.__name__}: <i><b>{form.instance}</b></i> {action} successfully.")
-        messages.success(self.request, action_success)
-        # Now call the superclass's form_valid method
-        return super().form_valid(form)
-
-    def form_invalid(self, form, formset):
-        """form invalid method"""
-        context = self.get_context_data(form=form, formset=formset)
-        return render(self.request, self.template_name, context)
-
-
-# inhouse reagent search view
-@login_required
-def inhouse_reagent_search(request):
-    """HTMX view for returning a list of inhouse reagents"""
-    query = request.GET.get("inhouse_query", "")
-    if query:
-        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
-        query = queries.pop()
-        for reagent in queries:
-            query &= reagent
-        inhouse_reagents = InhouseReagent.objects.filter(query)[:5]
-    else:
-        inhouse_reagents = []
-    return render(request, "inhouse/partials/search_results.html", {"found_inhouse_reagents": inhouse_reagents})
-
-
 # CRUD views
-class InhouseReagentCreateView(LoginRequiredMixin, InhouseReagentFormProccessorMixin, CreateView):
+class InhouseReagentCreateView(LoginRequiredMixin, CreateView):
     """Create view for inhouse reagents"""
 
     model = InhouseReagent
     template_name = "inhouse/inhouse_create.html"
     form_class = InhouseReagentForm
     success_url = reverse_lazy("inhouse_list")
-
-    def get(self, request, *args, **kwargs):
-        """Override get to set initial form data"""
-        form = self.get_form()
-
-        # Formset for reagent components
-        formset = self.get_formset(instance=InhouseReagent())
-        form_context = {"form": form, "formset": formset}
-        return render(request, self.template_name, form_context)
-
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        formset = self.get_formset(data=request.POST, instance=InhouseReagent())
-        if form.is_valid() and formset.is_valid():
-            return self.form_valid(form, formset)
-        return self.form_invalid(form, formset)
 
 
 class InhouseReagentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
@@ -120,15 +37,6 @@ class InhouseReagentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMes
         if self.object.category:
             context["category_name"] = self.object.category.name
         return context
-
-
-class InhouseReagentComponentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
-    """Update view for inhouse reagent components"""
-
-    model = ReagentComponent
-    template_name = "inhouse/component_update.html"
-    form_class = ReagentComponentForm
-    success_url = reverse_lazy("inhouse_list")
 
 
 class InhouseReagentDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
@@ -160,3 +68,74 @@ class InhouseReagentDetailView(LoginRequiredMixin, DetailView):
         reagent_components = ReagentComponent.objects.filter(reagent=self.object)
         context["reagent_components"] = reagent_components
         return context
+
+
+class ReagentComponentCreateView(LoginRequiredMixin, CreateView):
+    """
+    Create view for inhouse reagent components
+    This handles the HTMX request from the inhouse detail view
+    """
+
+    model = ReagentComponent
+    template_name = "inhouse/partials/component_form.html"
+    form_class = ReagentComponentForm
+
+    def dispatch(self, request, *args, **kwargs):
+        # Retrieve and store the InhouseReagent instance for later use
+        self.reagent = get_object_or_404(InhouseReagent, pk=kwargs.get("reagent_pk"))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        # Redirect to the detail view of the associated InhouseReagent
+        return reverse_lazy("inhouse_detail", kwargs={"pk": self.reagent.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the InhouseReagent instance to the template context
+        context["reagent"] = self.reagent
+        return context
+
+    def form_valid(self, form):
+        # Associate the component with the retrieved InhouseReagent
+        component = form.save(commit=False)
+
+        # Check if the component's stock is already in the reagent's components
+        if ReagentComponent.objects.filter(reagent=self.reagent, stock=component.stock).exists():
+            messages.error(self.request, "This stock is already part of the reagent.")
+            return HttpResponseRedirect(self.get_success_url())
+
+        # Check if the stock's source is the reagent itself
+        if component.stock.source == self.reagent:
+            messages.error(self.request, "The stock's source cannot be the reagent itself.")
+            return HttpResponseRedirect(self.get_success_url())
+
+        component.reagent = self.reagent
+        component.save()
+        return super().form_valid(form)
+
+
+class ReagentComponentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
+    """Update view for inhouse reagent components"""
+
+    model = ReagentComponent
+    template_name = "inhouse/component_update.html"
+    form_class = ReagentComponentForm
+    success_url = reverse_lazy("inhouse_list")
+
+
+class ReagentComponentDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
+    """Delete view for inhouse reagent components"""
+    model = ReagentComponent
+    action_url = "component_delete"
+    success_url = None
+
+    def post(self, request, *args, **kwargs):
+        """HTMX POST request for deleting an object."""
+        with transaction.atomic():
+            obj = self.get_object(kwargs["pk"])
+            reagent_id = obj.reagent.pk
+            obj.delete()
+            messages.success(request, "Component deleted successfully.")
+        if not request.POST.get("next"):
+            self.success_url = reverse_lazy("inhouse_detail", kwargs={"pk": reagent_id})
+        return redirect(self.get_success_url())

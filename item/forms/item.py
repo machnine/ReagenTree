@@ -29,7 +29,7 @@ class ItemForm(forms.ModelForm):
         for field in ("name", "product_id", "quantity", "description", "cas_number"):
             self.fields[field].widget.attrs.update({"class": "form-control"})
         self.fields["quantity_unit"].widget.attrs.update({"class": "form-select"})
-        self.fields["description"].widget.attrs.update({"rows": 3})
+        self.fields["description"].widget.attrs.update({"rows": 2})
 
 
 # Item Attachment forms

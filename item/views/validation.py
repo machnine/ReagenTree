@@ -37,7 +37,7 @@ class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, FormV
     """HTMX view for authorising a validation"""
 
     template_name = "validation/validation_authorisation_form.html"
-    success_url = "/"
+    success_url = reverse_lazy("stock_validation_list")
 
     def dispatch(self, request, *args, **kwargs):
         """Check user permissions"""

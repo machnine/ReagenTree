@@ -50,6 +50,17 @@
     <div class="panel mb-4">
       <div class="panel-heading d-flex justify-content-between align-items-center">
         <span class="fw-bold"><i class="bi bi-menu-button-wide-fill text-danger"></i> Reagent Components</span>
+        <span>
+          <a data-bs-toggle="offcanvas"
+             href="#startOffcanvas"
+             title="Add components"
+             hx-get="{% url 'component_create' object.pk %}"
+             hx-target="#startOffcanvas"
+             hx-swap="innerHTML"
+             class="btn btn-sm btn-success">
+            <i class="bi bi-plus-circle"></i>
+            <span class="d-none d-sm-inline">Add</span></a>
+        </span>
       </div>
       <div class="panel-content px-3 small">
         <!-- Headings for larger screens -->
@@ -77,6 +88,14 @@
                    title="Update components">
                   <i class="bi bi-pencil-square"></i>
                 </a>
+                <a hx-get="{% url 'component_delete' c.pk %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   title="Delete component"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
               </span>
             </div>
           </div>
@@ -86,3 +105,20 @@
   </div>
   {% include "partials/object_last_updated.html" %}
 {% endblock panel_content %}
+{% block js %}
+  <script>
+    //set up the search result listener for the item search box
+    const searchConfigurations = [{
+      searchBoxId: "stock_search_box",
+      textInputId: "id_stock",
+      resultsDivId: "stockSearchResults",
+      resultClass: "stock-search-result-stock",
+      valueAttribute: "stock-pk"
+    }];
+
+    // Initialize each search box listener
+    searchConfigurations.forEach(
+      config => TypeSearchResultListenerConfig(config)
+    );
+  </script>
+{% endblock js %}

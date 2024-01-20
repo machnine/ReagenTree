@@ -1,0 +1,20 @@
+<div class="input-group mb-3">
+  <span class="input-group-text input-group-text">Stock:</span>
+  <input type="text"
+         name="stock_query"
+         id="stock_search_box"
+         class="form-control"
+         autocomplete="off"
+         value="{{ stock_name|default_if_none:'' }}"
+         placeholder="Start typing to enter an stock..."
+         hx-trigger="keyup changed delay:500ms"
+         hx-get="{% url 'stock_search' %}"
+         hx-target="#stockSearchResults">
+</div>
+<span class="text-danger">{{ form.stock.errors }}</span>
+<div id="stockSearchResults" class="list-group type-search-result"></div>
+<input type="text"
+       name="stock"
+       id="id_stock"
+       value="{{ form.stock.value|default_if_none:'' }}"
+       hidden>

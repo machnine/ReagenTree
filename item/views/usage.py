@@ -14,7 +14,6 @@ class UsageUpdateHtmxView(LoginRequiredMixin, View):
     form_class = UsageForm
     input_template = "usage/usage_htmx_input.html"
     updated_template = "usage/usage_htmx_updated.html"
-    success_url = "/"
 
     def dispatch(self, request, *args, **kwargs):
         """Get the stock object before processing the request"""

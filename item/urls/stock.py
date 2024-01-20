@@ -16,6 +16,7 @@ from item.views import (
     StockValidationCreateView,
     StockValidationDeleteView,
     StockValidationListView,
+    stock_search,
 )
 
 urlpatterns = [
@@ -33,4 +34,5 @@ urlpatterns = [
     path("validation/<int:pk>/delete/", StockValidationDeleteView.as_view(), name="stock_validation_delete"),
     path("validations/", StockValidationListView.as_view(), name="stock_validation_list"),
     path("<int:pk>/print/", StockLabelPrintView.as_view(), name="stock_label_print"),
+    path("search/", stock_search, name="stock_search"),
 ]
