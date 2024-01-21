@@ -4,6 +4,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -115,5 +116,6 @@ class StockValidationListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(validations__isnull=True)
+        queries = Q(validations__validation__status="PENDING") | Q(validations__isnull=True)
+        queryset = queryset.filter(queries).distinct()
         return queryset.order_by("-delivery_date")

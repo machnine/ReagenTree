@@ -9,28 +9,30 @@
 {% block panel_actions %}
 {% endblock panel_actions %}
 {% block panel_content %}
-  <div class="table-responsive pt-3">
-    <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th width="25%">Stock Items</th>
-          <th width="15%">Delivery</th>
-          <th width="15%">Status</th>
-          <th>Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for stock in stocks %}
-          <tr>
-            <td>
-              <a href="{% url 'stock_detail' stock.pk %}">{{ stock }}</a>
-            </td>
-            <td>{{ stock.delivery_date|date:"d/m/Y"|default_if_none:"" }}</td>
-            <td>?</td>
-            <td>{{ stock.comments }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="container-fluid pt-3">
+    <!-- Headers -->
+    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+      <div class="col-5">Stock Items</div>
+      <div class="col-2">Created</div>
+      <div class="col-2">Status</div>
+      <div class="col-3">Comments</div>
+    </div>
+    <!-- Rows for Each Stock Item -->
+    {% for stock in stocks %}
+      <div class="row g-2 mb-2 border-top align-items-center">
+        <!-- Stock Item -->
+        <div class="col-8 col-lg-5">
+          <a href="{% url 'stock_detail' stock.pk %}">{{ stock }}</a>
+        </div>
+        <!-- Delivery Date -->
+        <div class="col-4 col-lg-2">{{ stock.delivery_date|date:"d/m/Y"|default_if_none:"" }}</div>
+        <!-- Status -->
+        <div class="col-lg-2 d-none d-lg-block">
+          Unknonw or Pending
+        </div>
+        <!-- Comments -->
+        <div class="col-lg-3 d-none d-lg-block">{{ stock.comments }}</div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock panel_content %}

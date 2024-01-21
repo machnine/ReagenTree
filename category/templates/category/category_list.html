@@ -10,46 +10,46 @@
   <a href="{% url 'category_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New category</a>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <div class="table-responsive">
-    <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th>Categories</th>
-          <th width="25%" class="d-none d-lg-table-cell">Description</th>
-          <th class="d-none d-lg-table-cell">Items</th>
-          <th class="d-none d-lg-table-cell">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for category in categories %}
-          <tr>
-            <td class="align-middle">
-              <a href="{% url 'category_detail' category.pk %} "
-                 title="category details">{{ category.name }}</a>
-            </td>
-            <td class="small d-none d-lg-table-cell">{{ category.description|truncatechars:120 }}</td>
-            <td class="d-none d-lg-table-cell">
-              {% for item in category.items.all|slice:20 %}
-                <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
-                {% if not forloop.last %},{% endif %}
-              {% endfor %}
-              {% if category.items.count > 20 %}...{% endif %}
-            </td>
-            <td class="d-none d-lg-table-cell align-middle">
-              <span class="tooltray-container d-none">
-                <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
-                <a hx-get="{% url 'category_delete' category.pk %}"
-                   hx-trigger="click"
-                   hx-target="#crudModal .modal-content"
-                   hx-swap="innerHTML"
-                   data-bs-toggle="modal"
-                   data-bs-target="#crudModal"
-                   href="javascript:"><i class="bi bi-trash"></i></a>
-              </span>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="container-fluid pt-3">
+    <!-- Headers -->
+    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+      <div class="col-3">Categories</div>
+      <div class="col-4">Description</div>
+      <div class="col-4">Items</div>      
+      <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
+    </div>
+    <!-- Rows -->
+    {% for category in categories %}
+      <div class="row g-2 mb-2 border-top align-items-center">
+        <!-- Category Name -->
+        <div class="col-12 col-lg-3 align-middle">
+          <a href="{% url 'category_detail' category.pk %}"
+             title="category details">{{ category.name }}</a>
+        </div>
+        <!-- Description -->
+        <div class="col-lg-4 d-none d-lg-block small">{{ category.description|truncatechars:120 }}</div>
+        <!-- Items -->
+        <div class="col-lg-4 d-none d-lg-block">
+          {% for item in category.items.all|slice:20 %}
+            <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
+            {% if not forloop.last %},{% endif %}
+          {% endfor %}
+          {% if category.items.count > 20 %}...{% endif %}
+        </div>
+        <!-- Actions -->
+        <div class="col-lg-1 d-none d-lg-block align-middle">
+          <span class="tooltray-container d-none">
+            <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
+            <a hx-get="{% url 'category_delete' category.pk %}"
+               hx-trigger="click"
+               hx-target="#crudModal .modal-content"
+               hx-swap="innerHTML"
+               data-bs-toggle="modal"
+               data-bs-target="#crudModal"
+               href="javascript:"><i class="bi bi-trash"></i></a>
+          </span>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock panel_content %}

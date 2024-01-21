@@ -133,20 +133,3 @@ function toggleToolTrayIcons(triggerId, containerIdentifier) {
     }
   }
 }
-
-/* Function for checking the user session status */
-function checkSessionStatus() {
-  fetch("/session-status/", {
-    credentials: "include", // Ensure cookies, including session cookies, are sent
-  })
-    .then((response) => {
-      if (response.redirected || response.status === 401) {
-        // Redirect to the login page
-        window.location.href =
-          "/login/?next=" + encodeURIComponent(window.location.href);
-      }
-    })
-    .catch(() => {
-      // Handle errors (e.g., network issues)
-    });
-}

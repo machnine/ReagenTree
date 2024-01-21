@@ -10,56 +10,52 @@
   <a href="{% url 'item_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New item</a>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <div class="table-responsive pt-3">
-    <table class="table table-hover table-sm">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Product ID</th>
-          <th class="d-none d-lg-table-cell">Category</th>
-          <th class="d-none d-lg-table-cell">Manufacturer</th>
-          <th class="d-none d-lg-table-cell">Supplier</th>
-          <th class="d-none d-lg-table-cell">Description</th>
-          <th class="d-none d-lg-table-cell">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in items %}
-          <tr>
-            <td>
-              <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
-            </td>
-            <td class="small">{{ item.product_id }}</td>
-            <td class="d-none d-lg-table-cell">
-              <a href="{% url 'category_detail' item.category.pk %}"
-                 title="item details">{{ item.category }}</a>
-            </td>
-            <td class="d-none d-lg-table-cell">
-              {% if item.manufacturer %}
-                <a href="{% url 'company_detail' item.manufacturer.pk %}">{{ item.manufacturer }}</a>
-              {% endif %}
-            </td>
-            <td class="d-none d-lg-table-cell">
-              {% if item.supplier %}
-                <a href="{% url 'company_detail' item.supplier.pk %}">{{ item.supplier }}</a>
-              {% endif %}
-            </td>
-            <td class="small d-none d-lg-table-cell">{{ item.description|truncatechars:150 }}</td>
-            <td class="d-none d-lg-table-cell">
-              <span class="tooltray-container d-none">
-                <a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a>
-                <a hx-get="{% url 'item_delete' item.pk %}"
-                   hx-trigger="click"
-                   hx-target="#crudModal .modal-content"
-                   hx-swap="innerHTML"
-                   data-bs-toggle="modal"
-                   data-bs-target="#crudModal"
-                   href="javascript:"><i class="bi bi-trash"></i></a>
-              </span>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="container-fluid pt-3">
+    <!-- Headers -->
+    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+      <div class="col-2">Name</div>
+      <div class="col-1">Product ID</div>
+      <div class="col-1">Category</div>
+      <div class="col-2">Manufacturer</div>
+      <div class="col-2">Supplier</div>
+      <div class="col-3">Description</div>
+      <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
+    </div>
+    <!-- Items -->
+    {% for item in items %}
+      <div class="row g-2 mb-2 border-top align-items-center">
+        <div class="col col-lg-2">
+          <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
+        </div>
+        <div class="col col-lg-1 small">{{ item.product_id }}</div>
+        <div class="d-none col-lg-1 d-lg-block">
+          <a href="{% url 'category_detail' item.category.pk %}"
+             title="item details">{{ item.category }}</a>
+        </div>
+        <div class="d-none col-lg-2 d-lg-block">
+          {% if item.manufacturer %}
+            <a href="{% url 'company_detail' item.manufacturer.pk %}">{{ item.manufacturer }}</a>
+          {% endif %}
+        </div>
+        <div class="col col-lg-2">
+          {% if item.supplier %}
+            <a href="{% url 'company_detail' item.supplier.pk %}">{{ item.supplier }}</a>
+          {% endif %}
+        </div>
+        <div class="d-none col-lg-3 d-lg-block small">{{ item.description|truncatechars:150 }}</div>
+        <div class="d-none col-lg-1 d-lg-block">
+          <span class="tooltray-container d-none">
+            <a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a>
+            <a hx-get="{% url 'item_delete' item.pk %}"
+               hx-trigger="click"
+               hx-target="#crudModal .modal-content"
+               hx-swap="innerHTML"
+               data-bs-toggle="modal"
+               data-bs-target="#crudModal"
+               href="javascript:"><i class="bi bi-trash"></i></a>
+          </span>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock panel_content %}

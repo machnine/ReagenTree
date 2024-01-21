@@ -13,11 +13,9 @@
 - List view search
 - a watch list for items whose stock level required monitoring
 - Responsive views for mobile phones
-  - item_list
-  - company_list, company_detail
-  - category_list, category_detail
-  - validation_list
-  - location_list, location_detail
+  - company_detail
+  - category_detail
+  - location_detail
 - highlight expiry date when expired
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels

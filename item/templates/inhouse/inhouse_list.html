@@ -10,49 +10,51 @@
   <a href="{% url 'inhouse_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New Reagent</a>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <!-- Headings for larger screens -->
-  <div class="row d-none d-lg-flex g-2 mb-2 fw-bold">
-    <div class="col col-sm-2">Reagent Name</div>
-    <div class="col col-sm-1">Product ID</div>
-    <div class="col col-sm-1">Lot Number</div>
-    <div class="col col-sm-1">Expiry Date</div>
-    <div class="col col-sm-2">Category</div>
-    <div class="col col-sm-2">Components</div>
-    <div class="col col-sm-2">Description</div>
-    <div class="col col-sm-1 d-none d-sm-block">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
-  </div>
-  {% for reagent in inhouse_reagents %}
-    <!-- Each reagent entry as a row -->
-    <div class="row g-2 mb-2 align-items-center">
-      <div class="col col-sm-2">
-        <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
-      </div>
-      <div class="col col-sm-1 d-none d-sm-block">{{ reagent.product_id }}</div>
-      <div class="col col-sm-1">{{ reagent.lot_number }}</div>
-      <div class="col col-sm-1 d-none d-sm-block">{{ reagent.expiry_date|date:'d/m/Y' }}</div>
-      <div class="col col-sm-2 d-none d-sm-block">
-        <a href="{% url 'category_detail' reagent.category.pk %}">{{ reagent.category }}</a>
-      </div>
-      <div class="col col-sm-2 d-none d-sm-block">
-        {% for comp in reagent.components.all %}
-          {{ comp.source.name }}
-          {% if not forloop.last %},{% endif %}
-        {% endfor %}
-      </div>
-      <div class="col col-sm-2 d-none d-sm-block">{{ reagent.description }}</div>
-      <!-- Actions -->
-      <div class="col col-sm-1 d-none d-sm-block">
-        <span class="tooltray-container d-none">
-          <a href="{% url 'inhouse_update' reagent.pk %}?next={{ request.path }}"><i class="bi bi-pencil-square"></i></a>
-          <a hx-get="{% url 'inhouse_delete' reagent.pk %}"
-             hx-trigger="click"
-             hx-target="#crudModal .modal-content"
-             hx-swap="innerHTML"
-             data-bs-toggle="modal"
-             data-bs-target="#crudModal"
-             href="javascript:"><i class="bi bi-trash"></i></a>
-        </span>
-      </div>
+  <div class="container-fluid pt-3">
+    <!-- Headings for larger screens -->
+    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+      <div class="col col-sm-2">Reagent Name</div>
+      <div class="col col-sm-1">Product ID</div>
+      <div class="col col-sm-1">Lot Number</div>
+      <div class="col col-sm-1">Expiry Date</div>
+      <div class="col col-sm-2">Category</div>
+      <div class="col col-sm-2">Components</div>
+      <div class="col col-sm-2">Description</div>
+      <div class="col col-sm-1 d-none d-sm-block">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
-  {% endfor %}
+    {% for reagent in inhouse_reagents %}
+      <!-- Each reagent entry as a row -->
+      <div class="row g-2 mb-2 border-top align-items-center">
+        <div class="col col-sm-2">
+          <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
+        </div>
+        <div class="col col-sm-1 d-none d-sm-block">{{ reagent.product_id }}</div>
+        <div class="col col-sm-1">{{ reagent.lot_number }}</div>
+        <div class="col col-sm-1 d-none d-sm-block">{{ reagent.expiry_date|date:'d/m/Y' }}</div>
+        <div class="col col-sm-2 d-none d-sm-block">
+          <a href="{% url 'category_detail' reagent.category.pk %}">{{ reagent.category }}</a>
+        </div>
+        <div class="col col-sm-2 d-none d-sm-block">
+          {% for comp in reagent.components.all %}
+            {{ comp.source.name }}
+            {% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </div>
+        <div class="col col-sm-2 d-none d-sm-block">{{ reagent.description }}</div>
+        <!-- Actions -->
+        <div class="col col-sm-1 d-none d-sm-block">
+          <span class="tooltray-container d-none">
+            <a href="{% url 'inhouse_update' reagent.pk %}?next={{ request.path }}"><i class="bi bi-pencil-square"></i></a>
+            <a hx-get="{% url 'inhouse_delete' reagent.pk %}"
+               hx-trigger="click"
+               hx-target="#crudModal .modal-content"
+               hx-swap="innerHTML"
+               data-bs-toggle="modal"
+               data-bs-target="#crudModal"
+               href="javascript:"><i class="bi bi-trash"></i></a>
+          </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock panel_content %}
