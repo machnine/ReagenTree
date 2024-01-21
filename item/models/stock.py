@@ -6,7 +6,6 @@ from django.urls import reverse
 
 from attachment.models import Attachment
 from core.mixins import TimeStampUserMixin
-from item.models.validation import StockValidation
 
 USER = settings.AUTH_USER_MODEL
 

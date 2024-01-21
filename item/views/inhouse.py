@@ -6,6 +6,7 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.html import format_html
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
@@ -111,6 +112,8 @@ class ReagentComponentCreateView(LoginRequiredMixin, CreateView):
 
         component.reagent = self.reagent
         component.save()
+        action_success = format_html(f"<i><b>{component.stock.source}</b></i> added successfully.")
+        messages.success(self.request, action_success)
         return super().form_valid(form)
 
 
@@ -125,6 +128,7 @@ class ReagentComponentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidM
 
 class ReagentComponentDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     """Delete view for inhouse reagent components"""
+
     model = ReagentComponent
     action_url = "component_delete"
     success_url = None

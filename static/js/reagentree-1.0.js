@@ -142,7 +142,8 @@ function checkSessionStatus() {
     .then((response) => {
       if (response.redirected || response.status === 401) {
         // Redirect to the login page
-        window.location.href = response.url ? response.url : "/login/";
+        window.location.href =
+          "/login/?next=" + encodeURIComponent(window.location.href);
       }
     })
     .catch(() => {

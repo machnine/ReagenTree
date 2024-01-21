@@ -102,7 +102,7 @@
     <script src="{% static 'js/reagentree-1.0.js' %}"></script>
     <script>
       AlertsAutoDismissal("auto-dismiss", 2000); // auto dismiss alerts after 2 seconds
-      setInterval(checkSessionStatus, 1000 * 60 * 15); // check session status every 15 minutes
+      setInterval(checkSessionStatus, 1000 * 60 * 16); // check session status every 16 minutes (session expires in 15 minutes)
     </script>
     {% block js %}
     {% endblock js %}
