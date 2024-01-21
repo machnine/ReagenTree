@@ -1,3 +1,6 @@
+- User login via QR code
+  - QR code printable from the user profile UI
+  - user can request changes to the code, but password remains the same.
 - Model search function
 - Full site search function
 - Stock Item 
@@ -15,11 +18,7 @@
   - category_list, category_detail
   - validation_list
   - location_list, location_detail
-- Make Stock/Inhouse Reagent available only after validations
-- User login via QR code
-  - QR code printable from the user profile UI
-  - user can request changes to the code, but password remains the same.
 - highlight expiry date when expired
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
-- In house reagent create - more clever in adding items? use HTMX to add/remove dynamically
+- Tidy up all item.views.search.py result patterns

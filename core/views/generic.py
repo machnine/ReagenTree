@@ -1,17 +1,26 @@
+""" generic views for the project """
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 
 from core.mixins import SuccessUrlMixin
 
 
+@login_required
+def session_status(request):
+    """View for checking the current session status."""
+    return JsonResponse({"status": "active"})
+
+
 class ObjectDeleteHTMXView(SuccessUrlMixin, View):
     """Generic HTMX view for deleting an object."""
 
     model = None
-    action_url = None    
+    action_url = None
     success_url = None
     template_name = "partials/object_delete_form.html"
 
@@ -30,9 +39,7 @@ class ObjectDeleteHTMXView(SuccessUrlMixin, View):
         """HTMX GET request for returning an object delete form."""
         obj = self.get_object(kwargs["pk"])
         action_url = reverse_lazy(self.action_url, kwargs={"pk": obj.pk})
-        return render(
-            request, self.template_name, {"object": obj, "action_url": action_url}
-        )
+        return render(request, self.template_name, {"object": obj, "action_url": action_url})
 
     def post(self, request, *args, **kwargs):
         """HTMX POST request for deleting an object."""

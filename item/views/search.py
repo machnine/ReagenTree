@@ -1,4 +1,6 @@
 """"Views for searching for models in the item app"""
+from functools import reduce
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
@@ -13,10 +15,8 @@ def inhouse_reagent_search(request):
     query = request.GET.get("inhouse_query", "")
     if query:
         queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
-        query = queries.pop()
-        for reagent in queries:
-            query &= reagent
-        inhouse_reagents = InhouseReagent.objects.filter(query)[:5]
+        combined_query = reduce(lambda x, y: x & y, queries)
+        inhouse_reagents = InhouseReagent.objects.filter(combined_query)[:5]
     else:
         inhouse_reagents = []
     return render(request, "inhouse/partials/search_results.html", {"found_inhouse_reagents": inhouse_reagents})
@@ -35,13 +35,12 @@ def item_search(request):
             | Q(supplier__name__icontains=term)
             for term in query.split()
         ]
-        query = queries.pop()
-        for item in queries:
-            query &= item
-        items = Item.objects.filter(query)[:5]
+        combined_query = reduce(lambda x, y: x & y, queries)
+        items = Item.objects.filter(combined_query)[:5]
     else:
         items = []
     return render(request, "item/partials/search_results.html", {"found_items": items})
+
 
 # Stock search view
 @login_required
@@ -50,13 +49,15 @@ def stock_search(request):
     query = request.GET.get("stock_query", "")
     if query:
         queries = [
-            Q(lot_number__icontains=term) | Q(item__name__icontains=term) | Q(inhouse_reagent__name__icontains=term)
+            Q(lot_number__icontains=term)
+            | Q(item__name__icontains=term)
+            | Q(item__product_id__icontains=term)
+            | Q(inhouse_reagent__name__icontains=term)
+            | Q(inhouse_reagent__product_id__icontains=term)
             for term in query.split()
         ]
-        query = queries.pop()
-        for item in queries:
-            query &= item
-        stocks = Stock.objects.filter(query)[:5]
+        combined_query = reduce(lambda x, y: x & y, queries)
+        stocks = Stock.objects.filter(combined_query, validations__validation__status="APPROVED").distinct()[:5]
     else:
         stocks = []
     return render(request, "stock/partials/search_results.html", {"found_stocks": stocks})

@@ -12,11 +12,12 @@ from item.urls import inhouse_urls, item_urls, stock_urls, usage_urls, validatio
 from location import urls as location_urls
 from user import urls as user_urls
 
-from .views import index
+from .views import index, session_status
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name="index"),
+    path("session-status/", session_status, name="session_status"),
     path("", include(user_urls)),
     path("category/", include(category_urls)),
     path("company/", include(company_urls)),

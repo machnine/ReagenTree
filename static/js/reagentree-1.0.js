@@ -125,10 +125,27 @@ function toggleToolTrayIcons(triggerId, containerIdentifier) {
     var container = document.getElementById(containerIdentifier.slice(1));
     container.classList.toggle("d-none");
   } else if (containerIdentifier.startsWith(".")) {
-    var containers = document.getElementsByClassName(containerIdentifier.slice(1));
+    var containers = document.getElementsByClassName(
+      containerIdentifier.slice(1)
+    );
     for (let container of containers) {
       container.classList.toggle("d-none");
     }
   }
 }
 
+/* Function for checking the user session status */
+function checkSessionStatus() {
+  fetch("/session-status/", {
+    credentials: "include", // Ensure cookies, including session cookies, are sent
+  })
+    .then((response) => {
+      if (response.redirected || response.status === 401) {
+        // Redirect to the login page
+        window.location.href = response.url ? response.url : "/login/";
+      }
+    })
+    .catch(() => {
+      // Handle errors (e.g., network issues)
+    });
+}

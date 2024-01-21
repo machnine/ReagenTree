@@ -27,11 +27,6 @@ class Stock(TimeStampUserMixin, models.Model):
     comments = models.TextField(blank=True, null=True)
 
     @property
-    def validations(self):
-        """Return the validation for the stock"""
-        return StockValidation.objects.filter(stock=self).order_by("-validation__created")
-
-    @property
     def source(self):
         """Return the stock source (item or inhouse reagent)"""
         return self.item or self.inhouse_reagent
