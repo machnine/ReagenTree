@@ -17,46 +17,34 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <div class="row p-3">
-    <div class="col">
-      <table class="table table-sm table-borderless">
-        <tbody>
-          <tr>
-            <td width="15%" class="text-muted">Name:</td>
-            <td width="85%">{{ category.name }}</td>
-          </tr>
-          <tr>
-            <td class="text-muted">Description:</td>
-            <td>{{ category.description }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="row g-2 mb-3 p-3">
+    <div class="col-4 col-lg-2 text-muted">Name:</div>
+    <div class="col-8 col-lg-4">{{ category.name }}</div>
+    <div class="col-4 col-lg-2 text-muted">Description:</div>
+    <div class="col-8 col-lg-4">{{ category.description }}</div>
   </div>
-  <div class="panel mx-3">
+  <div class="panel m-3">
     <div class="panel-heading d-flex justify-content-between">
       <span class="fw-bold"><i class="bi bi-box2-fill item-text-color"></i> All items in this category</span>
     </div>
     <div class="panel-content">
-      <div class="panel-content small">
-        <!-- Headings for larger screens -->
-        <div class="row d-none d-lg-flex g-2 mb-2">
-          <div class="col text-muted fw-bold">Name</div>
-          <div class="col text-muted fw-bold">Product ID</div>
-          <div class="col text-muted fw-bold">Quantity</div>
-          <div class="col text-muted fw-bold">Description</div>
-        </div>
-        {% for obj in page_obj %}
-          <div class="row g-2 mb-2 align-items-center">
-            <div class="col">
-              <a href=" {% if obj.get_class_name == "Item" %} {% url 'item_detail' obj.pk %} {% else %} {% url 'inhouse_detail' obj.pk %} {% endif %} ">{{ obj.name }}</a>
-            </div>
-            <div class="col">{{ obj.product_id }}</div>
-            <div class="col">{{ obj.quantity_display }}</div>
-            <div class="col">{{ obj.description }}</div>
-          </div>
-        {% endfor %}
+      <!-- Headings for larger screens -->
+      <div class="row d-none d-lg-flex g-2 mb-2">
+        <div class="col-4 text-muted fw-bold">Name</div>
+        <div class="col-2 text-muted fw-bold">Product ID</div>
+        <div class="col-2 text-muted fw-bold">Quantity</div>
+        <div class="col-4 text-muted fw-bold">Description</div>
       </div>
+      {% for obj in page_obj %}
+        <div class="row g-2 mb-2 align-items-center">
+          <div class="col-6 col-lg-4">
+            <a href=" {% if obj.get_class_name == "Item" %} {% url 'item_detail' obj.pk %} {% else %} {% url 'inhouse_detail' obj.pk %} {% endif %} ">{{ obj.name }}</a>
+          </div>
+          <div class="col-3 col-lg-2">{{ obj.product_id }}</div>
+          <div class="col-3 col-lg-2">{{ obj.quantity_display }}</div>
+          <div class="col-lg-4 d-none d-lg-block">{{ obj.description }}</div>
+        </div>
+      {% endfor %}
     </div>
     {% include "partials/pagination_simple.html" %}
   </div>

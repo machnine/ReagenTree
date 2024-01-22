@@ -17,53 +17,46 @@
   </span>
 {% endblock panel_actions %}
 {% block panel_content %}
-  <div class="row p-3">
-    <div class="col">
-      <table class="table table-sm table-borderless">
-        <tbody>
-          <tr>
-            <td width="15%" class="text-muted">Name:</td>
-            <td width="85%">{{ location.name }}</td>
-          </tr>
-          <tr>
-            <td class="text-muted">Room:</td>
-            <td>{{ location.room }}</td>
-          </tr>
-          <tr>
-            <td class="text-muted">Description:</td>
-            <td>{{ location.description }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="row g-2 mb-3 p-3">
+    <div class="col-6 col-lg-2 text-muted">Name:</div>
+    <div class="col-6 col-lg-4">{{ location.name }}</div>
+    <div class="col-6 col-lg-2 text-muted">Room:</div>
+    <div class="col-6 col-lg-4">{{ location.room_name }}</div>
+    <div class="col-12 col-lg-2 text-muted">Description:</div>
+    <div class="col-12 col-lg-10">{{ location.description }}</div>
   </div>
-  <div class="panel mx-3">
+  <div class="panel m-3">
     <div class="panel-heading">
       <span class="h5"><i class="bi bi-box-seam-fill stock-text-color"></i> All stocks in this location</span>
     </div>
     <div class="panel-content">
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th class="text-muted">Sotck Item</th>
-            <th class="text-muted">Lot Number</th>
-            <th class="text-muted">Expiry Date</th>
-            <th class="text-muted text-center">Box ID</th>
-            <th class="text-muted text-center">Remaining</th>
-          </tr>
-        </thead>
+      <div class="container-fluid pb-3">
+        <!-- Headers -->
+        <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+          <div class="col-lg-4">Stock Item</div>
+          <div class="col-lg-2">Lot Number</div>
+          <div class="col-lg-2">Expiry Date</div>
+          <div class="col-lg-1 text-center">Box ID</div>
+          <div class="col-lg-3 text-center">Remaining</div>
+        </div>
+        <!-- Rows for Each Stock Entry -->
         {% for entry in page_obj %}
-          <tr>
-            <td>{{ entry.stock.source.name }}</td>
-            <td>{{ entry.stock.lot_number }}</td>
-            <td>{{ entry.stock.expiry_date|date:'d/m/Y' }}</td>
-            <td class="text-center">
+          <div class="row mb-2 g-2 border-top">
+            <!-- Stock Item -->
+            <div class="col-12 col-lg-4">{{ entry.stock.source.name }}</div>
+            <!-- Lot Number -->
+            <div class="col-6 col-lg-2">{{ entry.stock.lot_number }}</div>
+            <!-- Expiry Date -->
+            <div class="d-none d-lg-block col-lg-2">{{ entry.stock.expiry_date|date:"d/m/Y" }}</div>
+            <!-- Box ID -->
+            <div class="col-6 col-lg-1 text-center">
               <span class="{% stock_entry_colour entry.ordinal_number %}-text-color"><b>{{ entry.ordinal_number }}</b></span>
-            </td>
-            <td class="text-center">{{ entry.remaining_quantity_display }}</td>
-          </tr>
+            </div>
+            <!-- Remaining Quantity -->
+            <div class="d-none d-lg-block col-lg-3 text-center">{{ entry.remaining_quantity_display }}</div>
+          </div>
         {% endfor %}
-      </table>
+      </div>
       {% include "partials/pagination_simple.html" %}
     </div>
   </div>
