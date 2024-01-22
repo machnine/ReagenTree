@@ -1,19 +1,11 @@
 """ generic views for the project """
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 
 from core.mixins import SuccessUrlMixin
-
-
-@login_required
-def session_status(request):
-    """View for checking the current session status."""
-    return JsonResponse({"status": "active"})
 
 
 class ObjectDeleteHTMXView(SuccessUrlMixin, View):

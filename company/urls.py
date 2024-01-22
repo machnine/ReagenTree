@@ -6,8 +6,8 @@ from .views import (
     CompanyDeleteView,
     CompanyDetailView,
     CompanyListView,
+    CompanySearchView,
     CompanyUpdateView,
-    company_search,
 )
 
 urlpatterns = [
@@ -16,5 +16,5 @@ urlpatterns = [
     path("<int:pk>/", CompanyDetailView.as_view(), name="company_detail"),
     path("<int:pk>/update/", CompanyUpdateView.as_view(), name="company_update"),
     path("<int:pk>/delete/", CompanyDeleteView.as_view(), name="company_delete"),
-    path("search/", company_search, name="company_search"),
+    path("search/", CompanySearchView.as_view(), name="company_search"),
 ]

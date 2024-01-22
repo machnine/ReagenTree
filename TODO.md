@@ -1,7 +1,6 @@
 - User login via QR code
   - QR code printable from the user profile UI
   - user can request changes to the code, but password remains the same.
-- Model search function
 - Full site search function
 - Stock Item 
   - Stock take work flow - what is it and how to deal with it?
@@ -15,4 +14,3 @@
 - highlight expiry date when expired
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
-- Tidy up all item.views.search.py result patterns

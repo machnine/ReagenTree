@@ -1,33 +1,25 @@
 """Category CRUD views."""
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import Q
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
+from core.views.search import GenericSingleModelSearchView
 
 from .forms import CategoryForm
 from .models import Category
 
 
-# Category search view
-@login_required
-def category_search(request):
-    """HTMX GET request for returning a list of search categories"""
-    query = request.GET.get("category_query", "")
-    if query:
-        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
-        query = queries.pop()
-        for category in queries:
-            query &= category
-        categories = Category.objects.filter(query)[:5]
-    else:
-        categories = []
-    return render(request, "category/category_search_results.html", {"found_categories": categories})
+class CategorySearchView(LoginRequiredMixin, GenericSingleModelSearchView):
+    """View for searching for a Category."""
+
+    model = Category
+    query_name = "category_query"
+    search_fields = ["name", "description"]
+    template_name = "category/category_search_results.html"
 
 
 class CategoryCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):

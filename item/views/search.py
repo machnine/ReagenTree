@@ -1,63 +1,39 @@
 """"Views for searching for models in the item app"""
-from functools import reduce
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.shortcuts import render
-
+from core.views.search import GenericSingleModelSearchView
 from item.models import InhouseReagent, Item, Stock
 
 
-# inhouse reagent search view
-@login_required
-def inhouse_reagent_search(request):
-    """HTMX view for returning a list of inhouse reagents"""
-    query = request.GET.get("inhouse_query", "")
-    if query:
-        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
-        combined_query = reduce(lambda x, y: x & y, queries)
-        inhouse_reagents = InhouseReagent.objects.filter(combined_query)[:5]
-    else:
-        inhouse_reagents = []
-    return render(request, "inhouse/partials/search_results.html", {"found_inhouse_reagents": inhouse_reagents})
+class InhouseReagentSearchView(LoginRequiredMixin, GenericSingleModelSearchView):
+    """View for searching for inhouse reagents"""
+
+    model = InhouseReagent
+    query_name = "inhouse_query"
+    search_fields = ["name", "description"]
+    template_name = "inhouse/partials/search_results.html"
 
 
-# Item search view
-@login_required
-def item_search(request):
-    """HTMX GET request for returning a list of search items"""
-    query = request.GET.get("item_query", "")
-    if query:
-        queries = [
-            Q(name__icontains=term)
-            | Q(description__icontains=term)
-            | Q(manufacturer__name__icontains=term)
-            | Q(supplier__name__icontains=term)
-            for term in query.split()
-        ]
-        combined_query = reduce(lambda x, y: x & y, queries)
-        items = Item.objects.filter(combined_query)[:5]
-    else:
-        items = []
-    return render(request, "item/partials/search_results.html", {"found_items": items})
+class ItemSearchView(LoginRequiredMixin, GenericSingleModelSearchView):
+    """View for searching for items"""
+
+    model = Item
+    query_name = "item_query"
+    search_fields = ["name", "description", "manufacturer__name", "supplier__name"]
+    template_name = "item/partials/search_results.html"
 
 
-# Stock search view
-@login_required
-def stock_search(request):
-    """HTMX GET request for returning a list of search stocks"""
-    query = request.GET.get("stock_query", "")
-    if query:
-        queries = [
-            Q(lot_number__icontains=term)
-            | Q(item__name__icontains=term)
-            | Q(item__product_id__icontains=term)
-            | Q(inhouse_reagent__name__icontains=term)
-            | Q(inhouse_reagent__product_id__icontains=term)
-            for term in query.split()
-        ]
-        combined_query = reduce(lambda x, y: x & y, queries)
-        stocks = Stock.objects.filter(combined_query, validations__validation__status="APPROVED").distinct()[:5]
-    else:
-        stocks = []
-    return render(request, "stock/partials/search_results.html", {"found_stocks": stocks})
+class StockSearchView(LoginRequiredMixin, GenericSingleModelSearchView):
+    """View for searching for stocks"""
+
+    model = Stock
+    query_name = "stock_query"
+    search_fields = [
+        "lot_number",
+        "item__name",
+        "item__product_id",
+        "inhouse_reagent__name",
+        "inhouse_reagent__product_id",
+    ]
+    extra_filters = {"validations__validation__status": "APPROVED"}
+    template_name = "stock/partials/search_results.html"

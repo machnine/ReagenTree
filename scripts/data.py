@@ -1,9 +1,26 @@
 """Initial Data for the application."""
 from django.db import transaction
-from django.db.models import ProtectedError
 
 from item.models import Unit
 from label.models import LabelSheet
+from location.models import Room
+
+
+def recreate_room_table():
+    """recreate the Location.Room table."""
+
+    rooms = ("Unknown", "Main Lab", "Gel Lab", "Cold Room", "Freezer Room", "FACS Lab", "Store Room", "Wash Room")
+
+    try:
+        with transaction.atomic():
+            # Delete all records in Room table
+            Room.objects.all().delete()
+            print("Room table dropped.")
+            # Bulk create new records
+            Room.objects.bulk_create([Room(name=name) for name in rooms])
+            print("Room table recreated.")
+    except Exception as e:
+        print(f"Error recreating Room table: {e}")
 
 
 def recreate_unit_table():
@@ -20,7 +37,7 @@ def recreate_unit_table():
             Unit.objects.bulk_create(units)
             print("Unit table recreated.")
 
-    except ProtectedError as e:
+    except Exception as e:
         print(f"Error recreating Unit table: {e}")
 
 
@@ -82,11 +99,12 @@ def create_label_sheet():
             LabelSheet.objects.bulk_create([LabelSheet(**sheet) for sheet in sheets])
             print("Label sheets created.")
 
-    except ProtectedError as e:
+    except Exception as e:
         print(f"Error recreating Label sheet table: {e}")
 
 
 def run():
     """Run the script."""
+    recreate_room_table()
     recreate_unit_table()
     create_label_sheet()

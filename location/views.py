@@ -1,33 +1,25 @@
 """Location CRUD views."""
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import Q
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
+from core.views.search import GenericSingleModelSearchView
 
 from .forms import LocationForm
 from .models import Location
 
 
-# Location search view
-@login_required
-def location_search(request):
-    """HTMX GET request for returning a list of search locations"""
-    query = request.GET.get("location_query", "")
-    if query:
-        queries = [Q(name__icontains=term) for term in query.split()]
-        query = queries.pop()
-        for location in queries:
-            query &= location
-        locations = Location.objects.filter(query)[:5]
-    else:
-        locations = []
-    return render(request, "location/location_search_results.html", {"found_locations": locations})
+class LocationSearchView(LoginRequiredMixin, GenericSingleModelSearchView):
+    """View for searching for a Location."""
+
+    model = Location
+    query_name = "location_query"
+    search_fields = ["name", "room__name", "description"]
+    template_name = "location/location_search_results.html"
 
 
 class LocationCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):

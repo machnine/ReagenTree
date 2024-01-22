@@ -4,32 +4,31 @@ from django.db import models
 from core.mixins import TimeStampUserMixin
 
 
-class Location(TimeStampUserMixin, models.Model):
-    """Item storage location model."""
+class Room(models.Model):
+    """Room model."""
 
-    ROOM_CHOICES = [
-        (0, "Unknown"),
-        (1, "Main Lab"),
-        (2, "Gel Lab"),
-        (3, "Cold Room"),
-        (4, "Freezer Room"),
-        (5, "FACS Lab"),
-        (6, "Store Room"),
-        (7, "Wash Room"),
-    ]
     name = models.CharField(max_length=100, unique=True)
-    room = models.PositiveSmallIntegerField(choices=ROOM_CHOICES, default=0)
-    description = models.TextField(blank=True)
 
     def __str__(self):
         """Return string representation of model."""
         return f"{self.name}"
 
-    @property
-    def room_name(self):
-        """Return the room name."""
-        room_dict = dict(self.ROOM_CHOICES)
-        return room_dict.get(self.room)
+    class Meta:
+        """Meta class for Room model."""
+
+        ordering = ["name"]
+
+
+class Location(TimeStampUserMixin, models.Model):
+    """Item storage location model."""
+
+    name = models.CharField(max_length=100, unique=True)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, related_name="locations", null=True, blank=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        """Return string representation of model."""
+        return f"{self.name}"
 
     @property
     def stock_items(self):

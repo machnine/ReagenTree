@@ -1,8 +1,7 @@
 """Views for the company app."""
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -13,29 +12,47 @@ from .forms import CompanyForm
 from .models import Company
 
 
-# company search view
-@login_required
-def company_search(request):
-    """HTMX GET request for returning a list of search companies"""
-    query = ""
-    company_type = ""
-    if "manufacturer_query" in request.GET:
-        query = request.GET.get("manufacturer_query", "")
-        company_type = "manufacturer"
-    elif "supplier_query" in request.GET:
-        query = request.GET.get("supplier_query", "")
-        company_type = "supplier"
-    if query:
-        queries = [Q(name__icontains=term) | Q(description__icontains=term) for term in query.split()]
-        query = queries.pop()
-        for company in queries:
-            query &= company
-        companies = Company.objects.filter(query)[:5]
-    else:
-        companies = []
-    return render(
-        request, "company/company_search_results.html", {"found_companies": companies, "company_type": company_type}
-    )
+class CompanySearchView(LoginRequiredMixin, ListView):
+    """View for searching for a Company same logic as core.views.search.GenericSingleModelSearchView"""
+
+    model = Company
+    template_name = "company/company_search_results.html"
+    search_fields = ["name", "description"]
+    extra_filters = {}
+    context_object_name = "search_results"
+    context_object_limit = 5
+
+    def get_queryset(self):
+        query = ""
+        if "manufacturer_query" in self.request.GET:
+            query = self.request.GET.get("manufacturer_query", "")
+        elif "supplier_query" in self.request.GET:
+            query = self.request.GET.get("supplier_query", "")
+
+        if not query:
+            return self.model.objects.none()
+
+        terms = query.split()
+        base_query = Q()
+
+        for term in terms:
+            term_query = Q(**{f"{self.search_fields[0]}__icontains": term})
+            for field in self.search_fields[1:]:
+                term_query |= Q(**{f"{field}__icontains": term})
+            base_query &= term_query  # Combine with the base query using AND
+        return self.model.objects.filter(base_query, **self.extra_filters).distinct()[: self.context_object_limit]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company_type = ""
+        if "manufacturer_query" in self.request.GET:
+            company_type = "manufacturer"
+        elif "supplier_query" in self.request.GET:
+            company_type = "supplier"
+
+        context["company_type"] = company_type
+        context["query"] = self.request.GET.get("manufacturer_query") or self.request.GET.get("supplier_query", "")
+        return context
 
 
 class CompanyCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, CreateView):

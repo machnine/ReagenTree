@@ -9,8 +9,8 @@ from item.views import (
     ItemDeleteView,
     ItemDetailView,
     ItemListView,
+    ItemSearchView,
     ItemUpdateView,
-    item_search,
 )
 
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
     path("<int:pk>/", ItemDetailView.as_view(), name="item_detail"),
     path("", ItemListView.as_view(), name="item_list"),
     path("<int:pk>/update/", ItemUpdateView.as_view(), name="item_update"),
-    path("search/", item_search, name="item_search"),
+    path("search/", ItemSearchView.as_view(), name="item_search"),
     path("<int:pk>/attachment/upload/", ItemAttachmentUploadView.as_view(), name="item_attachment_upload"),
     path("attachment/<int:pk>/delete/", ItemAttachmentDeleteView.as_view(), name="item_attachment_delete"),
     path("attachment/<int:pk>/update/", ItemAttachmentUpdateView.as_view(), name="item_attachment_update"),

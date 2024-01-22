@@ -27,7 +27,7 @@
           <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
         </div>
         <!-- Room -->
-        <div class="col-6 col-lg-2">{{ location.room_name|default_if_none:"" }}</div>
+        <div class="col-6 col-lg-2">{{ location.room.name|default_if_none:"" }}</div>
         <!-- Description -->
         <div class="col-lg-3 d-none d-lg-block small">{{ location.description|truncatechars:150 }}</div>
         <!-- Stock Items -->
