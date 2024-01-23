@@ -149,3 +149,16 @@ INTERNAL_IPS = [
     # ... your machine's IP, '127.0.0.1' for local development ...
     "127.0.0.1",
 ]
+
+# Logging settings
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+        "file": {"class": "logging.FileHandler", "filename": "debug.log"},
+    },
+    "loggers": {
+        "django": {"handlers": ["console", "file"], "level": "WARNING"},
+    },
+}

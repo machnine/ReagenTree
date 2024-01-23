@@ -1,0 +1,8 @@
+{% for watch in watchlists %}
+  {% with stock=watch.stock %}
+    <p>
+      <a href="{{ stock.source.get_absolute_url }}">{{ stock.source.name }} - {{ stock.source.product_id }}</a>
+      <a href="{{ stock.get_absolute_url }}">{{ stock.lot_number }}</a> - {{ stock.remaining_stock|floatformat:0 }} {{ stock.source.quantity_unit }}
+    </p>
+  {% endwith %}
+{% endfor %}

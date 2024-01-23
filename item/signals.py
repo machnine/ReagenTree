@@ -1,4 +1,6 @@
 """Signals for item app."""
+import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -35,5 +37,4 @@ def check_stock_level(sender, instance, **kwargs):
         if hasattr(stock, "watchlist") and stock.watchlist.is_active:
             stock.watchlist.check_and_update(stock)
     except Exception as e:
-        # TODO: log this error
-        print(f"Error checking stock level: {e}")
+        logging.error(e)

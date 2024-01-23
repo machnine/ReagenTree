@@ -6,4 +6,6 @@
 - List view search
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
-- logging
+- Watch list 
+  - create (handle duplicate, each stock can only have 1 watchlist)
+  - update -> set inactive
