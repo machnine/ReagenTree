@@ -33,7 +33,9 @@
           <div class="col-6 col-sm-3 text-muted">Product ID:</div>
           <div class="col-6 col-sm-3">{{ stock.source.product_id }}</div>
           <div class="col-6 col-sm-3 text-muted">Expiry date:</div>
-          <div class="col-6 col-sm-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
+          <div class="col-6 col-sm-3">
+            <span class="{{ stock.expiry_date|expiry_color }}">{{ stock.expiry_date|date:'d/m/Y' }}</span>
+          </div>
         </div>
         <!-- Lot Number and Delivery Date -->
         <div class="row mb-1">

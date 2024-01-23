@@ -45,13 +45,15 @@
                  class="px-1"
                  title="Print QR Code Stickers"><i class="bi bi-qr-code"></i></a>
               <a href="{% url 'stock_update' stock.pk %}"
-                 title="Edit stock information" class="px-1"><i class="bi bi-pencil-square"></i></a>
+                 title="Edit stock information"
+                 class="px-1"><i class="bi bi-pencil-square"></i></a>
               <a hx-get="{% url 'stock_delete' stock.pk %}"
                  hx-trigger="click"
                  hx-target="#crudModal .modal-content"
                  hx-swap="innerHTML"
                  data-bs-toggle="modal"
-                 data-bs-target="#crudModal" class="px-1"
+                 data-bs-target="#crudModal"
+                 class="px-1"
                  title="Delete this stock and all its entries"
                  href="javascript:"><i class="bi bi-trash"></i></a>
             </span>
@@ -73,7 +75,9 @@
               </div>
               <div class="row g-0">
                 <div class="col-6 col-lg-3 text-muted">Expires on:</div>
-                <div class="col-6 col-lg-3">{{ stock.expiry_date|date:"d/m/Y" }}</div>
+                <div class="col-6 col-lg-3">
+                  <span class="{{ stock.expiry_date|expiry_color }}">{{ stock.expiry_date|date:'d/m/Y' }}</span>
+                </div>
                 <div class="col-6 col-lg-3 text-muted">Received:</div>
                 <div class="col-6 col-lg-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
               </div>

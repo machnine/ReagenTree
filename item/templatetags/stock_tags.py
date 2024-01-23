@@ -1,5 +1,10 @@
 """Template tags for Stock"""
+from datetime import timedelta
+from datetime import datetime, date
+
 from django import template
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -58,3 +63,16 @@ def stock_entry_colour(ordinal_number: int):
     """Return a colour for the stock entry"""
     index = ordinal_number - 1
     return STOCK_ENTRY_COLOURS[index % len(STOCK_ENTRY_COLOURS)]
+
+
+@register.filter(name="expiry_color")
+def expiry_color(expiry_date):
+    """Return a colour for the expiry date"""
+    if isinstance(expiry_date, datetime):
+        expiry_date = expiry_date.date()
+    if isinstance(expiry_date, date):
+        if expiry_date <= timezone.now().date():
+            return "text-danger fw-bold"
+        if expiry_date <= (timezone.now() + timedelta(days=30)).date():
+            return "text-warning fw-bold"
+    return "text-primary"

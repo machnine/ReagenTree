@@ -1,5 +1,6 @@
 {% extends "object_list_base.html" %}
 {% load ui_tags %}
+{% load stock_tags %}
 {% block title %}
   In-house Reagents
 {% endblock title %}
@@ -30,7 +31,9 @@
         </div>
         <div class="col col-sm-1 d-none d-sm-block">{{ reagent.product_id }}</div>
         <div class="col col-sm-1">{{ reagent.lot_number }}</div>
-        <div class="col col-sm-1 d-none d-sm-block">{{ reagent.expiry_date|date:'d/m/Y' }}</div>
+        <div class="col col-sm-1 d-none d-sm-block">
+          <span class="{{ reagent.expiry_date|expiry_color }}">{{ reagent.expiry_date|date:'d/m/Y' }}</span>
+        </div>
         <div class="col col-sm-2 d-none d-sm-block">
           <a href="{{ reagent.category.get_absolute_url }}">{{ reagent.category }}</a>
         </div>

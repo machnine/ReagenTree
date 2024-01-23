@@ -1,16 +1,10 @@
-- User login via QR code
-  - QR code printable from the user profile UI
-  - user can request changes to the code, but password remains the same.
 - Stock Item 
   - Stock take work flow - what is it and how to deal with it?
   - Set a stock level threshold for warning
   - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing? how about their location? 
-- View for expired items - for disposal or relabelling for research only use
-- COSHH review workflow?
+  - View for expired items - for disposal or relabelling for research only use
 - List view sorting
 - List view search
 - a watch list for items whose stock level required monitoring
-- highlight expiry date when expired
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
-- search bar fixed at top? or click -> show search bar? or startOffcanvas?

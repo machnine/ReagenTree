@@ -47,7 +47,9 @@
             <!-- Lot Number -->
             <div class="col-6 col-lg-2">{{ entry.stock.lot_number }}</div>
             <!-- Expiry Date -->
-            <div class="d-none d-lg-block col-lg-2">{{ entry.stock.expiry_date|date:"d/m/Y" }}</div>
+            <div class="d-none d-lg-block col-lg-2">
+              <span class="{{ entry.stock.expiry_date|expiry_color }}">{{ entry.stock.expiry_date|date:'d/m/Y' }}</span>
+            </div>
             <!-- Box ID -->
             <div class="col-6 col-lg-1 text-center">
               <span class="{% stock_entry_colour entry.ordinal_number %}-text-color"><b>{{ entry.ordinal_number }}</b></span>
