@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-from item.models import ReagentComponent, Stock, StockValidation
+from item.models import ReagentComponent, Stock, StockEntry, StockValidation
 
 
 @receiver(post_save, sender=ReagentComponent)
@@ -24,3 +24,16 @@ def update_stock_validation_on_component_change(sender, instance, **kwargs):
                 message = f"Reagent component(s) changed ({timestamp}) - revalidate stock!"
                 sv.validation.comments = message
                 sv.validation.save()
+
+
+@receiver(post_save, sender=StockEntry)
+def check_stock_level(sender, instance, **kwargs):
+    """Check the stock level of a stock when a stock entry is created."""
+    try:
+        stock = instance.stock
+        # only check the stock level if the stock is on the watchlist and is active
+        if hasattr(stock, "watchlist") and stock.watchlist.is_active:
+            stock.watchlist.check_and_update(stock)
+    except Exception as e:
+        # TODO: log this error
+        print(f"Error checking stock level: {e}")

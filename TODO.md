@@ -1,10 +1,9 @@
 - Stock Item 
   - Stock take work flow - what is it and how to deal with it?
-  - Set a stock level threshold for warning
   - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing? how about their location? 
   - View for expired items - for disposal or relabelling for research only use
 - List view sorting
 - List view search
-- a watch list for items whose stock level required monitoring
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
+- logging
