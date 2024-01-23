@@ -1,4 +1,6 @@
 """ Site wide search views"""
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from category.models import Category
 from company.models import Company
 from item.models import InhouseReagent, Item, Stock
@@ -13,7 +15,13 @@ search_config = {f"{model.__name__.lower()}": ["name", "description"] for model 
 # Add additional search fields
 search_config["location"] += ["room__name"]
 search_config["inhousereagent"] += ["product_id", "lot_number", "category__name"]
-search_config["item"] += ["product_id", "cas_number", "category__name", "manufacturer__name", "supplier__name"]
+search_config["item"] += [
+    "product_id",
+    "cas_number",
+    "category__name",
+    "manufacturer__name",
+    "supplier__name",
+]
 # assign search fields to Stock, removing the default name and description as well
 search_config["stock"] = [
     "lot_number",
@@ -25,7 +33,7 @@ search_config["stock"] = [
 ]
 
 
-class SiteWideSearchView(GenericMultiModelSearchView):
+class SiteWideSearchView(LoginRequiredMixin, GenericMultiModelSearchView):
     """Site-wide search view"""
 
     limit = 10
