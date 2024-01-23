@@ -7,8 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="ReagenTree - Reagent Inventory System" />
     <meta name="author" content="Mian Chen" />
-    <meta name="keywords" content="ReagenTree, reagent, quality, inventory, management, system" />
-    <title>ReagenTree | {% block title %} {% endblock title %}</title>
+    <meta name="keywords"
+          content="ReagenTree, reagent, quality, inventory, management, system" />
+    <title>ReagenTree |
+      {% block title %}
+      {% endblock title %}
+    </title>
     <link rel="icon"
           href="{% static 'images/favicon.ico' %}"
           type="image/x-icon">
@@ -49,6 +53,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               {% include "partials/navbar_menu_start.html" %}
+              {% include "partials/navbar_search_box.html" %}
               {% include "partials/navbar_menu_end.html" %}
             </div>
           </div>
@@ -93,17 +98,18 @@
     {% endblock offcanvas %}
     {% block modals %}
     {% endblock modals %}
-    <form id="logout-form" action="{% url 'logout' %}" method="post" class="d-none"> {# hidden logout form #}
+    <form id="logout-form"
+          action="{% url 'logout' %}"
+          method="post"
+          class="d-none">
+      {# hidden logout form #}
       {% csrf_token %}
     </form>
     <!-- Add your JavaScript files here -->
     <script src="{% static 'js/bootstrap-5.3.2-bundle.min.js' %}"></script>
     <script src="{% static 'js/htmx-1.9.8.min.js' %}"></script>
-    <script src="{% static 'js/reagentree-1.0.js' %}"></script>
-    <script>
-      AlertsAutoDismissal("auto-dismiss", 2000); // auto dismiss alerts after 2 seconds
-    </script>
+    <script src="{% static 'js/reagentree-1.0.js' %}"></script>    
     {% block js %}
     {% endblock js %}
-    </body>
-  </html>
+  </body>
+</html>

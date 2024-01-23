@@ -1,6 +1,8 @@
 // Version: 1.0
 // This file contains functions used by the reagentree app.
 
+AlertsAutoDismissal("auto-dismiss", 2000); // auto dismiss alerts after 2 seconds
+
 /**
  * DOMContentLoaded event listener
  */
@@ -14,16 +16,34 @@ document.addEventListener("DOMContentLoaded", function () {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 
-  // Add a listener to trigger after HTMX swap
+  /**
+   *
+   * HTMX event listeners
+   *
+   * **/
+  /** HTMX: afterSwap **/
   document.body.addEventListener("htmx:afterSwap", (event) => {
-    // remove fade out hide elements
-    applyHideAfterAnimation();
+    applyHideAfterAnimation(); // remove fade out hide elements
   });
+});
 
-  // // Add a listener to trigger tool tray icons
-  // document
-  //   .getElementById("tooltray-trigger")
-  //   .addEventListener("click", toggleToolTrayIcons);
+/** HTMX: bfforeOnLoad **/
+document.body.addEventListener("htmx:beforeOnLoad", function (event) {
+  if (event.target.id === "search-results-panel") {
+    var resultsPanel = document.getElementById("search-results-panel");
+    // Show the results panel before the HTMX request loads
+    resultsPanel.style.display = "block";
+  }
+});
+
+/** HTMX: ffterOnLoad **/
+document.body.addEventListener("htmx:afterOnLoad", function (event) {
+  var resultsPanel = document.getElementById("search-results-panel");
+  if (event.target.id === "search-results-panel") {
+    if (resultsPanel.innerHTML.trim() === "") {
+      resultsPanel.style.display = "none";
+    }
+  }
 });
 
 /**
@@ -133,3 +153,34 @@ function toggleToolTrayIcons(triggerId, containerIdentifier) {
     }
   }
 }
+
+/**
+ * The following functions are used by the search form.
+ * Together with HTMX AfterOnLoad and BeforeOnLoad events above
+ **/
+
+/** hide the search results panel when clicking outside the search form **/
+function hideResultsPanel() {
+  var resultsPanel = document.getElementById("search-results-panel");
+  resultsPanel.style.display = "none";
+}
+
+/**   window click event listener **/
+window.addEventListener("click", function (event) {
+  var searchForm = document.getElementById("htmx-search-form");
+  if (!searchForm.contains(event.target)) {
+    hideResultsPanel();
+  }
+});
+
+/** object focus event listener **/
+document
+  .getElementById("htmx-search-form")
+  .querySelector('input[type="search"]')
+  .addEventListener("focus", function () {
+    var resultsPanel = document.getElementById("search-results-panel");
+    if (resultsPanel.innerHTML.trim() !== "") {
+      resultsPanel.style.display = "block";
+    }
+  });
+/** Search form functions end **/

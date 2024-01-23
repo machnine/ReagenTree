@@ -1,7 +1,7 @@
 """"Views for searching for models in the item app"""
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from core.views.search import GenericSingleModelSearchView
+from core.views.generic import GenericSingleModelSearchView
 from item.models import InhouseReagent, Item, Stock
 
 
@@ -10,7 +10,7 @@ class InhouseReagentSearchView(LoginRequiredMixin, GenericSingleModelSearchView)
 
     model = InhouseReagent
     query_name = "inhouse_query"
-    search_fields = ["name", "description"]
+    search_fields = ["name", "description", "product_id", "lot_number"]
     template_name = "inhouse/partials/search_results.html"
 
 

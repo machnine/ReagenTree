@@ -1,0 +1,12 @@
+{% if search_results %}
+  {% for model, results in search_results.items %}
+    {% if results %}
+      <span class="fw-bold fs-6">{{ model }}:</span>
+      {% for result in results %}
+        <a href="{{ result.object.get_absolute_url }}">{{ result }}</a>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% else %}
+  <p>No results found!</p>
+{% endif %}

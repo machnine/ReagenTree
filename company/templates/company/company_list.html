@@ -13,23 +13,23 @@
   <div class="container-fluid pt-3">
     <!-- Headers -->
     <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
-      <div class="col-3">Company</div>
+      <div class="col-2">Company</div>
       <div class="col-2">Description</div>
       <div class="col-1 text-center">Manufactured</div>
       <div class="col-1 text-center">Supplied</div>
       <div class="col-2">Phone</div>
-      <div class="col-2">Website</div>
+      <div class="col-3">Website</div>
       <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows for Each Company -->
     {% for company in companies %}
       <div class="row g-2 mb-2 border-top align-items-center">
         <!-- Company Name -->
-        <div class="col-6 col-lg-3 align-middle">
+        <div class="col-6 col-lg-2 align-middle">
           <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
         </div>
         <!-- Description -->
-        <div class="col-lg-2 d-none d-lg-block small">{{ company.description|truncatechars:50 }}</div>
+        <div class="col-lg-2 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
         <!-- Manufactured Count -->
         <div class="col-lg-1 text-center d-none d-lg-block">
           <a href="{% url 'company_detail' company.pk %}#manufactured">{{ company.manufactured_items.count|default:"" }}</a>
@@ -41,10 +41,10 @@
         <!-- Phone -->
         <div class="col-lg-2 d-none d-lg-block">{{ company.phone }}</div>
         <!-- Website -->
-        <div class="col-lg-2 d-none d-lg-block">
+        <div class="col-lg-3 d-none d-lg-block">
           <a href="{{ company.website }}"
              title="Visit {{ company.website }}"
-             target="_blank">{{ company.website }}</a>
+             target="_blank">{{ company.website|truncatechars:32 }}</a>
         </div>
         <!-- Actions -->
         <div class="col-lg-1 d-none d-lg-block">

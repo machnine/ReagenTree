@@ -1,10 +1,4 @@
-<ul class="navbar-nav ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="javascript:alert('To be implemented!')"><i class="bi bi-qr-code-scan scan-text-color"></i> Scan</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="javascript:alert('To be implemented!')"><i class="bi bi-search search-text-color"></i> Search</a>
-  </li>
+<ul class="navbar-nav ms-auto ps-lg-5">
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle"
        href="#"
@@ -28,10 +22,10 @@
         <a href="#" class="dropdown-item"><i class="bi bi-sliders setting-text-color"></i> Settings</a>
       </li>
       {% if request.user.is_superuser %}
-      <li class="dropdown-divider"></li>
-      <li>
-        <a href="{% url 'admin:index' %}" class="dropdown-item"><i class="bi bi-tools text-warning"></i> Admin Panel</a>
-      </li>
+        <li class="dropdown-divider"></li>
+        <li>
+          <a href="{% url 'admin:index' %}" class="dropdown-item"><i class="bi bi-tools text-warning"></i> Admin Panel</a>
+        </li>
       {% endif %}
       <li class="dropdown-divider"></li>
       <li>

@@ -1,7 +1,6 @@
 - User login via QR code
   - QR code printable from the user profile UI
   - user can request changes to the code, but password remains the same.
-- Full site search function
 - Stock Item 
   - Stock take work flow - what is it and how to deal with it?
   - Set a stock level threshold for warning
@@ -14,3 +13,4 @@
 - highlight expiry date when expired
 - Front page ordering panel
 - Is a 'short name' function or actual property necessary for labels
+- search bar fixed at top? or click -> show search bar? or startOffcanvas?

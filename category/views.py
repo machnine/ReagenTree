@@ -6,8 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
-from core.views.generic import ObjectDeleteHTMXView
-from core.views.search import GenericSingleModelSearchView
+from core.views.generic import GenericSingleModelSearchView, ObjectDeleteHTMXView
 
 from .forms import CategoryForm
 from .models import Category

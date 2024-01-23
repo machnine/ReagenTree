@@ -1,36 +1,34 @@
-""" Sitewide search views """
-from django.db.models import Q
-from django.views.generic import ListView
+""" Site wide search views"""
+from category.models import Category
+from company.models import Company
+from item.models import InhouseReagent, Item, ItemAttachment, Stock, StockAttachment
+from location.models import Location
+
+from .generic import GenericMultiModelSearchView
+
+# Aggregate all searchable models
+search_models = [Category, Company, Item, Location, InhouseReagent, ItemAttachment, StockAttachment, Stock]
+# common search fields
+search_config = {f"{model.__name__.lower()}": ["name", "description"] for model in search_models}
+# Add additional search fields
+search_config["location"] += ["room__name"]
+search_config["inhousereagent"] += ["product_id", "lot_number", "category__name"]
+search_config["item"] += ["product_id", "cas_number", "category__name", "manufacturer__name", "supplier__name"]
+# assign search fields to Stock, removing the default name and description as well
+search_config["stock"] = [
+    "lot_number",
+    "item__name",
+    "item__product_id",
+    "inhouse_reagent__name",
+    "inhouse_reagent__product_id",
+    "comments",
+]
 
 
-class GenericSingleModelSearchView(ListView):
-    """Generic view for searching a single model"""
+class SiteWideSearchView(GenericMultiModelSearchView):
+    """Site-wide search view"""
 
-    model = None
-    query_name = None
-    search_fields = []
-    extra_filters = {}
-    template_name = None
-    context_object_limit = 5
-    context_object_name = "search_results"
+    template_name = "partials/site_wide_search.html"
 
-    def get_queryset(self):
-        query = self.request.GET.get(self.query_name, "")
-        if not query:
-            return self.model.objects.none()
-        # Split the query into individual terms
-        terms = query.split()
-        # Start with a base query
-        base_query = Q()
-        # For each term, add a combined Q object for all search fields
-        for term in terms:
-            term_query = Q(**{f"{self.search_fields[0]}__icontains": term})
-            for field in self.search_fields[1:]:
-                term_query |= Q(**{f"{field}__icontains": term})
-            base_query &= term_query  # Combine with the base query using AND
-        return self.model.objects.filter(base_query, **self.extra_filters).distinct()[: self.context_object_limit]
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["query"] = self.request.GET.get(self.query_name, "")
-        return context
+    # Aggregate all search configurations
+    search_models = [(model, search_config[model.__name__.lower()]) for model in search_models]

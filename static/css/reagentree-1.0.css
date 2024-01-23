@@ -3,7 +3,7 @@
   --rt-category: #ffc400;
   --rt-company: #0078d4;
   --rt-delivery: #4830d1;
-  --rt-validation: #1ba756;  
+  --rt-validation: #1ba756;
   --rt-location: #66dcc5;
   --rt-setting: #2a4a5a;
   --rt-search: #17a2b8;
@@ -384,4 +384,29 @@ a:hover {
 }
 .min-vh-75 {
   min-height: 75vh !important;
+}
+
+/* search box related classes */
+.search-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-end;
+  position: relative;
+}
+.search-results-panel {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 500px;
+  top: 38px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  padding: 10px;
+  right: 0;
+  background-color: white;
+  text-align: left;
+  width: 100%;
 }
