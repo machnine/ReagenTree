@@ -66,7 +66,9 @@ class GenericMultiModelSearchView(View):
                 base_query = reduce(lambda x, y: x & y, queries)
                 results = model.objects.filter(base_query).distinct()[: self.limit]
                 context["search_results"][model.__name__.lower()] = results
-
+        # Remove empty results
+        if all(not results for results in context["search_results"].values()):
+            context["search_results"] = None
         return render(request, self.template_name, context)
 
 

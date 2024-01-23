@@ -64,6 +64,9 @@ class Attachment(models.Model):
         if suffix := Path(self.file.name).suffix:
             return suffix[1:].lower()
 
+    def get_verbose_name(self, plural=False):
+        return self._meta.verbose_name_plural if plural else self._meta.verbose_name
+
     def __str__(self):
         """String representation"""
         return self.name or f"Attachment: {Path(self.file.name).name}"

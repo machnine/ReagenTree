@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 from attachment.models import Attachment
 from core.mixins import TimeStampUserMixin
@@ -25,8 +26,11 @@ class Item(TimeStampUserMixin, QuantityDisplayMixin, models.Model):
         "company.Company", related_name="supplied_items", on_delete=models.SET_NULL, null=True, blank=True
     )
 
-    def get_class_name(self):
-        return self.__class__.__name__
+    def get_verbose_name(self, plural=False):
+        return self._meta.verbose_name_plural if plural else self._meta.verbose_name
+    
+    def get_absolute_url(self):
+        return reverse("item_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.name} [{self.product_id}]"
@@ -40,6 +44,8 @@ class Item(TimeStampUserMixin, QuantityDisplayMixin, models.Model):
         return remaining_stock
 
     class Meta:
+        verbose_name = "Item"
+        verbose_name_plural = "Items"
         ordering = ["name"]
         unique_together = ["name", "product_id"]
 

@@ -62,6 +62,12 @@ class Stock(TimeStampUserMixin, models.Model):
     def __str__(self):
         return f"{self.source.name}({self.lot_number})"
 
+    def get_verbose_name(self, plural=False):
+        return self._meta.verbose_name_plural if plural else self._meta.verbose_name
+    
+    def get_absolute_url(self):
+        return reverse("stock_detail", kwargs={"pk": self.pk})
+
     def save(self, *args, **kwargs):
         if self.item and self.inhouse_reagent:
             raise ValidationError("Stock can only be associated with an item or a reagent")

@@ -38,7 +38,7 @@
       {% for obj in page_obj %}
         <div class="row g-2 mb-2 align-items-center">
           <div class="col-6 col-lg-4">
-            <a href=" {% if obj.get_class_name == "Item" %} {% url 'item_detail' obj.pk %} {% else %} {% url 'inhouse_detail' obj.pk %} {% endif %} ">{{ obj.name }}</a>
+            <a href=" {% if obj.get_verbose_name == "Item" %} {% url 'item_detail' obj.pk %} {% else %} {% url 'inhouse_detail' obj.pk %} {% endif %} ">{{ obj.name }}</a>
           </div>
           <div class="col-3 col-lg-2">{{ obj.product_id }}</div>
           <div class="col-3 col-lg-2">{{ obj.quantity_display }}</div>

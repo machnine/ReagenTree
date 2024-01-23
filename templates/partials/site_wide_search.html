@@ -1,12 +1,18 @@
-{% if search_results %}
-  {% for model, results in search_results.items %}
+{% if search_results.items %}
+  {% for model_name, results in search_results.items %}
     {% if results %}
-      <span class="fw-bold fs-6">{{ model }}:</span>
-      {% for result in results %}
-        <a href="{{ result.object.get_absolute_url }}">{{ result }}</a>
-      {% endfor %}
+      <div class="px-1">
+        <span class="fw-bold fs-6 {{ model_name }}-text-color ">{{ results.0.get_verbose_name }}:</span>
+      </div>
+      <div class="px-1 mb-2 small">
+        {% for result in results|slice:5 %}
+          <a href="{{ result.get_absolute_url }}">{{ result }}</a>
+          {% if not forloop.last %},{% endif %}
+        {% endfor %}
+        {% if results|length > 5 %}...{% endif %}
+      </div>
     {% endif %}
   {% endfor %}
 {% else %}
-  <p>No results found!</p>
+  <span class="text-muted fs-6">No results found!</span>
 {% endif %}

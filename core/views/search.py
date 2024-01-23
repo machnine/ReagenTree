@@ -1,13 +1,13 @@
 """ Site wide search views"""
 from category.models import Category
 from company.models import Company
-from item.models import InhouseReagent, Item, ItemAttachment, Stock, StockAttachment
+from item.models import InhouseReagent, Item, Stock
 from location.models import Location
 
 from .generic import GenericMultiModelSearchView
 
 # Aggregate all searchable models
-search_models = [Category, Company, Item, Location, InhouseReagent, ItemAttachment, StockAttachment, Stock]
+search_models = [Stock, InhouseReagent, Item, Company, Location, Category]
 # common search fields
 search_config = {f"{model.__name__.lower()}": ["name", "description"] for model in search_models}
 # Add additional search fields
@@ -28,6 +28,7 @@ search_config["stock"] = [
 class SiteWideSearchView(GenericMultiModelSearchView):
     """Site-wide search view"""
 
+    limit = 10
     template_name = "partials/site_wide_search.html"
 
     # Aggregate all search configurations

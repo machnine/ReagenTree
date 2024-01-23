@@ -1,5 +1,6 @@
 """Item storage location model."""
 from django.db import models
+from django.urls import reverse
 
 from core.mixins import TimeStampUserMixin
 
@@ -14,8 +15,6 @@ class Room(models.Model):
         return f"{self.name}"
 
     class Meta:
-        """Meta class for Room model."""
-
         ordering = ["name"]
 
 
@@ -36,7 +35,13 @@ class Location(TimeStampUserMixin, models.Model):
         stock_entries = self.stock_entries.all()
         return {stock_entry.stock for stock_entry in stock_entries if stock_entry.remaining_quantity > 0}
 
-    class Meta:
-        """Meta class for Location model."""
+    def get_verbose_name(self, plural=False):
+        return self._meta.verbose_name_plural if plural else self._meta.verbose_name
+    
+    def get_absolute_url(self):
+        return reverse("location_detail", kwargs={"pk": self.pk})
 
+    class Meta:
+        verbose_name = "Location"
+        verbose_name_plural = "Locations"
         ordering = ["name"]
