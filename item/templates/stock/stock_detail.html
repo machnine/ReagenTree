@@ -46,7 +46,7 @@
         <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Category:</div>
           <div class="col-6 col-sm-3">
-            <a href="{% url 'category_detail' stock.source.category.pk %}">{{ stock.source.category.name }}</a>
+            <a href="{{ stock.source.category.get_absolute_url }}">{{ stock.source.category.name }}</a>
           </div>
           <div class="col-6 col-sm-3 text-muted">Received condition:</div>
           <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
@@ -243,7 +243,7 @@
               {% endif %}
             </div>
             <div class="d-none d-sm-block col-lg-2">
-              <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
+              <a href="{{ entry.location.get_absolute_url }}">{{ entry.location.name }}</a>
             </div>
             <div class="d-none d-sm-block col-lg-2">{{ entry.comments|default_if_none:"" }}</div>
             <div class="d-none d-sm-block col-lg-1">

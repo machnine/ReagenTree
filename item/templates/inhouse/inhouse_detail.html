@@ -35,7 +35,7 @@
         <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Category:</div>
           <div class="col-6 col-sm-3">
-            <a href="{% url 'category_detail' object.category.pk %}"
+            <a href="{{ object.category.get_absolute_url }}"
                title="{{ object.category }}">{{ object.category }}</a>
           </div>
           <div class="col-6 col-sm-3 text-muted">Expiry date:</div>
@@ -77,8 +77,7 @@
               <a href="{{ c.stock.source_url }}" title="Component Info">{{ c.stock.source.name }}</a>
             </div>
             <div class="col">
-              <a href="{% url 'stock_detail' c.stock.pk %}"
-                 title="Component Stock Info">{{ c.stock.lot_number }}</a>
+              <a href="{{ c.stock.get_absolute_url }}" title="Component Stock Info">{{ c.stock.lot_number }}</a>
             </div>
             <div class="col">{{ c.quantity_display }}</div>
             <div class="col">{{ c.stock.source.description }}</div>

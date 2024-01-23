@@ -26,17 +26,17 @@
       <div class="row g-2 mb-2 border-top align-items-center">
         <!-- Company Name -->
         <div class="col-6 col-lg-2 align-middle">
-          <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
+          <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
         </div>
         <!-- Description -->
         <div class="col-lg-2 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
         <!-- Manufactured Count -->
         <div class="col-lg-1 text-center d-none d-lg-block">
-          <a href="{% url 'company_detail' company.pk %}#manufactured">{{ company.manufactured_items.count|default:"" }}</a>
+          <a href="{{ company.get_absolute_url }}#manufactured">{{ company.manufactured_items.count|default:"" }}</a>
         </div>
         <!-- Supplied Count -->
         <div class="col-lg-1 text-center d-none d-lg-block">
-          <a href="{% url 'company_detail' company.pk %}#supplied">{{ company.supplied_items.count|default:"" }}</a>
+          <a href="{{ company.get_absolute_url }}#supplied">{{ company.supplied_items.count|default:"" }}</a>
         </div>
         <!-- Phone -->
         <div class="col-lg-2 d-none d-lg-block">{{ company.phone }}</div>

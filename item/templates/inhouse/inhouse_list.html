@@ -26,13 +26,13 @@
       <!-- Each reagent entry as a row -->
       <div class="row g-2 mb-2 border-top align-items-center">
         <div class="col col-sm-2">
-          <a href="{% url 'inhouse_detail' reagent.pk %}">{{ reagent.name }}</a>
+          <a href="{{ reagent.get_absolute_url }}">{{ reagent.name }}</a>
         </div>
         <div class="col col-sm-1 d-none d-sm-block">{{ reagent.product_id }}</div>
         <div class="col col-sm-1">{{ reagent.lot_number }}</div>
         <div class="col col-sm-1 d-none d-sm-block">{{ reagent.expiry_date|date:'d/m/Y' }}</div>
         <div class="col col-sm-2 d-none d-sm-block">
-          <a href="{% url 'category_detail' reagent.category.pk %}">{{ reagent.category }}</a>
+          <a href="{{ reagent.category.get_absolute_url }}">{{ reagent.category }}</a>
         </div>
         <div class="col col-sm-2 d-none d-sm-block">
           {% for comp in reagent.components.all %}

@@ -25,22 +25,17 @@
     {% for item in items %}
       <div class="row g-2 mb-2 border-top align-items-center">
         <div class="col col-lg-2">
-          <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
+          <a href="{{ item.get_absolute_url }}" title="item details">{{ item.name }}</a>
         </div>
         <div class="col col-lg-1 small">{{ item.product_id }}</div>
         <div class="d-none col-lg-1 d-lg-block">
-          <a href="{% url 'category_detail' item.category.pk %}"
-             title="item details">{{ item.category }}</a>
+          <a href="{{ item.category.get_absolute_url }}" title="item details">{{ item.category }}</a>
         </div>
         <div class="d-none col-lg-2 d-lg-block">
-          {% if item.manufacturer %}
-            <a href="{% url 'company_detail' item.manufacturer.pk %}">{{ item.manufacturer }}</a>
-          {% endif %}
+          {% if item.manufacturer %}<a href="{{ item.manufacturer.get_absolute_url }}">{{ item.manufacturer }}</a>{% endif %}
         </div>
         <div class="col col-lg-2">
-          {% if item.supplier %}
-            <a href="{% url 'company_detail' item.supplier.pk %}">{{ item.supplier }}</a>
-          {% endif %}
+          {% if item.supplier %}<a href="{{ item.supplier.get_absolute_url }}">{{ item.supplier }}</a>{% endif %}
         </div>
         <div class="d-none col-lg-3 d-lg-block small">{{ item.description|truncatechars:150 }}</div>
         <div class="d-none col-lg-1 d-lg-block">

@@ -27,7 +27,7 @@
           <div class="col-6 col-sm-3">{{ item.product_id }}</div>
           <div class="col-6 col-sm-3 text-muted">Category:</div>
           <div class="col-6 col-sm-3">
-            <a href="{% url 'category_detail' item.category.pk %}"
+            <a href="{{ item.category.get_absolute_url }}"
                title="{{ item.category }}">{{ item.category }}</a>
           </div>
         </div>
@@ -50,12 +50,12 @@
         <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Manufacturer:</div>
           <div class="col-6 col-sm-3">
-            <a href="{% url 'company_detail' item.manufacturer.pk %}"
+            <a href="{{ item.manufacturer.get_absolute_url }}"
                title="{{ item.manufacturer }}">{{ item.manufacturer }}</a>
           </div>
           <div class="col-6 col-sm-3 text-muted">Supplier:</div>
           <div class="col-6 col-sm-3">
-            <a href="{% url 'company_detail' item.supplier.pk %}"
+            <a href="{{ item.supplier.get_absolute_url }}"
                title="{{ item.supplier }}">{{ item.supplier }}</a>
           </div>
         </div>
@@ -154,7 +154,7 @@
             {% if not stock.is_empty %}
               <tr>
                 <td class="ps-2">
-                  <a href="{% url 'stock_detail' stock.pk %}">{{ stock.lot_number }}</a>
+                  <a href="{{ stock.get_absolute_url }}">{{ stock.lot_number }}</a>
                 </td>
                 <td class="ps-2">{{ stock.expiry_date|date:'d/m/Y' }}</td>
                 <td class="ps-2">{{ stock.entries.count }}</td>

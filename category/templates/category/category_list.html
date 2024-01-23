@@ -15,7 +15,7 @@
     <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
       <div class="col-3">Categories</div>
       <div class="col-4">Description</div>
-      <div class="col-4">Items</div>      
+      <div class="col-4">Items</div>
       <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows -->
@@ -23,18 +23,18 @@
       <div class="row g-2 mb-2 border-top align-items-center">
         <!-- Category Name -->
         <div class="col-12 col-lg-3 align-middle">
-          <a href="{% url 'category_detail' category.pk %}"
-             title="category details">{{ category.name }}</a>
+          <a href="{{ category.get_absolute_url }}" title="category details">{{ category.name }}</a>
         </div>
         <!-- Description -->
         <div class="col-lg-4 d-none d-lg-block small">{{ category.description|truncatechars:120 }}</div>
         <!-- Items -->
         <div class="col-lg-4 d-none d-lg-block">
-          {% for item in category.items.all|slice:20 %}
-            <a href="{% url 'item_detail' item.pk %}" title="item details">{{ item.name }}</a>
+          {% for item in category.get_all_items|slice:20 %}
+            <a href="{{ item.get_absolute_url }}"
+               title="{{ item.get_verbose_name }} detail: {{ item.name }}">{{ item.name }}</a>
             {% if not forloop.last %},{% endif %}
           {% endfor %}
-          {% if category.items.count > 20 %}...{% endif %}
+          {% if category.get_all_items.count > 20 %}...{% endif %}
         </div>
         <!-- Actions -->
         <div class="col-lg-1 d-none d-lg-block align-middle">

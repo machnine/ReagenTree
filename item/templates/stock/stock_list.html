@@ -16,7 +16,7 @@
       <div class="panel-heading">
         <div class="row align-items-center">
           <div class="col-lg-4">
-            <a href="{% url 'stock_detail' stock.pk %}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
+            <a href="{{ stock.get_absolute_url }}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
             {% if stock.comments %}
               <i class="bi bi-chat-left-dots ps-2 text-danger"
                  title="Comments: {{ stock.comments }}"
@@ -115,7 +115,7 @@
                   {% endif %}
                 </div>
                 <div class="col-lg-2 small d-none d-lg-block">
-                  <a href="{% url 'location_detail' entry.location.pk %}">{{ entry.location.name }}</a>
+                  <a href="{{ entry.location.get_absolute_url }}">{{ entry.location.name }}</a>
                 </div>
                 <div class="col-lg-3 d-none d-lg-block">
                   {% if entry.comments|length %}
