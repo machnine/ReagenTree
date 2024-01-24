@@ -1,0 +1,10 @@
+.env
+.vscode/
+env/
+media/
+debug.log
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+scripts/

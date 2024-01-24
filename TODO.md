@@ -6,3 +6,5 @@
 - List view search
 - Is a 'short name' function or actual property necessary for labels
 - Full site search - what about expired items? How about a search results list view?
+- write an initial data script
+- create admin user? 
