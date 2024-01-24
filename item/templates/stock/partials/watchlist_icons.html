@@ -1,0 +1,25 @@
+{% load stock_tags %}
+{% if stock.watchlist %}
+<a href="javascript:"
+   hx-get="{% url 'watchlist_delete' stock.watchlist.pk %}?next={{ request.path }}"
+   hx-target="#crudModal .modal-content"
+   hx-swap="innerHTML"
+   data-bs-toggle="modal"
+   data-bs-target="#crudModal">
+  <span data-bs-toggle="tooltip"
+        title="Warning threshold set at {{ stock.watchlist.threshold|floatformat:0 }}">
+    {{ stock.watchlist|watchlist_icon }}
+  </span>
+</a>
+{% else %}
+<a href="javascript:"
+   hx-get="{% url 'watchlist_create' %}?stock_pk={{ stock.pk }}&next={{ request.path }}"
+   hx-target="#crudModal .modal-content"
+   hx-swap="innerHTML"
+   data-bs-toggle="modal"
+   data-bs-target="#crudModal">
+  <span data-bs-toggle="tooltip" title="Click to set warning threshold">
+    <i class="bi bi-bell-slash-fill text-black text-opacity-25"></i>
+  </span>
+</a>
+{% endif %}

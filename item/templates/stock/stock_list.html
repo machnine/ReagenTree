@@ -17,11 +17,14 @@
         <div class="row align-items-center">
           <div class="col-lg-4">
             <a href="{{ stock.get_absolute_url }}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
-            {% if stock.comments %}
-              <i class="bi bi-chat-left-dots ps-2 text-danger"
-                 title="Comments: {{ stock.comments }}"
-                 data-bs-toggle="tooltip"></i>
-            {% endif %}
+            <span id="stockWatchlistIcon" class="ps-3">{% include "stock/partials/watchlist_icons.html" %}</span>
+            <span id="stockCommentIcon" class="ps-1">
+              {% if stock.comments %}
+                <i class="bi bi-chat-left-dots ps-2 text-danger"
+                   title="Comments: {{ stock.comments }}"
+                   data-bs-toggle="tooltip"></i>
+              {% endif %}
+            </span>
           </div>
           {% if forloop.first %}
             <div class="col-lg-7 d-none d-lg-block">

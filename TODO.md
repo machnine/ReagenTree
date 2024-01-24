@@ -10,3 +10,4 @@
   - create (handle duplicate, each stock can only have 1 watchlist)
   - update -> set inactive
 - Full site search - what about expired items? How about a search results list view?
+- small viewport stock detail card in stock list -> full width?

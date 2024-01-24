@@ -33,8 +33,8 @@ def check_stock_level(sender, instance, **kwargs):
     """Check the stock level of a stock when a stock entry is created."""
     try:
         stock = instance.stock
-        # only check the stock level if the stock is on the watchlist and is active
-        if hasattr(stock, "watchlist") and stock.watchlist.is_active:
+        # only check the stock level if the stock is on the watchlist
+        if stock.watchlist:
             stock.watchlist.check_and_update(stock)
     except Exception as e:
         logging.error(e)

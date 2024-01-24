@@ -65,6 +65,10 @@ class Stock(TimeStampUserMixin, models.Model):
     def get_verbose_name(self, plural=False):
         return self._meta.verbose_name_plural if plural else self._meta.verbose_name
     
+    @property
+    def watchlist(self):
+        return getattr(self, "watchlist", None)
+
     def get_absolute_url(self):
         return reverse("stock_detail", kwargs={"pk": self.pk})
 

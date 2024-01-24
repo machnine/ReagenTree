@@ -11,8 +11,7 @@ class WatchList(models.Model):
 
     stock = models.OneToOneField("Stock", on_delete=models.CASCADE, related_name="watchlist")
     threshold = models.DecimalField(max_digits=10, decimal_places=1)
-    last_checked = models.DateTimeField(null=True)
-    is_active = models.BooleanField(default=True)
+    last_checked = models.DateTimeField(null=True)    
     notification = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(USER, on_delete=models.SET_NULL, related_name="created_watchlists", null=True)
@@ -29,7 +28,7 @@ class WatchList(models.Model):
         self.save()
 
     def __str__(self):
-        return f"Watch List for {self.stock}"
+        return f"Watch List record for <{self.stock}>"
 
     class Meta:
         verbose_name = "Watch List"
