@@ -1,10 +1,12 @@
 """ views for watchlist """
-
+import logging
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView, ListView
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from django.views.generic import CreateView, FormView, ListView
 
 from core.mixins import SuccessUrlMixin
 from core.views.generic import ObjectDeleteHTMXView
@@ -31,7 +33,7 @@ class WatchListCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     template_name = "watchlist/watchlist_create.html"
     success_url = "watchlist"
 
-    def form_valid(self, form):        
+    def form_valid(self, form):
         stock_pk = self.request.GET.get("stock_pk")
         if stock_pk:
             form.instance.stock = get_object_or_404(Stock, pk=stock_pk)
@@ -48,3 +50,35 @@ class WatchListDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
     model = WatchList
     action_url = "watchlist_delete"
     success_url = "watchlist"
+
+
+class WatchListAcknowledgeView(LoginRequiredMixin, SuccessUrlMixin, FormView):
+    """Acknowledge watch list."""
+
+    model = WatchList
+    template_name = "watchlist/partials/watchlist_acknowledge.html"
+
+    def get_object(self, pk):
+        return get_object_or_404(self.model, pk=pk)
+
+    def get(self, request, *args, **kwargs):
+        """modal confirmation to acknowledge watch list"""
+        self.watchlist = self.get_object(kwargs["pk"])
+        context = {"watchlist": self.watchlist}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        """acknowledge watch list"""
+        try:
+            self.watchlist = self.get_object(kwargs["pk"])
+            self.watchlist.acknowledged = timezone.now()
+            self.watchlist.acknowledged_by = request.user
+            self.watchlist.save()
+            if next_url := self.request.POST.get("next") or self.request.GET.get("next"):
+                return redirect(next_url)
+            else:
+                return redirect("/")
+
+        except Exception as err:
+            logging.error(err)
+            return HttpResponse(500)

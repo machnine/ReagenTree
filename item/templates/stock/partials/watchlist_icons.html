@@ -1,5 +1,5 @@
 {% load stock_tags %}
-{% if stock.watchlist %}
+{% if stock.watchlist and not stock.watchlist.acknowledged %}
 <a href="javascript:"
    hx-get="{% url 'watchlist_delete' stock.watchlist.pk %}?next={{ request.path }}"
    hx-target="#crudModal .modal-content"
@@ -19,7 +19,7 @@
    data-bs-toggle="modal"
    data-bs-target="#crudModal">
   <span data-bs-toggle="tooltip" title="Click to set warning threshold">
-    <i class="bi bi-bell-slash-fill text-black text-opacity-25"></i>
+    <i class="bi bi-eye-slash text-black text-opacity-25"></i>
   </span>
 </a>
 {% endif %}

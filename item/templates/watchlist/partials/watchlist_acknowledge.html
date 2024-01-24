@@ -1,0 +1,21 @@
+<form method="post" action="{% url 'watchlist_acknowledge' watchlist.pk %}">
+    <div class="modal-header">
+        <h5 class="modal-title">Acknowldge restock action</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        {% csrf_token %}
+        <p>
+            Acknowldge restocking actioned for <i class="text-danger fw-bold">{{ watchlist.stock }}</i>?
+        </p>
+        <input type="hidden" name="watchlist_id" value="{{ watchlist.pk }}">
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+    </div>
+    <div class="modal-footer">        
+        <button type="submit" class="btn btn-sm btn-danger">Yes</button>
+        <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal">No</button>
+    </div>
+</form>

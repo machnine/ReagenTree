@@ -16,4 +16,4 @@ class WatchListCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["threshold"].widget.attrs.update({"class": "form-control", "placeholder": "Warning threshold"})
+        self.fields["threshold"].widget.attrs.update({"class": "form-control", "placeholder": "Stock warning threshold..."})

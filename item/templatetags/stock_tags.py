@@ -80,5 +80,5 @@ def expiry_color(expiry_date):
 def watchlist_icon(watchlist):
     """Return a coloured Bootstrap icon for watchlist"""
     if watchlist:
-        return format_html('<i class="bi bi-bell-fill text-warning"></i>')
+        return format_html('<i class="bi bi-eye stock-text-color"></i>')
     return ""

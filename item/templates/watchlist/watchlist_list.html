@@ -1,8 +1,34 @@
-{% for watch in watchlists %}
-  {% with stock=watch.stock %}
-    <p>
-      <a href="{{ stock.source.get_absolute_url }}">{{ stock.source.name }} - {{ stock.source.product_id }}</a>
-      <a href="{{ stock.get_absolute_url }}">{{ stock.lot_number }}</a> - {{ stock.remaining_stock|floatformat:0 }} {{ stock.source.quantity_unit }}
-    </p>
-  {% endwith %}
-{% endfor %}
+<div class="container">
+  <div class="row d-none d-lg-flex text-muted fw-bold align-items-center border-bottom ">
+    <div class="col-lg-3">Item</div>
+    <div class="col-lg-2">Product ID</div>
+    <div class="col-lg-2">Lot Number</div>
+    <div class="col-lg-2">Remaining</div>
+    <div class="col-lg-2">Threshold</div>
+    <div class="col-lg-1 text-center">Action</div>
+  </div>
+  {% for watch in watchlists %}
+    {% with stock=watch.stock source=watch.stock.source %}
+      <div class="row border-bottom align-items-center">
+        <div class="col-6 col-lg-3">
+          <a href="{{ source.get_absolute_url }}" title="Item: {{ source.name }} detail">{{ source.name }}</a>
+        </div>
+        <div class="col-4 col-lg-2 ps-lg-3">{{ source.product_id }}</div>
+        <div class="col-lg-2 d-none d-lg-block ps-lg-3">
+          <a href="{{ stock.get_absolute_url }}" title="Stock: {{ stock }} detail">{{ stock.lot_number }}</a>
+        </div>
+        <div class="col-lg-2 d-none d-lg-block ps-lg-3">{{ stock.remaining_stock|floatformat:0 }} {{ source.quantity_unit }}</div>
+        <div class="col-lg-2 d-none d-lg-block ps-lg-3">{{ watch.threshold|floatformat:0 }} {{ source.quantity_unit }}</div>
+        <div class="col-2 col-lg-1 text-center">
+          <a href="javascript:"
+             hx-get="{% url 'watchlist_acknowledge' watch.pk %}"
+             hx-trigger="click"
+             hx-target="#crudModal .modal-content"
+             hx-swap="innerHTML"
+             data-bs-toggle="modal"
+             data-bs-target="#crudModal"><i class="bi bi-cart-plus"></i></a>
+        </div>
+      </div>
+    {% endwith %}
+  {% endfor %}
+</div>

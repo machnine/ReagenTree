@@ -18,7 +18,7 @@
           <div class="col-lg-4">
             <a href="{{ stock.get_absolute_url }}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
             <span id="stockWatchlistIcon" class="ps-3">{% include "stock/partials/watchlist_icons.html" %}</span>
-            <span id="stockCommentIcon" class="ps-1">
+            <span id="stockCommentIcon">
               {% if stock.comments %}
                 <i class="bi bi-chat-left-dots ps-2 text-danger"
                    title="Comments: {{ stock.comments }}"
@@ -67,26 +67,26 @@
         <div class="row">
           <div class="col-lg-4 small px-3">
             {# stock properties #}
-            <div class="callout callout-light m-0 p-1">
-              <div class="row g-0">
+            <div class="callout callout-light mb-2 p-1">
+              <div class="row g-1">
                 <div class="col-6 col-lg-3 text-muted">Product Id:</div>
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3 ps-sm-0 ps-2">
                   <a href="{{ stock.source_url }}" title="{{ stock.source.name }} details">{{ stock.source.product_id }}</a>
                 </div>
                 <div class="col-6 col-lg-3 text-muted">Lot number:</div>
-                <div class="col-6 col-lg-3">{{ stock.lot_number }}</div>
+                <div class="col-6 col-lg-3 ps-sm-0 ps-2">{{ stock.lot_number }}</div>
               </div>
-              <div class="row g-0">
+              <div class="row g-1">
                 <div class="col-6 col-lg-3 text-muted">Expires on:</div>
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3 ps-sm-0 ps-2">
                   <span class="{{ stock.expiry_date|expiry_color }}">{{ stock.expiry_date|date:'d/m/Y' }}</span>
                 </div>
                 <div class="col-6 col-lg-3 text-muted">Received:</div>
-                <div class="col-6 col-lg-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
+                <div class="col-6 col-lg-3 ps-sm-0 ps-2">{{ stock.delivery_date|date:"d/m/Y" }}</div>
               </div>
-              <div class="row g-0">
+              <div class="row g-1">
                 <div class="col-6 col-lg-3 text-muted">Validation:</div>
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3 ps-sm-0 ps-2">
                   {% if stock.validations.all|length %}
                     {% for sv in stock.validations.all %}
                       {% validation_status sv.validation.status True %}
@@ -96,7 +96,7 @@
                   {% endif %}
                 </div>
                 <div class="col-6 col-lg-3 text-muted">Condition:</div>
-                <div class="col-6 col-lg-3">{% delivery_condition stock.condition True %}</div>
+                <div class="col-6 col-lg-3 ps-sm-0 ps-2">{% delivery_condition stock.condition True %}</div>
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@
             {# entries #}
             {% for entry in stock.entries.all %}
               <div class="row text-center align-items-center">
-                <div class="col-1 col-lg-1">
+                <div class="col-2 col-lg-1">
                   <a href="#{{ entry.pk }}"
                      title="{{ stock.lot_number }}-{{ entry.pk }}-{{ entry.ordinal_number }}">
                     <span class="icon-with-text">
@@ -113,8 +113,8 @@
                     </span>
                   </a>
                 </div>
-                <div class="col-3 col-lg-2 small text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
-                <div class="col-8 col-lg-3">
+                <div class="col-4 col-lg-2 small text-center">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
+                <div class="col-6 col-lg-3">
                   {% if entry.remaining_quantity == 0 %}
                     <del>0 {{ entry.remaining_unit }}</del>
                   {% else %}

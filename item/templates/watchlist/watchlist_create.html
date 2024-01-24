@@ -1,7 +1,7 @@
 <form action="{% url 'watchlist_create' %}?stock_pk={{ request.GET.stock_pk }}"
       method="post">
     <div class="modal-header">
-        <h6 class="modal-title" id="crudModalLabel">Add to Watch List</h6>
+        <h5 class="modal-title" id="crudModalLabel">Add this stock to the watch list</h5>
         <button type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
@@ -9,8 +9,11 @@
     </div>
     <div class="modal-body">
         {% csrf_token %}
-        <div class="mb-2">{{ form.threshold }}</div>
+        <label for="id_threshold" class="form-label">Please enter a stock warning threshold:</label>
+        <div class="mb-3">{{ form.threshold }}</div>
         <input type="hidden" name="next" value="{{ request.GET.next }}">
-        <input type="submit" value="Submit">
+        <div class="text-end">
+            <button class="btn btn-sm btn-success">Submit</button>
+        </div>
     </div>
 </form>
