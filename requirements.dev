@@ -1,6 +1,6 @@
-Django
-qrcode
-reportlab
+Django==5.0.1
+qrcode==7.4.2
+reportlab==4.0.9
 
 # Development
 faker
