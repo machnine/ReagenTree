@@ -161,6 +161,6 @@ LOGGING = {
         "file": {"class": "logging.FileHandler", "filename": "debug.log"},
     },
     "loggers": {
-        "django": {"handlers": ["console", "file"], "level": "DEBUG", "propagate": True},
+        "django": {"handlers": ["console", "file"], "level": "WARNING"},
     },
 }
