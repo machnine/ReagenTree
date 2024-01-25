@@ -1,6 +1,7 @@
 """
 Django settings for core project.
 """
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,12 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-k0n=k(rcb_&f97&qi-%evw0-04vz)+2g36*7#p-wz=3z8-t^s)"
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.18.1.127"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -28,8 +29,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third-party dev apps
-    "django_extensions",
-    "debug_toolbar",
+    #"django_extensions",
+    #"debug_toolbar",
     # core app
     "core",
     # local apps
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party dev middleware
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -81,7 +82,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "database/db.sqlite3",
     }
 }
 
@@ -122,6 +123,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -159,6 +161,6 @@ LOGGING = {
         "file": {"class": "logging.FileHandler", "filename": "debug.log"},
     },
     "loggers": {
-        "django": {"handlers": ["console", "file"], "level": "WARNING"},
+        "django": {"handlers": ["console", "file"], "level": "DEBUG", "propagate": True},
     },
 }

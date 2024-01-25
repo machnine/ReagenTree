@@ -9,7 +9,11 @@ scripts/
 .env
 .djlint
 pyproject.toml
-db.sqlite3
-debug.log
+*.sqlite3
+*.log
 requirements.dev
 TODO.md
+docker-compose.yml
+Dockerfile
+.dockerignore
+ENV.md

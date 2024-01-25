@@ -3,10 +3,26 @@ version: '3.8'
 services:
   web:
     build: .
-    command: bash -c "pip install -r requirements.dev && python manage.py runserver 0.0.0.0:8000"
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .:/app
+      - sqlite_data:/app/database/
     ports:
       - "8000:8000"
     environment:
-      - DJANGO_SUPERUSER_PASSWORD=mysecretpassword
+      - SECRET_KEY=${SECRET_KEY}
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+volumes:
+  sqlite_data:
+  media_volume:
+  static_volume:

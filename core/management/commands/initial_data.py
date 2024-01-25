@@ -10,9 +10,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS("Initializing data..."))
         recreate_room_table()
-        self.stdout.write(self.style.SUCCESS("Room names..."))
         recreate_unit_table()
-        self.stdout.write(self.style.SUCCESS("Unit symbols..."))
         create_label_sheet()
-        self.stdout.write(self.style.SUCCESS("Label sheets..."))
         self.stdout.write(self.style.SUCCESS("Data initialized successfully!"))

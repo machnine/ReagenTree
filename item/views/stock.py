@@ -165,10 +165,7 @@ class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
 
     def get_message_context(self) -> dict:
         """Return the context for the message"""
-        if DEBUG:
-            base_url = "http://172.18.1.127:8000"
-        else:
-            base_url = self.request.build_absolute_uri("/").rstrip("/")
+        base_url = self.request.build_absolute_uri("/").rstrip("/")
         stock = Stock.objects.get(pk=self.kwargs["pk"])
         entries = stock.entries.all()
         messages = {
