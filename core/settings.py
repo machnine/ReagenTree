@@ -158,7 +158,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {
         "console": {"class": "logging.StreamHandler"},
-        "file": {"class": "logging.FileHandler", "filename": "debug.log"},
+        "file": {"class": "logging.FileHandler", "filename": os.getenv("DJANGO_LOG", "debug.log")},
     },
     "loggers": {
         "django": {"handlers": ["console", "file"], "level": "WARNING"},
