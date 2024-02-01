@@ -13,18 +13,18 @@
   <div class="container-fluid pt-3">
     <!-- Headers -->
     <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
-      <div class="col-2">Name</div>
+      <div class="col-3">Name</div>
       <div class="col-1">Product ID</div>
       <div class="col-1">Category</div>
       <div class="col-2">Manufacturer</div>
       <div class="col-2">Supplier</div>
-      <div class="col-3">Description</div>
+      <div class="col-2">Description</div>
       <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Items -->
     {% for item in items %}
       <div class="row g-2 mb-2 border-top align-items-center">
-        <div class="col col-lg-2">
+        <div class="col col-lg-3">
           <a href="{{ item.get_absolute_url }}" title="item details">{{ item.name }}</a>
         </div>
         <div class="col col-lg-1 small">{{ item.product_id }}</div>
@@ -37,7 +37,7 @@
         <div class="col col-lg-2">
           {% if item.supplier %}<a href="{{ item.supplier.get_absolute_url }}">{{ item.supplier }}</a>{% endif %}
         </div>
-        <div class="d-none col-lg-3 d-lg-block small">{{ item.description|truncatechars:150 }}</div>
+        <div class="d-none col-lg-2 d-lg-block small">{{ item.description|truncatechars:150 }}</div>
         <div class="d-none col-lg-1 d-lg-block">
           <span class="tooltray-container d-none">
             <a href="{% url 'item_update' item.pk %}"><i class="bi bi-pencil-square"></i></a>
