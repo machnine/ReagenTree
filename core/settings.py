@@ -17,7 +17,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "this-is-a-secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -29,8 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third-party dev apps
-    #"django_extensions",
-    #"debug_toolbar",
+    # "django_extensions",
+    # "debug_toolbar",
     # core app
     "core",
     # local apps
@@ -52,7 +51,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # third-party dev middleware
-    #"debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -136,10 +135,23 @@ AUTH_USER_MODEL = "user.CustomUser"
 # Login URL
 LOGIN_URL = "login"
 
+
+ALLOWED_HOSTS = ["localhost", "reagentree.oxfordgenes.com"]
+
+# CSRF settings
+CSRF_COOKIE_SECURE = True  # True: CSRF cookie will be marked as "secure"
+CSRF_COOKIE_HTTPONLY = True  # True: CSRF cookie will be marked as "httponly"
+CSRF_COOKIE_SAMESITE = "Strict"  # Strict: CSRF cookie will be marked as "samesite=strict"
+CSRF_TRUSTED_ORIGINS = [
+    "http://reagentree.oxfordgenes.com",
+    "https://reagentree.oxfordgenes.com",
+]  # List of trusted origins for CSRF
+
 # Session timeout
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # True: session expires when browser is closed
 SESSION_SAVE_EVERY_REQUEST = True  # True: session is saved on every request
 SESSION_COOKIE_AGE = 60 * 15  # 15 minutes after latst request (idle for 15 minutes)
+SESSION_COOKIE_SECURE = True  # True: session cookie will be marked as "secure"
 
 # Media files
 MEDIA_URL = "/media/"
