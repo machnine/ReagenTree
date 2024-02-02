@@ -19,18 +19,22 @@
             <span class="h3">{{ entry.remaining_quantity_display }}</span>
           </div>
           <div class="mb-2">Used quantity:</div>
-          <div class="mb-5 d-flex justify-content-center">
-            <input type="float"
-                   name="used_quantity"
-                   min="0"
-                   class="text-center text-danger"
-                   style="font-size: 3rem;
-                          font-weight: 1000;
-                          height: 5rem;
-                          width: 50%;
-                          border: 0;
-                          border-bottom: 3px solid #ccc" />
-            <span class="h2 align-self-end ps-3">{{ entry.remaining_unit }}</span>
+          <div class="mb-5 row">
+            <div class="col-8 d-flex justify-content-end">
+              <input type="float"
+                     name="used_quantity"
+                     min="0"
+                     class="text-center text-danger"
+                     style="font-size: 3rem;
+                            font-weight: 1000;
+                            height: 5rem;
+                            width: 50%;
+                            border: 0;
+                            border-bottom: 3px solid #ccc" />
+            </div>
+            <div class="col-4 align-self-end">
+              <span class="h2">{{ entry.remaining_unit }}</span>
+            </div>
             {# hidden fields and button #}
             {{ form.used_unit }}
             <input type="hidden" name="next" value="{{ request.path }}" />

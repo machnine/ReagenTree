@@ -78,15 +78,37 @@ class QRCodeLabelPDFPrinter:
 
         c.drawImage(img_reader, img_x_pos, img_y_pos, width=img_width, height=img_height)
 
-    def _draw_hint_text(self, c: canvas.Canvas, hint_text: str, col: int, row: int):
-        """draw a hint text on a label"""
-        text_width = c.stringWidth(hint_text, "Helvetica", self.font_size) / mm  # text_widtch converted to mm
-        txt_x_pos = self._get_x_position(col, text_width)
-        txt_y_pos = self._get_y_position(row) - self.font_size / 2
+    def _draw_hint_text(
+        self,
+        c: canvas.Canvas,
+        col: int,
+        row: int,
+        text_top: str = None,
+        text_bottom: str = None,
+        text_font: str = "Helvetica",
+    ):
+        """draw texts on a label"""
 
-        # draw the hint text on the PDF
-        c.setFont("Helvetica", self.font_size)
-        c.drawString(txt_x_pos, txt_y_pos, hint_text)
+        def calculate_text_position(text, row, col, offset):
+            """calculate the position of a text on a label"""
+            if not text:  # default position
+                return self._get_x_position(col, 0), self._get_y_position(row) + offset
+            text_width = c.stringWidth(text, text_font, self.font_size) / mm  # text_widtch converted to mm
+            x_pos = self._get_x_position(col, text_width)
+            y_pos = self._get_y_position(row) + offset
+            return x_pos, y_pos
+
+        # top text
+        tt_offset = self.qr_size.height * mm - self.font_size * 0.4
+        tt_x_pos, tt_y_pos = calculate_text_position(text_top, row, col, tt_offset)
+        # bottom text
+        bt_offset = -self.font_size / 2
+        bt_x_pos, bt_y_pos = calculate_text_position(text_bottom, row, col, bt_offset)
+        # set font
+        c.setFont(text_font, self.font_size)
+        # draw the text
+        c.drawString(tt_x_pos, tt_y_pos, text_top)
+        c.drawString(bt_x_pos, bt_y_pos, text_bottom)
 
     def print(self):
         """create and position label on PDF"""
@@ -103,13 +125,14 @@ class QRCodeLabelPDFPrinter:
                     # only process if the current label >= skipped labels
                     if current_label >= self.skipped:
                         try:
-                            hint, message = next(message_iter)
+                            message, hint = next(message_iter)
+                            top_hint, bottom_hint = hint
                             label_index += 1
                         except StopIteration:
                             break
 
                         self._draw_qr_code(c, message, col, row)  # draw the QR code
-                        self._draw_hint_text(c, hint, col, row)  # draw the hint text
+                        self._draw_hint_text(c, col, row, top_hint, bottom_hint)  # draw the hint text
 
                     current_label += 1  # increment the current label number
                     # check if we reached the end of the page

@@ -8,7 +8,6 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from attachment.views import AttachmentDeleteView, AttachmentUpdateView, AttachmentUploadView
 from core.mixins import FormValidMessageMixin, SuccessUrlMixin
-from core.settings import DEBUG
 from core.views.generic import ObjectDeleteHTMXView
 from item.forms import StockEntryFormSet, StockEntryUpdateForm, StockForm
 from item.forms.stock import StockAttachmentCreateForm, StockAttachmentUpdateForm
@@ -168,11 +167,12 @@ class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
         base_url = self.request.build_absolute_uri("/").rstrip("/")
         stock = Stock.objects.get(pk=self.kwargs["pk"])
         entries = stock.entries.all()
-        messages = {
-            f"{stock.lot_number}-{entry.pk}-{entry.ordinal_number}": base_url
-            + reverse("usage_qr_update", kwargs={"pk": entry.pk})
-            for entry in entries
-        }
+        messages = {}
+        for entry in entries:
+            top_text = f"{stock.source.product_id}"
+            bottom_text = f"{stock.lot_number}-{entry.pk}-{entry.ordinal_number}"
+            message = base_url + reverse("usage_qr_update", kwargs={"pk": entry.pk})
+            messages[message] = (top_text, bottom_text)
         return messages
 
     def get_action_url(self, *args, **kwargs) -> str:
