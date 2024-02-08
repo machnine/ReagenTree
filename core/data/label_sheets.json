@@ -28,6 +28,20 @@
     "space_y": 1.5
   },
   {
+    "name": "Avery L7159",
+    "page_size": "A4",
+    "label_width": 63.5,
+    "label_height": 33.9,
+    "label_rows": 8,
+    "label_cols": 3,
+    "margin_left": 7,
+    "margin_right": 7,
+    "margin_top": 13,
+    "margin_bottom": 13,
+    "space_x": 2.5,
+    "space_y": 0
+  },
+  {
     "name": "Avery L7162",
     "page_size": "A4",
     "label_width": 99.1,

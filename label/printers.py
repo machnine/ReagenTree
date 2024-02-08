@@ -13,7 +13,7 @@ from label.qr_code import QRCodeGenerator
 
 @dataclass
 class LabelImageSize:
-    """stores the size of an image and provide px to mm conversion"""
+    """stores the size of an image"""
 
     width: float
     height: float
@@ -32,18 +32,20 @@ class QRCodeLabelPDFPrinter:
         self.font_size = kwargs.get("font_size", 6)
         self.qr_generator = QRCodeGenerator()
 
-    def _get_x_offset(self, width: float) -> float:
+    def _get_x_offset(self, item_width: float) -> float:
         """calculate the x offset for a the QR code image (middle of the label)"""
-        return (self.sheet.label_width - width) / 2  # in mm
+        return (self.sheet.label_width - item_width) / 2  # in mm
 
     def _get_y_offset(self) -> float:
         """calculate the y offset for a the QR code image (upper 1/3 of the label)"""
         return (self.sheet.label_height - self.qr_size.height) / 3 * 2  # in mm
 
-    def _get_x_position(self, col: int, width: float) -> float:
+    def _get_x_position(self, col: int, item_width: float) -> float:
         """calculate the x position for a label"""
         return (
-            self.sheet.margin_left + (self.sheet.label_width + self.sheet.space_x) * col + self._get_x_offset(width)
+            self.sheet.margin_left
+            + (self.sheet.label_width + self.sheet.space_x) * col
+            + self._get_x_offset(item_width)
         ) * mm  # (* mm converts to pionts)
 
     def _get_y_position(self, row: int):
@@ -110,7 +112,26 @@ class QRCodeLabelPDFPrinter:
         c.drawString(tt_x_pos, tt_y_pos, text_top)
         c.drawString(bt_x_pos, bt_y_pos, text_bottom)
 
-    def print(self):
+    def _draw_grid(self, c: canvas.Canvas):
+        """Draw a grid overlay for each label position with correct conversion from mm to points."""
+        c.setStrokeColorRGB(0.5, 0.5, 0.5)  # Set a visible color for the grid
+
+        # Loop through rows and columns to draw the grid, ensuring all measurements are in points
+        for row in range(self.sheet.label_rows):
+            for col in range(self.sheet.label_cols):
+                x_pos = self.sheet.margin_left * mm + (self.sheet.label_width + self.sheet.space_x) * col * mm
+                y_pos = (
+                    self.page_size[1]
+                    - self.sheet.margin_top * mm
+                    - (self.sheet.label_height + self.sheet.space_y) * row * mm
+                )
+                width = self.sheet.label_width * mm
+                height = self.sheet.label_height * mm
+
+                # Ensure y position is calculated from the bottom of the label, converting y_pos to the bottom left corner
+                c.rect(x_pos, y_pos - height, width, height)
+
+    def print(self, drw_grid: bool = False):
         """create and position label on PDF"""
 
         pdf_buffer = BytesIO()  # buffer for the PDF
@@ -120,6 +141,9 @@ class QRCodeLabelPDFPrinter:
         label_index = 0  # index for the current label being printed
 
         while label_index < len(self.messages):
+            if drw_grid:
+                self._draw_grid(c)
+
             for row in range(self.sheet.label_rows):
                 for col in range(self.sheet.label_cols):
                     # only process if the current label >= skipped labels
