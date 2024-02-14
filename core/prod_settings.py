@@ -11,7 +11,7 @@ ALLOWED_HOSTS = ["reagentree.oxfordgenes.com"]
 # CSRF settings
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "None"
 CSRF_TRUSTED_ORIGINS = [
     "http://reagentree.oxfordgenes.com",
     "https://reagentree.oxfordgenes.com",
