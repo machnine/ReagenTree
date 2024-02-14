@@ -33,7 +33,7 @@ search_config["stock"] = [
 ]
 # StockEntry has only pk field to search
 search_models.append(StockEntry)
-search_config["stockentry"] = ["pk"]
+search_config["stockentry"] = ["name", "comments", "pk"]
 
 
 class SiteWideSearchView(LoginRequiredMixin, GenericMultiModelSearchView):
