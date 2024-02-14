@@ -6,7 +6,7 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <span class="mt-2 h5"><a href="{{ entry.stock.get_absolute_url }}">{{ entry.stock.source.name }}</a></span>
-        <span class="icon-with-text">
+        <span class="icon-with-text h3">
           <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
           <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
         </span>
