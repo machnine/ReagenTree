@@ -131,6 +131,8 @@ class StockEntry(models.Model):
                 self.remaining_unit = self.stock.source.quantity_unit
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse("usage_qr_update", kwargs={"pk": self.pk})
 
 # stock attachments
 class StockAttachment(Attachment):
