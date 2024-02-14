@@ -169,8 +169,8 @@ class StockLabelPrintView(LoginRequiredMixin, LabelPrintBaseView):
         entries = stock.entries.all()
         messages = {}
         for entry in entries:
-            top_text = f"{stock.source.product_id}"
-            bottom_text = f"{stock.lot_number}-{entry.pk}-{entry.ordinal_number}"
+            top_text = f"{stock.source.product_id} ({entry.ordinal_number})"
+            bottom_text = f"{stock.lot_number}: {entry.pk}"
             message = base_url + reverse("usage_qr_update", kwargs={"pk": entry.pk})
             messages[message] = (top_text, bottom_text)
         return messages
