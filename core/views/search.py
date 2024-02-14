@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from category.models import Category
 from company.models import Company
-from item.models import InhouseReagent, Item, Stock
+from item.models import InhouseReagent, Item, Stock, StockEntry
 from location.models import Location
 
 from .generic import GenericMultiModelSearchView
@@ -31,6 +31,9 @@ search_config["stock"] = [
     "inhouse_reagent__product_id",
     "comments",
 ]
+# StockEntry has only pk field to search
+search_models.append(StockEntry)
+search_config["stockentry"] = ["pk"]
 
 
 class SiteWideSearchView(LoginRequiredMixin, GenericMultiModelSearchView):
