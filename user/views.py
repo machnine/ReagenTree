@@ -44,7 +44,7 @@ class UserLoginView(LoginView):
         """
         if request.user.is_authenticated:
             next_page = request.GET.get("next", reverse("index"))
-            messages.warning(request, "You are already logged in")
+            messages.warning(request, "You are already logged in.")
             return redirect(next_page)
         return super().get(request, *args, **kwargs)
 
@@ -55,7 +55,7 @@ class UserLoginView(LoginView):
         username = form.cleaned_data.get("username")
         user = get_user_model().objects.get(username=username)
         display_name = user.first_name or user.username
-        messages.success(self.request, mark_safe(f"You have successfully logged in as <b>{display_name}</b>"))
+        messages.success(self.request, mark_safe(f"Welcome back, <b>{display_name}</b>."))
         return super().form_valid(form)
 
 
