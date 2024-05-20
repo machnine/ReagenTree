@@ -13,7 +13,15 @@
   <div class="container-fluid pt-3">
     <!-- Headers -->
     <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
-      <div class="col-2">Company</div>
+      <div class="col-2">
+        {% with current_sort=request.GET.sort_by|default:'name' current_order=request.GET.order|default:'asc' %}
+          {% if current_sort == 'name' and current_order == 'asc' %}
+            <a href="?sort_by=name&order=desc">Company <i class="bi bi-arrow-up"></i></a>
+          {% else %}
+            <a href="?sort_by=name&order=asc">Company <i class="bi bi-arrow-down"></i></a>
+          {% endif %}
+        {% endwith %}
+      </div>
       <div class="col-2">Description</div>
       <div class="col-1 text-center">Manufactured</div>
       <div class="col-1 text-center">Supplied</div>

@@ -95,3 +95,11 @@ class CompanyListView(LoginRequiredMixin, ListView):
     context_object_name = "companies"
     template_name = "company/company_list.html"
     paginate_by = 15
+
+    def get_queryset(self):
+        query_set = super().get_queryset()
+        sort_by = self.request.GET.get("sort_by", "name")
+        order = self.request.GET.get("order", "asc")
+        if order == "desc":
+            sort_by = f"-{sort_by}"
+        return query_set.order_by(sort_by)
