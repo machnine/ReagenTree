@@ -45,7 +45,7 @@ VALIDATION_ICONS = {
 def validation_status(status: str, show_text: bool = False):
     """Return a coloured Bootstrap icon for validation status"""
     status_text = status if show_text else ""
-    status_tooltip = f"""data-bs-toggle="tooltip" title="Status: {status}" """
+    status_tooltip = f"""data-bs-toggle="tooltip" title="Validation status: {status}" """
     icons_template = (
         f'<i class="bi {VALIDATION_ICONS.get(status, VALIDATION_ICONS["PENDING"])}" {status_tooltip}></i> {status_text}'
     )

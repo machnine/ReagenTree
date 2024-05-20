@@ -1,4 +1,5 @@
 """Item models"""
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -64,6 +65,14 @@ class Stock(TimeStampUserMixin, models.Model):
 
     def get_verbose_name(self, plural=False):
         return self._meta.verbose_name_plural if plural else self._meta.verbose_name
+
+    def is_validated(self):
+        """Return True if the stock is validated or valiation not required"""
+        if self.validations.count() > 0:
+            for v in self.validations.all():
+                if v.validation.status == "APPROVED" or v.validation.status == "NOT_REQUIRED":
+                    return True
+        return False
 
     @property
     def watchlist(self):

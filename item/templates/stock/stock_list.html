@@ -87,7 +87,7 @@
               <div class="row g-1">
                 <div class="col-6 col-lg-3 text-muted">Validation:</div>
                 <div class="col-6 col-lg-3 ps-sm-0 ps-2">
-                  {% if stock.validations.all|length %}
+                  {% if stock.validations.count %}
                     {% for sv in stock.validations.all %}
                       {% validation_status sv.validation.status True %}
                     {% endfor %}
