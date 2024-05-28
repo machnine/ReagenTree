@@ -1,10 +1,10 @@
 <div class="panel panel-frontpage">
   <div class="panel-heading">
     <div class="d-flex justify-content-between pe-2">
-      <span><i class="bi bi-boxes stock-text-color"></i> <b>Latest stocks</b></span>
+      <span><i class="bi bi-clipboard pe-2 text-success"></i> <b>Pending validation</b></span>
       <span class="float-end">
-        <a href="{% url 'stock_list' %}"
-           title="List of all stocks"
+        <a href="{% url 'stock_validation_list' %}"
+           title="List of all stocks require validations"
            data-bs-toggle="tooltip">
           <i class="bi bi-box-arrow-up-right"></i>
         </a>
@@ -15,12 +15,10 @@
     <div class="px-2 small">
       <table class="table table-sm table-hover">
         <tbody>
-          {% for stock in stocks|slice:10 %}
+          {% for stock in validations %}
             <tr>
-              <td>{{ stock.delivery_date|date:'d/m/Y' }}</td>
-              <td>
-                <a href="{{ stock.get_absolute_url }}">{{ stock.source.name }}</a>
-              </td>
+              <td><a href="{{ stock.get_absolute_url }}">{{ stock.source.name }}</a></td>
+              <td>{{ stock.delivery_date|date:"d/m/Y" }}</td>
               <td class="d-none d-lg-block">x {{ stock.entries.count }}</td>
             </tr>
           {% endfor %}

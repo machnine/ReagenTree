@@ -1,15 +1,19 @@
 """Core page views."""
+
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render
 
-from item.models import Item, Stock, WatchList
+from item.models import Stock, WatchList
 
 
 @login_required
 def index(request):
     """Home page view."""
-    items = Item.objects.all()
-    stocks = Stock.objects.all()
+    stocks = Stock.objects.order_by("-delivery_date")
     watchlists = WatchList.objects.filter(notification=True, acknowledged=None)
-    context = {"items": items, "stocks": stocks, "watchlists": watchlists}
+    validations = Stock.objects.filter(
+        Q(validations__validation__status="PENDING") | Q(validations__isnull=True)
+    ).order_by("delivery_date")
+    context = {"stocks": stocks, "watchlists": watchlists, "validations": validations}
     return render(request, "index.html", context)
