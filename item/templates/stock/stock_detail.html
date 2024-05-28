@@ -47,13 +47,13 @@
           <div class="col-6 col-sm-3 text-muted">Delivery date:</div>
           <div class="col-6 col-sm-3">{{ stock.delivery_date|date:"d/m/Y" }}</div>
         </div>
-        <!-- Category and Received Condition -->
+        <!-- Category and Delivery Condition -->
         <div class="row mb-1">
           <div class="col-6 col-sm-3 text-muted">Category:</div>
           <div class="col-6 col-sm-3">
             <a href="{{ stock.source.category.get_absolute_url }}">{{ stock.source.category.name }}</a>
           </div>
-          <div class="col-6 col-sm-3 text-muted">Received condition:</div>
+          <div class="col-6 col-sm-3 text-muted">Delivery condition:</div>
           <div class="col-6 col-sm-3">{% delivery_condition stock.condition True %}</div>
         </div>
         <!-- Notes -->
