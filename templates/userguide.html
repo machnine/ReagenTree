@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  User Guide
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>User Guide</h3>
+        <ol>
+          <li><a href="#reagentree-intro">Introduction</a></li>
+          <li>
+            <a href="#user-account">User account</a>
+            <ol>
+              <li><a href="#user-registration">Registration</a></li>
+              <li><a href="#user-login">Login</a></li>
+              <li><a href="#user-logout">Logout</a></li>
+              <li><a href="#">Account previleges</a></li>
+            </ol>
+          </li>
+          <li>
+            Concept models
+            <ol>
+              <li><a href="#">Item</a></li>
+              <li><a href="#">Reagent (in-house reagent)</a></li>
+              <li><a href="#">Stock</a></li>
+            </ol>
+          </li>
+          <li>
+            Settings
+            <ol>
+              <li><a href="#">Companies</a></li>
+              <li><a href="#">Categories</a></li>
+              <li><a href="#">Locations</a></li>
+              <li><a href="#">Other settings</a></li>
+            </ol>
+          </li>
+          <li>
+            How to 
+            <ol>
+              <li><a href="#">Companies</a></li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="row pt-5">
+      <div class="col-md-12">
+        <h4 id="reagentree-intro">Introduction</h4>
+        <p>
+          ReagenTree is a web application designed to manage laboratory reagents and stocks and keeps track of the reagent inventory, alerting the users when stocks are running low. 
+          ReagenTree is webbrowser and operation system angnostic and mobile-friendly, meaning it can be accessed from any device with a web browser including mobile devices.
+          ReagenTree is powered by Django, JavaScript, and Bootstrap the entire code base is open source and can be found on <a href="https://github.com/machnine/ReagenTree" class="fw-bold">GitHub</a>.
+        </p>
+        <h4 id="user-account">User Account</h4>
+        <h5 id="user-registration">Registration</h5>
+        <p>
+          You need to register an account to use ReagenTree. To register an account, click on the <a href="https://reagentree.oxfordgenes.com/register/" class="fw-bold">register link</a> on the login page and fill in the registration form. 
+          The registration form requires you to provide your email address, first name, last name, and password. Follow the instructions on the registration form to complete the registration process. Please note, only OUH email address is accepted.
+          
+          <img src="{% static 'images/userguide/user-registration-form.png' %}" alt="user registration form" width="450">
+        </p>
+        <h5 id="user-login">Login</h5>
+        <p>
+          To login to ReagenTree, click on the <a href="https://reagentree.oxfordgenes.com/login/" class="fw-bold">login link</a> on the home page and enter your email address and password. 
+          If you have forgotten your password, click on the <a href="https://reagentree.oxfordgenes.com/password-reset/" class="fw-bold">forgot password link</a> to reset your password.
+          <img src="{% static 'images/userguide/user-login-form.png' %}" alt="user login form" width="450">
+        </p>
+        <h5 id="user-logout">Logout</h5>
+        <p>
+          To logout of ReagenTree, click on the <a href="https://reagentree.oxfordgenes.com/logout/" class="fw-bold">logout link</a> on the home page. 
+          You will be logged out of the system and redirected to the login page.
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
