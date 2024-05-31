@@ -13,6 +13,7 @@ class Company(TimeStampUserMixin, models.Model):
     description = models.TextField(blank=True, null=True)
     website = models.URLField(max_length=200, blank=True)
     phone = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(max_length=100, blank=True)
 
     def __str__(self) -> str:
         """Return name of company"""
