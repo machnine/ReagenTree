@@ -30,16 +30,16 @@
             </ol>
           </li>
           <li>
-            Concept models
+            <a href="#model-concept">Data Models</a>
             <ol>
               <li>
-                <a href="#">Item</a>
+                <a href="#item-model">Item</a>
               </li>
               <li>
-                <a href="#">Reagent (in-house reagent)</a>
+                <a href="#reagent-model">Reagent (in-house reagent)</a>
               </li>
               <li>
-                <a href="#">Stock</a>
+                <a href="#stock-model">Stock</a>
               </li>
             </ol>
           </li>
@@ -47,16 +47,16 @@
             Settings
             <ol>
               <li>
-                <a href="#">Companies</a>
+                <a href="#company-setting">Companies</a>
               </li>
               <li>
-                <a href="#">Categories</a>
+                <a href="#category-setting">Categories</a>
               </li>
               <li>
-                <a href="#">Locations</a>
+                <a href="#location-setting">Locations</a>
               </li>
               <li>
-                <a href="#">Other settings</a>
+                <a href="#userprofile-setting">User profile settings</a>
               </li>
             </ol>
           </li>
@@ -86,15 +86,16 @@
           An account is required to use ReagenTree. To register an account, click on the <a href="{% url 'register' %}" class="fw-bold">register link</a> on the login page and fill in the registration form.
           The registration form requires you to provide your email address, first name, last name, and password.
           Follow the instructions on the registration form to complete the registration process.
-          Please note, only an OUH email address is accepted. A new user account requires approval from the administrator users.
+          Please note, only an OUH email address is accepted. A new user account requires approval from an administrator user.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
-        <center>
+        <p class="text-center">
           <img src="{% static 'images/userguide/user-registration-form.png' %}"
                alt="user registration form"
-               width="450"
-               class="border">
-        </center>
+               width="395"
+               height="253"
+               class="border" />
+        </p>
         <h5 class="pt-4" id="user-login">2.2. Login</h5>
         <p>
           To login to ReagenTree, click on the <a href="{% url 'login' %}" class="fw-bold">login link</a> on the home page and enter your email address and password.
@@ -103,49 +104,76 @@
         </p>
         <h5 id="user-logout">2.3. Logout</h5>
         <p>
-          User sessions automatically after 15 minutes of inactivity. Any further actions after your session expired will redirect your to the Login page for re-authentication. To logout manually, click on the <b>Logout</b> link under the user menu.
+          User sessions automatically after 15 minutes of inactivity.
+          Any further actions after your session expired will redirect your to the Login page for re-authentication.
+          To logout manually, click on the <b>Logout</b> link under the user menu.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
         <h5 id="account-previleges">2.4. Account previleges</h5>
         <p>
-          There are two types of users in ReagenTree: <b>regular users</b> and <b>administrators</b>. If you find that you cannot perform certain actions, contact the administrator users to grant you the necessary permissions.
+          There are two types of users in ReagenTree: <b>regular users</b> and <b>administrators</b>.
+          If you find that you cannot perform certain actions, contact the administrator users to grant you the necessary permissions.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
-        <h4 class="pt-3" id="model-concept">3. Model Concepts</h4>
-        <h5>3.1. Item</h5>
+        <h4 class="pt-3" id="model-concept">3. Data Models</h4>
+        <h5 id="item-model">
+          3.1. Item
+        </h5>
         <p>
-          An item is a generic term used to describe a reagent, a stock, or any other item that can be stored in a laboratory. An item has a name, a category, and a location.
+          In <i>Reagentree</i>, an <i class="fw-bold item-text-color">item</i> is a generic term used to refer to a reagent which can be procured from a supplier.
+          Think of an <i class="fw-bold item-text-color">item</i> as a dish listed on a restaurant menu,
+          not as the actual dish served to you, which would be considered as a <i class="stock-text-color fw-bold">stock</i>.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
-        <h5>3.2. Reagent (in-house reagent)</h5>
+        <h5 id="reagent-model">
+          3.2. Reagent (in-house)
+        </h5>
         <p>
-          A reagent is a chemical compound used in a laboratory to detect, measure, or produce other substances. A reagent has a name, a category, a location, a company, and a CAS number.
+          For lack of a better term, <i>Reagentree</i> uses <i class="fw-bold inhouse-text-color">reagent</i> to refer to a reagent that is produced in-house.
+          In terms of the data model, a <i class="fw-bold inhouse-text-color">reagent</i> behaves the same as an <i class="fw-bold item-text-color">item</i> -
+          it is also like a dish on a menu, not the dish served, which would be considered <i class="stock-text-color fw-bold">stock</i>.
+          Therefore, a new <i class="fw-bold inhouse-text-color">reagent</i> cannot be created directly from <i class="fw-bold item-text-color">items</i> or other <i class="fw-bold inhouse-text-color">reagents</i>.
+          A <i class="fw-bold inhouse-text-color">reagent</i> must be created from one or more <i class="fw-bold stock-text-color">stock</i> items.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
-        <h5>3.3. Stock</h5>
+        <h5 id="stock-model">
+          3.3. Stock
+        </h5>
         <p>
-          A stock is a container that holds a reagent. A stock has a name, a category, a location, a company, a CAS number, and a quantity. A stock can be linked to a reagent.
+          In Reagentree, <i class="stock-text-color fw-bold">stock</i> refers to the actual physical inventory of a reagent.
+          While an <i class="fw-bold item-text-color">item</i> or <i class="fw-bold inhouse-text-color">reagent</i> is like a dish listed on a restaurant menu, <i class="stock-text-color fw-bold">stock</i> is the actual dish served to you.
+          <i class="stock-text-color fw-bold">Stock</i> represents the tangible, on-hand quantity of reagents, whether procured from a supplier or produced in-house.
+          It tracks the availability and usage of reagents, ensuring that the necessary quantities are maintained for operational needs.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
         <h4 class="pt-3" id="settings">4. Settings</h4>
-        <h5>4.1. Companies</h5>
+        <h5 id="company-setting">
+          4.1. Companies
+        </h5>
         <p>
-          Companies are entities that produce reagents. Companies have a name and a website. Companies can be linked to reagents and stocks.
-          <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a> 
-        </p>
-        <h5>4.2. Categories</h5>
-        <p>
-          Categories are used to classify items. Categories have a name and a description. Categories can be linked to reagents and stocks.
+          A <i class="company-text-color fw-bold">company</i> refers to an entity involved in the manufacturing or supply of reagents. A company can function as either a <i>manufacturer</i>, a <i>supplier</i>, or both.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
-        <h5>4.3. Locations</h5>
+        <h5 id="category-setting">
+          4.2. Categories
+        </h5>
         <p>
-          Locations are places where items are stored. Locations have a name and a description. Locations can be linked to reagents and stocks.
+          In Reagentree, <i class="category-text-color fw-bold">categories</i> are used to classify items and reagents.
+          Each <i class="category-text-color fw-bold">category</i> has a searchable name and a description, helping in the efficient sorting and retrieval of information.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
-        <h5>4.4. Other settings</h5>
+        <h5 id="location-setting">
+          4.3. Locations
+        </h5>
         <p>
-          Other settings include the ability to change your password, view your profile, and view the audit log.
+          <i class="location-text-color fw-bold">Locations</i> are places where <i class="fw-bold stock-text-color">stocks</i> are stored.
+          Each <i class="location-text-color fw-bold">location</i> has a searchable name and a description.
+          <i class="location-text-color fw-bold">Locations</i> help in tracking and managing the physical storage of <i class="fw-bold stock-text-color">stock</i> items,
+          <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
+        </p>
+        <h5 id="userprofile-setting">4.4. User profile settings</h5>
+        <p>
+          User profile information such as first name, last name, and email address can be updated by clicking on the <a href="{% url 'user_profile' %}" class="text-success"><i class="bi bi-person-square"></i> Profile</a> option under the user menu.
           <a href="#userguide-top" title="Back to top" data-bs-toggle="tooltip"><sup><i class="bi bi-chevron-bar-up"></i></sup></a>
         </p>
         <h4 class="pt-3" id="how-to">5. How to</h4>

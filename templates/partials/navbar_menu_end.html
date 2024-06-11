@@ -18,9 +18,6 @@
       <li>
         <a href="{% url 'user_profile' %}" class="dropdown-item"><i class="bi bi-person-square text-success"></i> Profile</a>
       </li>
-      <li>
-        <a href="#" class="dropdown-item"><i class="bi bi-sliders setting-text-color"></i> Settings</a>
-      </li>
       {% if request.user.is_superuser %}
         <li class="dropdown-divider"></li>
         <li>
