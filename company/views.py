@@ -60,8 +60,13 @@ class CompanyCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMix
 
     model = Company
     form_class = CompanyForm
-    template_name = "company/company_create.html"
+    template_name = "company/company_form.html"
     success_url = reverse_lazy("company_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "company"
+        return context
 
 
 class CompanyUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
@@ -69,8 +74,13 @@ class CompanyUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMix
 
     model = Company
     form_class = CompanyForm
-    template_name = "company/company_update.html"
+    template_name = "company/company_form.html"
     success_url = reverse_lazy("company_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "company"
+        return context
 
 
 class CompanyDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):

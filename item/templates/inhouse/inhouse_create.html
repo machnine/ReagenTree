@@ -1,11 +1,11 @@
-{% extends "object_create_base.html" %}
+{% extends "object_form_base.html" %}
 {% block title %}
   In-house Reagent
 {% endblock title %}
 {% block panel_title %}
   <i class="bi bi-box-fill inhouse-text-color"></i> New Reagent
 {% endblock panel_title %}
-{% block create_form %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger small">{{ form.non_field_errors }}</span>
     <div class="input-group mb-3">
@@ -51,7 +51,7 @@
     </div>
     <span class="text-danger small">{{ form.description.errors }}</span>
   </div>
-{% endblock create_form %}
+{% endblock object_form %}
 {% block js %}
   <script>
   // Array of configurations for each search box

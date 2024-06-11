@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %}
+  {% if object.id %}
+    Update
+    [{{ object.name }}]
+  {% else %}
+    New
+    {{ object_class }}
+  {% endif %}
 {% endblock title %}
 {% block content %}
   <div class="container">
@@ -7,6 +14,14 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           {% block panel_title %}
+            {% block panel_title_icon %}
+            {% endblock panel_title_icon %}
+            {% if object.id %}
+              Update - {{ object.name }}
+            {% else %}
+              Create a new 
+              {{ object_class }}
+            {% endif %}
           {% endblock panel_title %}
         </h4>
       </div>
@@ -15,12 +30,12 @@
           <form method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ request.GET.next }}">
-            {% block create_form %}
-            {% endblock create_form %}
+            {% block object_form %}
+            {% endblock object_form %}
             <div class="text-end pe-3">
               <button type="submit"
                       class="btn btn-sm btn-success"
-                      onclick="return confirmationDialog('Save the entry?');">
+                      onclick="return confirmationDialog('Do you want to save the changes?');">
                 <i class="bi bi-floppy"></i> Save
               </button>
             </div>

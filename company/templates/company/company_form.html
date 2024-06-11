@@ -1,27 +1,33 @@
-<div class="px-3 pt-3">
-  <div class="mb-3 input-group">
-    <span class="input-group-text input-group-text-fw-sm">{{ form.name.label_tag }}</span>
-    {{ form.name }}
+{% extends "object_form_base.html" %}
+{% block panel_title_icon %}
+  <i class="bi bi-buildings company-text-color"></i>
+{% endblock panel_title_icon %}
+{% block object_form %}
+  <div class="px-3 pt-3">
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.name.label_tag }}</span>
+      {{ form.name }}
+    </div>
+    <span class="text-danger">{{ form.name.errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.website.label_tag }}</span>
+      {{ form.website }}
+    </div>
+    <span class="text-danger">{{ form.website.errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.phone.label_tag }}</span>
+      {{ form.phone }}
+    </div>
+    <span class="text-danger">{{ form.phone.errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.email.label_tag }}</span>
+      {{ form.email }}
+    </div>
+    <span class="text-danger">{{ form.email.errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
+      {{ form.description }}
+    </div>
+    <span class="text-danger">{{ form.description.errors }}</span>
   </div>
-  <span class="text-danger">{{ form.name.errors }}</span>
-  <div class="mb-3 input-group">
-    <span class="input-group-text input-group-text-fw-sm">{{ form.website.label_tag }}</span>
-    {{ form.website }}
-  </div>
-  <span class="text-danger">{{ form.website.errors }}</span>
-  <div class="mb-3 input-group">
-    <span class="input-group-text input-group-text-fw-sm">{{ form.phone.label_tag }}</span>
-    {{ form.phone }}
-  </div>
-  <span class="text-danger">{{ form.phone.errors }}</span>
-  <div class="mb-3 input-group">
-    <span class="input-group-text input-group-text-fw-sm">{{ form.email.label_tag }}</span>
-    {{ form.email }}
-  </div>
-  <span class="text-danger">{{ form.email.errors }}</span>
-  <div class="mb-3 input-group">
-    <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
-    {{ form.description }}
-  </div>  
-  <span class="text-danger">{{ form.description.errors }}</span>
-</div>
+{% endblock object_form %}

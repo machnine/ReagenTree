@@ -26,8 +26,13 @@ class CategoryCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMi
 
     model = Category
     form_class = CategoryForm
-    template_name = "category/category_create.html"
+    template_name = "category/category_form.html"
     success_url = reverse_lazy("category_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "category"
+        return context
 
 
 class CategoryUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
@@ -36,7 +41,12 @@ class CategoryUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMi
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy("category_list")
-    template_name = "category/category_update.html"
+    template_name = "category/category_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "category"
+        return context
 
 
 class CategoryDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):

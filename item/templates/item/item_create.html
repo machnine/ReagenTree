@@ -1,11 +1,11 @@
-{% extends "object_create_base.html" %}
+{% extends "object_form_base.html" %}
 {% block title %}
   Item Create
 {% endblock title %}
 {% block panel_title %}
   <i class="bi bi-box2-fill item-text-color"></i> New Item
 {% endblock panel_title %}
-{% block create_form %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# name #}
@@ -54,7 +54,7 @@
     </div>
     <span class="text-danger">{{ form.description.errors }}</span>
   </div>
-{% endblock create_form %}
+{% endblock object_form %}
 {% block js %}
   <script>
     // Array of configurations for each search box

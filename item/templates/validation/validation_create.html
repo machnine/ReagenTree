@@ -1,11 +1,11 @@
-{% extends "object_create_base.html" %}
+{% extends "object_form_base.html" %}
 {% block title %}
   Reagent Validation
 {% endblock title %}
 {% block panel_title %}
   <i class="bi bi-clipboard-check-fill validation-text-color"></i> Validation create
 {% endblock panel_title %}
-{% block create_form %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     <div id="div_id_status" class="input-group mb-3">
@@ -19,4 +19,4 @@
     </div>
     <span class="text-danger">{{ form.comments.errors }}</span>
   </div>
-{% endblock create_form %}
+{% endblock object_form %}

@@ -1,11 +1,11 @@
-{% extends "object_create_base.html" %}
+{% extends "object_form_base.html" %}
 {% block title %}
   Stock
 {% endblock title %}
 {% block panel_title %}
   <i class="bi bi-box-seam-fill stock-text-color"></i> Commit to Stock
 {% endblock panel_title %}
-{% block create_form %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     {# item search input #}
@@ -51,7 +51,7 @@
       <div id="location-input" class="type-search-input">{% include "location/partials/location_search_input.html" %}</div>
     {% endwith %}
   </div>
-{% endblock create_form %}
+{% endblock object_form %}
 {% block js %}
   <script>
     //set up the search result listener for the item search box

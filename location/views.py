@@ -26,8 +26,13 @@ class LocationCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMi
 
     model = Location
     form_class = LocationForm
-    template_name = "location/location_create.html"
+    template_name = "location/location_form.html"
     success_url = reverse_lazy("location_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "location"
+        return context
 
 
 class LocationUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
@@ -35,8 +40,13 @@ class LocationUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMi
 
     model = Location
     form_class = LocationForm
-    template_name = "location/location_update.html"
+    template_name = "location/location_form.html"
     success_url = reverse_lazy("location_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "location"
+        return context
 
 
 class LocationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
