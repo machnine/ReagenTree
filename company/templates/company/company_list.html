@@ -21,12 +21,11 @@
             <a href="?sort_by=name&order=asc">Company <i class="bi bi-arrow-down"></i></a>
           {% endif %}
         {% endwith %}
-      </div>
-      <div class="col-2">Description</div>
-      <div class="col-1 text-center">Manufactured</div>
-      <div class="col-1 text-center">Supplied</div>
+      </div>      
       <div class="col-2">Phone</div>
-      <div class="col-3">Website</div>
+      <div class="col-2">Email</div>
+      <div class="col-2">Website</div>
+      <div class="col-2">Description</div>
       <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows for Each Company -->
@@ -35,25 +34,19 @@
         <!-- Company Name -->
         <div class="col-6 col-lg-2 align-middle">
           <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
-        </div>
-        <!-- Description -->
-        <div class="col-lg-2 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
-        <!-- Manufactured Count -->
-        <div class="col-lg-1 text-center d-none d-lg-block">
-          <a href="{{ company.get_absolute_url }}#manufactured">{{ company.manufactured_items.count|default:"" }}</a>
-        </div>
-        <!-- Supplied Count -->
-        <div class="col-lg-1 text-center d-none d-lg-block">
-          <a href="{{ company.get_absolute_url }}#supplied">{{ company.supplied_items.count|default:"" }}</a>
-        </div>
+        </div>        
         <!-- Phone -->
         <div class="col-lg-2 d-none d-lg-block">{{ company.phone }}</div>
+        <!-- Email -->
+        <div class="col-lg-2 d-none d-lg-block">{{ company.email }}</div>
         <!-- Website -->
-        <div class="col-lg-3 d-none d-lg-block">
+        <div class="col-lg-2 d-none d-lg-block">
           <a href="{{ company.website }}"
              title="Visit {{ company.website }}"
              target="_blank">{{ company.website|truncatechars:32 }}</a>
         </div>
+        <!-- Description -->
+        <div class="col-lg-2 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
         <!-- Actions -->
         <div class="col-lg-1 d-none d-lg-block">
           <span class="tooltray-container d-none">

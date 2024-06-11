@@ -15,8 +15,13 @@
   </div>
   <span class="text-danger">{{ form.phone.errors }}</span>
   <div class="mb-3 input-group">
+    <span class="input-group-text input-group-text-fw-sm">{{ form.email.label_tag }}</span>
+    {{ form.email }}
+  </div>
+  <span class="text-danger">{{ form.email.errors }}</span>
+  <div class="mb-3 input-group">
     <span class="input-group-text input-group-text-fw-sm">{{ form.description.label_tag }}</span>
     {{ form.description }}
-  </div>
+  </div>  
   <span class="text-danger">{{ form.description.errors }}</span>
 </div>
