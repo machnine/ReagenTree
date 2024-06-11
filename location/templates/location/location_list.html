@@ -33,13 +33,13 @@
       </div>
       <div class="col-3">Description</div>
       <div class="col-3">Stock Items</div>
-      <div class="col-1">
+      <div class="col-1 text-end">
         {% toggle_icon 'tooltray-trigger' 'tooltray-container' %}
       </div>
     </div>
     <!-- Rows for Each Location -->
     {% for location in locations %}
-      <div class="row g-2 mb-2 border-top align-items-center">
+      <div class="row py-1 border-top align-items-center {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
         <!-- Location Name -->
         <div class="col-6 col-lg-3">
           <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
@@ -58,7 +58,7 @@
           {% endif %}
         </div>
         <!-- Actions -->
-        <div class="col-lg-1 d-none d-lg-block">
+        <div class="col-lg-1 d-none d-lg-block text-end">
           <span class="tooltray-container d-none">
             <a href="{% url 'location_update' location.pk %}"><i class="bi bi-pencil-square"></i></a>
             <a hx-get="{% url 'location_delete' location.pk %}" hx-trigger="click" hx-target="#crudModal .modal-content" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#crudModal" href="javascript:"><i class="bi bi-trash"></i></a>
