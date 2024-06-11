@@ -1,10 +1,7 @@
 {% extends "object_form_base.html" %}
-{% block title %}
-  In-house Reagent
-{% endblock title %}
-{% block panel_title %}
-  <i class="bi bi-box-fill inhouse-text-color"></i> New Reagent
-{% endblock panel_title %}
+{% block panel_title_icon %}
+  <i class="bi bi-box-fill inhouse-text-color"></i>
+{% endblock panel_title_icon %}
 {% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger small">{{ form.non_field_errors }}</span>

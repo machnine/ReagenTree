@@ -1,11 +1,8 @@
-{% extends "object_update_base.html" %}
-{% block title %}
-  Reagent Validation
-{% endblock title %}
-{% block panel_title %}
-  <i class="bi bi-clipboard-check-fill validation-text-color"></i> Validation update
-{% endblock panel_title %}
-{% block update_form %}
+{% extends "object_form_base.html" %}
+{% block panel_title_icon %}
+  <i class="bi bi-clipboard-check-fill validation-text-color"></i>
+{% endblock panel_title_icon %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     <div id="div_id_status" class="input-group mb-3">
@@ -19,4 +16,4 @@
     </div>
     <span class="text-danger">{{ form.comments.errors }}</span>
   </div>
-{% endblock update_form %}
+{% endblock object_form %}

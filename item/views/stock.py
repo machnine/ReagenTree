@@ -27,6 +27,7 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["entries"] = StockEntryFormSet(self.request.POST) if self.request.POST else StockEntryFormSet()
+        context["object_class"] = "stock"
         return context
 
     def form_valid(self, form):
@@ -64,6 +65,11 @@ class StockUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "stock"
+        return context
 
 
 class StockListView(LoginRequiredMixin, ListView):

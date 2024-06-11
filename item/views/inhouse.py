@@ -1,4 +1,4 @@
-"""In house reagent views """
+"""In house reagent views"""
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,16 +20,21 @@ class InhouseReagentCreateView(LoginRequiredMixin, CreateView):
     """Create view for inhouse reagents"""
 
     model = InhouseReagent
-    template_name = "inhouse/inhouse_create.html"
+    template_name = "inhouse/inhouse_form.html"
     form_class = InhouseReagentForm
     success_url = reverse_lazy("inhouse_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "inhouse reagent"
+        return context
 
 
 class InhouseReagentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessageMixin, UpdateView):
     """Update view for inhouse reagents"""
 
     model = InhouseReagent
-    template_name = "inhouse/inhouse_update.html"
+    template_name = "inhouse/inhouse_form.html"
     form_class = InhouseReagentForm
     success_url = reverse_lazy("inhouse_list")
 
@@ -37,6 +42,7 @@ class InhouseReagentUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMes
         context = super().get_context_data(**kwargs)
         if self.object.category:
             context["category_name"] = self.object.category.name
+        context["object_class"] = "inhouse reagent"
         return context
 
 

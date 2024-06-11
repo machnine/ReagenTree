@@ -1,11 +1,8 @@
-{% extends "object_update_base.html" %}
-{% block title %}
-  Item Update
-{% endblock title %}
-{% block panel_title %}
-  <i class="bi bi-box2-fill item-text-color"></i> {{ object.name }}
-{% endblock panel_title %}
-{% block update_form %}
+{% extends "object_form_base.html" %}
+{% block panel_title_icon %}
+  <i class="bi bi-box2-fill item-text-color"></i>
+{% endblock panel_title_icon %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     <div id="div_id_name" class="input-group mb-3">
@@ -61,11 +58,7 @@
         </span>
       </div>
       <div id="categorySearchResults" class="list-group type-search-result"></div>
-      <input type="text"
-             name="category"
-             id="id_category"
-             hidden
-             value="{{ form.category.value }}">
+      <input type="text" name="category" id="id_category" hidden value="{{ form.category.value }}">
     </div>
     <span class="text-danger">{{ form.category.errors }}</span>
     {# manufacturer type search input #}
@@ -135,7 +128,7 @@
     </div>
     <span class="text-danger">{{ form.description.errors }}</span>
   </div>
-{% endblock update_form %}
+{% endblock object_form %}
 {% block js %}
   <script>
     // Array of configurations for each search box
@@ -164,8 +157,8 @@
     ];
 
     // Initialize each search box listener
-    searchConfigurations.forEach(function (config) {
-      TypeSearchResultListenerConfig(config);
-    });
+    searchConfigurations.forEach(
+      config => TypeSearchResultListenerConfig(config)
+    );
   </script>
 {% endblock js %}

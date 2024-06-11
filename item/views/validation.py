@@ -22,7 +22,7 @@ class ValidationUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessage
 
     model = ReagentValidation
     form_class = ValidationForm
-    template_name = "validation/validation_update.html"
+    template_name = "validation/validation_form.html"
     success_url = reverse_lazy("stock_list")
 
     def dispatch(self, request, *args, **kwargs):
@@ -32,6 +32,11 @@ class ValidationUpdateView(LoginRequiredMixin, SuccessUrlMixin, FormValidMessage
             messages.error(request, "Authorised validations cannot be edited.")
             return redirect(self.get_success_url())
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "validation"
+        return context
 
 
 class ValidationAuthorisationHtmxView(LoginRequiredMixin, SuccessUrlMixin, FormView):
@@ -74,7 +79,7 @@ class StockValidationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView)
 
     model = ReagentValidation
     form_class = ValidationForm
-    template_name = "validation/validation_create.html"
+    template_name = "validation/validation_form.html"
     success_url = reverse_lazy("stock_list")
 
     def form_valid(self, form):
@@ -86,6 +91,11 @@ class StockValidationCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView)
         stock = get_object_or_404(Stock, pk=stock_id)
         StockValidation.objects.create(stock=stock, validation=validation)
         return HttpResponseRedirect(self.get_success_url())
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "validation"
+        return context
 
 
 class StockValidationDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):

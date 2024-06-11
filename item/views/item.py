@@ -18,7 +18,7 @@ class ItemCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin,
 
     model = Item
     form_class = ItemForm
-    template_name = "item/item_create.html"
+    template_name = "item/item_form.html"
     success_url = reverse_lazy("item_list")
 
     def get_field_obj_name(self, field_value, obj_model):
@@ -37,13 +37,17 @@ class ItemCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin,
         context["supplier_name"] = self.get_field_obj_name(form.cleaned_data.get("supplier"), Company)
         return self.render_to_response(context)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "item"
+        return context
 
 class ItemUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
     """Update view for Item model"""
 
     model = Item
     form_class = ItemForm
-    template_name = "item/item_update.html"
+    template_name = "item/item_form.html"
     success_url = reverse_lazy("item_list")
 
     def get_context_data(self, **kwargs):
@@ -56,6 +60,8 @@ class ItemUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin,
             context["manufacturer_name"] = item.manufacturer.name
         if item.supplier:
             context["supplier_name"] = item.supplier.name
+
+        context["object_class"] = "item"
 
         return context
 

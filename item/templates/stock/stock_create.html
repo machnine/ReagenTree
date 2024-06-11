@@ -1,10 +1,7 @@
 {% extends "object_form_base.html" %}
-{% block title %}
-  Stock
-{% endblock title %}
-{% block panel_title %}
-  <i class="bi bi-box-seam-fill stock-text-color"></i> Commit to Stock
-{% endblock panel_title %}
+{% block panel_title_icon %}
+  <i class="bi bi-box-seam-fill stock-text-color"></i>
+{% endblock panel_title_icon %}
 {% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>

@@ -2,7 +2,7 @@
 {% block title %}
   {% if object.id %}
     Update
-    [{{ object.name }}]
+    [{{ object }}]
   {% else %}
     New
     {{ object_class }}
@@ -17,7 +17,7 @@
             {% block panel_title_icon %}
             {% endblock panel_title_icon %}
             {% if object.id %}
-              Update - {{ object.name }}
+              Update - {{ object }}
             {% else %}
               Create a new 
               {{ object_class }}
