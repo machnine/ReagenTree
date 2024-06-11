@@ -2,9 +2,12 @@
   - Stock take work flow - what is it and how to deal with it?
   - Stock level How to handle items (stocks) that are used up? delete? archive? or simply not showing? how about their location? 
   - View for expired items - for disposal or relabelling for research only use
-- List view sorting
-- List view search
-- Is a 'short name' function or actual property necessary for labels
 - Full site search - what about expired items? How about a search results list view?
 - write an initial data script
 - API or at least ways to import /export data as JSON
+- User guide
+- Page specific helps
+  - Stock
+  - Item
+  - Inhouse
+  - Validations
