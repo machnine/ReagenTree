@@ -15,12 +15,12 @@
           <form method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ request.GET.next }}">
-            {% block update_form %}
-            {% endblock update_form %}
+            {% block object_form %}
+            {% endblock object_form %}
             <div class="text-end pe-3">
               <button type="submit"
                       class="btn btn-sm btn-success"
-                      onclick="return confirmationDialog('Save the update?');">
+                      onclick="return confirmationDialog('Do you want to save the changes?');">
                 <i class="bi bi-floppy"></i> Save
               </button>
             </div>

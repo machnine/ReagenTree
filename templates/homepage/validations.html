@@ -1,7 +1,7 @@
 <div class="panel panel-frontpage">
   <div class="panel-heading">
     <div class="d-flex justify-content-between pe-2">
-      <span><i class="bi bi-clipboard pe-2 text-success"></i> <b>Pending validation</b></span>
+      <span><i class="bi bi-clipboard pe-2 text-muted"></i> <b>Pending validations</b></span>
       <span class="float-end">
         <a href="{% url 'stock_validation_list' %}"
            title="List of all stocks require validations"
@@ -14,10 +14,19 @@
   <div class="panel-content">
     <div class="px-2 small">
       <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th class="text-muted">Stock source</th>
+            <th class="text-muted">Delivery date</th>
+            <th class="text-muted d-none d-lg-block">Count</th>
+          </tr>
+        </thead>
         <tbody>
           {% for stock in validations %}
             <tr>
-              <td><a href="{{ stock.get_absolute_url }}">{{ stock.source.name }}</a></td>
+              <td>
+                <a href="{{ stock.get_absolute_url }}">{{ stock.source.name }}</a>
+              </td>
               <td>{{ stock.delivery_date|date:"d/m/Y" }}</td>
               <td class="d-none d-lg-block">x {{ stock.entries.count }}</td>
             </tr>

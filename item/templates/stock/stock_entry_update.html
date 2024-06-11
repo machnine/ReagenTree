@@ -10,7 +10,7 @@
   </span>
   <span class="item-text-color">{{ object }}</span>
 {% endblock panel_title %}
-{% block update_form %}
+{% block object_form %}
   <div class="px-3 pt-3">
     <span class="text-danger">{{ form.non_field_errors }}</span>
     <div class="row">
@@ -63,7 +63,7 @@
     </div>
     <span class="text-danger">{{ form.comments.errors }}</span>
   </div>
-{% endblock update_form %}
+{% endblock object_form %}
 {% block js %}
   <script>
   const config = 

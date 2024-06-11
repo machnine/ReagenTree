@@ -3,9 +3,7 @@
     <div class="d-flex justify-content-between pe-2">
       <span><i class="bi bi-boxes stock-text-color"></i> <b>Latest stocks</b></span>
       <span class="float-end">
-        <a href="{% url 'stock_list' %}"
-           title="List of all stocks"
-           data-bs-toggle="tooltip">
+        <a href="{% url 'stock_list' %}" title="List of all stocks" data-bs-toggle="tooltip">
           <i class="bi bi-box-arrow-up-right"></i>
         </a>
       </span>
@@ -14,6 +12,13 @@
   <div class="panel-content">
     <div class="px-2 small">
       <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th class="text-muted d-none d-lg-block">Delivery date</th>
+            <th class="text-muted">Stock source</th>
+            <th class="text-muted d-none d-lg-block">Count</th>
+          </tr>
+        </thead>
         <tbody>
           {% for stock in stocks|slice:10 %}
             <tr>

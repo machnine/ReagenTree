@@ -12,7 +12,7 @@
 {% block panel_content %}
   <div class="container-fluid pt-3">
     <!-- Headers -->
-    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+    <div class="row mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
       <div class="col-2">
         {% with current_sort=request.GET.sort_by|default:'name' current_order=request.GET.order|default:'asc' %}
           {% if current_sort == 'name' and current_order == 'asc' %}
@@ -25,12 +25,12 @@
       <div class="col-2">Phone</div>
       <div class="col-2">Email</div>
       <div class="col-2">Website</div>
-      <div class="col-2">Description</div>
-      <div class="col-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
+      <div class="col-3">Description</div>
+      <div class="col-1 text-end">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows for Each Company -->
     {% for company in companies %}
-      <div class="row g-2 mb-2 border-top align-items-center">
+      <div class="row py-1 border-top align-items-center {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
         <!-- Company Name -->
         <div class="col-6 col-lg-2 align-middle">
           <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
@@ -46,9 +46,9 @@
              target="_blank">{{ company.website|truncatechars:32 }}</a>
         </div>
         <!-- Description -->
-        <div class="col-lg-2 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
+        <div class="col-lg-3 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
         <!-- Actions -->
-        <div class="col-lg-1 d-none d-lg-block">
+        <div class="col-lg-1 d-none d-lg-block text-end">
           <span class="tooltray-container d-none">
             <a href="{% url 'company_update' company.pk %}"><i class="bi bi-pencil-square"></i></a>
             <a hx-get="{% url 'company_delete' company.pk %}"

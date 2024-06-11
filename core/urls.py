@@ -13,12 +13,13 @@ from item.urls import inhouse_urls, item_urls, stock_urls, usage_urls, validatio
 from location import urls as location_urls
 from user import urls as user_urls
 
-from .views import SiteWideSearchView, UserGuideView, index
+from .views import HelpView, SiteWideSearchView, UserGuideView, index
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name="index"),
     path("userguide/", UserGuideView.as_view(), name="userguide"),
+    path("help/", HelpView.as_view(), name="help"),
     path("search/", SiteWideSearchView.as_view(), name="site_search"),
     path("", include(user_urls)),
     path("category/", include(category_urls)),

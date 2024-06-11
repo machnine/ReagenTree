@@ -7,22 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="ReagenTree - Reagent Inventory System" />
     <meta name="author" content="Mian Chen" />
-    <meta name="keywords"
-          content="ReagenTree, reagent, quality, inventory, management, system" />
+    <meta name="keywords" content="ReagenTree, reagent, quality, inventory, management, system" />
     <title>ReagenTree |
       {% block title %}
       {% endblock title %}
     </title>
-    <link rel="icon"
-          href="{% static 'images/favicon.ico' %}"
-          type="image/x-icon">
-    <link rel="shortcut icon"
-          href="{% static 'images/favicon.ico' %}"
-          type="image/x-icon">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <!-- Add your CSS files here -->
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.2.min.css' %}" />
-    <link rel="stylesheet"
-          href="{% static 'icons/bootstrap-icons-1.11.1.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'icons/bootstrap-icons-1.11.1.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/reagentree-1.0.css' %}" />
     <style>main#main-content {padding-top: 75px;} /* top padding under the fixed navbar */</style>
     {% block css %}
@@ -34,13 +28,8 @@
       {% block header %}
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
           <div class="container-fluid">
-            <a class="navbar-brand"
-               href="{% url 'index' %}"
-               title="ReagenTree Home Page">
-              <img src="{% static 'images/ReagenTree_Logo.png' %}"
-                   alt="ReagenTree Logo"
-                   width="40"
-                   height="40" />
+            <a class="navbar-brand" href="{% url 'index' %}" title="ReagenTree Home Page">
+              <img src="{% static 'images/ReagenTree_Logo.png' %}" alt="ReagenTree Logo" width="40" height="40" />
             </a>
             <button class="navbar-toggler"
                     type="button"
@@ -69,10 +58,7 @@
               <div role="alert"
                    class="alert alert-dismissible fade show alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}info auto-dismiss{% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success auto-dismiss{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}warning{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% endif %}">
                 {{ message }}
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="alert"
-                        aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             {% endfor %}
           {% endif %}
@@ -98,17 +84,14 @@
     {% endblock offcanvas %}
     {% block modals %}
     {% endblock modals %}
-    <form id="logout-form"
-          action="{% url 'logout' %}"
-          method="post"
-          class="d-none">
+    <form id="logout-form" action="{% url 'logout' %}" method="post" class="d-none">
       {# hidden logout form #}
       {% csrf_token %}
     </form>
     <!-- Add your JavaScript files here -->
     <script src="{% static 'js/bootstrap-5.3.2-bundle.min.js' %}"></script>
     <script src="{% static 'js/htmx-1.9.8.min.js' %}"></script>
-    <script src="{% static 'js/reagentree-1.0.js' %}"></script>    
+    <script src="{% static 'js/reagentree-1.0.js' %}"></script>
     {% block js %}
     {% endblock js %}
   </body>

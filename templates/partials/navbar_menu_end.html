@@ -1,14 +1,37 @@
 <ul class="navbar-nav ms-auto ps-lg-3">
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle"
-       href="#"
+       id="helprDropdown"
+       role="button"
+       data-bs-toggle="dropdown"
+       aria-expanded="false"
+       href="javascript:"><i class="bi bi-question-square-fill text-success"></i> Help</a>
+    <ul class="dropdown-menu" aria-labelledby="helpDropdown">
+      <li>
+        <a data-bs-toggle="offcanvas"
+           data-bs-target="#startOffcanvas"
+           class="dropdown-item"
+           href="javascript:"
+           title="Help with this page"
+           hx-get="{% url 'help' %}"
+           hx-target="#startOffcanvas"
+           hx-swap="innerHTML">
+          <i class="bi bi-question-square text-info"></i> Help me
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'userguide' %}" title="User guide" class="dropdown-item"><i class="bi bi-book-half text-primary"></i> User guide</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle"
        id="userDropdown"
        role="button"
        data-bs-toggle="dropdown"
        aria-expanded="false"
        href="javascript:"><i class="bi bi-person-fill user-text-color"></i> User</a>
-    <ul class="dropdown-menu dropdown-menu-end"
-        aria-labelledby="userDropdown">
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
       <li>
         <div class="text-center">
           <span title="{{ request.user.get_full_name }}"><b>{{ request.user.get_full_name }}</b></span>

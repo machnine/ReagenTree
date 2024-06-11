@@ -1,18 +1,18 @@
-{% extends 'object_list_base.html' %}
+{% extends "object_list_base.html" %}
 {% load ui_tags %}
 {% block title %}
   Categories
-{% endblock %}
+{% endblock title %}
 {% block panel_title %}
   <i class="bi bi-bookmarks-fill category-text-color"></i> Categories
-{% endblock %}
+{% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'category_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New category</a>
-{% endblock %}
+{% endblock panel_actions %}
 {% block panel_content %}
   <div class="container-fluid pt-3">
     <!-- Headers -->
-    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+    <div class="row mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
       <div class="col-3">
         {% with current_sort=request.GET.sort_by|default:'name' current_order=request.GET.order|default:'asc' %}
           {% if current_sort == 'name' and current_order == 'asc' %}
@@ -24,13 +24,11 @@
       </div>
       <div class="col-3">Description</div>
       <div class="col-4">Items</div>
-      <div class="col-2 text-center">
-        {% toggle_icon 'tooltray-trigger' 'tooltray-container' %}
-      </div>
+      <div class="col-2 text-end">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows -->
     {% for category in categories %}
-      <div class="row g-2 mb-2 border-top align-items-center">
+      <div class="row py-1 border-top align-items-center {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
         <!-- Category Name -->
         <div class="col-12 col-lg-3 align-middle">
           <a href="{{ category.get_absolute_url }}" title="category details">{{ category.name }}</a>
@@ -40,15 +38,22 @@
         <!-- Items -->
         <div class="col-lg-4 d-none d-lg-block small">
           {% for item in category.get_all_items|slice:20 %}
-            <a href="{{ item.get_absolute_url }}" title="{{ item.get_verbose_name }} detail: {{ item.name }}">{{ item.name }}</a>{% if not forloop.last %},{% endif %}
+            <a href="{{ item.get_absolute_url }}" title="{{ item.get_verbose_name }} detail: {{ item.name }}">{{ item.name }}</a>
+            {% if not forloop.last %},{% endif %}
           {% endfor %}
           {% if category.get_all_items.count > 20 %}...{% endif %}
         </div>
         <!-- Actions -->
-        <div class="col-lg-2 d-none d-lg-block text-center">
+        <div class="col-lg-2 d-none d-lg-block text-end">
           <span class="tooltray-container d-none">
             <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
-            <a hx-get="{% url 'category_delete' category.pk %}" hx-trigger="click" hx-target="#crudModal .modal-content" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#crudModal" href="javascript:"><i class="bi bi-trash"></i></a>
+            <a hx-get="{% url 'category_delete' category.pk %}"
+               hx-trigger="click"
+               hx-target="#crudModal .modal-content"
+               hx-swap="innerHTML"
+               data-bs-toggle="modal"
+               data-bs-target="#crudModal"
+               href="javascript:"><i class="bi bi-trash"></i></a>
           </span>
         </div>
       </div>
