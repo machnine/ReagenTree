@@ -25,7 +25,7 @@ class StockForm(forms.ModelForm):
         """Override the init method to add the location field."""
         super().__init__(*args, **kwargs)
         self.fields["condition"].widget.attrs.update({"class": "form-select"})
-        self.fields["comments"].widget.attrs.update({"rows": 1})
+        self.fields["comments"].widget.attrs.update({"rows": 3})
 
         for field in ["comments", "lot_number", "quantity", "expiry_date", "delivery_date"]:
             self.fields[field].widget.attrs.update({"class": "form-control"})

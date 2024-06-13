@@ -7,7 +7,17 @@
 - API or at least ways to import /export data as JSON
 - User guide
 - Page specific helps
-  - Stock
-  - Item
-  - Inhouse
+  - Stock    
+    - List
+    - Detail
+  - Item    
+    - List
+    - Detail
+  - Inhouse    
+    - List
+    - Detail
   - Validations
+    - List
+    - Detail -> in Stock Detail
+    - Create
+    - Update
