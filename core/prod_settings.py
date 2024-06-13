@@ -6,7 +6,7 @@ from .base_settings import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["reagentree.oxfordgenes.com"]
+ALLOWED_HOSTS = ["reagentree.oxfordgenes.com", "212.71.238.112"]
 
 # CSRF settings
 CSRF_COOKIE_SECURE = True
