@@ -2,6 +2,8 @@
 Local development Django settings for core project.
 """
 
+import os
+
 from .base import *
 
 # SECURITY WARNING: keep the debug turned on in development!

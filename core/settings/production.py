@@ -1,21 +1,21 @@
 """
 Django production settings for core project.
 """
+
+import os
+
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["reagentree.oxfordgenes.com", "212.71.238.112"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 # CSRF settings
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = "Strict"
-CSRF_TRUSTED_ORIGINS = [
-    "http://reagentree.oxfordgenes.com",
-    "https://reagentree.oxfordgenes.com",
-]
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 # Session settings
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
