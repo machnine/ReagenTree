@@ -4,11 +4,14 @@ Django production settings for core project.
 
 import os
 
-from .base import *
+from .base import *  # noqa: F403, F401
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Secret key
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
+# Allowed hosts
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 # CSRF settings

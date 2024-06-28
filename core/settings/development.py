@@ -2,28 +2,27 @@
 Local development Django settings for core project.
 """
 
-import os
-
-from .base import *
+from .base import *  # noqa: F403, F401
 
 # SECURITY WARNING: keep the debug turned on in development!
 DEBUG = True
+SECRET_KEY = "django-insecure-#q!_!"
 
 ALLOWED_HOSTS = ["*"]
-
-# Overriding database settings, if necessary
-# DATABASES = ...
-
-# Local development static and media files handling
-# STATICFILES_DIRS, MEDIA_ROOT, etc. can be adjusted if needed
-
-# Ensure CSRF and Session cookies work correctly in development
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
-
-# You might want to disable these for local development
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = "Lax"
+
+# installed apps
+INSTALLED_APPS += ["debug_toolbar", "django_extensions"]
+
+# Internal IPs
+INTERNAL_IPS = ["127.0.0.1"]
+
+
+# Middleware
+MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 # Logging for development
 LOGGING = {
@@ -41,6 +40,3 @@ LOGGING = {
         },
     },
 }
-
-
-INSTALLED_APPS += ["django_extensions"]
