@@ -49,24 +49,13 @@
       </li>
     </ul>
   </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle"
-       href="#"
-       id="stockDropdown"
-       role="button"
-       data-bs-toggle="dropdown"
-       aria-expanded="false"
-       href="javascript:"><i class="bi bi-gear-fill setting-text-color"></i> Settings</a>
-    <ul class="dropdown-menu" aria-labelledby="userDropdown">
-      <li>
-        <a href="{% url 'company_list' %}" class="dropdown-item"><i class="bi bi-buildings company-text-color"></i> Companies</a>
-      </li>
-      <li>
-        <a href="{% url 'category_list' %}" class="dropdown-item"><i class="bi bi-bookmarks-fill category-text-color"></i> Categories</a>
-      </li>
-      <li>
-        <a href="{% url 'location_list' %}" class="dropdown-item"><i class="bi bi-geo-alt-fill location-text-color"></i> Locations</a>
-      </li>
-    </ul>
-  </li>  
+  <li class="nav-item">
+    <a href="{% url 'category_list' %}" class="nav-link"><i class="bi bi-bookmarks-fill category-text-color"></i> Categories</a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'company_list' %}" class="nav-link"><i class="bi bi-buildings company-text-color"></i> Companies</a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'location_list' %}" class="nav-link"><i class="bi bi-geo-alt-fill location-text-color"></i> Locations</a>
+  </li>
 </ul>
