@@ -110,13 +110,6 @@ function AlertsAutoDismissal(autoCloseClass, timeInterval) {
 }
 
 /**
- * in line confirmation dialog for submitting forms
- */
-function confirmationDialog(question) {
-  return confirm(question);
-}
-
-/**
  * This function adds a listener to all .fade-out-hide elements to hide them after the fade out animation ends.
  */
 function applyHideAfterAnimation() {
