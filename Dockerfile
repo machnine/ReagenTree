@@ -1,7 +1,6 @@
 # python image
 FROM python:3.12-slim
 
-
 # set work directory
 WORKDIR /app
 
