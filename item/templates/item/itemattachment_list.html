@@ -1,0 +1,46 @@
+{% extends "object_list_base.html" %}
+{% load ui_tags %}
+{% block title %}
+  Item Attachments
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-boxes item-text-color"></i> Item Attachments
+{% endblock panel_title %}
+{% block panel_actions %}
+  <span class="pe-3">
+    <a href="{% url 'item_attachment_list' %}?q=SDS"
+       title="Showing SDS files only"
+       data-bs-toggle="tooltip">SDS</a>
+    <i class="bi bi-dot"></i>
+    <a href="{% url 'item_attachment_list' %}?q=insert"
+       title="Showing product insert files only"
+       data-bs-toggle="tooltip">Insert</a>
+    <i class="bi bi-dot"></i>
+    <a href="{% url 'item_attachment_list' %}" title="All item attachments" data-bs-toggle="tooltip">All</a>
+  </span>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="container-fluid pt-3">
+    <div class="row g-2 mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+      <div class="col-lg-3">Item Name</div>
+      <div class="col-lg-2">Attachment Type</div>
+      <div class="col-lg-3">File Name</div>
+      <div class="col-lg-4">Description</div>
+    </div>
+    {% for file in object_list %}
+    <div class="row g-2 mb-2 border-top align-items-center">
+        <div class="col-lg-3"><a href="{% url 'item_detail' file.item.pk %}">{{ file.item.name }}</a></div>
+        <div class="col-lg-2">{{ file.name }}</div>
+        <div class="col-lg-3">
+          {% if file.filetype %}
+            <i class="bi bi-filetype-{{ file.filetype }} text-warning"></i>
+          {% else %}
+            <i class="bi bi-file-earmark text-warning"></i>
+          {% endif %}
+          <a href="{{ file.file.url }}" title="Open/download {{ file.filename }}">{{ file.filename }}</a>
+        </div>
+        <div class="col-lg-4">{{ file.description|default:"&nbsp;" }}</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock panel_content %}

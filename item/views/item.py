@@ -1,4 +1,5 @@
 """Item views"""
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -41,6 +42,7 @@ class ItemCreateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin,
         context = super().get_context_data(**kwargs)
         context["object_class"] = "item"
         return context
+
 
 class ItemUpdateView(LoginRequiredMixin, FormValidMessageMixin, SuccessUrlMixin, UpdateView):
     """Update view for Item model"""
@@ -130,3 +132,19 @@ class ItemAttachmentUpdateView(LoginRequiredMixin, AttachmentUpdateView):
     form_class = ItemAttachmentUpdateForm
     template_name = "attachment/attachment_update_form.html"
     success_url_name = "item_detail"
+
+
+class ItemAttachmentListView(LoginRequiredMixin, ListView):
+    """List view for ItemAttachment model"""
+
+    model = ItemAttachment
+    context_object_name = "attachments"
+    template_name = "item/itemattachment_list.html"
+    paginate_by = 15
+
+    def get_queryset(self):
+        """Return the queryset of ItemAttachment objects."""
+        query = self.request.GET.get("q")
+        if query:
+            return ItemAttachment.objects.filter(name__icontains=query)
+        return ItemAttachment.objects.all()

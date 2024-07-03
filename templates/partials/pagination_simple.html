@@ -4,7 +4,7 @@
       {% if page_obj.has_previous %}
         <li class="page-item">
           <a class="page-link"
-             href="?page={{ page_obj.previous_page_number }}"
+             href="?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}page={{ page_obj.previous_page_number }}"
              aria-label="Previous">
             <span aria-hidden="true"><i class="bi bi-caret-left"></i></span>
           </a>
@@ -23,14 +23,14 @@
           </li>
         {% elif i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
           <li class="page-item">
-            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            <a class="page-link" href="?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}page={{ i }}">{{ i }}</a>
           </li>
         {% endif %}
       {% endfor %}
       {% if page_obj.has_next %}
         <li class="page-item">
           <a class="page-link"
-             href="?page={{ page_obj.next_page_number }}"
+             href="?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}page={{ page_obj.next_page_number }}"
              aria-label="Next">
             <span aria-hidden="true"><i class="bi bi-caret-right"></i></span>
           </a>

@@ -3,6 +3,7 @@ from django.urls import path
 
 from item.views import (
     ItemAttachmentDeleteView,
+    ItemAttachmentListView,
     ItemAttachmentUpdateView,
     ItemAttachmentUploadView,
     ItemCreateView,
@@ -23,4 +24,5 @@ urlpatterns = [
     path("<int:pk>/attachment/upload/", ItemAttachmentUploadView.as_view(), name="item_attachment_upload"),
     path("attachment/<int:pk>/delete/", ItemAttachmentDeleteView.as_view(), name="item_attachment_delete"),
     path("attachment/<int:pk>/update/", ItemAttachmentUpdateView.as_view(), name="item_attachment_update"),
+    path("attachment/", ItemAttachmentListView.as_view(), name="item_attachment_list"),
 ]

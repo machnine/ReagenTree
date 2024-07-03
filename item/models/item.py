@@ -56,3 +56,7 @@ class ItemAttachment(Attachment):
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="item_attachments", null=True
     )
+
+    def item(self):
+        """Return the item object"""
+        return Item.objects.get(pk=self.object_id)
