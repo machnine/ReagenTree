@@ -1,9 +1,6 @@
 <div class="offcanvas-header">
   <h5 class="offcanvas-title">Add a component to this reagent</h5>
-  <button type="button"
-          class="btn-close text-reset"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"></button>
+  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 </div>
 <div class="offcanvas-body">
   <form action="{% url 'component_create' reagent.pk %}" method="post">
@@ -19,7 +16,9 @@
       <span class="input-group-text input-group-text">{{ form.quantity_unit.label_tag }}</span>
       {{ form.quantity_unit }}
     </div>
-    <div class="small">NB: Only <b>validated</b> stocks are shown.</div>
+    <div class="small">
+      NB: Only validation <b>not required</b> or <b>validated</b> stocks are shown.
+    </div>
     <button type="submit" class="btn btn-success float-end">Add</button>
-  </form> 
+  </form>
 </div>

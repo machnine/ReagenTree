@@ -1,4 +1,5 @@
-""""Views for searching for models in the item app"""
+""" "Views for searching for models in the item app"""
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from core.views.generic import GenericSingleModelSearchView
@@ -37,5 +38,5 @@ class StockSearchView(LoginRequiredMixin, GenericSingleModelSearchView):
     ]
     # Only show stocks with approved and not_required validations
 
-    extra_filters = {"validations__status__in": ["APPROVED", "NOT_REQUIRED"]}
+    extra_filters = {"validations__validation__status__in": ["APPROVED", "NOT_REQUIRED"]}
     template_name = "stock/partials/search_results.html"
