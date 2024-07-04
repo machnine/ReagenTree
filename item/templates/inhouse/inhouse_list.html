@@ -37,13 +37,13 @@
         <div class="col col-sm-2 d-none d-sm-block">
           <a href="{{ reagent.category.get_absolute_url }}">{{ reagent.category }}</a>
         </div>
-        <div class="col col-sm-2 d-none d-sm-block">
+        <div class="col col-sm-2 d-none d-sm-block small">
           {% for comp in reagent.components.all %}
             {{ comp.source.name }}
             {% if not forloop.last %},{% endif %}
           {% endfor %}
         </div>
-        <div class="col col-sm-2 d-none d-sm-block">{{ reagent.description }}</div>
+        <div class="col col-sm-2 d-none d-sm-block small">{{ reagent.description }}</div>
         <!-- Actions -->
         <div class="col col-sm-1 d-none d-sm-block">
           <span class="tooltray-container d-none">

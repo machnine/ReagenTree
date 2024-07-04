@@ -242,7 +242,7 @@
             <div class="d-none d-lg-block col-lg-2">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
             <div class="col-6 col-lg-3">
               {% if entry.remaining_quantity == 0 %}
-                <del>0 {{ entry.remaining_unit }}</del>
+              <div class="d-flex justify-content-sm-center align-items-center"><del>0 {{ entry.remaining_unit }}</del></div>
               {% else %}
                 {% include "usage/usage_htmx_updated.html" %}
               {% endif %}

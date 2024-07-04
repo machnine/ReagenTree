@@ -4,7 +4,7 @@
   Item Attachments
 {% endblock title %}
 {% block panel_title %}
-  <i class="bi bi-boxes item-text-color"></i> Item Attachments
+  <i class="bi bi-file-earmark-pdf text-danger"></i> Item Attachments
 {% endblock panel_title %}
 {% block panel_actions %}
   <span class="pe-3">
@@ -28,8 +28,10 @@
       <div class="col-lg-4">Description</div>
     </div>
     {% for file in object_list %}
-    <div class="row g-2 mb-2 border-top align-items-center">
-        <div class="col-lg-3"><a href="{% url 'item_detail' file.item.pk %}">{{ file.item.name }}</a></div>
+      <div class="row g-2 mb-2 border-top align-items-center">
+        <div class="col-lg-3">
+          <a href="{% url 'item_detail' file.item.pk %}">{{ file.item.name }}</a>
+        </div>
         <div class="col-lg-2">{{ file.name }}</div>
         <div class="col-lg-3">
           {% if file.filetype %}

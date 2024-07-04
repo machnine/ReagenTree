@@ -1,1 +1,44 @@
-item detail help
+<div class="panel">
+  <div class="panel-heading">
+    <span class="fw-bold"><i class="bi bi-info-circle-fill item-text-color"></i> Item Details</span>
+  </div>
+  <div class="panel-content">
+    <p>
+      Click the
+      <button class="btn btn-sm btn-success">
+        <i class="bi bi-pencil-square"></i>
+        <span class="d-none d-sm-inline">Edit</span>
+      </button>
+      button to edit item details.
+    </p>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-heading">
+    <span class="fw-bold"><i class="bi bi-folder2-open text-warning"></i> Documents</span>
+  </div>
+  <div class="panel-content">
+    <p>
+      Upload any stock-related documents using the
+      <button class="btn btn-sm btn-success">
+        <i class="bi bi-file-earmark-arrow-up"></i> Upload
+      </button>
+      button.
+    </p>
+    <p>
+      Click the <i class="bi bi-tools fw-bold text-gray-500"></i> icon to display the <i class="bi bi-pencil-square"></i> and <i class="bi bi-trash" title="Delete validation"></i> buttons.
+    </p>
+    <p>
+      <b>Please note:</b> When uploading a document, tag the document with <i class="fw-bold">SDS</i> or <i class="fw-bold">INSERT</i> in the name section where appropriate.
+      This helps categorising these documents in the <a href="{% url 'item_attachment_list' %}"><i class="bi bi-file-earmark-pdf text-danger"></i> Item Attachments</a> section.
+    </p>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-heading">
+    <span class="fw-bold"><i class="bi bi-boxes stock-text-color"></i> Available Stocks</span>
+  </div>
+  <div class="panel-content">
+    <p>All available stocks are listed here.</p>
+  </div>
+</div>
