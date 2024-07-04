@@ -35,5 +35,7 @@ class StockSearchView(LoginRequiredMixin, GenericSingleModelSearchView):
         "inhouse_reagent__name",
         "inhouse_reagent__product_id",
     ]
-    extra_filters = {"validations__validation__status": "APPROVED"}
+    # Only show stocks with approved and not_required validations
+
+    extra_filters = {"validations__status__in": ["APPROVED", "NOT_REQUIRED"]}
     template_name = "stock/partials/search_results.html"
