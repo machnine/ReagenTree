@@ -11,6 +11,7 @@ class WatchList(models.Model):
 
     stock = models.OneToOneField("Stock", on_delete=models.CASCADE, related_name="watchlist")
     threshold = models.DecimalField(max_digits=10, decimal_places=1)
+    threshold_type = models.CharField(max_length=1, choices=[("U", "Unit Based"), ("T", "Time Based")])
     last_checked = models.DateTimeField(null=True)    
     notification = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -20,11 +21,15 @@ class WatchList(models.Model):
         USER, on_delete=models.CASCADE, related_name="acknowledged_watchlists", null=True
     )
 
-    def check_and_update(self, stock):
+    def check_and_update(self):
         """Check the stock level and update the watch list accordingly."""
+        print(f"Checking watch list for {self.stock}")
         self.last_checked = timezone.now()
-        if not self.notification and stock.remaining_stock <= self.threshold:
-            self.notification = True
+        if not self.notification:
+            if self.threshold_type =="U" and  self.stock.remaining_stock <= self.threshold:
+                self.notification = True
+            elif self.threshold_type =="T" and (timezone.now().date() - self.stock.delivery_date).days >= self.threshold:
+                self.notification = True
         self.save()
 
     def __str__(self):

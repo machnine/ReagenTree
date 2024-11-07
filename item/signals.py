@@ -35,6 +35,6 @@ def check_stock_level(sender, instance, **kwargs):
         stock = instance.stock
         # only check the stock level if the stock is on the watchlist
         if stock.watchlist:
-            stock.watchlist.check_and_update(stock)
+            stock.watchlist.check_and_update()
     except Exception as e:
         logging.error(e)
