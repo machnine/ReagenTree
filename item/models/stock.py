@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from attachment.models import Attachment
 from core.mixins import TimeStampUserMixin
@@ -77,6 +78,13 @@ class Stock(TimeStampUserMixin, models.Model):
     @property
     def watchlist(self):
         return getattr(self, "watchlist", None)
+    
+    
+    @property
+    def storage_days(self):
+        """Return the storage time of the stock"""
+        return (timezone.now().date() - self.delivery_date).days
+
 
     def get_absolute_url(self):
         return reverse("stock_detail", kwargs={"pk": self.pk})

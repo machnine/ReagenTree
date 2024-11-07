@@ -1,4 +1,5 @@
-"""Watch list model to monitor stocks """
+"""Watch list model to monitor stocks"""
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -12,7 +13,7 @@ class WatchList(models.Model):
     stock = models.OneToOneField("Stock", on_delete=models.CASCADE, related_name="watchlist")
     threshold = models.DecimalField(max_digits=10, decimal_places=1)
     threshold_type = models.CharField(max_length=1, choices=[("U", "Unit Based"), ("T", "Time Based")])
-    last_checked = models.DateTimeField(null=True)    
+    last_checked = models.DateTimeField(null=True)
     notification = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(USER, on_delete=models.SET_NULL, related_name="created_watchlists", null=True)
@@ -23,14 +24,19 @@ class WatchList(models.Model):
 
     def check_and_update(self):
         """Check the stock level and update the watch list accordingly."""
-        print(f"Checking watch list for {self.stock}")
         self.last_checked = timezone.now()
         if not self.notification:
-            if self.threshold_type =="U" and  self.stock.remaining_stock <= self.threshold:
+            if self.threshold_type == "U" and self.stock.remaining_stock <= self.threshold:
                 self.notification = True
-            elif self.threshold_type =="T" and (timezone.now().date() - self.stock.delivery_date).days >= self.threshold:
+            elif self.threshold_type == "T" and self.stock.storage_days >= self.threshold:
                 self.notification = True
         self.save()
+    
+    def expired_days(self):
+        """Return the number of days since the last check."""
+        if self.threshold_type == "T":
+            return self.stock.storage_days - self.threshold
+        return None
 
     def __str__(self):
         return f"Watch List record for <{self.stock}>"

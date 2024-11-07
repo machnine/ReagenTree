@@ -3,8 +3,8 @@
     <div class="col-lg-3">Source</div>
     <div class="col-lg-2">Product ID</div>
     <div class="col-lg-2">Lot Number</div>
-    <div class="col-lg-2">Remaining</div>
-    <div class="col-lg-2">Threshold</div>
+    <div class="col-lg-2 text-end">Remaining</div>
+    <div class="col-lg-2 text-end">Threshold</div>
     <div class="col-lg-1 text-center">Action</div>
   </div>
   {% for watch in watchlists %}
@@ -17,8 +17,21 @@
         <div class="col-lg-2 d-none d-lg-block ps-lg-3">
           <a href="{{ stock.get_absolute_url }}" title="Stock: {{ stock }} detail">{{ stock.lot_number }}</a>
         </div>
-        <div class="col-lg-2 d-none d-lg-block ps-lg-3">{{ stock.remaining_stock|floatformat:0 }} {{ source.quantity_unit }}</div>
-        <div class="col-lg-2 d-none d-lg-block ps-lg-3">{{ watch.threshold|floatformat:0 }} {{ source.quantity_unit }}</div>
+        <div class="col-lg-2 d-none d-lg-block ps-lg-3 text-end">
+          {% if watch.threshold_type == "U" %}
+            <span class="px-2">{{ stock.remaining_stock|floatformat:0 }} {{ source.quantity_unit }}</span>
+          {% else %}
+            <span class="bg-warning px-2">-{{ watch.expired_days|floatformat:0 }} days</span>
+          {% endif %}
+        </div>
+        <div class="col-lg-2 d-none d-lg-block ps-lg-3 text-end">
+          {{ watch.threshold|floatformat:0 }}
+          {% if watch.threshold_type == "U" %}
+            {{ source.quantity_unit }}
+          {% else %}
+            days
+          {% endif %}
+        </div>
         <div class="col-2 col-lg-1 text-center">
           <a href="javascript:"
              hx-get="{% url 'watchlist_acknowledge' watch.pk %}"
