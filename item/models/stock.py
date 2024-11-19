@@ -109,7 +109,7 @@ class StockEntry(models.Model):
     """Stock Entry model"""
 
     stock = models.ForeignKey("item.Stock", on_delete=models.CASCADE, related_name="entries")
-    remaining_quantity = models.DecimalField(max_digits=10, decimal_places=1)
+    remaining_quantity = models.DecimalField(max_digits=10, decimal_places=2)
     remaining_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True, blank=True)
     location = models.ForeignKey(
         "location.Location", on_delete=models.CASCADE, related_name="stock_entries", blank=True, null=True

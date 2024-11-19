@@ -14,7 +14,7 @@ class Usage(models.Model):
     """Usage model to track usage of stock entries"""
 
     stock_entry = models.ForeignKey("item.StockEntry", on_delete=models.CASCADE, related_name="usages")
-    used_quantity = models.DecimalField(max_digits=10, decimal_places=1)
+    used_quantity = models.DecimalField(max_digits=10, decimal_places=2)
     used_date = models.DateTimeField(auto_now_add=True)
     used_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
     used_by = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True)
