@@ -1,4 +1,5 @@
-""" track uage of stocks """
+"""track uage of stocks"""
+
 from decimal import Decimal
 
 from django.conf import settings
@@ -18,6 +19,9 @@ class Usage(models.Model):
     used_date = models.DateTimeField(auto_now_add=True)
     used_unit = models.ForeignKey("item.Unit", on_delete=models.SET_NULL, null=True)
     used_by = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.stock_entry.stock.source.name} - {self.used_quantity} {self.used_unit.symbol} - {self.used_date} - {self.used_by}"
 
     # Method to update Stock entry after usage
     def save(self, *args, **kwargs):

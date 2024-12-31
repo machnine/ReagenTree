@@ -161,15 +161,13 @@
             <div class="col-lg-2 d-none d-sm-block">
               {% if sv.validation.created %}
                 {{ sv.validation.created|date:"d/m/Y" }}
-                <i class="bi bi-check-lg text-success"
-                   title="{{ sv.validation.created_by.get_full_name }}"></i>
+                <i class="bi bi-check-lg text-success" title="{{ sv.validation.created_by.get_full_name }}"></i>
               {% endif %}
             </div>
             <div class="col-6 col-lg-2">
               {% if sv.validation.authorised %}
                 {{ sv.validation.authorised|date:"d/m/Y" }}
-                <i class="bi bi-check2-all text-success"
-                   title="{{ sv.validation.authorised_by.get_full_name }}"></i>
+                <i class="bi bi-check2-all text-success" title="{{ sv.validation.authorised_by.get_full_name }}"></i>
               {% else %}
                 {% if request.user.is_supervisor %}
                   <a hx-get="{% url 'validation_authorise' sv.validation.pk %}?next={{ request.path }}"
@@ -189,8 +187,7 @@
             <!-- Actions -->
             <div class="col-4 col-lg-1">
               <span class="validation-tool-tray d-none">
-                <a href="{% url 'validation_update' sv.pk %}?next={{ request.path }}"
-                   title="Edit validation"><i class="bi bi-pencil-square"></i></a>
+                <a href="{% url 'validation_update' sv.pk %}?next={{ request.path }}" title="Edit validation"><i class="bi bi-pencil-square"></i></a>
                 <a hx-get="{% url 'stock_validation_delete' sv.pk %}?next={{ request.path }}"
                    hx-trigger="click"
                    hx-target="#crudModal .modal-content"
@@ -233,16 +230,22 @@
         </div>
         {% for entry in stock.entries.all %}
           <div class="row g-2 align-items-center">
-            <div class="col-6 col-lg-2 ps-3">
+            <div class="col-6 col-lg-2 ps-3" title="Delivered: {{ stock.delivery_date|date:"d/m/Y" }}">
               <span class="icon-with-text">
                 <i class="bi bi-box2-fill icon-with-text-icon {% if entry.remaining_quantity == 0 %}text-gray-300{% else %}{% stock_entry_colour entry.ordinal_number %}-text-color{% endif %}"></i>
                 <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
               </span>
             </div>
-            <div class="d-none d-lg-block col-lg-2">{{ entry.in_use_date|date:"d/m/Y"|default_if_none:"" }}</div>
+            <div class="d-none d-lg-block col-lg-2">
+              {% if entry.in_use_date %}
+                <a href="{% url 'usage_list' %}?entry_id={{ entry.pk }}">{{ entry.in_use_date|date:"d/m/Y" }}</a>
+              {% endif %}
+            </div>
             <div class="col-6 col-lg-3">
               {% if entry.remaining_quantity == 0 %}
-              <div class="d-flex justify-content-sm-center align-items-center"><del>0 {{ entry.remaining_unit }}</del></div>
+                <div class="d-flex justify-content-sm-center align-items-center">
+                  <del>0 {{ entry.remaining_unit }}</del>
+                </div>
               {% else %}
                 {% include "usage/usage_htmx_updated.html" %}
               {% endif %}

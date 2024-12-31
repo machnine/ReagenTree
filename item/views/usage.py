@@ -1,11 +1,26 @@
-""" Usage views """
+"""Usage views"""
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import View
+from django.views.generic import ListView, View
 
 from item.forms import UsageForm
-from item.models import StockEntry
+from item.models import StockEntry, Usage
+
+
+class UsageListView(LoginRequiredMixin, ListView):
+    """list usage belong to a specific stock entry"""
+
+    model = Usage
+    template_name = "usage/usage_list.html"
+    context_object_name = "usages"
+    paginate_by = 20
+
+    def get_queryset(self):
+        entry_id = self.request.GET.get("entry_id")
+        print(entry_id)
+        return Usage.objects.filter(stock_entry__id=entry_id).order_by("-used_date")
 
 
 class UsageUpdateHtmxView(LoginRequiredMixin, View):
@@ -34,15 +49,15 @@ class UsageUpdateHtmxView(LoginRequiredMixin, View):
             usage_instance = form.save(commit=False)
             usage_instance.stock_entry = self.stock_entry
             usage_instance.used_by = request.user
-            usage_instance.save() 
+            usage_instance.save()
 
             if "HX-Request" in request.headers:
                 return render(request, self.updated_template, context)
-            
+
             messages.success(request, "Usage updated ...")
             next_url = form.data.get("next") or self.success_url
             return redirect(next_url)
-        
+
         messages.error(request, "Error updating usage")
         return render(request, self.input_template, context)
 

@@ -1,0 +1,39 @@
+{% extends "object_list_base.html" %}
+{% load ui_tags %}
+{% load stock_tags %}
+{% block title %}
+  Usage
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-list-columns usage-text-color"></i>
+  Usage Records
+{% endblock panel_title %}
+{% block panel_content %}
+  <div class="panel">
+    <div class="panel-heading">
+      {% with box0=usages.0.stock_entry %}
+        <div class="d-flex align-items-center">
+          <span class="me-2">
+            <span class="icon-with-text">
+              <i class="bi bi-box2-fill icon-with-text-icon {% stock_entry_colour box0.ordinal_number %}-text-color"></i>
+              <span class="icon-with-text-low">{{ box0.ordinal_number }}</span>
+            </span>
+          </span>
+          <a href="{{ box0.stock.get_absolute_url }}" class="fw-semibold">{{ box0.stock.source.name }}</a>
+          <span class="ps-3"><span class="small text-muted">box:</span> {{ box0.ordinal_number }}</span>
+          <span class="ps-3"><span class="small text-muted">lot:</span> {{ box0.stock.lot_number }}</span>
+          <span class="ps-3"><span class="small text-muted">delivered:</span> {{ box0.stock.delivery_date|date:"d/m/Y" }}</span>
+        </div>
+      {% endwith %}
+    </div>
+    <div class="panel-content p-4">
+      {% for usage in usages %}
+        <p>
+          {{ usage.used_date|date:"d/m/Y" }}:
+          <span class="text-primary">{{ usage.used_quantity }} <i>{{ usage.used_unit }}</i></span>
+          used by <span class="fw-semibold">{{ usage.used_by.initials|default:usage.used_by }}</span>
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock panel_content %}
