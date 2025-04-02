@@ -15,7 +15,6 @@
     - List
 
 - ZP:
-  - Message/notice board, with messages expiry date, deletable, importance categories
   - When a non-inhouse item is committed to a stock prompt 'Kit insert etc. warning'
   - Auto watch set for certain reagents
   - Email alerts - to admin person
