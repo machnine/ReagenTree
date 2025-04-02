@@ -1,5 +1,6 @@
 """Stock Item views"""
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
@@ -33,7 +34,6 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         entries = context["entries"]
-        print(form.cleaned_data)
         with transaction.atomic():
             form.instance.created_by = self.request.user
             form.instance.last_updated_by = self.request.user
@@ -50,6 +50,10 @@ class StockCreateView(LoginRequiredMixin, SuccessUrlMixin, CreateView):
                         location=location, stock=self.object, last_updated_by=self.request.user, ordinal_number=n + 1
                     )
                     entry.save()
+                messages.success(self.request, "Stock created successfully")
+                # check if the stock source is an Item, remind the user to check the product documentation
+                if self.object.item:
+                    messages.warning(self.request, "Please check/upload the product documentations!")
                 return HttpResponseRedirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
 
