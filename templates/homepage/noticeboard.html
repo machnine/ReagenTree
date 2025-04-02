@@ -1,37 +1,42 @@
 <div class="panel panel-frontpage">
   <div class="panel-heading">
-    <div class="d-flex align-items-center pe-2">
-      <i class="bi bi-megaphone pe-2 text-danger"></i> <b>Notice Board</b>
+    <div class="d-flex justify-content-between pe-2">
+      <span><i class="bi bi-megaphone-fill pe-2 notice-text-color"></i> <b>Notice Board</b></span>
+      <span class="float-end">
+        <a href="{% url 'notice_list' %}" title="List of all notices" data-bs-toggle="tooltip">
+          <i class="bi bi-box-arrow-up-right"></i>
+        </a>
+      </span>
     </div>
   </div>
   <div class="panel-content">
-    {% if notices %}
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Message</th>
-            <th>Expiry Date</th>
-            <th>Created By</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for notice in notices %}
+    <div class="px-2 small">
+      {% if notices %}
+        <table class="table">
+          <thead>
             <tr>
-              <td>
-                <span class="fw-bold {{ notice.get_importance_color }}"><i class="bi bi-square-fill"></i></span>
-                <a href="{% url 'notice_detail' notice.pk %}"
-                   title="[Importance {{ notice.get_importance_display }}] {{ notice.message }}">{{ notice.message|truncatechars:50 }}</a>
-              </td>
-              <td>{{ notice.expiry_date|date:"d/m/Y" }}</td>
-              <td>{{ notice.created_by }}</td>
-              <td>{{ notice.created_at|date:"d/m/Y" }}</td>
+              <th class="text-muted">Message</th>
+              <th class="text-muted">Expiry</th>
+              <th class="text-muted">Created</th>              
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <p>No active notices.</p>
-    {% endif %}
+          </thead>
+          <tbody>
+            {% for notice in notices %}
+              <tr>
+                <td>
+                  <span class="fw-bold {{ notice.get_importance_color }}"><i class="bi bi-square-fill"></i></span>
+                  <a href="{% url 'notice_detail' notice.pk %}"
+                     title="[Importance {{ notice.get_importance_display }}] {{ notice.message }}">{{ notice.message|truncatechars:64 }}</a>
+                </td>
+                <td>{{ notice.expiry_date|date:"d/m/Y" }}</td>                
+                <td>{{ notice.created_at|date:"d/m/Y" }} ({{ notice.created_by.initials }})</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No active notices.</p>
+      {% endif %}
+    </div>
   </div>
 </div>

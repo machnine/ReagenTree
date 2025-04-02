@@ -82,6 +82,12 @@ class NoticeCreateView(LoginRequiredMixin, CreateView):
         form.instance.created_by = self.request.user
         messages.success(self.request, "Notice created successfully.")
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_class"] = "notice"
+        return context
+
 
 
 class NoticeUpdateView(LoginRequiredMixin, UpdateView):

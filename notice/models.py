@@ -14,10 +14,10 @@ class Notice(models.Model):
     """
 
     IMPORTANCE_CHOICES = [
-        ("LOW", "Low", "text-info"),  # Blue
-        ("MEDIUM", "Medium", "text-warning"),  # Yellow
-        ("HIGH", "High", "text-danger"),  # Red
-        ("CRITICAL", "Critical", "text-dark bg-danger bg-opacity-75"),  # Black with red background
+        ("LOW", "Low", "green20-text-color"),
+        ("MEDIUM", "Medium", "text-primary"),
+        ("HIGH", "High", "text-warning"),
+        ("CRITICAL", "Critical", "text-danger"),
     ]
 
     message = models.TextField()

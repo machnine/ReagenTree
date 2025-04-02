@@ -193,7 +193,7 @@ a:hover {
   color: var(--rt-inhousestock);
 }
 
-notice-text-color {
+.notice-text-color {
   color: var(--rt-notice);
 }
 /* width control */
