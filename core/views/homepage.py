@@ -3,8 +3,10 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
+from django.utils import timezone
 
 from item.models import Stock, WatchList
+from notice.models import Notice
 
 
 @login_required
@@ -18,5 +20,9 @@ def index(request):
     validations = Stock.objects.filter(
         Q(validations__validation__status="PENDING") | Q(validations__isnull=True)
     ).order_by("delivery_date")
-    context = {"stocks": stocks, "watchlists": watchlists, "validations": validations}
+    # Get active notices
+    notices = Notice.objects.filter(is_archived=False, expiry_date__gte=timezone.now()).order_by(
+        "-importance", "-created_at"
+    )
+    context = {"stocks": stocks, "watchlists": watchlists, "validations": validations, "notices": notices}
     return render(request, "index.html", context)

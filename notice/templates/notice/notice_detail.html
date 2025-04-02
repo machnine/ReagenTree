@@ -1,0 +1,58 @@
+{% extends "object_detail_base.html" %}
+{% load ui_tags %}
+{% block title %}
+  Notice
+{% endblock title %}
+{% block panel_title %}
+  <i class="bi bi-megaphone text-danger"></i> Notice Detail
+{% endblock panel_title %}
+{% block panel_actions %}
+  <div class="pe-3">
+    <a href="{% url 'notice_update' notice.pk %}" class="btn btn-sm btn-warning">
+      <i class="bi bi-pencil-square"></i> <span class="d-none d-sm-inline">Edit</span>
+    </a>
+  </div>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="p-3 small">
+    <!-- Message -->
+    <div class="row mb-3">
+      <div class="col-12">
+        <span class="fw-bold"><i class="bi bi-chat-left-text-fill text-danger"></i> Message:</span>
+        <p class="mt-2">{{ notice.message }}</p>
+      </div>
+    </div>
+    <!-- Expiry Date and Importance -->
+    <div class="row mb-3">
+      <div class="col-6 col-sm-3 text-muted">Expiry date:</div>
+      <div class="col-6 col-sm-3">{{ notice.expiry_date|date:'d/m/Y' }}</div>
+      <div class="col-6 col-sm-3 text-muted">Importance:</div>
+      <div class="col-6 col-sm-3">
+        <span class="fw-bold {{ notice.get_importance_color }}"><i class="bi bi-square-fill"></i> {{ notice.get_importance_display }}</span>
+      </div>
+    </div>
+    <!-- Created By and Created At -->
+    <div class="row mb-3">
+      <div class="col-6 col-sm-3 text-muted">Created by:</div>
+      <div class="col-6 col-sm-3">{{ notice.created_by }}</div>
+      <div class="col-6 col-sm-3 text-muted">Created at:</div>
+      <div class="col-6 col-sm-3">{{ notice.created_at|date:"d/m/Y" }}</div>
+    </div>
+    <!-- Updated By and Updated At -->
+    {% if notice.updated_by %}
+      <div class="row mb-3">
+        <div class="col-6 col-sm-3 text-muted">Updated by:</div>
+        <div class="col-6 col-sm-3">{{ notice.updated_by }}</div>
+        <div class="col-6 col-sm-3 text-muted">Updated at:</div>
+        <div class="col-6 col-sm-3">{{ notice.updated_at|date:"d/m/Y" }}</div>
+      </div>
+    {% endif %}
+    <div class="d-flex justify-content-end">
+      <button hx-post="{% url 'notice_archive' notice.pk %}"
+              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+              class="btn btn-sm btn-danger"><i class="bi bi-calendar-x"></i> Archive</button>
+      <a href="{% url 'notice_list' %}" class="btn btn-sm btn-secondary ms-2"><i class="bi bi-arrow-return-left"></i> Back to List</a>
+    </div>
+  </div>
+  {% include "partials/object_last_updated.html" %}
+{% endblock panel_content %}

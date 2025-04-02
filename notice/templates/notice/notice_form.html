@@ -1,0 +1,24 @@
+{% extends "object_form_base.html" %}
+{% block panel_title_icon %}
+  <i class="bi bi-megaphone notice-text-color"></i>
+{% endblock panel_title_icon %}
+{% block object_form %}
+  <div class="px-3 pt-3">
+    <span class="text-danger">{{ form.non_field_errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.message.label_tag }}</span>
+      {{ form.message }}
+    </div>
+    <span class="text-danger">{{ form.message.errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.expiry_date.label_tag }}</span>
+      {{ form.expiry_date }}
+    </div>
+    <span class="text-danger">{{ form.expiry_date.errors }}</span>
+    <div class="mb-3 input-group">
+      <span class="input-group-text input-group-text-fw-sm">{{ form.importance.label_tag }}</span>
+      {{ form.importance }}
+    </div>
+    <span class="text-danger">{{ form.importance.errors }}</span>
+  </div>
+{% endblock object_form %}

@@ -11,6 +11,7 @@ from category import urls as category_urls
 from company import urls as company_urls
 from item.urls import inhouse_urls, item_urls, stock_urls, usage_urls, validation_urls, watchlist_urls
 from location import urls as location_urls
+from notice import urls as notice_urls
 from user import urls as user_urls
 
 from .views import HelpView, SiteWideSearchView, UserGuideView, index
@@ -31,6 +32,7 @@ urlpatterns = [
     path("usage/", include(usage_urls)),
     path("validation/", include(validation_urls)),
     path("watchlist/", include(watchlist_urls)),
+    path("notice/", include(notice_urls)),
 ]
 
 

@@ -1,0 +1,107 @@
+{% extends "object_list_base.html" %}
+{% load ui_tags %}
+{% block title %}
+  Notices
+{% endblock title %}
+{% block panel_title %}
+  {% if archive_status == "archived" %}
+    <i class="bi bi-megaphone text-secondary"></i> Archived Notices
+  {% else %}
+    <i class="bi bi-megaphone text-danger"></i> Active Notices
+  {% endif %}
+  <a href="{% url 'notice_list' %}{% if archive_status != 'archived' %}?archive=archived{% endif %}">
+    <i class="bi {% if archive_status == 'archived' %}bi-toggle-on{% else %}bi-toggle-off{% endif %}"></i>
+  </a>
+{% endblock panel_title %}
+{% block panel_actions %}
+  <a href="{% url 'notice_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New Notice</a>
+{% endblock panel_actions %}
+{% block panel_content %}
+  <div class="container-fluid pt-3">
+    <!-- Headers -->
+    <div class="row mb-2 d-none d-lg-flex text-muted fw-bold align-items-center">
+      <div class="col-3">
+        {% with current_sort=request.GET.sort_by|default:'message' current_order=request.GET.order|default:'asc' %}
+          {% if current_sort == 'message' and current_order == 'asc' %}
+            <a href="?archive={{ archive_status }}&sort_by=message&order=desc">Message <i class="bi bi-arrow-up"></i></a>
+          {% else %}
+            <a href="?archive={{ archive_status }}&sort_by=message&order=asc">Message <i class="bi bi-arrow-down"></i></a>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="col-2">
+        {% with current_sort=request.GET.sort_by|default:'expiry_date' current_order=request.GET.order|default:'asc' %}
+          {% if current_sort == 'expiry_date' and current_order == 'asc' %}
+            <a href="?archive={{ archive_status }}&sort_by=expiry_date&order=desc">Expiry Date <i class="bi bi-arrow-up"></i></a>
+          {% else %}
+            <a href="?archive={{ archive_status }}&sort_by=expiry_date&order=asc">Expiry Date <i class="bi bi-arrow-down"></i></a>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="col-2">
+        {% with current_sort=request.GET.sort_by|default:'importance' current_order=request.GET.order|default:'asc' %}
+          {% if current_sort == 'importance' and current_order == 'asc' %}
+            <a href="?archive={{ archive_status }}&sort_by=importance&order=desc">Importance <i class="bi bi-arrow-up"></i></a>
+          {% else %}
+            <a href="?archive={{ archive_status }}&sort_by=importance&order=asc">Importance <i class="bi bi-arrow-down"></i></a>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="col-2">
+        {% with current_sort=request.GET.sort_by|default:'created_by' current_order=request.GET.order|default:'asc' %}
+          {% if current_sort == 'created_by' and current_order == 'asc' %}
+            <a href="?archive={{ archive_status }}&sort_by=created_by&order=desc">Created By <i class="bi bi-arrow-up"></i></a>
+          {% else %}
+            <a href="?archive={{ archive_status }}&sort_by=created_by&order=asc">Created By <i class="bi bi-arrow-down"></i></a>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="col-2">
+        {% with current_sort=request.GET.sort_by|default:'created_at' current_order=request.GET.order|default:'desc' %}
+          {% if current_sort == 'created_at' and current_order == 'asc' %}
+            <a href="?archive={{ archive_status }}&sort_by=created_at&order=desc">Created At <i class="bi bi-arrow-up"></i></a>
+          {% else %}
+            <a href="?archive={{ archive_status }}&sort_by=created_at&order=asc">Created At <i class="bi bi-arrow-down"></i></a>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="col-1 text-end">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
+    </div>
+    <!-- Rows for Each Notice -->
+    {% for notice in notices %}
+      <div class="row py-1 border-top align-items-center {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
+        <!-- Message -->
+        <div class="col-6 col-lg-3 align-middle">
+          <a href="{{ notice.get_absolute_url }}">{{ notice.message|truncatechars:50 }}</a>
+        </div>
+        <!-- Expiry Date -->
+        <div class="col-lg-2 d-none d-lg-block">{{ notice.expiry_date|date:'d/m/Y' }}</div>
+        <!-- Importance -->
+        <div class="col-lg-2 d-none d-lg-block">
+          <span class="fw-bold {{ notice.get_importance_color }}">{{ notice.get_importance_display }}</span>
+        </div>
+        <!-- Created By -->
+        <div class="col-lg-2 d-none d-lg-block">{{ notice.created_by }}</div>
+        <!-- Created At -->
+        <div class="col-lg-2 d-none d-lg-block">{{ notice.created_at|date:'d/m/Y' }}</div>
+        <!-- Actions -->
+        <div class="col-lg-1 d-none d-lg-block text-end">
+          <span class="tooltray-container d-none">
+            <a href="{% url 'notice_update' notice.pk %}"><i class="bi bi-pencil-square"></i></a>
+            {% if archive_status == "archived" %}
+              <a href="#"
+                 hx-post="{% url 'notice_archive' notice.pk %}?archive=archived"
+                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                 title="Unarchive this notice"><i class="bi bi-calendar-check"></i></a>
+            {% else %}
+              <a href="#"
+                 hx-post="{% url 'notice_archive' notice.pk %}?archive=active"
+                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                 title="Archive this notice"><i class="bi bi-calendar-x"></i></a>
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock panel_content %}
