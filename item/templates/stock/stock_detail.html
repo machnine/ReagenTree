@@ -222,10 +222,10 @@
         <!-- Headings for larger screens -->
         <div class="row d-none d-lg-flex g-2 fw-bold text-muted">
           <div class="col-lg-2 ps-3">Box</div>
-          <div class="col-lg-2">In-use date</div>
+          <div class="col-lg-1">In-use date</div>
           <div class="col-lg-3 text-center">Quantity</div>
           <div class="col-lg-2">Location</div>
-          <div class="col-lg-2">Comments</div>
+          <div class="col-lg-3">Comments</div>
           <div class="col-lg-1">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
         </div>
         {% for entry in stock.entries.all %}
@@ -236,7 +236,7 @@
                 <span class="icon-with-text-low">{{ entry.ordinal_number }}</span>
               </span>
             </div>
-            <div class="d-none d-lg-block col-lg-2">
+            <div class="d-none d-lg-block col-lg-1">
               {% if entry.in_use_date %}
                 <a href="{% url 'usage_list' %}?entry_id={{ entry.pk }}">{{ entry.in_use_date|date:"d/m/Y" }}</a>
               {% endif %}
@@ -253,7 +253,14 @@
             <div class="d-none d-sm-block col-lg-2">
               <a href="{{ entry.location.get_absolute_url }}">{{ entry.location.name }}</a>
             </div>
-            <div class="d-none d-sm-block col-lg-2">{{ entry.comments|default_if_none:"" }}</div>
+            <div class="d-none d-sm-block col-lg-3">
+              {{ entry.comments|default_if_none:""|truncatewords:5 }}
+              {% if entry.comments|length %}
+                <i class="bi bi-chat-left-dots"
+                   data-bs-toggle="tooltip"
+                   title="#{{ entry.ordinal_number }}: {{ entry.comments }}"></i>
+              {% endif %}
+            </div>
             <div class="d-none d-sm-block col-lg-1">
               <span class="tooltray-container d-none">
                 <a href="{% url 'stock_entry_update' entry.pk %}?next={{ request.path }}"

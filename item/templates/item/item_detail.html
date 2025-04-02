@@ -146,6 +146,7 @@
         <thead>
           <tr>
             <th class="text-muted">Lot Number</th>
+            <th class="text-muted">Delivery Date</th>
             <th class="text-muted">Expiry Date</th>
             <th class="text-muted">Quantity</th>
           </tr>
@@ -156,6 +157,9 @@
               <tr>
                 <td class="ps-2">
                   <a href="{{ stock.get_absolute_url }}">{{ stock.lot_number }}</a>
+                </td>
+                <td class="ps-2">
+                  <span class="{{ stock.delivery_date }}">{{ stock.delivery_date|date:'d/m/Y' }}</span>  
                 </td>
                 <td class="ps-2">
                   <span class="{{ stock.expiry_date|expiry_color }}">{{ stock.expiry_date|date:'d/m/Y' }}</span>
