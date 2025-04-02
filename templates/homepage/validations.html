@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for stock in validations %}
+          {% for stock in validations|slice:15 %}
             <tr>
               <td>
                 <a href="{{ stock.get_absolute_url }}">{{ stock.source.name }}</a>

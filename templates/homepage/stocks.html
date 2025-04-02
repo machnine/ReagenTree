@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for stock in stocks|slice:10 %}
+          {% for stock in stocks|slice:15 %}
             <tr>
               <td>{{ stock.delivery_date|date:'d/m/Y' }}</td>
               <td>

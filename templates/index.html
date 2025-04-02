@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 {% block css %}
   <style>
-  .panel-frontpage {
-    min-height: 280px;
-  }
+    .panel-frontpage {      
+      height: 370px; /* Set a fixed height */
+      overflow-y: auto; /* Enable vertical scrolling */
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-heading {
+      flex-shrink: 0; /* Prevent the header from shrinking */
+    }
+    .panel-content {
+      flex-grow: 1; /* Allow the content to take up the remaining space */
+      overflow-y: auto;
+    }
   </style>
 {% endblock css %}
 {% block title %}
@@ -13,8 +23,9 @@
   <div class="container-fluid">
     <div class="row">           
       <div class="col-lg-6 mb-2">{% include "homepage/stocks.html" %}</div>
-      <div class="col-lg-6 mb-2">{% include "homepage/validations.html" %}</div>      
+      <div class="col-lg-6 mb-2">{% include "homepage/noticebard.html" %}</div>      
       <div class="col-lg-6 mb-2">{% include "homepage/restock_notice.html" %}</div>      
+      <div class="col-lg-6 mb-2">{% include "homepage/validations.html" %}</div>      
       {% comment %} <div class="col-lg-6 mb-2">{% include "homepage/statistics.html" %}</div> {% endcomment %}
     </div>
   </div>
