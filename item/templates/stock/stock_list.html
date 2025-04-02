@@ -4,6 +4,53 @@
 {% block title %}
   Stock
 {% endblock title %}
+{% block css %}
+  <style>
+      .stock-panel {
+        min-height: 160px; 
+        max-height: 200px;;
+        overflow-y: auto;
+        border: 1px solid #dee2e6; /* Add a border for better visibility */
+        display: flex;
+        flex-direction: column;
+      }
+  
+      .stock-panel .panel-heading {
+        flex-shrink: 0; /* Prevent the header from shrinking */
+        background-color: #f8f9fa; /* Light background for the header */
+        padding: 0.2rem 1rem; /* Reduced top/bottom padding */
+        line-height: 1.2; /* Reduce line height */
+      }
+  
+      .stock-panel .panel-content {
+        flex-grow: 1; /* Allow the content to take up the remaining space */
+        overflow-y: auto;
+        padding: 0.5rem 1rem;
+      }
+  
+      .callout {
+        padding: 0.5rem;
+      }
+  
+      .panel-content .row {
+        padding: 0.2rem 0;
+      }
+  
+      .panel-heading .row > div {
+        padding-top: 0.1rem; /* Further reduced padding */
+        padding-bottom: 0.1rem; /* Further reduced padding */
+        margin-bottom: 0; /* Remove bottom margin */
+      }
+  
+      .panel-heading .row {
+        margin-bottom: 0; /* Remove bottom margin from the row */
+      }
+      .panel-heading .row.header-row > div {
+        font-size: 0.8rem; /* Reduce font size */
+        font-weight: normal; /* Remove bold */
+      }
+  </style>
+{% endblock css %}
 {% block panel_title %}
   <i class="bi bi-boxes stock-text-color"></i> All Stock Items
 {% endblock panel_title %}
@@ -12,8 +59,10 @@
 {% endblock panel_actions %}
 {% block panel_content %}
   {% for stock in stocks %}
-    <div class="panel">
+    <div class="panel stock-panel">
+      <!-- Panel containing each stock -->
       <div class="panel-heading">
+        <!-- Header of each stock -->
         <div class="row align-items-center">
           <div class="col-lg-4">
             <a href="{{ stock.get_absolute_url }}"><span class="fs-6 fs-sm-5">{{ stock.source.name }}</span></a>
@@ -62,6 +111,7 @@
         </div>
       </div>
       <div class="panel-content">
+        <!-- Content of each stock -->
         <div class="row">
           <div class="col-lg-4 small px-3">
             {# stock properties #}
@@ -117,7 +167,7 @@
                 </div>
                 <div class="col-6 col-lg-3">
                   {% if entry.remaining_quantity == 0 %}
-                    <del>0 {{ entry.remaining_unit }}</del>
+                    <del>0 {{ entry.remaining_unit|default_if_none:"" }}</del>
                   {% else %}
                     {% include "usage/usage_htmx_updated.html" %}
                   {% endif %}

@@ -10,7 +10,7 @@
            hx-swap="outerHTML"
            hx-post="{% url 'usage_htmx_update' entry.pk %}"
            hx-trigger="change changed delay:500ms">
-    <span class="ps-2">{{ entry.remaining_unit }}</span>
+    <span class="ps-2">{{ entry.remaining_unit|default_if_none:"" }}</span>
   </div>
   {{ form.used_unit }}
   <input type="text" name="next" value="{{ request.path }}" hidden>
