@@ -36,7 +36,7 @@
         <div class="col-4 text-muted fw-bold">Description</div>
       </div>
       {% for obj in page_obj %}
-        <div class="row g-2 mb-2 align-items-center">
+        <div class="row g-2 mb-2 align-items-center {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
           <div class="col-6 col-lg-4">
             <a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a>
           </div>

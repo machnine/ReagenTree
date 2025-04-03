@@ -23,8 +23,8 @@
         {% endwith %}
       </div>
       <div class="col-2">Phone</div>
-      <div class="col-2">Email</div>
-      <div class="col-4">Description</div>
+      <div class="col-3">Email</div>
+      <div class="col-3">Description</div>
       <div class="col-1 text-end">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows for Each Company -->
@@ -40,9 +40,9 @@
         <!-- Phone -->
         <div class="col-lg-2 d-none d-lg-block">{{ company.phone }}</div>
         <!-- Email -->
-        <div class="col-lg-2 d-none d-lg-block">{{ company.email }}</div>
+        <div class="col-lg-3 d-none d-lg-block">{{ company.email }}</div>
         <!-- Description -->
-        <div class="col-lg-4 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
+        <div class="col-lg-3 d-none d-lg-block small">{{ company.description|truncatechars:32 }}</div>
         <!-- Actions -->
         <div class="col-lg-1 d-none d-lg-block text-end">
           <span class="tooltray-container d-none">

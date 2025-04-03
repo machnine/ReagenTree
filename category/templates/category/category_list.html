@@ -3,6 +3,28 @@
 {% block title %}
   Categories
 {% endblock title %}
+{% block css %}
+  <style>
+    .category-panel {
+      height: 120px; 
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem; /* Add some space between panels */
+    }
+
+    .category-panel .panel-content {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 0.5rem 1rem;
+    }
+
+    .category-panel .row {
+      margin-bottom: 0; /* Remove bottom margin from the row */
+    }
+  </style>
+{% endblock css %}
 {% block panel_title %}
   <i class="bi bi-bookmarks-fill category-text-color"></i> Categories
 {% endblock panel_title %}
@@ -22,41 +44,45 @@
           {% endif %}
         {% endwith %}
       </div>
-      <div class="col-3">Description</div>
-      <div class="col-4">Items</div>
+      <div class="col-2">Description</div>
+      <div class="col-5">Items</div>
       <div class="col-2 text-end">{% toggle_icon 'tooltray-trigger' 'tooltray-container' %}</div>
     </div>
     <!-- Rows -->
     {% for category in categories %}
-      <div class="row py-1 border-top align-items-center {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
-        <!-- Category Name -->
-        <div class="col-12 col-lg-3 align-middle">
-          <a href="{{ category.get_absolute_url }}" title="category details">{{ category.name }}</a>
-        </div>
-        <!-- Description -->
-        <div class="col-lg-3 d-none d-lg-block small">{{ category.description|truncatechars:120 }}</div>
-        <!-- Items -->
-        <div class="col-lg-4 d-none d-lg-block small">
-          {% for item in category.get_all_items|slice:20 %}
-            <a href="{{ item.get_absolute_url }}" title="{{ item.get_verbose_name }} detail: {{ item.name }}">{{ item.name }}</a>
-            {% if not forloop.last %},{% endif %}
-          {% endfor %}
-          {% if category.get_all_items.count > 20 %}...{% endif %}
-        </div>
-        <!-- Actions -->
-        <div class="col-lg-2 d-none d-lg-block text-end">
-          <span class="tooltray-container d-none">
-            <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
-            <a hx-get="{% url 'category_delete' category.pk %}"
-               hx-trigger="click"
-               hx-target="#crudModal .modal-content"
-               hx-swap="innerHTML"
-               data-bs-toggle="modal"
-               data-bs-target="#crudModal"
-               href="javascript:"><i class="bi bi-trash"></i></a>
-          </span>
+      <div class="panel category-panel">
+        <div class="panel-content {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
+          <div class="row py-1 align-items-center">
+            <!-- Category Name -->
+            <div class="col-12 col-lg-3 align-middle">
+              <a href="{{ category.get_absolute_url }}" title="category details">{{ category.name }}</a>
+            </div>
+            <!-- Description -->
+            <div class="col-lg-2 d-none d-lg-block small">{{ category.description|truncatechars:120 }}</div>
+            <!-- Items -->
+            <div class="col-lg-5 d-none d-lg-block small">
+              {% for item in category.get_all_items|slice:20 %}
+                <a href="{{ item.get_absolute_url }}" title="{{ item.get_verbose_name }} detail: {{ item.name }}">{{ item.name }}</a>
+                {% if not forloop.last %},{% endif %}
+              {% endfor %}
+              {% if category.get_all_items.count > 20 %}...{% endif %}
+            </div>
+            <!-- Actions -->
+            <div class="col-lg-2 d-none d-lg-block text-end">
+              <span class="tooltray-container d-none">
+                <a href="{% url 'category_update' category.pk %}"><i class="bi bi-pencil-square"></i></a>
+                <a hx-get="{% url 'category_delete' category.pk %}"
+                   hx-trigger="click"
+                   hx-target="#crudModal .modal-content"
+                   hx-swap="innerHTML"
+                   data-bs-toggle="modal"
+                   data-bs-target="#crudModal"
+                   href="javascript:"><i class="bi bi-trash"></i></a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     {% endfor %}
   </div>
-{% endblock %}
+{% endblock panel_content %}

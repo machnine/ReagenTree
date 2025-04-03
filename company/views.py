@@ -104,7 +104,7 @@ class CompanyListView(LoginRequiredMixin, ListView):
     model = Company
     context_object_name = "companies"
     template_name = "company/company_list.html"
-    paginate_by = 15
+    paginate_by = 32
 
     def get_queryset(self):
         query_set = super().get_queryset()

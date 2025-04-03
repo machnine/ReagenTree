@@ -62,7 +62,7 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
 
     model = Location
     template_name = "location/location_detail.html"
-    paginate_by = 10
+    paginate_by = 32
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

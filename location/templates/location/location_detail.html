@@ -41,7 +41,7 @@
         </div>
         <!-- Rows for Each Stock Entry -->
         {% for entry in page_obj %}
-          <div class="row mb-2 g-2 border-top">
+          <div class="row mb-2 g-2 border-top {% if forloop.counter0|divisibleby:2 %}bg-light{% else %}bg-white{% endif %}">
             <!-- Stock Item -->
             <div class="col-12 col-lg-4">{{ entry.stock.source.name }}</div>
             <!-- Lot Number -->
