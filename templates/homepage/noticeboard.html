@@ -1,7 +1,7 @@
 <div class="panel panel-frontpage">
   <div class="panel-heading">
     <div class="d-flex justify-content-between pe-2">
-      <span><i class="bi bi-megaphone-fill pe-2 notice-text-color"></i> <b>Notice Board</b></span>
+      <span><i class="bi bi-megaphone-fill notice-text-color"></i> <b>Notice Board</b></span>
       <span class="float-end">
         <a href="{% url 'notice_list' %}" title="List of all notices" data-bs-toggle="tooltip">
           <i class="bi bi-box-arrow-up-right"></i>
@@ -26,7 +26,7 @@
                 <td>
                   <span class="fw-bold {{ notice.get_importance_color }}"><i class="bi bi-square-fill"></i></span>
                   <a href="{% url 'notice_detail' notice.pk %}"
-                     title="[Importance {{ notice.get_importance_display }}] {{ notice.message }}">{{ notice.message|truncatechars:64 }}</a>
+                     title="[Importance {{ notice.get_importance_display }}] {{ notice.message }}">{{ notice.message|truncatechars:72 }}</a>
                 </td>
                 <td>{{ notice.expiry_date|date:"d/m/Y" }}</td>                
                 <td>{{ notice.created_at|date:"d/m/Y" }} ({{ notice.created_by.initials }})</td>
