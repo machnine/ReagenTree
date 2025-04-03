@@ -52,7 +52,14 @@
   </style>
 {% endblock css %}
 {% block panel_title %}
-  <i class="bi bi-boxes stock-text-color"></i> All Stock Items
+  <i class="bi bi-boxes stock-text-color"></i>
+  {% if filter_type == 'expired' %}Expired{% endif %}
+  Reagent Stocks
+  {% if filter_type == 'expired' %}
+    <a href="{% url 'stock_list' %}" title="Show active stocks"><i class="bi bi-toggle-on"></i></a>
+  {% else %}
+    <a href="{% url 'stock_list' %}?filter=expired" title="Show expired stocks"><i class="bi bi-toggle-off"></i></a>
+  {% endif %}
 {% endblock panel_title %}
 {% block panel_actions %}
   <a href="{% url 'stock_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> New stock</a>

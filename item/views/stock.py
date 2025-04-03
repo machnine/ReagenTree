@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from attachment.views import AttachmentDeleteView, AttachmentUpdateView, AttachmentUploadView
@@ -84,6 +85,23 @@ class StockListView(LoginRequiredMixin, ListView):
     template_name = "stock/stock_list.html"
     paginate_by = 8
     ordering = ["-created"]
+
+    def get_queryset(self):
+        """Filter stocks based on the 'filter' query parameter."""
+        queryset = super().get_queryset()
+        filter_type = self.request.GET.get("filter", "active")  # Default to non-expired
+
+        if filter_type == "all":
+            return queryset.order_by(*self.ordering)
+        elif filter_type == "expired":
+            return queryset.filter(expiry_date__lt=timezone.now().date()).order_by(*self.ordering)
+        else:  # Default to non-expired
+            return queryset.filter(expiry_date__gte=timezone.now().date()).order_by(*self.ordering)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter_type"] = self.request.GET.get("filter", "active")
+        return context
 
 
 class StockDeleteView(LoginRequiredMixin, ObjectDeleteHTMXView):
