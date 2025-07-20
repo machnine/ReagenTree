@@ -17,6 +17,3 @@
 - ZP:
   - Auto watch set for certain reagents
   - Email alerts - to admin person
-
-- AJP/JJ/JWA/EC:
-  - Stock detail -> stock entry table add received date.
