@@ -20,3 +20,6 @@
 
 - AJP/JJ/JWA/EC:
   - Stock detail -> stock entry table add received date.
+
+- ** EC ** 
+  - In house reagents -> having a recipe like system instead of the current rather convoluted way of adding. 
